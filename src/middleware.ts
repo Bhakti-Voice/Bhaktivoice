@@ -26,5 +26,7 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
+  // Vercel Services rejects Edge. Next.js 15.5+ supports Node middleware.
+  runtime: "nodejs",
   matcher: ["/((?!_next/static|_next/image|api/|images/|audio/|favicon.ico|robots.txt|sitemap.xml|.*\\..*).*)"],
 };
