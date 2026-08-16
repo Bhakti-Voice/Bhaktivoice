@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+  <h1>Publish from here</h1>
+  <p class="muted">The public site reads only what you save. Every list starts empty.</p>
+  <div class="grid" style="margin-top: 1.5rem;">
+    {% for item in counts %}
+      <a class="card" href="/admin/{{ item.key }}">
+        <p class="muted">{{ item.label }}</p>
+        <p class="count">{{ item.total }}</p>
+      </a>
+    {% endfor %}
+  </div>
+{% endblock %}

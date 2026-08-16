@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}{{ kind.plural }}{% endblock %}
+{% block content %}
+  <p><a href="/admin">← Dashboard</a></p>
+  <div class="row" style="justify-content: space-between;">
+    <h1>{{ kind.plural }}</h1>
+    <a class="btn" href="/admin/{{ kind.key }}/new">Add {{ kind.label }}</a>
+  </div>
+  {% if rows %}
+    <div class="card" style="margin-top: 1rem;">
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Slug</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in rows %}
+            <tr>
+              <td>{{ row.title }}</td>
+              <td>{{ row.slug }}</td>
+              <td>{{ row.status }}</td>
+              <td class="row">
+                <a class="btn ghost" href="/admin/{{ kind.key }}/{{ row.id }}/edit">Edit</a>
+                <form method="post" action="/admin/{{ kind.key }}/{{ row.id }}/delete" onsubmit="return confirm('Delete this entry?');">
+                  <button class="btn danger" type="submit">Delete</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="card muted" style="margin-top: 1rem;">None yet. Add the first {{ kind.label|lower }}.</p>
+  {% endif %}
+{% endblock %}

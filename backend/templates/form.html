@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}{{ kind.label }}{% endblock %}
+{% block content %}
+  <p><a href="/admin/{{ kind.key }}">← {{ kind.plural }}</a></p>
+    <h1>{% if item_id %}Edit{% else %}New{% endif %} {{ kind.label }}</h1>
+    <p class="hint">English is the default public page. Fill every “(Hindi)” field so <code>/hi</code> shows a full translation. Empty Hindi fields fall back to English. One Turso row, one slug, two languages.</p>
+  <form class="card" method="post" action="/admin/{{ kind.key }}/save" id="entry-form">
+    {% if item_id %}<input type="hidden" name="item_id" value="{{ item_id }}" />{% endif %}
+    <label>Status
+      <select name="status">
+        <option value="published" {% if status == "published" %}selected{% endif %}>Published</option>
+        <option value="draft" {% if status == "draft" %}selected{% endif %}>Draft</option>
+      </select>
+    </label>
+    {% for field in kind.fields %}
+      <label>{{ field.label }}
+        {% if field.type == "select" %}
+          <select name="{{ field.name }}">
+            {% for option in field.options %}
+              <option value="{{ option }}" {% if values[field.name] == option %}selected{% endif %}>{{ option }}</option>
+            {% endfor %}
+          </select>
+        {% elif field.type in ["textarea", "lines", "faqs", "related", "places", "itinerary", "episodes", "sections", "paragraphs", "tags"] %}
+          <textarea name="{{ field.name }}" rows="{{ field.rows }}">{{ values[field.name] }}</textarea>
+        {% elif field.type == "number" %}
+          <input type="number" name="{{ field.name }}" value="{{ values[field.name] }}" />
+        {% else %}
+          <input name="{{ field.name }}" value="{{ values[field.name] }}" />
+        {% endif %}
+      </label>
+      {% if field.hint %}<p class="hint">{{ field.hint }}</p>{% endif %}
+    {% endfor %}
+    <label>URL slug
+      <input name="slug" id="slug-input" value="{{ slug }}" placeholder="vrindavan-krishna-dham-sacred-yatra-travel-guide" />
+    </label>
+    <p class="hint" id="slug-preview">Public URL: {{ kind.path }}/{{ slug or "built-from-the-title" }}</p>
+    {% if kind.key == "hub_seo" %}
+      <p class="hint">Use the hub id exactly: home, katha, community, yatra, blog, store, …</p>
+    {% else %}
+      <p class="hint">Leave blank and we build a long slug from the title — not a one-word URL.</p>
+    {% endif %}
+    <p style="margin-top: 1.4rem;">
+      <button class="btn" type="submit">Save to Turso</button>
+    </p>
+  </form>
+  <script>
+    const form = document.getElementById("entry-form");
+    const slugInput = document.getElementById("slug-input");
+    const preview = document.getElementById("slug-preview");
+    const prefix = "{{ kind.path }}";
+    const kindKey = "{{ kind.key }}";
+    const tails = {
+      katha: "katha stories and leelas for daily listening",
+      blog: "bhakti guide for devotees and sadhana",
+      yatra: "sacred yatra travel guide for pilgrims",
+      temple: "hindu temple history and darshan guide",
+      festival: "hindu festival meaning and puja guide",
+      spirituality: "spiritual knowledge for householders",
+      mantra: "mantra meaning pronunciation and naam jaap",
+      product: "sacred item for daily sadhana and puja",
+      bhajan: "bhajan and kirtan lyrics with meaning",
+      aarti: "aarti lyrics meaning and evening prayer",
+      store_category: "bhakti store category for sadhana",
+      community_group: "devotee community group for naam jaap",
+      sankalp_offer: "sankalp vow for daily sadhana"
+    };
+    let touched = {% if slug %}true{% else %}false{% endif %};
+    slugInput.addEventListener("input", () => { touched = true; render(); });
+    function words(text) {
+      return String(text || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim().split(/\s+/).filter(Boolean);
+    }
+    function unique(list) {
+      const seen = new Set();
+      return list.filter((item) => (seen.has(item) ? false : seen.add(item)));
+    }
+    function buildSlug() {
+      if (kindKey === "hub_seo") return slugInput.value;
+      const data = new FormData(form);
+      const parts = unique([
+        ...words(data.get("title")),
+        ...words(data.get("h1")),
+        ...words(data.get("seoTitle")),
+        ...words(data.get("name")),
+        ...words(data.get("heading")),
+        ...words(data.get("destination")),
+      ]);
+      if (parts.length < 5 && tails[kindKey]) parts.push(...words(tails[kindKey]));
+      return unique(parts).slice(0, 12).join("-");
+    }
+    function render() {
+      if (kindKey !== "hub_seo" && !touched) slugInput.value = buildSlug();
+      preview.textContent = "English: " + prefix + "/" + (slugInput.value || "built-from-the-title")
+        + "  ·  Hindi: /hi" + prefix + "/" + (slugInput.value || "built-from-the-title");
+    }
+    form.addEventListener("input", render);
+    render();
+  </script>
+{% endblock %}

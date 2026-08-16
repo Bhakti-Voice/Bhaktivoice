@@ -1,0 +1,31 @@
+# Bhakti Voice CMS
+
+FastAPI admin + public JSON API. All editorial content lives in Turso. The Next.js site reads it; nothing is hardcoded.
+
+## Run
+
+```bash
+cd backend
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+copy .env.example .env
+```
+
+Set in `.env` (or the repo root `.env`):
+
+- `TURSO_DATABASE_URL` / `TURSO_AUTH_TOKEN`
+- `ADMIN_USERNAME` / `ADMIN_PASSWORD`
+- `SESSION_SECRET`
+
+Then:
+
+```bash
+uvicorn main:app --reload --port 8000
+```
+
+Admin login is only here: http://127.0.0.1:8000/admin
+
+The public site never hosts this panel. Publish katha, blogs, yatra, temples, festivals, mantras, store items, and the rest with the forms. Until you save something, every list on the site is empty and every count is 0.
+
+If Turso env vars are missing, a local SQLite file is used at `backend/data/bhakti.db` so you can still try the forms.

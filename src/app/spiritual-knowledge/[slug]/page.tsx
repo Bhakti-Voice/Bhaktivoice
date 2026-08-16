@@ -1,0 +1,44 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { ArticleLayout } from "@/components/content/ArticleLayout";
+import { getSpirituality } from "@/lib/content";
+import { localizedMetadata } from "@/lib/seo/metadata";
+import { PATHS } from "@/lib/seo/paths";
+
+type Props = { params: Promise<{ slug: string }> };
+
+export const dynamic = "force-dynamic";
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const page = await getSpirituality(slug);
+  if (!page) return { title: "Page not found" };
+  return localizedMetadata({
+    title: page.seoTitle,
+    description: page.metaDescription,
+    path: `${PATHS.spirituality}/${page.slug}`,
+    image: page.heroImage,
+    imageAlt: page.heroImageAlt,
+    type: "article",
+    publishedTime: page.publishedAt,
+    modifiedTime: page.updatedAt,
+    authors: [page.author],
+  });
+}
+
+export default async function SpiritualityDetailPage({ params }: Props) {
+  const { slug } = await params;
+  const page = await getSpirituality(slug);
+  if (!page) notFound();
+
+  return (
+    <ArticleLayout page={page} path={`${PATHS.spirituality}/${page.slug}`}>
+      {(page.sections ?? []).map((section) => (
+        <section key={section.heading} className="mt-8">
+          <h2 className="font-serif text-2xl text-ink">{section.heading}</h2>
+          <p className="mt-3 leading-relaxed text-muted">{section.body}</p>
+        </section>
+      ))}
+    </ArticleLayout>
+  );
+}

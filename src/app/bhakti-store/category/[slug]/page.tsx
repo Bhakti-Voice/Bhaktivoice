@@ -1,0 +1,61 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { ListingCard } from "@/components/content/ListingCard";
+import { EmptyListing } from "@/components/content/EmptyListing";
+import { AddToCartButton } from "@/components/store/AddToCartButton";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
+import { getStoreCategory, listProducts } from "@/lib/content";
+import { pageCrumbs } from "@/lib/seo/crumbs";
+import { localizedMetadata } from "@/lib/seo/metadata";
+import { PATHS } from "@/lib/seo/paths";
+
+export const dynamic = "force-dynamic";
+
+type Props = { params: Promise<{ slug: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const category = await getStoreCategory(slug);
+  if (!category) return { title: "Category not found" };
+  return localizedMetadata({
+    title: `${category.name} — Bhakti Store`,
+    description: category.description,
+    path: PATHS.store,
+    noIndex: true,
+  });
+}
+
+export default async function StoreCategoryPage({ params }: Props) {
+  const { slug } = await params;
+  const category = await getStoreCategory(slug);
+  if (!category) notFound();
+  const products = await listProducts();
+  const items = products.filter((product) => product.categorySlug === category.slug);
+
+  return (
+    <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
+      <Breadcrumbs items={pageCrumbs(["Store", PATHS.store], [category.name, category.href])} />
+      <h1 className="mt-4 font-serif text-4xl text-ink">{category.name}</h1>
+      {items.length ? (
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {items.map((product) => (
+            <article key={product.slug} className="overflow-hidden rounded-3xl bg-white ring-1 ring-line">
+              <ListingCard
+                href={`${PATHS.store}/${product.slug}`}
+                title={product.name}
+                text={`₹${product.priceInr.toLocaleString("en-IN")}`}
+                image={product.heroImage}
+                imageAlt={product.heroImageAlt}
+              />
+              <div className="px-5 pb-5">
+                <AddToCartButton slug={product.slug} name={product.name} />
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <EmptyListing label="products in this category" />
+      )}
+    </div>
+  );
+}

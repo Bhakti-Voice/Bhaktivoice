@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Bhakti Voice Admin{% endblock %}</title>
+    <style>
+      :root {
+        --ink: #2b2118;
+        --muted: #6b5c4e;
+        --line: #eadfce;
+        --cream: #f7f0e6;
+        --ivory: #fbf6ee;
+        --saffron: #c45c26;
+        --navy: #1c2b4a;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        background: var(--ivory);
+        color: var(--ink);
+      }
+      a { color: var(--saffron); text-decoration: none; }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid var(--line);
+        background: white;
+      }
+      header strong { font-size: 1.15rem; }
+      main { max-width: 980px; margin: 0 auto; padding: 1.5rem; }
+      .card {
+        background: white;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 1.25rem;
+      }
+      .grid { display: grid; gap: 0.85rem; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        border: 0;
+        border-radius: 999px;
+        padding: 0.55rem 1rem;
+        background: var(--saffron);
+        color: white;
+        font: inherit;
+        cursor: pointer;
+      }
+      .btn.secondary { background: var(--navy); }
+      .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+      .btn.danger { background: #8f2d2d; }
+      label { display: block; margin-top: 0.9rem; font-size: 0.92rem; color: var(--muted); }
+      input, textarea, select {
+        width: 100%;
+        margin-top: 0.3rem;
+        padding: 0.7rem 0.85rem;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: var(--ivory);
+        font: inherit;
+        color: var(--ink);
+      }
+      table { width: 100%; border-collapse: collapse; }
+      th, td { text-align: left; padding: 0.7rem 0.4rem; border-bottom: 1px solid var(--line); }
+      .notice { background: #eef6ea; color: #215c2a; padding: 0.7rem 1rem; border-radius: 12px; }
+      .error { background: #fdecec; color: #8f2d2d; padding: 0.7rem 1rem; border-radius: 12px; }
+      .hint { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
+      .row { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
+      .muted { color: var(--muted); }
+      .count { font-size: 1.8rem; margin: 0.3rem 0 0; }
+    </style>
+  </head>
+  <body>
+    {% if admin %}
+    <header>
+      <a href="/admin"><strong>Bhakti Voice Admin</strong></a>
+      <form method="post" action="/admin/logout">
+        <button class="btn ghost" type="submit">Sign out</button>
+      </form>
+    </header>
+    {% endif %}
+    <main>
+      {% if error %}<p class="error">{{ error }}</p>{% endif %}
+      {% if notice %}<p class="notice">{{ notice }}</p>{% endif %}
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

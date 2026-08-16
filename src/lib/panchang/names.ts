@@ -1,0 +1,194 @@
+export const DELHI = {
+  name: "Delhi",
+  latitude: 28.6139,
+  longitude: 77.209,
+  heightMeters: 216,
+  timeZone: "Asia/Kolkata",
+} as const;
+
+export const TITHI_NAMES = [
+  "Pratipada",
+  "Dwitiya",
+  "Tritiya",
+  "Chaturthi",
+  "Panchami",
+  "Shashthi",
+  "Saptami",
+  "Ashtami",
+  "Navami",
+  "Dashami",
+  "Ekadashi",
+  "Dwadashi",
+  "Trayodashi",
+  "Chaturdashi",
+] as const;
+
+export const TITHI_NAMES_HI = [
+  "प्रतिपदा",
+  "द्वितीया",
+  "तृतीया",
+  "चतुर्थी",
+  "पञ्चमी",
+  "षष्ठी",
+  "सप्तमी",
+  "अष्टमी",
+  "नवमी",
+  "दशमी",
+  "एकादशी",
+  "द्वादशी",
+  "त्रयोदशी",
+  "चतुर्दशी",
+] as const;
+
+export const MASA_NAMES = [
+  "Chaitra",
+  "Vaishakha",
+  "Jyeshtha",
+  "Ashadha",
+  "Shravana",
+  "Bhadrapada",
+  "Ashvina",
+  "Kartika",
+  "Margashirsha",
+  "Pausha",
+  "Magha",
+  "Phalguna",
+] as const;
+
+export const MASA_NAMES_HI = [
+  "चैत्र",
+  "वैशाख",
+  "ज्येष्ठ",
+  "आषाढ़",
+  "श्रावण",
+  "भाद्रपद",
+  "आश्विन",
+  "कार्तिक",
+  "मार्गशीर्ष",
+  "पौष",
+  "माघ",
+  "फाल्गुन",
+] as const;
+
+export const RASI_NAMES = [
+  "Mesha",
+  "Vrishabha",
+  "Mithuna",
+  "Karka",
+  "Simha",
+  "Kanya",
+  "Tula",
+  "Vrischika",
+  "Dhanu",
+  "Makara",
+  "Kumbha",
+  "Meena",
+] as const;
+
+export const NAKSHATRA_NAMES = [
+  "Ashwini",
+  "Bharani",
+  "Krittika",
+  "Rohini",
+  "Mrigashira",
+  "Ardra",
+  "Punarvasu",
+  "Pushya",
+  "Ashlesha",
+  "Magha",
+  "Purva Phalguni",
+  "Uttara Phalguni",
+  "Hasta",
+  "Chitra",
+  "Swati",
+  "Vishakha",
+  "Anuradha",
+  "Jyeshtha",
+  "Mula",
+  "Purva Ashadha",
+  "Uttara Ashadha",
+  "Shravana",
+  "Dhanishta",
+  "Shatabhisha",
+  "Purva Bhadrapada",
+  "Uttara Bhadrapada",
+  "Revati",
+] as const;
+
+export const YOGA_NAMES = [
+  "Vishkambha",
+  "Priti",
+  "Ayushman",
+  "Saubhagya",
+  "Shobhana",
+  "Atiganda",
+  "Sukarma",
+  "Dhriti",
+  "Shula",
+  "Ganda",
+  "Vriddhi",
+  "Dhruva",
+  "Vyaghata",
+  "Harshana",
+  "Vajra",
+  "Siddhi",
+  "Vyatipata",
+  "Variyan",
+  "Parigha",
+  "Shiva",
+  "Siddha",
+  "Sadhya",
+  "Shubha",
+  "Shukla",
+  "Brahma",
+  "Indra",
+  "Vaidhriti",
+] as const;
+
+export const KARANA_NAMES = [
+  "Bava",
+  "Balava",
+  "Kaulava",
+  "Taitila",
+  "Gara",
+  "Vanija",
+  "Vishti",
+  "Shakuni",
+  "Chatushpada",
+  "Naga",
+  "Kimstughna",
+] as const;
+
+export const RITU_NAMES = [
+  "Vasanta",
+  "Grishma",
+  "Varsha",
+  "Sharad",
+  "Hemanta",
+  "Shishira",
+] as const;
+
+export const RITU_NAMES_HI = ["वसन्त", "ग्रीष्म", "वर्षा", "शरद्", "हेमन्त", "शिशिर"] as const;
+
+export const VARA_NAMES = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+] as const;
+
+export const VARA_NAMES_HI = [
+  "रविवार",
+  "सोमवार",
+  "मंगलवार",
+  "बुधवार",
+  "गुरुवार",
+  "शुक्रवार",
+  "शनिवार",
+] as const;
+
+/** 1-indexed eighth of the day (sunrise→sunset) that is Rahu Kaal. Sunday=0. */
+export const RAHU_KAAL_PERIOD = [8, 2, 7, 5, 6, 4, 3] as const;

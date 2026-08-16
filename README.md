@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bhakti
 
-## Getting Started
+Your companion on the spiritual journey.
 
-First, run the development server:
+A production-minded Next.js platform for naam jaap, katha, yatra, temples, festivals, sadhana, community, and the Bhakti Store — with SEO built into the architecture from day one.
+
+## Stack
+
+- Next.js 15 (App Router, TypeScript)
+- Tailwind CSS 4
+- Turso (libSQL) for user jaap, sankalp, and diary data
+- Firebase Google sign-in
+
+## Run locally
 
 ```bash
+cd C:\Users\jaina\Desktop\bhakti
+copy .env.example .env.local
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The site renders fully without Firebase or Turso. Sign-in and cloud jaap sync activate once credentials are set.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Environment
 
-## Learn More
+Copy `.env.example` to `.env.local`.
 
-To learn more about Next.js, take a look at the following resources:
+### Site URL
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Use your HTTPS production host for canonical URLs, Open Graph, and sitemaps.
 
-## Deploy on Vercel
+### Firebase Google login
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Create a Firebase project, enable Google authentication, and add your web app keys:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+NEXT_PUBLIC_FIREBASE_API_KEY=
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
+NEXT_PUBLIC_FIREBASE_APP_ID=
+```
+
+Add `http://localhost:3000` to authorized domains.
+
+### Turso
+
+Create a database, then apply `src/lib/db/schema.sql` in the Turso shell:
+
+```bash
+turso db shell bhakti < src/lib/db/schema.sql
+```
+
+```
+TURSO_DATABASE_URL=
+TURSO_AUTH_TOKEN=
+```
+
+On first Google sign-in, `/api/auth/sync` upserts the user. Jaap counts POST to `/api/jaap`.
+
+## SEO architecture
+
+Indexable first-class URLs (not everything under `/blog`):
+
+```
+/naam-jaap
+/mantras/[slug]
+/katha/[slug]
+/yatra/[slug]
+/temples/[slug]
+/festivals/[slug]
+/spirituality/[slug]
+/blog/[slug]
+/store/[slug]
+```
+
+Private surfaces are `noindex` and listed in `robots.txt`: profile, account, settings, cart, checkout, search results, API.
+
+Sitemaps:
+
+- `/sitemap.xml`
+- `/sitemap-pages.xml`
+- `/sitemap-blog.xml`
+- `/sitemap-yatra.xml`
+- `/sitemap-temples.xml`
+- `/sitemap-festivals.xml`
+- `/sitemap-mantras.xml`
+- `/sitemap-products.xml`
+
+Content lives in `src/lib/content/` so metadata, canonicals, related links, and JSON-LD stay out of presentational components.
+
+Festival dates follow the lunar calendar and must be reviewed annually — pages do not invent a fixed 2026 date as fact. Temple timings and travel details ask readers to confirm locally.
+
+## Product loop
+
+Discover → Learn → Chant → Sankalp → Track (diary) → Community → Yatra → Share → Return.
