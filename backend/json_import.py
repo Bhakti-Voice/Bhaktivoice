@@ -4,7 +4,10 @@ import json
 from typing import Any
 
 from kinds import KINDS, Field, form_to_data
+from local_seed import DUMMY_ENTRIES
 from store import save_entry
+
+SAMPLES = {item["kind"]: item for item in DUMMY_ENTRIES}
 
 META_KEYS = {"kind", "slug", "status", "data", "id", "title"}
 STRUCTURED_TYPES = {
@@ -18,6 +21,77 @@ STRUCTURED_TYPES = {
     "sections",
     "paragraphs",
 }
+
+
+def empty_field_value(item: Field, kind_key: str) -> Any:
+    if item.type == "number":
+        return 0
+    if item.type == "select" and item.options:
+        return item.options[0]
+    if item.type == "lines":
+        return [""]
+    if item.type == "tags":
+        return [""]
+    if item.type == "paragraphs":
+        return [""]
+    if item.type == "faqs":
+        return [{"question": "", "answer": ""}]
+    if item.type == "related":
+        return [{"kind": "", "href": "", "label": ""}]
+    if item.type == "places":
+        return [{"name": "", "note": "", "href": ""}]
+    if item.type == "itinerary":
+        return [{"day": "", "plan": ""}]
+    if item.type == "episodes":
+        return [{"number": 0, "title": "", "duration": "", "summary": ""}]
+    if item.type == "sections":
+        if kind_key == "blog" or item.name in {"body", "bodyHi"}:
+            return [{"heading": "", "paragraphs": [""]}]
+        return [{"heading": "", "body": ""}]
+    return ""
+
+
+def with_sample_text(value: Any, label: str, hindi: bool) -> Any:
+    if isinstance(value, str):
+        if value.strip():
+            return value
+        return f"नमूना {label}" if hindi else f"Sample {label}"
+    if isinstance(value, list):
+        if not value:
+            return [with_sample_text("", label, hindi)]
+        return [with_sample_text(item, label, hindi) for item in value]
+    if isinstance(value, dict):
+        return {
+            key: with_sample_text(
+                item,
+                key,
+                hindi or str(key).endswith("Hi"),
+            )
+            for key, item in value.items()
+        }
+    if value is None:
+        return with_sample_text("", label, hindi)
+    return value
+
+
+def kind_placeholder(kind_key: str) -> dict[str, Any]:
+    spec = KINDS[kind_key]
+    sample = SAMPLES.get(kind_key) or {}
+    sample_data = dict(sample.get("data") or {})
+    data: dict[str, Any] = {}
+    for field in spec.fields:
+        hindi = field.name.endswith("Hi")
+        raw = sample_data[field.name] if field.name in sample_data else empty_field_value(field, kind_key)
+        data[field.name] = with_sample_text(raw, field.label, hindi)
+    return {
+        "slug": str(sample.get("slug") or f"sample-{kind_key}"),
+        "status": "published",
+        "data": data,
+    }
+
+
+def kind_placeholders() -> dict[str, dict[str, Any]]:
+    return {key: kind_placeholder(key) for key in KINDS}
 
 
 def parse_json_text(raw: str) -> Any:

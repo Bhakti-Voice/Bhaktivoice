@@ -12,6 +12,7 @@ from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
+from markupsafe import Markup
 from starlette.middleware.sessions import SessionMiddleware
 
 from db import get_db, turso_configured
@@ -26,7 +27,7 @@ from kinds import (
     public_simple,
     today,
 )
-from store import save_entry
+from json_import import kind_placeholders
 
 ROOT = Path(__file__).resolve().parent
 load_dotenv(ROOT.parent / ".env")
@@ -68,6 +69,7 @@ app.add_middleware(
     https_only=bool(os.environ.get("VERCEL")),
 )
 templates = Jinja2Templates(directory=str(ROOT / "templates"))
+templates.env.filters["tojson"] = lambda value: Markup(json.dumps(value, ensure_ascii=False))
 
 
 @app.on_event("startup")
@@ -409,16 +411,28 @@ def dashboard(request: Request):
     return templates.TemplateResponse("dashboard.html", admin_context(request))
 
 
+def json_page_context(request: Request, kind: str = "", json_text: str = "", **extra):
+    selected = kind if kind in KINDS else next(iter(KINDS))
+    placeholders = kind_placeholders()
+    filled = (json_text or "").strip() or json.dumps(placeholders[selected], ensure_ascii=False, indent=2)
+    placeholders_json = json.dumps(placeholders, ensure_ascii=False).replace("<", "\\u003c")
+    return admin_context(
+        request,
+        selected_kind=selected,
+        selected=KINDS[selected],
+        json_text=filled,
+        placeholders_json=placeholders_json,
+        **extra,
+    )
+
+
 @app.get("/admin/json", response_class=HTMLResponse)
 def json_form(request: Request, kind: str = ""):
     if not request.session.get("admin"):
         return RedirectResponse("/admin/login", status_code=302)
     if kind and kind not in KINDS:
         raise HTTPException(status_code=404)
-    return templates.TemplateResponse(
-        "json.html",
-        admin_context(request, selected_kind=kind, selected=KINDS.get(kind)),
-    )
+    return templates.TemplateResponse("json.html", json_page_context(request, kind))
 
 
 @app.post("/admin/json")
@@ -436,23 +450,20 @@ async def json_import(
     try:
         from json_import import import_entries, parse_json_text
 
+        if not default_kind:
+            raise ValueError("Choose a category from the dropdown first.")
         payload = parse_json_text(raw_text)
-        result = import_entries(payload, default_kind or None)
+        result = import_entries(payload, default_kind)
     except Exception as error:
         return templates.TemplateResponse(
             "json.html",
-            admin_context(
-                request,
-                selected_kind=default_kind,
-                selected=KINDS.get(default_kind),
-                error=str(error),
-            ),
+            json_page_context(request, default_kind, raw_text, error=str(error)),
             status_code=400,
         )
     notice = f"Imported {result['created']} new, updated {result['updated']}."
     if result["errors"]:
         notice += " Some rows failed: " + " ".join(result["errors"][:8])
-    dest = f"/admin/{default_kind}?notice={quote(notice)}" if default_kind else f"/admin?notice={quote(notice)}"
+    dest = f"/admin/{default_kind}?notice={quote(notice)}"
     return RedirectResponse(dest, status_code=302)
 
 
