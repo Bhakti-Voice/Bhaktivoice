@@ -33,18 +33,39 @@ load_dotenv(ROOT / ".env")
 
 ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME", "admin").strip()
 ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "").strip()
-SESSION_SECRET = os.environ.get("SESSION_SECRET") or secrets.token_hex(32)
-SITE_ORIGIN = os.environ.get("SITE_ORIGIN", "http://localhost:3000").strip()
+# Must be stable across serverless instances or login cookies bounce.
+SESSION_SECRET = (
+    os.environ.get("SESSION_SECRET") or os.environ.get("ADMIN_PASSWORD") or "dev-only-insecure-session"
+).strip()
+SITE_ORIGIN = (
+    os.environ.get("SITE_ORIGIN")
+    or (f"https://{os.environ['VERCEL_URL']}" if os.environ.get("VERCEL_URL") else "http://localhost:3000")
+).strip()
+CORS_ORIGINS = [
+    origin
+    for origin in {
+        SITE_ORIGIN,
+        "http://127.0.0.1:3000",
+        "http://localhost:3000",
+        "https://bhaktivoice.vercel.app",
+    }
+    if origin
+]
 
 app = FastAPI(title="Bhakti Voice CMS", docs_url=None, redoc_url=None)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[SITE_ORIGIN, "http://127.0.0.1:3000", "http://localhost:3000"],
+    allow_origins=CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.add_middleware(SessionMiddleware, secret_key=SESSION_SECRET, same_site="lax")
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=SESSION_SECRET,
+    same_site="lax",
+    https_only=bool(os.environ.get("VERCEL")),
+)
 templates = Jinja2Templates(directory=str(ROOT / "templates"))
 
 
@@ -89,14 +110,18 @@ def require_admin(request: Request) -> None:
         raise HTTPException(status_code=401, detail="Admin login required")
 
 
-@app.on_event("startup")
-def startup() -> None:
-    get_db()
-
-
 @app.get("/api/health")
 def health():
-    return {"ok": True, "turso": turso_configured()}
+    try:
+        db().fetchone("SELECT 1 AS ok")
+        return {"ok": True, "turso": turso_configured(), "connected": True}
+    except Exception as error:
+        return {
+            "ok": False,
+            "turso": turso_configured(),
+            "connected": False,
+            "error": str(error),
+        }
 
 
 @app.get("/api/stats")
@@ -300,16 +325,22 @@ async def sync_user(request: Request):
 
 def admin_context(request: Request, **extra):
     counts = []
-    for key, kind in KINDS.items():
-        row = db().fetchone("SELECT COUNT(*) AS total FROM cms_entries WHERE kind = ?", [key])
-        counts.append({"key": key, "label": kind.plural, "total": int(row["total"] if row else 0)})
+    db_error = extra.pop("error", None)
+    try:
+        for key, kind in KINDS.items():
+            row = db().fetchone("SELECT COUNT(*) AS total FROM cms_entries WHERE kind = ?", [key])
+            counts.append({"key": key, "label": kind.plural, "total": int(row["total"] if row else 0)})
+    except Exception as error:
+        db_error = db_error or str(error)
+        counts = [{"key": key, "label": kind.plural, "total": 0} for key, kind in KINDS.items()]
     return {
         "request": request,
         "kinds": KINDS,
         "counts": counts,
         "admin": request.session.get("admin"),
-        "error": None,
+        "error": db_error,
         "notice": request.query_params.get("notice"),
+        "turso": turso_configured(),
         **extra,
     }
 

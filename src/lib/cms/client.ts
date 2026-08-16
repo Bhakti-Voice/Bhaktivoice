@@ -56,7 +56,7 @@ async function cmsGet<T>(path: string, fallback: T): Promise<T> {
   try {
     const response = await fetch(`${CMS_API_URL}${path}`, {
       cache: "no-store",
-      signal: AbortSignal.timeout(4000),
+      signal: AbortSignal.timeout(8000),
     });
     if (!response.ok) return fallback;
     return (await response.json()) as T;

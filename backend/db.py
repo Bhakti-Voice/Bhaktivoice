@@ -21,6 +21,26 @@ def turso_configured() -> bool:
     return bool(url and token and not url.startswith("file:"))
 
 
+def _http_turso_url(url: str) -> str:
+    # libsql:// is WebSocket (wss). That hangs on Vercel serverless.
+    if url.startswith("libsql://"):
+        return "https://" + url[len("libsql://") :]
+    if url.startswith("wss://"):
+        return "https://" + url[len("wss://") :]
+    if url.startswith("ws://"):
+        return "http://" + url[len("ws://") :]
+    return url
+
+
+def _sqlite_path() -> Path:
+    if _env("VERCEL"):
+        path = Path("/tmp/bhakti.db")
+        path.parent.mkdir(parents=True, exist_ok=True)
+        return path
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    return LOCAL_DB
+
+
 class Database:
     def execute(self, sql: str, args: list[Any] | tuple[Any, ...] | None = None) -> None:
         raise NotImplementedError
@@ -74,7 +94,7 @@ class TursoDatabase(Database):
             raise RuntimeError(
                 "Install libsql-client to use Turso: pip install -r backend/requirements.txt"
             ) from error
-        self.client = create_client_sync(url=url, auth_token=token)
+        self.client = create_client_sync(url=_http_turso_url(url), auth_token=token)
 
     def execute(self, sql: str, args: list[Any] | tuple[Any, ...] | None = None) -> None:
         self.client.execute(sql, list(args or []))
@@ -99,8 +119,9 @@ def get_db() -> Database:
     if _db is not None:
         return _db
     if turso_configured():
-        _db = TursoDatabase(_env("TURSO_DATABASE_URL"), _env("TURSO_AUTH_TOKEN"))
+        database: Database = TursoDatabase(_env("TURSO_DATABASE_URL"), _env("TURSO_AUTH_TOKEN"))
     else:
-        _db = SqliteDatabase(LOCAL_DB)
-    _db.init_schema()
+        database = SqliteDatabase(_sqlite_path())
+    database.init_schema()
+    _db = database
     return _db

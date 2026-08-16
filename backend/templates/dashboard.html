@@ -3,6 +3,9 @@
 {% block content %}
   <h1>Publish from here</h1>
   <p class="muted">The public site reads only what you save. Every list starts empty.</p>
+  {% if not turso %}
+  <p class="error">Turso is not connected. Set TURSO_DATABASE_URL and TURSO_AUTH_TOKEN on the Vercel backend, then redeploy. Until then this panel uses a temporary local database that will not keep your tables.</p>
+  {% endif %}
   <div class="grid" style="margin-top: 1.5rem;">
     {% for item in counts %}
       <a class="card" href="/admin/{{ item.key }}">
