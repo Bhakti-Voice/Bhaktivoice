@@ -14,6 +14,7 @@ from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from markupsafe import Markup
 from starlette.middleware.sessions import SessionMiddleware
+from starlette.types import ASGIApp, Receive, Scope, Send
 
 from db import get_db, turso_configured
 from kinds import (
@@ -54,6 +55,24 @@ CORS_ORIGINS = [
     if origin
 ]
 
+class StripBackendPrefixMiddleware:
+    """Vercel public rewrites keep /api/backend; FastAPI routes live at /api/..."""
+
+    def __init__(self, app: ASGIApp) -> None:
+        self.app = app
+
+    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
+        if scope.get("type") == "http":
+            path = scope.get("path") or ""
+            prefix = "/api/backend"
+            if path == prefix or path.startswith(prefix + "/"):
+                new_path = path[len(prefix) :] or "/"
+                scope = dict(scope)
+                scope["path"] = new_path
+                scope["raw_path"] = new_path.encode("utf-8")
+        await self.app(scope, receive, send)
+
+
 app = FastAPI(title="Bhakti Voice CMS", docs_url=None, redoc_url=None)
 app.add_middleware(
     CORSMiddleware,
@@ -68,6 +87,7 @@ app.add_middleware(
     same_site="lax",
     https_only=bool(os.environ.get("VERCEL")),
 )
+app.add_middleware(StripBackendPrefixMiddleware)
 templates = Jinja2Templates(directory=str(ROOT / "templates"))
 templates.env.filters["tojson"] = lambda value: Markup(json.dumps(value, ensure_ascii=False))
 
@@ -88,8 +108,14 @@ def db():
     return get_db()
 
 
-def parse_data(raw: str | None) -> dict:
-    if not raw:
+def parse_data(raw) -> dict:
+    if raw is None or raw == "":
+        return {}
+    if isinstance(raw, dict):
+        return raw
+    if isinstance(raw, (bytes, bytearray)):
+        raw = raw.decode("utf-8", "replace")
+    if not isinstance(raw, str):
         return {}
     try:
         value = json.loads(raw)
@@ -112,12 +138,21 @@ def published(kind: str, slug: str | None = None, locale: str = "en") -> list[di
             "SELECT * FROM cms_entries WHERE kind = ? AND slug = ? AND status = 'published'",
             [kind, slug],
         )
-        return row_public(row, locale) if row else None
+        try:
+            return row_public(row, locale) if row else None
+        except Exception:
+            return None
     rows = db().fetchall(
         "SELECT * FROM cms_entries WHERE kind = ? AND status = 'published' ORDER BY updated_at DESC, id DESC",
         [kind],
     )
-    return [row_public(row, locale) for row in rows]
+    items: list[dict] = []
+    for row in rows:
+        try:
+            items.append(row_public(row, locale))
+        except Exception:
+            continue
+    return items
 
 
 def require_admin(request: Request) -> None:
@@ -537,7 +572,12 @@ def admin_edit(request: Request, kind: str, item_id: int):
         raise HTTPException(status_code=404)
     spec = KINDS[kind]
     data = parse_data(row.get("data"))
-    values = {field.name: dump_field(field, data) for field in spec.fields}
+    try:
+        values = {field.name: dump_field(field, data) for field in spec.fields}
+        form_error = None
+    except Exception as error:
+        values = {field.name: "" for field in spec.fields}
+        form_error = f"Could not unpack this entry for editing: {error}"
     return templates.TemplateResponse(
         "form.html",
         admin_context(
@@ -547,6 +587,7 @@ def admin_edit(request: Request, kind: str, item_id: int):
             slug=row["slug"],
             status=row["status"],
             item_id=item_id,
+            error=form_error,
         ),
     )
 

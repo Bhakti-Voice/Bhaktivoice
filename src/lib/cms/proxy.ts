@@ -3,10 +3,9 @@ import { NextResponse } from "next/server";
 
 export async function proxyToCms(request: Request, path: string) {
   const incoming = new URL(request.url);
-  const url = new URL(path, `${cmsUrl()}/`);
-  incoming.searchParams.forEach((value, key) => url.searchParams.set(key, value));
+  const target = `${cmsUrl()}${path}${incoming.search}`;
   try {
-    const response = await fetch(url.toString(), {
+    const response = await fetch(target, {
       method: request.method,
       headers: { "Content-Type": "application/json" },
       body: request.method === "GET" || request.method === "HEAD" ? undefined : await request.text(),

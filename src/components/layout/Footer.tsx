@@ -1,12 +1,10 @@
-"use client";
-
 import { Logo } from "@/components/brand/Logo";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
-import { useMessages } from "@/lib/i18n/client";
+import { getMessages } from "@/lib/i18n/server";
 import { PATHS } from "@/lib/seo/paths";
 
-export function Footer() {
-  const t = useMessages();
+export async function Footer() {
+  const t = await getMessages();
   const columns = [
     {
       title: t.footerCols.practice,
@@ -60,7 +58,7 @@ export function Footer() {
             <ul className="mt-3 space-y-2">
               {column.links.map((link) => (
                 <li key={link.href}>
-                  <LocaleLink href={link.href} className="text-sm text-muted hover:text-saffron">
+                  <LocaleLink href={link.href} prefetch={false} className="text-sm text-muted hover:text-saffron">
                     {link.label}
                   </LocaleLink>
                 </li>

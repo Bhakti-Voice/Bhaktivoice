@@ -16,7 +16,12 @@ import {
   VolumeX,
 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState, type ChangeEvent, type MouseEvent } from "react";
-import { JaapChakraRing } from "@/components/jaap/JaapChakraRing";
+import dynamic from "next/dynamic";
+
+const JaapChakraRing = dynamic(
+  () => import("@/components/jaap/JaapChakraRing").then((mod) => mod.JaapChakraRing),
+  { ssr: false },
+);
 import { JaapMantraSelect } from "@/components/jaap/JaapMantraSelect";
 import { JAAP_MANTRAS, type JaapMantraSlug } from "@/components/jaap/mantras";
 import { PATHS } from "@/lib/seo/paths";

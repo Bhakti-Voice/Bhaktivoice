@@ -27,6 +27,8 @@ const devanagari = Noto_Serif_Devanagari({
   subsets: ["devanagari"],
   variable: "--font-devanagari",
   display: "swap",
+  preload: false,
+  adjustFontFallback: true,
 });
 
 export const metadata: Metadata = {
@@ -45,7 +47,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: absoluteUrl("/images/krishna-hero.png"),
+        url: absoluteUrl("/images/krishna-hero.webp"),
         width: 1200,
         height: 630,
         alt: "Lord Krishna playing the flute by a river at sunset",
@@ -57,7 +59,7 @@ export const metadata: Metadata = {
     site: SITE.twitter,
     title: "Bhakti Voice — Your Companion on the Spiritual Journey",
     description: SITE.description,
-    images: [absoluteUrl("/images/krishna-hero.png")],
+    images: [absoluteUrl("/images/krishna-hero.webp")],
   },
   robots: { index: true, follow: true },
 };
@@ -72,9 +74,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <AuthProvider>
           <Header />
           <main className="min-h-[70vh]">{children}</main>
-          <Footer />
           <MobileNav />
         </AuthProvider>
+        <Footer />
       </body>
     </html>
   );

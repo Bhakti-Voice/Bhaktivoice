@@ -8,16 +8,18 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import {
-  onAuthStateChanged,
-  signInWithPopup,
-  signOut,
-  type User,
-} from "firebase/auth";
-import { getFirebaseAuth, googleProvider, isFirebaseConfigured } from "./firebase";
+import { isFirebaseConfigured } from "./firebase-config";
+
+type AuthUser = {
+  uid: string;
+  email: string | null;
+  displayName: string | null;
+  photoURL: string | null;
+  getIdToken: () => Promise<string>;
+};
 
 type AuthContextValue = {
-  user: User | null;
+  user: AuthUser | null;
   loading: boolean;
   configured: boolean;
   signInWithGoogle: () => Promise<void>;
@@ -27,20 +29,32 @@ type AuthContextValue = {
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
   const configured = isFirebaseConfigured();
 
   useEffect(() => {
-    const auth = getFirebaseAuth();
-    if (!auth) {
+    if (!configured) {
       setLoading(false);
       return;
     }
-    return onAuthStateChanged(auth, async (next) => {
-      setUser(next);
-      setLoading(false);
-      if (next) {
+    let cancelled = false;
+    let unsub: (() => void) | undefined;
+    void (async () => {
+      const [{ getFirebaseAuth }, { onAuthStateChanged }] = await Promise.all([
+        import("./firebase"),
+        import("firebase/auth"),
+      ]);
+      if (cancelled) return;
+      const auth = getFirebaseAuth();
+      if (!auth) {
+        setLoading(false);
+        return;
+      }
+      unsub = onAuthStateChanged(auth, async (next) => {
+        setUser(next);
+        setLoading(false);
+        if (!next) return;
         const token = await next.getIdToken();
         await fetch("/api/auth/sync", {
           method: "POST",
@@ -53,9 +67,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             token,
           }),
         }).catch(() => undefined);
-      }
-    });
-  }, []);
+      });
+    })();
+    return () => {
+      cancelled = true;
+      unsub?.();
+    };
+  }, [configured]);
 
   const value = useMemo<AuthContextValue>(
     () => ({
@@ -63,13 +81,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       loading,
       configured,
       signInWithGoogle: async () => {
+        const [{ getFirebaseAuth, googleProvider }, { signInWithPopup }] = await Promise.all([
+          import("./firebase"),
+          import("firebase/auth"),
+        ]);
         const auth = getFirebaseAuth();
-        if (!auth) {
-          throw new Error("Firebase is not configured yet.");
-        }
+        if (!auth) throw new Error("Firebase is not configured yet.");
         await signInWithPopup(auth, googleProvider());
       },
       logout: async () => {
+        const [{ getFirebaseAuth }, { signOut }] = await Promise.all([
+          import("./firebase"),
+          import("firebase/auth"),
+        ]);
         const auth = getFirebaseAuth();
         if (auth) await signOut(auth);
       },

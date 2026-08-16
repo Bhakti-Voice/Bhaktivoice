@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { MediaImage } from "@/components/media/MediaImage";
 import type { ReactNode } from "react";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { ContextualCta } from "@/components/seo/ContextualCta";
@@ -50,7 +50,7 @@ export function ArticleLayout({
       </h1>
       <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-3xl bg-sand">
         {page.heroImage ? (
-          <Image
+          <MediaImage
             src={page.heroImage}
             alt={page.heroImageAlt}
             fill

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import { MediaImage } from "@/components/media/MediaImage";
 import Link from "next/link";
 import { Users } from "lucide-react";
 import { hubMetadata } from "@/lib/i18n/hub";
@@ -24,7 +24,7 @@ export default async function CommunityPage() {
     <div>
       <section className="relative min-h-[280px] overflow-hidden lg:min-h-[340px]">
         <div className="pointer-events-none absolute inset-y-0 right-0 w-[58%] max-w-[640px]">
-          <Image
+          <MediaImage
             src="/images/krishna-hero.png"
             alt="Lord Krishna playing the flute by a river at sunset"
             fill
@@ -60,7 +60,7 @@ export default async function CommunityPage() {
             </Link>
           </div>
           <div className="relative min-h-[200px]">
-            <Image
+            <MediaImage
               src="/images/krishna-hero.png"
               alt="Devotional light for a global Ram naam sankalp"
               fill

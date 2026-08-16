@@ -1,12 +1,12 @@
 "use client";
 
-import Image from "next/image";
+import { MediaImage } from "@/components/media/MediaImage";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
 
 export function Logo({ className = "" }: { className?: string }) {
   return (
     <LocaleLink href="/" className={`flex items-center gap-2 ${className}`}>
-      <Image
+      <MediaImage
         src="/images/lotus-logo.png"
         alt=""
         width={36}

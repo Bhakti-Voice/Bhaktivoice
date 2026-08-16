@@ -549,6 +549,27 @@ def parse_spirituality_sections(value: str) -> list[dict[str, str]]:
     return sections
 
 
+def _str_list(value: Any) -> list[str]:
+    if isinstance(value, str):
+        return [value] if value.strip() else []
+    if not isinstance(value, list):
+        return []
+    items: list[str] = []
+    for item in value:
+        if item is None or isinstance(item, (dict, list)):
+            continue
+        text = str(item).strip()
+        if text:
+            items.append(str(item))
+    return items
+
+
+def _dict_list(value: Any) -> list[dict[str, Any]]:
+    if not isinstance(value, list):
+        return []
+    return [item for item in value if isinstance(item, dict)]
+
+
 def dump_field(item: Field, data: dict[str, Any]) -> str:
     value = data.get(item.name)
     if item.name == "yatraCategory":
@@ -556,46 +577,46 @@ def dump_field(item: Field, data: dict[str, Any]) -> str:
     if value is None:
         return ""
     if item.type == "lines":
-        return "\n".join(value if isinstance(value, list) else [])
+        return "\n".join(_str_list(value))
     if item.type == "tags":
-        return ", ".join(value if isinstance(value, list) else [])
+        return ", ".join(_str_list(value))
     if item.type == "faqs":
         return "\n".join(
             f"{faq.get('question', '')} || {faq.get('answer', '')}"
-            for faq in (value or [])
+            for faq in _dict_list(value)
         )
     if item.type == "related":
         return "\n".join(
             f"{link.get('kind', 'page')} | {link.get('href', '')} | {link.get('label', '')}"
-            for link in (value or [])
+            for link in _dict_list(value)
         )
     if item.type == "places":
         rows = []
-        for place in value or []:
+        for place in _dict_list(value):
             href = place.get("href") or ""
             rows.append(f"{place.get('name', '')} || {place.get('note', '')} || {href}".rstrip(" |"))
         return "\n".join(rows)
     if item.type == "itinerary":
-        return "\n".join(f"{row.get('day', '')} || {row.get('plan', '')}" for row in (value or []))
+        return "\n".join(f"{row.get('day', '')} || {row.get('plan', '')}" for row in _dict_list(value))
     if item.type == "episodes":
         return "\n".join(
             f"{row.get('number', '')} || {row.get('title', '')} || {row.get('duration', '')} || {row.get('summary', '')}"
-            for row in (value or [])
+            for row in _dict_list(value)
         )
     if item.type == "sections":
         chunks = []
-        for section in value or []:
+        for section in _dict_list(value):
             heading = section.get("heading")
             if heading:
                 chunks.append(f"## {heading}")
             if "paragraphs" in section:
-                chunks.append("\n\n".join(section.get("paragraphs") or []))
+                chunks.append("\n\n".join(_str_list(section.get("paragraphs"))))
             else:
-                chunks.append(section.get("body") or "")
+                chunks.append(str(section.get("body") or ""))
             chunks.append("")
         return "\n".join(chunks).strip()
     if item.type == "paragraphs":
-        return "\n\n".join(value if isinstance(value, list) else [])
+        return "\n\n".join(_str_list(value))
     return str(value)
 
 
@@ -610,10 +631,10 @@ def empty_related() -> dict[str, list]:
     }
 
 
-def bucket_related(links: list[dict[str, str]]) -> dict[str, list]:
+def bucket_related(links: Any) -> dict[str, list]:
     buckets = empty_related()
-    for link in links:
-        key = RELATED_BUCKETS.get(link.get("kind", "page"), "relatedArticles")
+    for link in _dict_list(links):
+        key = RELATED_BUCKETS.get(str(link.get("kind") or "page"), "relatedArticles")
         buckets[key].append(
             {"href": link.get("href", ""), "label": link.get("label", ""), "kind": link.get("kind", "page")}
         )
@@ -721,7 +742,10 @@ def public_page(
         extras["sections"] = data.get("sections") or []
     if kind.key == "product":
         extras["name"] = data.get("name") or title
-        extras["priceInr"] = int(data.get("priceInr") or 0)
+        try:
+            extras["priceInr"] = int(data.get("priceInr") or 0)
+        except (TypeError, ValueError):
+            extras["priceInr"] = 0
         extras["categorySlug"] = data.get("categorySlug") or ""
         extras["description"] = data.get("description") or ""
         extras["category"] = data.get("categorySlug") or data.get("category") or ""

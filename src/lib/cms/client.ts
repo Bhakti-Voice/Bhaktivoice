@@ -1,3 +1,5 @@
+import { cache } from "react";
+
 export type ContentKind =
   | "mantra"
   | "yatra"
@@ -10,11 +12,19 @@ export type ContentKind =
   | "bhajan"
   | "aarti";
 
-const CMS_API_URL = (
-  process.env.CMS_API_URL ||
-  process.env.NEXT_PUBLIC_CMS_API_URL ||
-  "http://127.0.0.1:8000"
-).replace(/\/$/, "");
+function resolveCmsUrl() {
+  const raw = (
+    process.env.CMS_API_URL ||
+    process.env.NEXT_PUBLIC_CMS_API_URL ||
+    ""
+  ).replace(/\/$/, "");
+  const loopback = !raw || /localhost|127\.0\.0\.1/i.test(raw);
+  if (!loopback) return raw;
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL.replace(/\/$/, "")}/api/backend`;
+  return raw || "http://127.0.0.1:8000";
+}
+
+const CMS_API_URL = resolveCmsUrl();
 
 export type JaapStats = {
   total: number;
@@ -55,8 +65,8 @@ export type IndexableUrl = {
 async function cmsGet<T>(path: string, fallback: T): Promise<T> {
   try {
     const response = await fetch(`${CMS_API_URL}${path}`, {
-      cache: "no-store",
-      signal: AbortSignal.timeout(8000),
+      next: { revalidate: 45 },
+      signal: AbortSignal.timeout(2500),
     });
     if (!response.ok) return fallback;
     return (await response.json()) as T;
@@ -87,14 +97,14 @@ export async function getContent<T>(kind: string, slug: string): Promise<T | nul
   );
 }
 
-export async function getStats(): Promise<JaapStats> {
+export const getStats = cache(async (): Promise<JaapStats> => {
   return cmsGet<JaapStats>("/api/stats", {
     total: 0,
     todayDevotees: 0,
     users: 0,
     byMantra: [],
   });
-}
+});
 
 export async function getUserStats(uid: string): Promise<UserStats> {
   return cmsGet<UserStats>(`/api/stats/user/${encodeURIComponent(uid)}`, {

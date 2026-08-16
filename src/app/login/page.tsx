@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
-import { LoginClient } from "@/components/auth/LoginClient";
+import dynamic from "next/dynamic";
 import { localizedMetadata } from "@/lib/seo/metadata";
+
+const LoginClient = dynamic(
+  () => import("@/components/auth/LoginClient").then((mod) => mod.LoginClient),
+  { loading: () => <div className="mx-auto mt-16 h-80 max-w-md animate-pulse rounded-[32px] bg-sand" /> },
+);
 
 export async function generateMetadata(): Promise<Metadata> {
   return localizedMetadata({

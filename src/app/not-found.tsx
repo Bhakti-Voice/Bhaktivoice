@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { MediaImage } from "@/components/media/MediaImage";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { getMessages } from "@/lib/i18n/server";
@@ -32,7 +32,7 @@ export default async function NotFound() {
         </div>
       </div>
       <div className="relative min-h-[280px]">
-        <Image
+        <MediaImage
           src="/images/lotus-logo.png"
           alt="Bhakti Voice lotus emblem"
           fill

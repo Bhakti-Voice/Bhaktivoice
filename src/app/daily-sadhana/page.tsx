@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import { MediaImage } from "@/components/media/MediaImage";
 import Link from "next/link";
 import {
   BookOpen,
@@ -100,7 +100,7 @@ export default function SadhanaPage() {
             <p className="mt-4 text-sm text-white/70">— Bhagavad Gita</p>
           </blockquote>
           <div className="relative min-h-[220px]">
-            <Image
+            <MediaImage
               src="/images/diyas.png"
               alt="Lit diyas glowing for an evening of sadhana"
               fill

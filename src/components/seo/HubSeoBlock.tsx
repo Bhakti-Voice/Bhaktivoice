@@ -1,9 +1,18 @@
+import { Suspense } from "react";
 import { FaqList } from "@/components/seo/FaqList";
 import { ExpandableSection } from "@/components/seo/ExpandableSection";
 import { getHubSeo } from "@/lib/content";
 import type { HubSeoId } from "@/lib/content/hub-seo";
 
-export async function HubSeoBlock({ id }: { id: HubSeoId }) {
+export function HubSeoBlock({ id }: { id: HubSeoId }) {
+  return (
+    <Suspense fallback={null}>
+      <HubSeoInner id={id} />
+    </Suspense>
+  );
+}
+
+async function HubSeoInner({ id }: { id: HubSeoId }) {
   const hub = await getHubSeo(id);
   if (!hub?.heading) return null;
 

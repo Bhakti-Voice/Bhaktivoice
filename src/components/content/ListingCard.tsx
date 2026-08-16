@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { MediaImage } from "@/components/media/MediaImage";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
 
 export function ListingCard({
@@ -23,7 +23,7 @@ export function ListingCard({
     >
       <div className="relative aspect-[16/10] bg-sand">
         {image ? (
-          <Image
+          <MediaImage
             src={image}
             alt={imageAlt}
             fill

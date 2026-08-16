@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import { MediaImage } from "@/components/media/MediaImage";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { ContextualCta } from "@/components/seo/ContextualCta";
@@ -53,7 +53,7 @@ export default async function ProductDetailPage({ params }: Props) {
       <div className="mt-8 grid gap-10 lg:grid-cols-2">
         <div className="relative aspect-square overflow-hidden rounded-[32px] bg-sand">
           {page.heroImage ? (
-            <Image
+            <MediaImage
               src={page.heroImage}
               alt={page.heroImageAlt}
               fill

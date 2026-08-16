@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import { MediaImage } from "@/components/media/MediaImage";
 import Link from "next/link";
 import { hubMetadata } from "@/lib/i18n/hub";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
@@ -39,7 +39,7 @@ export default async function SankalpPage() {
           </Link>
         </div>
         <div className="relative min-h-[240px]">
-          <Image
+          <MediaImage
             src="/images/sankalp-flowers.png"
             alt="Flowers placed for a sankalp"
             fill

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { JaapCounter } from "@/components/jaap/JaapCounter";
+import dynamic from "next/dynamic";
 import { JaapSidebar } from "@/components/jaap/JaapSidebar";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
@@ -9,6 +9,11 @@ import { getMessages } from "@/lib/i18n/server";
 import { localizedCrumbs } from "@/lib/seo/crumbs";
 import { itemListSchema } from "@/lib/seo/schema";
 import { PATHS } from "@/lib/seo/paths";
+
+const JaapCounter = dynamic(
+  () => import("@/components/jaap/JaapCounter").then((mod) => mod.JaapCounter),
+  { loading: () => <div className="min-h-[420px] animate-pulse rounded-[32px] bg-sand" /> },
+);
 
 export async function generateMetadata(): Promise<Metadata> {
   return hubMetadata("naamJaap");

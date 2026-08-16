@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { MediaImage } from "@/components/media/MediaImage";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { ContextualCta } from "@/components/seo/ContextualCta";
 import { ExpandableSection } from "@/components/seo/ExpandableSection";
@@ -31,7 +31,7 @@ export function YatraDetailView({ page }: { page: YatraPage }) {
 
       <div className="relative mt-8 aspect-[16/8] overflow-hidden rounded-[32px] bg-sand">
         {page.heroImage ? (
-          <Image
+          <MediaImage
             src={page.heroImage}
             alt={page.heroImageAlt}
             fill

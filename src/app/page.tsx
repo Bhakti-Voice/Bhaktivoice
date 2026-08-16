@@ -1,4 +1,5 @@
-import Image from "next/image";
+import { Suspense } from "react";
+import { MediaImage } from "@/components/media/MediaImage";
 import {
   BookOpen,
   CalendarDays,
@@ -15,6 +16,7 @@ import { PATHS } from "@/lib/seo/paths";
 import { localizedMetadata } from "@/lib/seo/metadata";
 import { getLocale, getMessages } from "@/lib/i18n/server";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
+import type { Messages } from "@/lib/i18n/messages";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -40,7 +42,7 @@ const COUNT_LABELS = [
 const AVATARS = ["#c05621", "#d97706", "#7c3aed", "#be185d", "#1d4ed8", "#0f766e", "#b45309"];
 
 export default async function HomePage() {
-  const [stats, t, locale] = await Promise.all([getStats(), getMessages(), getLocale()]);
+  const [t, locale] = await Promise.all([getMessages(), getLocale()]);
   const features = [
     { href: PATHS.naamJaap, icon: Flame, color: "bg-[#f3e8ff] text-[#7c3aed]", ...t.home.features[0] },
     { href: PATHS.katha, icon: BookOpen, color: "bg-[#ffedd5] text-[#c2410c]", ...t.home.features[1] },
@@ -49,10 +51,6 @@ export default async function HomePage() {
     { href: PATHS.community, icon: Users, color: "bg-[#fce7f3] text-[#be185d]", ...t.home.features[4] },
     { href: PATHS.festivals, icon: CalendarDays, color: "bg-[#ffedd5] text-[#c2410c]", ...t.home.features[5] },
   ];
-  const counts = COUNT_LABELS.map((item) => ({
-    ...item,
-    count: formatCount(stats.byMantra.find((row) => row.slug === item.slug)?.total ?? 0, locale),
-  }));
 
   return (
     <div>
@@ -64,7 +62,7 @@ export default async function HomePage() {
       />
 
       <section className="relative min-h-[580px] overflow-hidden lg:min-h-[700px]">
-        <Image
+        <MediaImage
           src="/images/krishna-hero.png"
           alt="Lord Krishna playing the flute by a river at sunset"
           fill
@@ -106,9 +104,9 @@ export default async function HomePage() {
                   +
                 </span>
               </div>
-              <p className="text-sm font-medium text-ink/70">
-                {formatCount(stats.users, locale)} {t.home.devoteesJoined}
-              </p>
+              <Suspense fallback={<p className="text-sm font-medium text-ink/70">{t.home.devoteesJoined}</p>}>
+                <DevoteeCount locale={locale} label={t.home.devoteesJoined} />
+              </Suspense>
             </div>
           </div>
           <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:mt-20 lg:grid-cols-6">
@@ -129,46 +127,69 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pt-2 pb-16 lg:px-8">
-        <div className="grid items-center gap-8 rounded-[32px] bg-navy px-6 py-8 text-white md:grid-cols-[1.1fr_0.8fr_1fr] lg:px-10">
-          <div>
-            <p className="text-sm text-white/80">{t.home.globalToday}</p>
-            <p className="mt-2 font-serif text-4xl font-semibold sm:text-5xl">
-              {formatCount(stats.total, locale)}
-            </p>
-            <p className="mt-2 text-sm text-white/70">{t.home.naamChanted}</p>
-            <LocaleLink
-              href={PATHS.community}
-              className="mt-5 inline-flex rounded-full bg-gold px-5 py-2 text-sm font-medium text-navy"
-            >
-              {t.home.joinSankalp}
-            </LocaleLink>
-          </div>
-          <div className="relative mx-auto h-40 w-full max-w-xs">
-            <Image
-              src="/images/diyas.png"
-              alt="Lit diyas glowing in the dark"
-              fill
-              className="object-contain"
-              sizes="240px"
-            />
-          </div>
-          <div className="grid gap-4">
-            {counts.map((item) => (
-              <div key={item.name} className="flex items-center gap-3">
-                <span className={`h-8 w-8 shrink-0 rounded-full ${item.color}`} />
-                <div className="flex-1">
-                  <p className="text-xs text-white/70">{item.name}</p>
-                  <p className="font-semibold">{item.count}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Suspense fallback={<div className="mx-auto max-w-7xl px-4 pt-2 pb-16 lg:px-8"><div className="h-56 animate-pulse rounded-[32px] bg-navy/80" /></div>}>
+        <HomeChantBanner locale={locale} t={t} />
+      </Suspense>
       <div className="mx-auto max-w-7xl px-4 pb-16 lg:px-8">
         <HubSeoBlock id="home" />
       </div>
     </div>
   );
 }
+
+async function DevoteeCount({ locale, label }: { locale: string; label: string }) {
+  const stats = await getStats();
+  return (
+    <p className="text-sm font-medium text-ink/70">
+      {formatCount(stats.users, locale)} {label}
+    </p>
+  );
+}
+
+async function HomeChantBanner({ locale, t }: { locale: string; t: Messages }) {
+  const stats = await getStats();
+  const counts = COUNT_LABELS.map((item) => ({
+    ...item,
+    count: formatCount(stats.byMantra.find((row) => row.slug === item.slug)?.total ?? 0, locale),
+  }));
+  return (
+    <section className="mx-auto max-w-7xl px-4 pt-2 pb-16 lg:px-8">
+      <div className="grid items-center gap-8 rounded-[32px] bg-navy px-6 py-8 text-white md:grid-cols-[1.1fr_0.8fr_1fr] lg:px-10">
+        <div>
+          <p className="text-sm text-white/80">{t.home.globalToday}</p>
+          <p className="mt-2 font-serif text-4xl font-semibold sm:text-5xl">
+            {formatCount(stats.total, locale)}
+          </p>
+          <p className="mt-2 text-sm text-white/70">{t.home.naamChanted}</p>
+          <LocaleLink
+            href={PATHS.community}
+            className="mt-5 inline-flex rounded-full bg-gold px-5 py-2 text-sm font-medium text-navy"
+          >
+            {t.home.joinSankalp}
+          </LocaleLink>
+        </div>
+        <div className="relative mx-auto h-40 w-full max-w-xs">
+          <MediaImage
+            src="/images/diyas.png"
+            alt="Lit diyas glowing in the dark"
+            fill
+            className="object-contain"
+            sizes="240px"
+          />
+        </div>
+        <div className="grid gap-4">
+          {counts.map((item) => (
+            <div key={item.name} className="flex items-center gap-3">
+              <span className={`h-8 w-8 shrink-0 rounded-full ${item.color}`} />
+              <div className="flex-1">
+                <p className="text-xs text-white/70">{item.name}</p>
+                <p className="font-semibold">{item.count}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+

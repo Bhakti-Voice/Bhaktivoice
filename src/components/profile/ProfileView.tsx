@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { MediaImage } from "@/components/media/MediaImage";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BookOpen, CircleDot, Heart, MapPin, Settings, ShoppingBag } from "lucide-react";
@@ -50,7 +50,7 @@ export function ProfileView() {
       <section className="mt-8 grid gap-6 rounded-[32px] bg-white p-6 shadow-sm ring-1 ring-line md:grid-cols-[auto_1fr] md:p-8">
         <div className="relative h-24 w-24 overflow-hidden rounded-full bg-sand">
           {photo ? (
-            <Image src={photo} alt="" fill className="object-cover" sizes="96px" />
+            <MediaImage src={photo} alt="" fill className="object-cover" sizes="96px" />
           ) : (
             <span className="flex h-full w-full items-center justify-center font-serif text-3xl text-saffron-deep">
               {name.slice(0, 1)}
@@ -108,7 +108,7 @@ export function ProfileView() {
           </Link>
         </div>
         <div className="relative min-h-[180px]">
-          <Image
+          <MediaImage
             src="/images/sankalp-flowers.png"
             alt="Flowers placed for a sankalp"
             fill

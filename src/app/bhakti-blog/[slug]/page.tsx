@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import { MediaImage } from "@/components/media/MediaImage";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BlogShare } from "@/components/blog/BlogShare";
@@ -64,7 +64,7 @@ export default async function BlogPostPage({ params }: Props) {
       </p>
       <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-[32px] bg-sand">
         {page.heroImage ? (
-          <Image
+          <MediaImage
             src={page.heroImage}
             alt={page.heroImageAlt}
             fill

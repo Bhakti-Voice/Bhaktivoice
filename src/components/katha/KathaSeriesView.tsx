@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { MediaImage } from "@/components/media/MediaImage";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { ExpandableSection } from "@/components/seo/ExpandableSection";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
@@ -19,7 +19,7 @@ export function KathaSeriesView({ series }: { series: KathaSeries }) {
         <div>
           <div className="relative aspect-[16/9] overflow-hidden rounded-[32px] bg-sand">
             {series.heroImage ? (
-              <Image
+              <MediaImage
                 src={series.heroImage}
                 alt={series.heroImageAlt}
                 fill

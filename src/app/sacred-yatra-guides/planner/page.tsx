@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import { MediaImage } from "@/components/media/MediaImage";
 import { Compass, Heart, MapPin, Users } from "lucide-react";
 import { YatraPlannerForm } from "@/components/yatra/YatraPlannerForm";
 import { listYatra } from "@/lib/content";
@@ -36,7 +36,7 @@ export default async function YatraPlannerPage() {
       <div className="mt-10 grid gap-8 lg:grid-cols-2">
         <YatraPlannerForm destinations={destinations} />
         <div className="relative min-h-[360px] overflow-hidden rounded-[32px] bg-sand">
-          <Image
+          <MediaImage
             src="/images/yatra-map.png"
             alt="A map of sacred India for planning a yatra"
             fill

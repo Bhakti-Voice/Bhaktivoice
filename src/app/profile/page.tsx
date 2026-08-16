@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
-import { ProfileView } from "@/components/profile/ProfileView";
+import dynamic from "next/dynamic";
 import { localizedMetadata } from "@/lib/seo/metadata";
+
+const ProfileView = dynamic(
+  () => import("@/components/profile/ProfileView").then((mod) => mod.ProfileView),
+  { loading: () => <div className="mx-auto mt-10 h-96 max-w-5xl animate-pulse rounded-[32px] bg-sand" /> },
+);
 
 export async function generateMetadata(): Promise<Metadata> {
   return localizedMetadata({
