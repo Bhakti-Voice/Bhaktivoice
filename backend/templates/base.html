@@ -72,15 +72,32 @@
       .row { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
       .muted { color: var(--muted); }
       .count { font-size: 1.8rem; margin: 0.3rem 0 0; }
+      textarea.json, pre {
+        font-family: ui-monospace, Consolas, monospace;
+        font-size: 0.82rem;
+        line-height: 1.45;
+        white-space: pre-wrap;
+      }
+      pre {
+        margin: 0.6rem 0 0;
+        padding: 0.85rem;
+        background: var(--ivory);
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        overflow: auto;
+      }
     </style>
   </head>
   <body>
     {% if admin %}
     <header>
       <a href="/admin"><strong>Bhakti Voice Admin</strong></a>
-      <form method="post" action="/admin/logout">
-        <button class="btn ghost" type="submit">Sign out</button>
-      </form>
+      <div class="row">
+        <a class="btn ghost" href="/admin/json">JSON</a>
+        <form method="post" action="/admin/logout">
+          <button class="btn ghost" type="submit">Sign out</button>
+        </form>
+      </div>
     </header>
     {% endif %}
     <main>

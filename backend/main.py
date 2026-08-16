@@ -3,18 +3,18 @@ from __future__ import annotations
 import json
 import os
 import secrets
-from datetime import date, datetime
+from datetime import date
 from pathlib import Path
+from urllib.parse import quote
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, Form, HTTPException, Request
+from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
 
 from db import get_db, turso_configured
-from slugs import seo_slug
 from kinds import (
     KINDS,
     PAGE_KINDS,
@@ -26,6 +26,7 @@ from kinds import (
     public_simple,
     today,
 )
+from store import save_entry
 
 ROOT = Path(__file__).resolve().parent
 load_dotenv(ROOT.parent / ".env")
@@ -67,6 +68,18 @@ app.add_middleware(
     https_only=bool(os.environ.get("VERCEL")),
 )
 templates = Jinja2Templates(directory=str(ROOT / "templates"))
+
+
+@app.on_event("startup")
+def startup() -> None:
+    if os.environ.get("VERCEL"):
+        return
+    try:
+        from local_seed import seed_if_empty
+
+        seed_if_empty()
+    except Exception:
+        pass
 
 
 def db():
@@ -396,6 +409,82 @@ def dashboard(request: Request):
     return templates.TemplateResponse("dashboard.html", admin_context(request))
 
 
+@app.get("/admin/json", response_class=HTMLResponse)
+def json_form(request: Request, kind: str = ""):
+    if not request.session.get("admin"):
+        return RedirectResponse("/admin/login", status_code=302)
+    if kind and kind not in KINDS:
+        raise HTTPException(status_code=404)
+    return templates.TemplateResponse(
+        "json.html",
+        admin_context(request, selected_kind=kind, selected=KINDS.get(kind)),
+    )
+
+
+@app.post("/admin/json")
+async def json_import(
+    request: Request,
+    json_text: str = Form(""),
+    kind: str = Form(""),
+    json_file: UploadFile | None = File(default=None),
+):
+    require_admin(request)
+    default_kind = kind.strip() if kind in KINDS else ""
+    raw_text = json_text
+    if json_file and json_file.filename:
+        raw_text = (await json_file.read()).decode("utf-8-sig")
+    try:
+        from json_import import import_entries, parse_json_text
+
+        payload = parse_json_text(raw_text)
+        result = import_entries(payload, default_kind or None)
+    except Exception as error:
+        return templates.TemplateResponse(
+            "json.html",
+            admin_context(
+                request,
+                selected_kind=default_kind,
+                selected=KINDS.get(default_kind),
+                error=str(error),
+            ),
+            status_code=400,
+        )
+    notice = f"Imported {result['created']} new, updated {result['updated']}."
+    if result["errors"]:
+        notice += " Some rows failed: " + " ".join(result["errors"][:8])
+    dest = f"/admin/{default_kind}?notice={quote(notice)}" if default_kind else f"/admin?notice={quote(notice)}"
+    return RedirectResponse(dest, status_code=302)
+
+
+@app.get("/admin/json/export")
+def json_export(request: Request, kind: str = ""):
+    require_admin(request)
+    if kind and kind not in KINDS:
+        raise HTTPException(status_code=404)
+    sql = "SELECT kind, slug, title, status, data FROM cms_entries"
+    args: list = []
+    if kind:
+        sql += " WHERE kind = ?"
+        args = [kind]
+    sql += " ORDER BY kind, id"
+    rows = db().fetchall(sql, args)
+    payload = [
+        {
+            "kind": row["kind"],
+            "slug": row["slug"],
+            "status": row["status"],
+            "title": row["title"],
+            "data": parse_data(row.get("data")),
+        }
+        for row in rows
+    ]
+    filename = f"{kind or 'cms'}-export.json"
+    return JSONResponse(
+        payload,
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
+
+
 @app.get("/admin/{kind}", response_class=HTMLResponse)
 def admin_list(request: Request, kind: str):
     if not request.session.get("admin"):
@@ -461,18 +550,15 @@ async def admin_save(request: Request, kind: str):
     status = str(form.get("status") or "published")
     item_id = str(form.get("item_id") or "").strip()
     data = form_to_data(spec, {key: str(value) for key, value in form.items()})
-    title = str(data.get("title") or data.get("h1") or data.get("name") or data.get("heading") or "")
-    slug = seo_slug(
-        kind,
-        title,
-        str(data.get("h1") or ""),
-        str(data.get("seoTitle") or ""),
-        str(data.get("name") or ""),
-        str(data.get("heading") or ""),
-        str(data.get("destination") or ""),
-        existing=str(form.get("slug") or ""),
-    )
-    if not slug:
+    try:
+        save_entry(
+            kind,
+            data,
+            slug=str(form.get("slug") or ""),
+            status=status,
+            item_id=int(item_id) if item_id else None,
+        )
+    except ValueError as error:
         values = {field.name: str(form.get(field.name) or "") for field in spec.fields}
         return templates.TemplateResponse(
             "form.html",
@@ -480,47 +566,13 @@ async def admin_save(request: Request, kind: str):
                 request,
                 kind=spec,
                 values=values,
-                slug="",
+                slug=str(form.get("slug") or ""),
                 status=status,
                 item_id=int(item_id) if item_id else None,
-                error="Add a title so we can build a long URL slug.",
+                error=str(error),
             ),
             status_code=400,
         )
-    title = title or slug
-    payload = json.dumps(data, ensure_ascii=False)
-    now = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
-    if item_id:
-        db().execute(
-            """
-            UPDATE cms_entries
-            SET slug = ?, title = ?, status = ?, data = ?, updated_at = ?
-            WHERE id = ? AND kind = ?
-            """,
-            [slug, title, status, payload, now, int(item_id), kind],
-        )
-    else:
-        existing = db().fetchone(
-            "SELECT id FROM cms_entries WHERE kind = ? AND slug = ?",
-            [kind, slug],
-        )
-        if existing:
-            db().execute(
-                """
-                UPDATE cms_entries
-                SET title = ?, status = ?, data = ?, updated_at = ?
-                WHERE id = ?
-                """,
-                [title, status, payload, now, existing["id"]],
-            )
-        else:
-            db().execute(
-                """
-                INSERT INTO cms_entries (kind, slug, title, status, data, created_at, updated_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
-                """,
-                [kind, slug, title, status, payload, now, now],
-            )
     return RedirectResponse(f"/admin/{kind}?notice=Saved", status_code=302)
 
 

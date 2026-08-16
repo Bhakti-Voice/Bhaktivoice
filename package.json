@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "dev:cms": "uvicorn main:app --reload --port 8000 --app-dir backend",
+    "seed:local": "python backend/local_seed.py",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

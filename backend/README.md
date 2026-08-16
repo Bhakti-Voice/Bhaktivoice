@@ -29,3 +29,12 @@ Admin login is only here: http://127.0.0.1:8000/admin
 The public site never hosts this panel. Publish katha, blogs, yatra, temples, festivals, mantras, store items, and the rest with the forms. Until you save something, every list on the site is empty and every count is 0.
 
 If Turso env vars are missing, a local SQLite file is used at `backend/data/bhakti.db` so you can still try the forms.
+
+Local dummy content (one sample of every kind) is written into that SQLite file the first time the CMS starts empty. It never runs on Vercel and it refuses to write when Turso is configured. Re-seed with:
+
+```bash
+npm run seed:local
+```
+
+Admin also accepts JSON: open `/admin/json`, paste one object or a list, or upload a `.json` file. Download current rows from **Download all JSON**.
+

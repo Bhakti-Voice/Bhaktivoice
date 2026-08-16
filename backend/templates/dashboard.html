@@ -6,6 +6,10 @@
   {% if not turso %}
   <p class="error">Turso is not connected. Set TURSO_DATABASE_URL and TURSO_AUTH_TOKEN on the Vercel backend, then redeploy. Until then this panel uses a temporary local database that will not keep your tables.</p>
   {% endif %}
+  <div class="row" style="margin-top: 1.2rem; gap: 0.7rem;">
+    <a class="btn" href="/admin/json">Import JSON</a>
+    <a class="btn ghost" href="/admin/json/export">Download all JSON</a>
+  </div>
   <div class="grid" style="margin-top: 1.5rem;">
     {% for item in counts %}
       <a class="card" href="/admin/{{ item.key }}">

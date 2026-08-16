@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}JSON import{% endblock %}
+{% block content %}
+  <p><a href="{% if selected_kind %}/admin/{{ selected_kind }}{% else %}/admin{% endif %}">← Back</a></p>
+  <h1>JSON import{% if selected %} · {{ selected.plural }}{% endif %}</h1>
+  <p class="muted">Paste one entry or a whole list. Existing slugs are updated. New slugs are created.</p>
+  <form class="card" method="post" action="/admin/json" enctype="multipart/form-data" style="margin-top: 1rem;">
+    {% if selected_kind %}<input type="hidden" name="kind" value="{{ selected_kind }}" />{% endif %}
+    <label>JSON file
+      <input type="file" name="json_file" accept="application/json,.json" />
+    </label>
+    <label>Or paste JSON
+      <textarea class="json" name="json_text" rows="16" placeholder='{ "kind": "blog", "status": "published", "data": { "title": "..." } }'></textarea>
+    </label>
+    <p class="hint">A file wins if you attach one. Hindi fields stay in the same object: <code>titleHi</code>, <code>h1Hi</code>, <code>bodyHi</code>.</p>
+    <p style="margin-top: 1.2rem;" class="row">
+      <button class="btn" type="submit">Import JSON</button>
+      <a class="btn ghost" href="/admin/json/export{% if selected_kind %}?kind={{ selected_kind }}{% endif %}">Download current JSON</a>
+    </p>
+  </form>
+  <div class="card" style="margin-top: 1rem;">
+    <p class="muted">Accepted shapes</p>
+    <pre>{
+  "kind": "katha",
+  "slug": "optional-long-slug",
+  "status": "published",
+  "data": { "title": "...", "h1": "...", "titleHi": "..." }
+}
+
+[
+  { "kind": "blog", "data": { "title": "One post" } },
+  { "kind": "temple", "data": { "title": "One temple" } }
+]
+
+{ "entries": [ { "kind": "mantra", "data": { "title": "..." } } ] }</pre>
+    <p class="hint">On a kind page, <code>kind</code> can be omitted. Structured lists (FAQs, episodes) can be JSON arrays or the same <code>||</code> text used in the form.</p>
+  </div>
+{% endblock %}
