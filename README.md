@@ -1,4 +1,4 @@
-# Bhakti
+# Bhaktivoice
 
 Your companion on the spiritual journey.
 
