@@ -4,17 +4,19 @@ import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
+  formatIstDate,
   formatIstDateTime,
   formatIstTime,
   getPanchang,
   pakshaLabel,
 } from "@/lib/panchang";
-import { pageCrumbs } from "@/lib/seo/crumbs";
+import { localizedCrumbs } from "@/lib/seo/crumbs";
 import { SITE } from "@/lib/seo/site";
 import { hubMetadata } from "@/lib/i18n/hub";
+import { getLocale, getMessages } from "@/lib/i18n/server";
 import { PATHS } from "@/lib/seo/paths";
 
-export const revalidate = 1800;
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   return hubMetadata("tithi");
@@ -24,15 +26,18 @@ function pakshaClass(paksha: "shukla" | "krishna") {
   return paksha === "shukla" ? "text-saffron-deep" : "text-navy";
 }
 
-export default function TithiPage() {
+export default async function TithiPage() {
+  const [t, locale] = await Promise.all([getMessages(), getLocale()]);
+  const hi = locale === "hi";
   const panchang = getPanchang();
   const sunriseTithi = panchang.tithiAtSunrise;
   const paksha = pakshaLabel(sunriseTithi.paksha);
   const masa = panchang.masaPurnimanta;
   const tithiChanged =
-    panchang.tithiNow.index !== sunriseTithi.index
-      ? panchang.tithiNow
-      : null;
+    panchang.tithiNow.index !== sunriseTithi.index ? panchang.tithiNow : null;
+  const dateLabel = formatIstDate(panchang.sunrise, locale);
+  const time = (value: Date) => formatIstTime(value, locale);
+  const dateTime = (value: Date) => formatIstDateTime(value, locale);
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 lg:px-8 lg:py-12">
@@ -40,99 +45,111 @@ export default function TithiPage() {
         data={{
           "@context": "https://schema.org",
           "@type": "WebPage",
-          name: "Aaj Ki Tithi",
+          name: t.hubs.tithi.h1,
           url: `${SITE.url}${PATHS.tithi}`,
-          description:
-            "Today's Hindu tithi, paksha and panchang calculated for Delhi from the Moon and the Sun.",
+          description: t.hubs.tithi.description,
         }}
       />
-      <Breadcrumbs items={pageCrumbs(["Aaj Ki Tithi", PATHS.tithi])} />
-      <p className="mt-4 text-xs uppercase tracking-[0.2em] text-saffron">Panchang</p>
-      <h1 className="mt-2 font-serif text-4xl text-ink lg:text-5xl">आज की तिथि</h1>
-      <p className="mt-2 text-lg text-muted">Aaj Ki Tithi · {panchang.gregorianLabel}</p>
+      <Breadcrumbs items={localizedCrumbs(t.homeName, [t.nav.tithi, PATHS.tithi])} />
+      <p className="mt-4 text-xs uppercase tracking-[0.2em] text-saffron">{t.common.panchang}</p>
+      <h1 className="mt-2 font-serif text-4xl text-ink lg:text-5xl">{t.hubs.tithi.h1}</h1>
+      <p className="mt-2 text-lg text-muted">{dateLabel}</p>
 
       <section className="mt-8 overflow-hidden rounded-[32px] bg-white shadow-sm ring-1 ring-line">
         <div className="bg-[#fff4ea] px-6 py-8 text-center sm:px-10">
           <p className={`font-serif text-3xl sm:text-4xl ${pakshaClass(sunriseTithi.paksha)}`}>
-            {masa.nameHi} {paksha.hi} {sunriseTithi.nameHi}
+            {hi
+              ? `${masa.nameHi} ${paksha.hi} ${sunriseTithi.nameHi}`
+              : `${masa.name} ${paksha.en} ${sunriseTithi.name}`}
           </p>
           <p className="mt-2 text-lg text-ink">
-            {masa.name} · {paksha.en} · {sunriseTithi.name}
+            {hi
+              ? `${masa.name} · ${paksha.en} · ${sunriseTithi.name}`
+              : `${masa.nameHi} · ${paksha.hi} · ${sunriseTithi.nameHi}`}
           </p>
           <p className="mt-3 text-sm text-muted">
-            Vikram Samvat {panchang.vikramSamvat}
-            {masa.adhika ? " · Adhika masa" : ""}
+            {t.common.vikramSamvat} {panchang.vikramSamvat}
+            {masa.adhika ? ` · ${t.common.adhikaMasa}` : ""}
           </p>
         </div>
 
         {panchang.observances.length ? (
           <ul className="flex flex-wrap gap-2 border-t border-line px-6 py-4 sm:px-10">
-            {panchang.observances.map((item) => (
-              <li key={item.name}>
-                {item.href ? (
-                  <LocaleLink
-                    href={item.href}
-                    className="inline-flex rounded-full bg-[#fff4ea] px-3 py-1 text-sm text-saffron-deep ring-1 ring-[#f3d2b3]"
-                  >
-                    {item.nameHi ?? item.name}
-                  </LocaleLink>
-                ) : (
-                  <span className="inline-flex rounded-full bg-cream px-3 py-1 text-sm text-ink ring-1 ring-line">
-                    {item.nameHi ?? item.name}
-                  </span>
-                )}
-              </li>
-            ))}
+            {panchang.observances.map((item) => {
+              const label = hi ? (item.nameHi ?? item.name) : item.name;
+              return (
+                <li key={item.name}>
+                  {item.href ? (
+                    <LocaleLink
+                      href={item.href}
+                      className="inline-flex rounded-full bg-[#fff4ea] px-3 py-1 text-sm text-saffron-deep ring-1 ring-[#f3d2b3]"
+                    >
+                      {label}
+                    </LocaleLink>
+                  ) : (
+                    <span className="inline-flex rounded-full bg-cream px-3 py-1 text-sm text-ink ring-1 ring-line">
+                      {label}
+                    </span>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         ) : null}
 
         <dl className="grid gap-px bg-line sm:grid-cols-2">
           {[
             {
-              label: "Tithi (sunrise)",
-              value: `${sunriseTithi.nameHi} · ${sunriseTithi.name}`,
-              note: `${formatIstDateTime(sunriseTithi.start)} → ${formatIstDateTime(sunriseTithi.end)} IST`,
+              label: t.common.tithiSunrise,
+              value: hi
+                ? `${sunriseTithi.nameHi} · ${sunriseTithi.name}`
+                : `${sunriseTithi.name} · ${sunriseTithi.nameHi}`,
+              note: `${dateTime(sunriseTithi.start)} → ${dateTime(sunriseTithi.end)} IST`,
             },
             {
-              label: "Paksha",
-              value: `${paksha.hi} · ${paksha.en}`,
+              label: t.common.paksha,
+              value: hi ? `${paksha.hi} · ${paksha.en}` : `${paksha.en} · ${paksha.hi}`,
             },
             {
-              label: "Masa (Purnimanta)",
-              value: `${masa.nameHi} · ${masa.name}`,
+              label: t.common.masa,
+              value: hi ? `${masa.nameHi} · ${masa.name}` : `${masa.name} · ${masa.nameHi}`,
               note:
                 panchang.masaAmanta.index !== masa.index
-                  ? `Amanta: ${panchang.masaAmanta.nameHi}`
+                  ? `${t.common.amanta}: ${hi ? panchang.masaAmanta.nameHi : panchang.masaAmanta.name}`
                   : undefined,
             },
             {
-              label: "Vara",
-              value: `${panchang.weekdayNameHi} · ${panchang.weekdayName}`,
+              label: t.common.vara,
+              value: hi
+                ? `${panchang.weekdayNameHi} · ${panchang.weekdayName}`
+                : `${panchang.weekdayName} · ${panchang.weekdayNameHi}`,
             },
             {
-              label: "Ritu",
-              value: `${panchang.ritu.nameHi} · ${panchang.ritu.name}`,
+              label: t.common.ritu,
+              value: hi
+                ? `${panchang.ritu.nameHi} · ${panchang.ritu.name}`
+                : `${panchang.ritu.name} · ${panchang.ritu.nameHi}`,
             },
             {
-              label: "Nakshatra",
-              value: `${panchang.nakshatra.name} · pada ${panchang.nakshatra.pada}`,
+              label: t.common.nakshatra,
+              value: `${panchang.nakshatra.name} · ${t.common.pada(panchang.nakshatra.pada)}`,
             },
             {
-              label: "Yoga",
+              label: t.common.yoga,
               value: panchang.yoga.name,
             },
             {
-              label: "Karana",
+              label: t.common.karana,
               value: panchang.karana.name,
             },
             {
-              label: "Sunrise / Sunset",
-              value: `${formatIstTime(panchang.sunrise)} · ${formatIstTime(panchang.sunset)}`,
+              label: t.common.sunriseSunset,
+              value: `${time(panchang.sunrise)} · ${time(panchang.sunset)}`,
               note: panchang.location,
             },
             {
-              label: "Rahu Kaal",
-              value: `${formatIstTime(panchang.rahuKaal.start)} – ${formatIstTime(panchang.rahuKaal.end)}`,
+              label: t.common.rahuKaal,
+              value: `${time(panchang.rahuKaal.start)} – ${time(panchang.rahuKaal.end)}`,
             },
           ].map((row) => (
             <div key={row.label} className="bg-white px-6 py-4 sm:px-8">
@@ -146,40 +163,46 @@ export default function TithiPage() {
 
       {tithiChanged ? (
         <p className="mt-4 rounded-3xl bg-cream px-5 py-4 text-sm text-muted ring-1 ring-line">
-          After sunrise the tithi moved to{" "}
+          {t.common.tithiMoved}{" "}
           <span className="font-medium text-ink">
-            {pakshaLabel(tithiChanged.paksha).hi} {tithiChanged.nameHi}
+            {hi
+              ? `${pakshaLabel(tithiChanged.paksha).hi} ${tithiChanged.nameHi}`
+              : `${pakshaLabel(tithiChanged.paksha).en} ${tithiChanged.name}`}
           </span>{" "}
-          ({tithiChanged.name}). It runs until {formatIstDateTime(tithiChanged.end)} IST.
+          ({hi ? tithiChanged.name : tithiChanged.nameHi}). {t.common.tithiRunsUntil(dateTime(tithiChanged.end))}
         </p>
       ) : (
-        <p className="mt-4 text-sm text-muted">
-          This tithi holds until {formatIstDateTime(sunriseTithi.end)} IST. Times are for Delhi.
-        </p>
+        <p className="mt-4 text-sm text-muted">{t.common.tithiHolds(dateTime(sunriseTithi.end))}</p>
       )}
 
       <section className="mt-10">
-        <h2 className="font-serif text-2xl text-ink">आगे की तिथियाँ</h2>
-        <p className="mt-1 text-sm text-muted">Next days at Delhi sunrise</p>
+        <h2 className="font-serif text-2xl text-ink">{t.common.upcomingTithis}</h2>
+        <p className="mt-1 text-sm text-muted">{t.common.nextDaysSunrise}</p>
         <ol className="mt-4 divide-y divide-line overflow-hidden rounded-[28px] bg-white ring-1 ring-line">
           {panchang.upcoming.map((day) => {
             const dayPaksha = pakshaLabel(day.tithi.paksha);
             return (
               <li key={day.date.toISOString()} className="px-5 py-4 sm:px-6">
                 <p className="text-xs text-muted">
-                  {day.weekdayNameHi} · {formatIstDateTime(day.date).replace(/,.*/, "")}
+                  {hi ? day.weekdayNameHi : day.weekdayName} · {formatIstDate(day.date, locale).replace(/,.*/, "")}
                 </p>
                 <p className="mt-1 font-serif text-lg text-ink">
-                  {day.masaNameHi} {dayPaksha.hi} {day.tithi.nameHi}
+                  {hi
+                    ? `${day.masaNameHi} ${dayPaksha.hi} ${day.tithi.nameHi}`
+                    : `${day.masaName} ${dayPaksha.en} ${day.tithi.name}`}
                 </p>
                 <p className="text-sm text-muted">
-                  {day.masaName} · {dayPaksha.en} · {day.tithi.name}
+                  {hi
+                    ? `${day.masaName} · ${dayPaksha.en} · ${day.tithi.name}`
+                    : `${day.masaNameHi} · ${dayPaksha.hi} · ${day.tithi.nameHi}`}
                   {" · "}
-                  {formatIstTime(day.tithi.start)} – {formatIstTime(day.tithi.end)}
+                  {time(day.tithi.start)} – {time(day.tithi.end)}
                 </p>
                 {day.observances.length ? (
                   <p className="mt-2 text-sm text-saffron-deep">
-                    {day.observances.map((item) => item.nameHi ?? item.name).join(" · ")}
+                    {day.observances
+                      .map((item) => (hi ? (item.nameHi ?? item.name) : item.name))
+                      .join(" · ")}
                   </p>
                 ) : null}
               </li>
@@ -189,13 +212,13 @@ export default function TithiPage() {
       </section>
 
       <p className="mt-8 text-sm text-muted">
-        After you know the tithi, sit.{" "}
+        {t.common.afterTithi}{" "}
         <LocaleLink href="/naam-jaap" className="text-saffron">
-          Start Naam Jaap
+          {t.common.startJaap}
         </LocaleLink>
         {" · "}
         <LocaleLink href={PATHS.festivals} className="text-saffron">
-          Festival notes
+          {t.common.festivalNotes}
         </LocaleLink>
       </p>
 

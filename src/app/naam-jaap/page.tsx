@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import { JaapSidebar } from "@/components/jaap/JaapSidebar";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
+import { FaqList } from "@/components/seo/FaqList";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { hubMetadata } from "@/lib/i18n/hub";
 import { getMessages } from "@/lib/i18n/server";
@@ -36,6 +37,7 @@ export default async function NaamJaapPage() {
         <JaapCounter />
       </div>
       <HubSeoBlock id="naam-jaap" collapsible />
+      <FaqList faqs={[...t.jaap.faqs]} title={t.jaap.faqTitle} />
     </div>
   );
 }

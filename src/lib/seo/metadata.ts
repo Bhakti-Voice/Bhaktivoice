@@ -1,6 +1,7 @@
 import { getLocale } from "@/lib/i18n/server";
 import type { Metadata } from "next";
 import { DEFAULT_LOCALE, stripLocale, withLocale, type Locale } from "@/lib/i18n/config";
+import { hreflangForPath } from "./hreflang";
 import { SITE, absoluteUrl } from "./site";
 
 export type BuildMetaInput = {
@@ -37,8 +38,7 @@ export function buildMetadata({
   const clean = stripLocale(path);
   const localizedPath = withLocale(clean, locale);
   const url = absoluteUrl(localizedPath);
-  const enUrl = absoluteUrl(clean);
-  const hiUrl = absoluteUrl(withLocale(clean, "hi"));
+  const languages = hreflangForPath(clean);
   const imageUrl = image.startsWith("http") ? image : absoluteUrl(image);
 
   return {
@@ -47,11 +47,7 @@ export function buildMetadata({
     keywords,
     alternates: {
       canonical: url,
-      languages: {
-        "en-IN": enUrl,
-        "hi-IN": hiUrl,
-        "x-default": enUrl,
-      },
+      languages,
     },
     robots: noIndex
       ? { index: false, follow: true }
@@ -62,6 +58,7 @@ export function buildMetadata({
       url,
       siteName: SITE.name,
       locale: locale === "hi" ? "hi_IN" : "en_IN",
+      alternateLocale: locale === "hi" ? ["en_IN"] : ["hi_IN"],
       type,
       publishedTime,
       modifiedTime,

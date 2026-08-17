@@ -1,5 +1,6 @@
 import { sitemapEntries } from "@/lib/cms/client";
 import { withLocale } from "@/lib/i18n/config";
+import { hreflangForPath } from "@/lib/seo/hreflang";
 import { PATHS } from "@/lib/seo/paths";
 import { SITE } from "@/lib/seo/site";
 import type { MetadataRoute } from "next";
@@ -29,13 +30,6 @@ const HUBS: { path: string; changeFrequency: MetadataRoute.Sitemap[0]["changeFre
   { path: PATHS.mala, changeFrequency: "monthly", priority: 0.5 },
 ];
 
-function languages(path: string) {
-  const en = `${SITE.url}${path === "/" ? "" : path}`;
-  const hiPath = withLocale(path, "hi");
-  const hi = `${SITE.url}${hiPath}`;
-  return { "en-IN": en, "hi-IN": hi, "x-default": en };
-}
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const today = new Date();
   const seen = new Set<string>();
@@ -47,7 +41,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: MetadataRoute.Sitemap[0]["changeFrequency"],
     priority: number,
   ) {
-    const alts = languages(path);
+    const alts = hreflangForPath(path);
     for (const locale of ["en", "hi"] as const) {
       const localized = withLocale(path, locale);
       const url = `${SITE.url}${localized === "/" ? "" : localized}`;

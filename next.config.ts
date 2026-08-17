@@ -12,6 +12,16 @@ const nextConfig: NextConfig = {
       static: 180,
     },
   },
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.bhaktivoice.com" }],
+        destination: "https://bhaktivoice.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
   images: {
     // Vercel Services has no /_next/image optimizer (it 404s). Serve public files directly.
     unoptimized: true,

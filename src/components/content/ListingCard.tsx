@@ -25,7 +25,7 @@ export function ListingCard({
         compact ? "rounded-2xl" : "rounded-3xl"
       }`}
     >
-      <div className={`relative bg-sand ${compact ? "aspect-[16/11]" : "aspect-[16/10]"}`}>
+      <div className={`relative bg-sand ${compact ? "aspect-[2/1]" : "aspect-[16/10]"}`}>
         {image ? (
           <MediaImage
             src={image}
@@ -40,14 +40,14 @@ export function ListingCard({
           />
         ) : null}
       </div>
-      <div className={compact ? "p-3 sm:p-4" : "p-5"}>
+      <div className={compact ? "p-2.5 sm:p-3" : "p-5"}>
         {meta ? (
           <p className="text-[11px] uppercase tracking-wide text-saffron">{meta}</p>
         ) : null}
-        <h2 className={`mt-1 font-serif text-ink ${compact ? "text-base leading-snug sm:text-lg" : "text-xl"}`}>
+        <h2 className={`mt-1 font-serif text-ink ${compact ? "line-clamp-2 text-sm leading-snug sm:text-base" : "text-xl"}`}>
           {title}
         </h2>
-        <p className={`mt-2 leading-relaxed text-muted ${compact ? "line-clamp-2 text-xs sm:text-sm" : "line-clamp-2 text-sm"}`}>
+        <p className={`mt-1.5 leading-relaxed text-muted ${compact ? "line-clamp-1 text-xs" : "line-clamp-2 text-sm"}`}>
           {text}
         </p>
       </div>

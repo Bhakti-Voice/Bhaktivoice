@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { AuthProvider } from "@/lib/auth/AuthProvider";
+import { HreflangLinks } from "@/components/seo/HreflangLinks";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { LocaleRefresh } from "@/components/i18n/LocaleRefresh";
 import { OpenDetailsOnHash } from "@/components/seo/OpenDetailsOnHash";
@@ -69,6 +70,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const t = await getMessages();
   return (
     <html lang={t.htmlLang}>
+      <HreflangLinks />
       <body className={`${playfair.variable} ${inter.variable} ${devanagari.variable} bg-ivory text-ink antialiased`}>
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
         <OpenDetailsOnHash />

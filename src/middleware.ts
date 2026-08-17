@@ -6,10 +6,20 @@ function isHindiPath(pathname: string) {
 }
 
 export function middleware(request: NextRequest) {
+  const hostname = request.nextUrl.hostname.toLowerCase();
+  if (hostname === "www.bhaktivoice.com") {
+    const url = request.nextUrl.clone();
+    url.hostname = "bhaktivoice.com";
+    url.protocol = "https:";
+    url.port = "";
+    return NextResponse.redirect(url, 301);
+  }
+
   const { pathname } = request.nextUrl;
   const locale = isHindiPath(pathname) ? "hi" : "en";
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-locale", locale);
+  requestHeaders.set("x-pathname", pathname);
 
   if (isHindiPath(pathname)) {
     const stripped = pathname === "/hi" ? "/" : pathname.slice(3) || "/";

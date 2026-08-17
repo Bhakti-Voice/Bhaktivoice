@@ -148,7 +148,7 @@ export const messages = {
         title: "Aaj Ki Tithi — Hindu Panchang for Delhi",
         description:
           "Today's tithi, paksha, masa, nakshatra and Rahu Kaal, calculated for Delhi from the Moon and the Sun. No copied almanac — the sky is the source.",
-        h1: "आज की तिथि",
+        h1: "Aaj Ki Tithi",
       },
       bhajan: {
         title: "Bhajan — Devotional Songs for Daily Listening",
@@ -228,11 +228,15 @@ export const messages = {
       karana: "Karana",
       sunriseSunset: "Sunrise / Sunset",
       rahuKaal: "Rahu Kaal",
-      upcomingTithis: "आगे की तिथियाँ",
+      upcomingTithis: "Upcoming tithis",
       nextDaysSunrise: "Next days at Delhi sunrise",
       tithiHolds: (until: string) => `This tithi holds until ${until} IST. Times are for Delhi.`,
       tithiMoved: "After sunrise the tithi moved to",
+      tithiRunsUntil: (until: string) => `It runs until ${until} IST.`,
       adhikaMasa: "Adhika masa",
+      vikramSamvat: "Vikram Samvat",
+      amanta: "Amanta",
+      pada: (n: number) => `pada ${n}`,
       cartTitle: "Your Cart",
       cartH1: "Your cart is a quiet tray",
       cartBody:
@@ -281,6 +285,44 @@ export const messages = {
       quickActions: "Quick Actions",
       mute: "Mute Bhakti Voice",
       play: "Play Bhakti Voice",
+      faqTitle: "Frequently asked questions",
+      faqs: [
+        {
+          question: "What is Naam Jaap?",
+          answer:
+            "Naam Jaap is the quiet repetition of a divine name — Ram, Radhe, Krishna, Shiva, or another mantra you hold. The count is only a support. The sitting is the practice.",
+        },
+        {
+          question: "How do I use this jaap counter?",
+          answer:
+            "Choose a mantra, then tap the circle once for each name. A mala is 108. Today's total, mala count, and streak stay on this device so you can return tomorrow without hurry.",
+        },
+        {
+          question: "Do I need a physical mala?",
+          answer:
+            "No. A tulsi or rudraksha mala is a beautiful companion, but the name does not wait for beads. This counter is for days when the mala is in another room, or the hands are full.",
+        },
+        {
+          question: "Which mantra should I chant?",
+          answer:
+            "The one your heart already knows. Radhe Radhe, Ram Naam, Hare Krishna, Om Namah Shivaya, and others are here as a start. If a guru has given you a mantra, use that — this page will still keep the count.",
+        },
+        {
+          question: "Do I need to sign in?",
+          answer:
+            "You can sit as a guest. Sign in if you want the count, streak, and sankalp to follow you on another phone. The jaap itself does not require an account.",
+        },
+        {
+          question: "What if I miss a day?",
+          answer:
+            "Begin again. A missed day is not a broken vow unless you made it one. Sit for eleven names if a mala feels far. The door stays open.",
+        },
+        {
+          question: "Can I chant aloud or only in silence?",
+          answer:
+            "Both are naam jaap. Whisper, speak, or keep the name in the mind. On a computer you may also play a soft voice while you count; phones keep the sitting quiet so the tap stays easy.",
+        },
+      ],
     },
     emptyLabels: {
       katha: "katha series",
@@ -537,7 +579,11 @@ export const messages = {
       nextDaysSunrise: "दिल्ली सूर्योदय पर आने वाले दिन",
       tithiHolds: (until: string) => `यह तिथि ${until} IST तक रहेगी। समय दिल्ली के हैं।`,
       tithiMoved: "सूर्योदय के बाद तिथि बदलकर",
+      tithiRunsUntil: (until: string) => `यह ${until} IST तक रहेगी।`,
       adhikaMasa: "अधिक मास",
+      vikramSamvat: "विक्रम संवत",
+      amanta: "अमान्त",
+      pada: (n: number) => `पाद ${n}`,
       cartTitle: "आपकी टोकरी",
       cartH1: "आपकी टोकरी एक शांत थाली है",
       cartBody:
@@ -586,6 +632,44 @@ export const messages = {
       quickActions: "त्वरित क्रियाएँ",
       mute: "भक्ति वॉइस मौन करें",
       play: "भक्ति वॉइस चलाएँ",
+      faqTitle: "अक्सर पूछे जाने वाले प्रश्न",
+      faqs: [
+        {
+          question: "नाम जप क्या है?",
+          answer:
+            "नाम जप ईश्वर के नाम का शांत दोहराव है — राम, राधे, कृष्ण, शिव, या जो मंत्र आप धारण करते हैं। गिनती केवल सहारा है। बैठना ही साधना है।",
+        },
+        {
+          question: "इस जप काउंटर का उपयोग कैसे करें?",
+          answer:
+            "मंत्र चुनें, फिर प्रत्येक नाम पर वृत्त को एक बार स्पर्श करें। एक माला १०८ है। आज का योग, माला और श्रृंखला इसी उपकरण पर रहती है, ताकि कल बिना जल्दबाजी लौट सकें।",
+        },
+        {
+          question: "क्या भौतिक माला आवश्यक है?",
+          answer:
+            "नहीं। तुलसी या रुद्राक्ष माला सुंदर साथी है, पर नाम मनकों की प्रतीक्षा नहीं करता। यह काउंटर उन दिनों के लिए है जब माला दूसरे कमरे में हो, या हाथ भरे हों।",
+        },
+        {
+          question: "कौन सा मंत्र जपूँ?",
+          answer:
+            "जो हृदय पहले से जानता है। राधे राधे, राम नाम, हरे कृष्ण, ॐ नमः शिवाय यहाँ आरंभ के लिए हैं। यदि गुरु ने मंत्र दिया है, वही जपें — यह पृष्ठ गिनती रखेगा।",
+        },
+        {
+          question: "क्या साइन इन ज़रूरी है?",
+          answer:
+            "अतिथि की तरह बैठ सकते हैं। साइन इन तब करें जब गिनती, श्रृंखला और संकल्प दूसरे फ़ोन पर भी साथ चलें। जप के लिए खाता अनिवार्य नहीं।",
+        },
+        {
+          question: "यदि एक दिन छूट जाए तो?",
+          answer:
+            "फिर बैठ जाएँ। छूटा दिन टूटा व्रत नहीं, जब तक आप उसे ऐसा न बनाएँ। माला दूर लगे तो ग्यारह नाम पर्याप्त हैं। द्वार खुला रहता है।",
+        },
+        {
+          question: "क्या ज़ोर से जप करें या मौन?",
+          answer:
+            "दोनों नाम जप हैं। फुसफुसाहट, वाणी, या मन में नाम। कंप्यूटर पर गिनती के साथ धीमी आवाज़ भी चल सकती है; फ़ोन पर बैठक शांत रहती है ताकि स्पर्श सरल रहे।",
+        },
+      ],
     },
     emptyLabels: {
       katha: "कथा श्रृंखला",

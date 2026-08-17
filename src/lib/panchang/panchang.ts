@@ -209,8 +209,8 @@ export function getPanchang(now = new Date(), upcomingDays = 7): DayPanchang {
   return { ...today, upcoming };
 }
 
-export function formatIstTime(date: Date): string {
-  return new Intl.DateTimeFormat("en-IN", {
+export function formatIstTime(date: Date, locale: string = "en"): string {
+  return new Intl.DateTimeFormat(locale === "hi" ? "hi-IN" : "en-IN", {
     timeZone: DELHI.timeZone,
     hour: "numeric",
     minute: "2-digit",
@@ -218,14 +218,24 @@ export function formatIstTime(date: Date): string {
   }).format(date);
 }
 
-export function formatIstDateTime(date: Date): string {
-  return new Intl.DateTimeFormat("en-IN", {
+export function formatIstDateTime(date: Date, locale: string = "en"): string {
+  return new Intl.DateTimeFormat(locale === "hi" ? "hi-IN" : "en-IN", {
     timeZone: DELHI.timeZone,
     day: "numeric",
     month: "short",
     hour: "numeric",
     minute: "2-digit",
     hour12: true,
+  }).format(date);
+}
+
+export function formatIstDate(date: Date, locale: string = "en"): string {
+  return new Intl.DateTimeFormat(locale === "hi" ? "hi-IN" : "en-IN", {
+    timeZone: DELHI.timeZone,
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
   }).format(date);
 }
 

@@ -34,7 +34,7 @@ Copy `.env.example` to `.env.local`.
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
-Use your HTTPS production host for canonical URLs, Open Graph, and sitemaps.
+Use `https://bhaktivoice.com` in production (`NEXT_PUBLIC_SITE_URL` and `SITE_ORIGIN`). Do not use `www`.
 
 ### Firebase Google login
 
@@ -49,7 +49,7 @@ NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
 NEXT_PUBLIC_FIREBASE_APP_ID=
 ```
 
-Add `http://localhost:3000` to authorized domains.
+Add `http://localhost:3000` and `bhaktivoice.com` to Firebase authorized domains.
 
 ### Turso
 

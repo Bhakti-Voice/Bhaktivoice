@@ -12,7 +12,7 @@ export type ContentKind =
   | "bhajan"
   | "aarti";
 
-const PRODUCTION_ORIGIN = "https://bhaktivoice.vercel.app";
+const PRODUCTION_ORIGIN = "https://bhaktivoice.com";
 
 function hostnameOf(value: string) {
   try {
@@ -29,7 +29,7 @@ function isLoopback(value: string) {
 function isProtectedVercelUrl(value: string) {
   const host = hostnameOf(value);
   if (!host.endsWith(".vercel.app")) return false;
-  return host !== "bhaktivoice.vercel.app" && host !== "www.bhaktivoice.vercel.app";
+  return host !== "bhaktivoice.vercel.app" && host !== "www.bhaktivoice.vercel.app" && host !== "bhaktivoice.com";
 }
 
 function withBackendPrefix(origin: string) {

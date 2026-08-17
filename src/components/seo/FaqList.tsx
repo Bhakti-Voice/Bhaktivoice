@@ -3,13 +3,21 @@ import type { Faq } from "@/lib/content/types";
 import { faqSchema } from "@/lib/seo/schema";
 import { JsonLd } from "./JsonLd";
 
-export function FaqList({ faqs, className }: { faqs: Faq[]; className?: string }) {
+export function FaqList({
+  faqs,
+  className,
+  title = "Frequently asked questions",
+}: {
+  faqs: Faq[];
+  className?: string;
+  title?: string;
+}) {
   if (!faqs.length) return null;
   return (
     <section className={className ?? "mt-10"} aria-labelledby="faq-heading">
       <JsonLd data={faqSchema(faqs)} />
       <h2 id="faq-heading" className="font-serif text-lg text-ink">
-        Frequently asked questions
+        {title}
       </h2>
       <div className="mt-3 space-y-2">
         {faqs.map((faq) => (
