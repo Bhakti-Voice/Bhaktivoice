@@ -54,16 +54,16 @@ export default async function BlogPagedPage({ params }: Props) {
           Back to page 1
         </Link>
       </p>
-      <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
-        <BlogCategoryChips posts={posts} />
-        <aside className="h-fit lg:sticky lg:top-24">
-          <ContextualCta
-            title="Start 108 Naam Jaap"
-            body="Let the next sitting be shorter than the article you just finished."
-            href="/naam-jaap"
-            label="Start Jaap"
-          />
-        </aside>
+      <div className="mt-8">
+        <BlogCategoryChips key={posts.map((post) => post.title).join("|")} posts={posts} />
+      </div>
+      <div className="mt-10">
+        <ContextualCta
+          title="Start 108 Naam Jaap"
+          body="Let the next sitting be shorter than the article you just finished."
+          href="/naam-jaap"
+          label="Start Jaap"
+        />
       </div>
       <HubSeoBlock id="blog" />
     </div>

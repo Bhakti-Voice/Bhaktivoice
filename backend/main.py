@@ -237,6 +237,9 @@ def get_content(kind: str, slug: str, locale: str = "en"):
         raise HTTPException(status_code=404)
     item = published(kind, slug, locale=normalize_locale(locale))
     if not item:
+        # Hub SEO is optional per page; missing copy should not 404 the public UI.
+        if kind == "hub_seo":
+            return {}
         raise HTTPException(status_code=404, detail="Not found")
     return item
 

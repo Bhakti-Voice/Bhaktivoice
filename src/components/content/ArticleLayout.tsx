@@ -63,7 +63,7 @@ export function ArticleLayout({
       <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="min-w-0">
           {lead}
-          <ExpandableSection title="Read this page" className={lead ? "mt-3" : "mt-0"}>
+          <ExpandableSection title="Read this page" className={lead ? "mt-3" : "mt-0"} collapsible={false}>
             <p className="max-w-3xl text-lg leading-relaxed text-muted">{page.introduction}</p>
             <div className="mt-6">{children}</div>
           </ExpandableSection>

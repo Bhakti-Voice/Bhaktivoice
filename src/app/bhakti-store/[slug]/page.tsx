@@ -72,7 +72,7 @@ export default async function ProductDetailPage({ params }: Props) {
           <div className="mt-6">
             <AddToCartButton slug={page.slug} name={page.name} />
           </div>
-          <ExpandableSection title="About this item" className="mt-6">
+          <ExpandableSection title="About this item" className="mt-6" collapsible={false}>
             <p className="leading-relaxed text-muted">{page.introduction}</p>
             <p className="mt-4 text-sm leading-relaxed text-muted">{page.description}</p>
           </ExpandableSection>

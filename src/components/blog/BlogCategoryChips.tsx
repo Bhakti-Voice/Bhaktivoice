@@ -29,7 +29,7 @@ export function BlogCategoryChips({ posts }: { posts: BlogPost[] }) {
           </button>
         ))}
       </div>
-      <div className="mt-8 grid gap-6">
+      <div className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-3">
         {visible.map((post) => (
           <ListingCard
             key={post.slug}
@@ -39,6 +39,7 @@ export function BlogCategoryChips({ posts }: { posts: BlogPost[] }) {
             image={post.heroImage}
             imageAlt={post.heroImageAlt}
             meta={`${post.category} · ${post.readingTime}`}
+            compact
           />
         ))}
       </div>

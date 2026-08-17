@@ -36,45 +36,43 @@ export default async function BlogIndexPage() {
       />
       <Breadcrumbs items={localizedCrumbs(t.homeName, [t.nav.blog, PATHS.blog])} />
       <h1 className="mt-4 font-serif text-4xl text-ink lg:text-5xl">{t.hubs.blog.h1}</h1>
-
-      <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
-        <div>
-          {posts.length ? <BlogCategoryChips posts={posts} /> : <EmptyListing kind="blog" />}
-          {pages > 1 ? (
-            <p className="mt-8 text-sm text-muted">
-              {t.common.pageOf(1, pages)} ·{" "}
-              <LocaleLink href={`${PATHS.blog}/page/2`} className="text-saffron">
-                {t.common.next}
-              </LocaleLink>
-            </p>
-          ) : null}
+      {tags.length ? (
+        <div className="mt-5 flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <span key={tag} className="rounded-full bg-cream px-3 py-1 text-xs text-muted">
+              {tag}
+            </span>
+          ))}
         </div>
-        <aside className="h-fit space-y-4 lg:sticky lg:top-24">
-          <div className="rounded-[28px] bg-white p-6 shadow-sm ring-1 ring-line">
-            <h2 className="font-serif text-xl text-ink">{t.common.tags}</h2>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {tags.length ? (
-                tags.map((tag) => (
-                  <span key={tag} className="rounded-full bg-cream px-3 py-1 text-xs text-muted">
-                    {tag}
-                  </span>
-                ))
-              ) : (
-                <p className="text-sm text-muted">{t.common.noTags}</p>
-              )}
-            </div>
-          </div>
-          <div className="rounded-[28px] bg-cream p-6 ring-1 ring-line">
-            <h2 className="font-serif text-xl text-ink">{t.common.followJourney}</h2>
-            <p className="mt-2 text-sm text-muted">{t.common.followJourneyBody}</p>
-          </div>
-          <ContextualCta
-            title={t.common.blogCtaTitle}
-            body={t.common.blogCtaBody}
-            href="/naam-jaap"
-            label={t.common.blogCtaLabel}
-          />
-        </aside>
+      ) : null}
+
+      <div className="mt-8">
+        {posts.length ? (
+          <BlogCategoryChips key={posts.map((post) => post.title).join("|")} posts={posts} />
+        ) : (
+          <EmptyListing kind="blog" />
+        )}
+        {pages > 1 ? (
+          <p className="mt-8 text-sm text-muted">
+            {t.common.pageOf(1, pages)} ·{" "}
+            <LocaleLink href={`${PATHS.blog}/page/2`} className="text-saffron">
+              {t.common.next}
+            </LocaleLink>
+          </p>
+        ) : null}
+      </div>
+
+      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="rounded-2xl bg-cream p-5 ring-1 ring-line">
+          <h2 className="font-serif text-xl text-ink">{t.common.followJourney}</h2>
+          <p className="mt-2 text-sm text-muted">{t.common.followJourneyBody}</p>
+        </div>
+        <ContextualCta
+          title={t.common.blogCtaTitle}
+          body={t.common.blogCtaBody}
+          href="/naam-jaap"
+          label={t.common.blogCtaLabel}
+        />
       </div>
       <HubSeoBlock id="blog" />
     </div>

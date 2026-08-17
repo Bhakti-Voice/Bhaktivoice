@@ -35,7 +35,7 @@ export default async function NaamJaapPage() {
         <JaapSidebar />
         <JaapCounter />
       </div>
-      <HubSeoBlock id="naam-jaap" />
+      <HubSeoBlock id="naam-jaap" collapsible />
     </div>
   );
 }

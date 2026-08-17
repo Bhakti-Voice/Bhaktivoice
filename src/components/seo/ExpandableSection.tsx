@@ -6,12 +6,23 @@ export function ExpandableSection({
   children,
   className = "",
   id,
+  collapsible = true,
 }: {
   title: string;
   children: ReactNode;
   className?: string;
   id?: string;
+  collapsible?: boolean;
 }) {
+  if (!collapsible) {
+    return (
+      <section id={id} className={`mt-3 scroll-mt-24 ${className}`}>
+        <h2 className="font-serif text-2xl text-ink">{title}</h2>
+        <div className="mt-4">{children}</div>
+      </section>
+    );
+  }
+
   return (
     <details
       id={id}

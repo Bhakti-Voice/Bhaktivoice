@@ -42,7 +42,7 @@ export function KathaSeriesView({ series }: { series: KathaSeries }) {
             </span>
           </div>
 
-          <ExpandableSection title="Overview" className="mt-8">
+          <ExpandableSection title="Overview" className="mt-8" collapsible={false}>
             <div className="space-y-4 text-base leading-relaxed text-ink">
               <p>{series.introduction}</p>
               {first ? (
@@ -58,7 +58,7 @@ export function KathaSeriesView({ series }: { series: KathaSeries }) {
             </div>
           </ExpandableSection>
 
-          <ExpandableSection title="Episodes" id="episodes">
+          <ExpandableSection title="Episodes" id="episodes" collapsible={false}>
             <ol className="space-y-3">
               {(series.episodes ?? []).map((episode) => (
                 <li

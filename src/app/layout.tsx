@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { AuthProvider } from "@/lib/auth/AuthProvider";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { LocaleRefresh } from "@/components/i18n/LocaleRefresh";
 import { OpenDetailsOnHash } from "@/components/seo/OpenDetailsOnHash";
 import { organizationSchema, websiteSchema } from "@/lib/seo/schema";
 import { SITE, absoluteUrl } from "@/lib/seo/site";
@@ -71,6 +72,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className={`${playfair.variable} ${inter.variable} ${devanagari.variable} bg-ivory text-ink antialiased`}>
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
         <OpenDetailsOnHash />
+        <LocaleRefresh />
         <AuthProvider>
           <Header />
           <main className="min-h-[70vh]">{children}</main>

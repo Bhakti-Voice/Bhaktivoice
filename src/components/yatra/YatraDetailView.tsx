@@ -57,7 +57,7 @@ export function YatraDetailView({ page }: { page: YatraPage }) {
 
       <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
         <div>
-          <ExpandableSection title="Overview" className="mt-0">
+          <ExpandableSection title="Overview" className="mt-0" collapsible={false}>
             <div className="space-y-6 text-base leading-relaxed text-ink">
               <p>{page.introduction}</p>
               <section>
@@ -71,7 +71,7 @@ export function YatraDetailView({ page }: { page: YatraPage }) {
             </div>
           </ExpandableSection>
 
-          <ExpandableSection title="Places">
+          <ExpandableSection title="Places" collapsible={false}>
             <ul className="space-y-3">
               {(page.places ?? []).map((place) => (
                 <li key={place.name} className="rounded-3xl bg-cream p-5 ring-1 ring-line">
@@ -82,7 +82,7 @@ export function YatraDetailView({ page }: { page: YatraPage }) {
             </ul>
           </ExpandableSection>
 
-          <ExpandableSection title="Itinerary">
+          <ExpandableSection title="Itinerary" collapsible={false}>
             <ol className="space-y-3">
               {(page.itinerary ?? []).map((item) => (
                 <li key={item.day} className="rounded-3xl bg-cream p-5 ring-1 ring-line">
@@ -93,7 +93,7 @@ export function YatraDetailView({ page }: { page: YatraPage }) {
             </ol>
           </ExpandableSection>
 
-          <ExpandableSection title="Travel">
+          <ExpandableSection title="Travel" collapsible={false}>
             <div className="space-y-5 text-sm leading-relaxed text-muted">
               <p>
                 <strong className="text-ink">How to reach. </strong>
@@ -114,7 +114,7 @@ export function YatraDetailView({ page }: { page: YatraPage }) {
             </div>
           </ExpandableSection>
 
-          <ExpandableSection title="Tips">
+          <ExpandableSection title="Tips" collapsible={false}>
             <ul className="space-y-3">
               {(page.tips ?? []).map((tip) => (
                 <li key={tip} className="rounded-3xl bg-cream p-5 text-sm text-ink">

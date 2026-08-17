@@ -131,7 +131,7 @@ export default async function HomePage() {
         <HomeChantBanner locale={locale} t={t} />
       </Suspense>
       <div className="mx-auto max-w-7xl px-4 pb-16 lg:px-8">
-        <HubSeoBlock id="home" />
+        <HubSeoBlock id="home" collapsible />
       </div>
     </div>
   );

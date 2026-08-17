@@ -5,7 +5,6 @@ import { notFound } from "next/navigation";
 import { BlogShare } from "@/components/blog/BlogShare";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { ContextualCta } from "@/components/seo/ContextualCta";
-import { ExpandableSection } from "@/components/seo/ExpandableSection";
 import { FaqList } from "@/components/seo/FaqList";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { RelatedContent } from "@/components/seo/RelatedContent";
@@ -57,27 +56,31 @@ export default async function BlogPostPage({ params }: Props) {
         })}
       />
       <Breadcrumbs items={page.breadcrumbs} />
-      <p className="mt-4 text-xs uppercase tracking-[0.2em] text-saffron">{page.category}</p>
-      <h1 className="mt-2 max-w-4xl font-serif text-4xl text-ink lg:text-5xl">{page.h1}</h1>
-      <p className="mt-4 text-sm text-muted">
-        {page.author} · {page.readingTime} · Updated {page.updatedAt}
-      </p>
-      <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-[32px] bg-sand">
+      <div className="mt-6 grid items-start gap-5 sm:grid-cols-[minmax(0,1fr)_220px] lg:grid-cols-[minmax(0,1fr)_260px] lg:gap-8">
+        <div>
+          <p className="text-xs uppercase tracking-[0.2em] text-saffron">{page.category}</p>
+          <h1 className="mt-2 font-serif text-3xl leading-tight text-ink lg:text-4xl">{page.h1}</h1>
+          <p className="mt-3 text-sm text-muted">
+            {page.author} · {page.readingTime} · Updated {page.updatedAt}
+          </p>
+        </div>
         {page.heroImage ? (
-          <MediaImage
-            src={page.heroImage}
-            alt={page.heroImageAlt}
-            fill
-            priority
-            className="object-cover"
-            sizes="(max-width: 1280px) 100vw, 1200px"
-          />
+          <div className="relative aspect-[4/3] w-full max-w-[260px] overflow-hidden rounded-2xl bg-sand sm:max-w-none">
+            <MediaImage
+              src={page.heroImage}
+              alt={page.heroImageAlt}
+              fill
+              priority
+              className="object-cover"
+              sizes="260px"
+            />
+          </div>
         ) : null}
       </div>
 
-      <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
+      <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
         <div>
-          <ExpandableSection title="Read this guide">
+          <div>
             <p className="max-w-3xl text-lg leading-relaxed text-muted">{page.introduction}</p>
             {toc.length ? (
               <nav className="mt-6 rounded-3xl bg-cream p-5 text-sm ring-1 ring-line">
@@ -109,7 +112,7 @@ export default async function BlogPostPage({ params }: Props) {
                 ))}
               </section>
             ))}
-          </ExpandableSection>
+          </div>
           <FaqList faqs={page.faqs} />
           <RelatedContent links={related} />
         </div>

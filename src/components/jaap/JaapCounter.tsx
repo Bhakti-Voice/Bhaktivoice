@@ -290,7 +290,7 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
           <div
             data-jaap-ignore
             onClick={(event) => event.stopPropagation()}
-            className="absolute top-4 left-4 z-20 flex items-center gap-2 rounded-full bg-[#fff4ea] py-1.5 pr-3 pl-1.5 shadow-sm ring-1 ring-[#f3d2b3]"
+            className="absolute top-4 left-4 z-20 hidden items-center gap-2 rounded-full bg-[#fff4ea] py-1.5 pr-3 pl-1.5 shadow-sm ring-1 ring-[#f3d2b3] md:flex"
           >
             <button
               type="button"

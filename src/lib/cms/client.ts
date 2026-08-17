@@ -106,6 +106,9 @@ async function cmsGet<T>(path: string, fallback: T): Promise<T> {
       next: { revalidate: 30 },
       signal: AbortSignal.timeout(12000),
     });
+    if (response.status === 404) {
+      return fallback;
+    }
     if (!response.ok) {
       console.error(`CMS ${response.status} ${url}`);
       return fallback;
