@@ -120,6 +120,8 @@ def json_to_data(kind_key: str, payload: dict[str, Any]) -> dict[str, Any]:
     spec = KINDS[kind_key]
     form: dict[str, str] = {}
     keep: dict[str, Any] = {}
+    known = {item.name for item in spec.fields}
+    extra = {key: value for key, value in payload.items() if key not in known}
     for item in spec.fields:
         if item.name not in payload:
             form[item.name] = ""
@@ -132,6 +134,7 @@ def json_to_data(kind_key: str, payload: dict[str, Any]) -> dict[str, Any]:
             form[item.name] = "" if value is None else str(value)
     data = form_to_data(spec, form)
     data.update(keep)
+    data.update(extra)
     return data
 
 

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}JSON · {{ kind.label }}{% endblock %}
+{% block content %}
+  <p><a href="/admin/{{ kind.key }}">← {{ kind.plural }}</a></p>
+  <h1>Edit JSON</h1>
+  <p class="muted">This is the live row. Change the JSON and save — it writes back to the same id, not a new entry.</p>
+  <form class="card" method="post" action="/admin/{{ kind.key }}/{{ item_id }}/json" style="margin-top: 1rem;" id="json-edit-form" accept-charset="UTF-8">
+    <label>JSON
+      <textarea class="json" name="json_text" id="json-text" rows="28">{{ json_text }}</textarea>
+    </label>
+    <p class="hint">Keep <code>id</code> and <code>kind</code> as they are. Edit <code>slug</code>, <code>status</code>, <code>title</code>, and <code>data</code>.</p>
+    <p style="margin-top: 1.2rem;" class="row">
+      <button class="btn" type="submit">Save JSON</button>
+      <button class="btn ghost" type="button" id="copy-json">Copy JSON</button>
+      <a class="btn ghost" href="/admin/{{ kind.key }}/{{ item_id }}/edit">Form</a>
+    </p>
+  </form>
+  <script>
+    const textarea = document.getElementById("json-text");
+    const copyBtn = document.getElementById("copy-json");
+    copyBtn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(textarea.value);
+        copyBtn.textContent = "Copied";
+        setTimeout(() => { copyBtn.textContent = "Copy JSON"; }, 1400);
+      } catch {
+        textarea.select();
+      }
+    });
+  </script>
+{% endblock %}

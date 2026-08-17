@@ -39,8 +39,11 @@
     {% else %}
       <p class="hint">Leave blank and we build a long slug from the title — not a one-word URL.</p>
     {% endif %}
-    <p style="margin-top: 1.4rem;">
+    <p style="margin-top: 1.4rem;" class="row">
       <button class="btn" type="submit">Save to Turso</button>
+      {% if item_id %}
+        <a class="btn ghost" href="/admin/{{ kind.key }}/{{ item_id }}/json">Edit JSON</a>
+      {% endif %}
     </p>
   </form>
   <script>

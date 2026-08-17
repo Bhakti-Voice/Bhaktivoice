@@ -29,7 +29,7 @@ from kinds import (
     public_simple,
     today,
 )
-from json_import import kind_placeholders
+from json_import import coerce_entry, kind_placeholders, parse_json_text
 from store import save_entry
 
 ROOT = Path(__file__).resolve().parent
@@ -496,6 +496,21 @@ def dashboard(request: Request):
     return templates.TemplateResponse("dashboard.html", admin_context(request))
 
 
+def dump_entry_json(row: dict) -> str:
+    return json.dumps(
+        {
+            "id": row.get("id"),
+            "kind": row.get("kind"),
+            "slug": row.get("slug") or "",
+            "status": row.get("status") or "published",
+            "title": row.get("title") or "",
+            "data": parse_data(row.get("data")),
+        },
+        ensure_ascii=False,
+        indent=2,
+    )
+
+
 def json_page_context(request: Request, kind: str = "", json_text: str = "", **extra):
     selected = kind if kind in KINDS else next(iter(KINDS))
     placeholders = kind_placeholders()
@@ -691,6 +706,67 @@ async def admin_save(request: Request, kind: str):
             status_code=400,
         )
     return RedirectResponse(f"/admin/{kind}?notice=Saved", status_code=302)
+
+
+@app.get("/admin/{kind}/{item_id}/json", response_class=HTMLResponse)
+def admin_edit_json(request: Request, kind: str, item_id: int):
+    if not request.session.get("admin"):
+        return RedirectResponse("/admin/login", status_code=302)
+    if kind not in KINDS:
+        raise HTTPException(status_code=404)
+    spec = KINDS[kind]
+    row = db().fetchone("SELECT * FROM cms_entries WHERE id = ? AND kind = ?", [item_id, kind])
+    if not row:
+        raise HTTPException(status_code=404)
+    return templates.TemplateResponse(
+        "json_edit.html",
+        admin_context(
+            request,
+            kind=spec,
+            item_id=item_id,
+            json_text=dump_entry_json(row),
+        ),
+    )
+
+
+@app.post("/admin/{kind}/{item_id}/json")
+async def admin_save_json(request: Request, kind: str, item_id: int, json_text: str = Form("")):
+    require_admin(request)
+    if kind not in KINDS:
+        raise HTTPException(status_code=404)
+    spec = KINDS[kind]
+    row = db().fetchone("SELECT * FROM cms_entries WHERE id = ? AND kind = ?", [item_id, kind])
+    if not row:
+        raise HTTPException(status_code=404)
+
+    def render_json_error(message: str, text: str):
+        return templates.TemplateResponse(
+            "json_edit.html",
+            admin_context(request, kind=spec, item_id=item_id, json_text=text, error=message),
+            status_code=400,
+        )
+
+    try:
+        payload = parse_json_text(json_text)
+        if isinstance(payload, list):
+            if len(payload) != 1 or not isinstance(payload[0], dict):
+                raise ValueError("Paste one JSON object for this row, not a list.")
+            payload = payload[0]
+        if not isinstance(payload, dict):
+            raise ValueError("JSON must be one object.")
+        entry = coerce_entry(payload, kind)
+        if entry["kind"] != kind:
+            raise ValueError(f"Keep kind as {kind!r} for this row.")
+        save_entry(
+            kind,
+            entry["data"],
+            slug=entry["slug"],
+            status=entry["status"],
+            item_id=item_id,
+        )
+    except Exception as error:
+        return render_json_error(str(error), json_text)
+    return RedirectResponse(f"/admin/{kind}/{item_id}/json?notice=Saved", status_code=302)
 
 
 @app.post("/admin/{kind}/{item_id}/delete")

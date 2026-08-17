@@ -28,6 +28,7 @@
               <td>{{ row.status }}</td>
               <td class="row">
                 <a class="btn ghost" href="/admin/{{ kind.key }}/{{ row.id }}/edit">Edit</a>
+                <a class="btn ghost" href="/admin/{{ kind.key }}/{{ row.id }}/json">Edit JSON</a>
                 <form method="post" action="/admin/{{ kind.key }}/{{ row.id }}/delete" onsubmit="return confirm('Delete this entry?');">
                   <button class="btn danger" type="submit">Delete</button>
                 </form>
