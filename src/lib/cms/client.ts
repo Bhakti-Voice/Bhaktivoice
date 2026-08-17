@@ -12,19 +12,55 @@ export type ContentKind =
   | "bhajan"
   | "aarti";
 
+const PRODUCTION_ORIGIN = "https://bhaktivoice.vercel.app";
+
+function hostnameOf(value: string) {
+  try {
+    return new URL(value.includes("://") ? value : `https://${value}`).hostname.toLowerCase();
+  } catch {
+    return "";
+  }
+}
+
+function isLoopback(value: string) {
+  return /localhost|127\.0\.0\.1|\[::1\]/i.test(value);
+}
+
+function isProtectedVercelUrl(value: string) {
+  const host = hostnameOf(value);
+  if (!host.endsWith(".vercel.app")) return false;
+  return host !== "bhaktivoice.vercel.app" && host !== "www.bhaktivoice.vercel.app";
+}
+
+function withBackendPrefix(origin: string) {
+  const base = origin.replace(/\/$/, "");
+  return base.endsWith("/api/backend") ? base : `${base}/api/backend`;
+}
+
+function publicCmsOrigin() {
+  const site = (process.env.SITE_ORIGIN || process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/$/, "");
+  if (site && !isLoopback(site) && !isProtectedVercelUrl(site) && !site.includes("example")) {
+    return withBackendPrefix(site);
+  }
+  const prod = (process.env.VERCEL_PROJECT_PRODUCTION_URL || "").replace(/^https?:\/\//, "").replace(/\/$/, "");
+  if (prod && !isProtectedVercelUrl(prod)) return `https://${prod}/api/backend`;
+  if (process.env.VERCEL) return `${PRODUCTION_ORIGIN}/api/backend`;
+  return "";
+}
+
 function resolveCmsUrl() {
-  const raw = (
-    process.env.CMS_API_URL ||
-    process.env.NEXT_PUBLIC_CMS_API_URL ||
-    ""
-  ).replace(/\/$/, "");
-  const loopback = !raw || /localhost|127\.0\.0\.1/i.test(raw);
-  if (!loopback) return raw;
-  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL.replace(/\/$/, "")}/api/backend`;
-  return raw || "http://127.0.0.1:8000";
+  const raw = (process.env.CMS_API_URL || process.env.NEXT_PUBLIC_CMS_API_URL || "").replace(/\/$/, "");
+  // Preview *.vercel.app hosts are SSO-protected, so the server gets 401 and the UI looks empty.
+  if (raw && !isLoopback(raw) && !isProtectedVercelUrl(raw)) return raw;
+  return publicCmsOrigin() || "http://127.0.0.1:8000";
 }
 
 const CMS_API_URL = resolveCmsUrl();
+
+export function cmsFetchHeaders(): HeadersInit {
+  const bypass = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+  return bypass ? { "x-vercel-protection-bypass": bypass } : {};
+}
 
 export type JaapStats = {
   total: number;
@@ -63,14 +99,20 @@ export type IndexableUrl = {
 };
 
 async function cmsGet<T>(path: string, fallback: T): Promise<T> {
+  const url = `${CMS_API_URL}${path}`;
   try {
-    const response = await fetch(`${CMS_API_URL}${path}`, {
-      next: { revalidate: 45 },
-      signal: AbortSignal.timeout(2500),
+    const response = await fetch(url, {
+      headers: cmsFetchHeaders(),
+      next: { revalidate: 30 },
+      signal: AbortSignal.timeout(12000),
     });
-    if (!response.ok) return fallback;
+    if (!response.ok) {
+      console.error(`CMS ${response.status} ${url}`);
+      return fallback;
+    }
     return (await response.json()) as T;
-  } catch {
+  } catch (error) {
+    console.error(`CMS unavailable ${url}`, error instanceof Error ? error.message : error);
     return fallback;
   }
 }
