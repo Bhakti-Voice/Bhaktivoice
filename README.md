@@ -34,7 +34,7 @@ Copy `.env.example` to `.env.local`.
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
-Use `https://bhaktivoice.com` in production (`NEXT_PUBLIC_SITE_URL` and `SITE_ORIGIN`). Do not use `www`.
+Use `https://www.bhaktivoice.com` in production (`NEXT_PUBLIC_SITE_URL` and `SITE_ORIGIN`). The apex `bhaktivoice.com` 301s to www.
 
 ### Firebase Google login
 
@@ -49,7 +49,7 @@ NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
 NEXT_PUBLIC_FIREBASE_APP_ID=
 ```
 
-Add `http://localhost:3000` and `bhaktivoice.com` to Firebase authorized domains.
+Add `http://localhost:3000`, `www.bhaktivoice.com`, and `bhaktivoice.com` to Firebase authorized domains.
 
 ### Turso
 

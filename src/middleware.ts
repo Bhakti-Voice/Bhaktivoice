@@ -7,9 +7,9 @@ function isHindiPath(pathname: string) {
 
 export function middleware(request: NextRequest) {
   const hostname = request.nextUrl.hostname.toLowerCase();
-  if (hostname === "www.bhaktivoice.com") {
+  if (hostname === "bhaktivoice.com") {
     const url = request.nextUrl.clone();
-    url.hostname = "bhaktivoice.com";
+    url.hostname = "www.bhaktivoice.com";
     url.protocol = "https:";
     url.port = "";
     return NextResponse.redirect(url, 301);

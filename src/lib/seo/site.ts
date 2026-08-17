@@ -3,7 +3,7 @@ export const SITE = {
   tagline: "Your companion on the spiritual journey.",
   description:
     "Discover naam jaap, katha, sacred yatra, temples, festivals and daily sadhana — a peaceful home for devotion.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://bhaktivoice.com",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.bhaktivoice.com",
   locale: "en_IN",
   twitter: "@bhakti",
 } as const;

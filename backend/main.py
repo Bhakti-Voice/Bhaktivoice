@@ -50,6 +50,7 @@ CORS_ORIGINS = [
         SITE_ORIGIN,
         "http://127.0.0.1:3000",
         "http://localhost:3000",
+        "https://www.bhaktivoice.com",
         "https://bhaktivoice.com",
         "https://bhaktivoice.vercel.app",
     }

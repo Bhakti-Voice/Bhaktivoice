@@ -43,8 +43,8 @@
   "redirects": [
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "www.bhaktivoice.com" }],
-      "destination": "https://bhaktivoice.com/:path*",
+      "has": [{ "type": "host", "value": "bhaktivoice.com" }],
+      "destination": "https://www.bhaktivoice.com/:path*",
       "permanent": true
     }
   ],

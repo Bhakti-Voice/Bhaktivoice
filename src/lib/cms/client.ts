@@ -12,7 +12,7 @@ export type ContentKind =
   | "bhajan"
   | "aarti";
 
-const PRODUCTION_ORIGIN = "https://bhaktivoice.com";
+const PRODUCTION_ORIGIN = "https://www.bhaktivoice.com";
 
 function hostnameOf(value: string) {
   try {
