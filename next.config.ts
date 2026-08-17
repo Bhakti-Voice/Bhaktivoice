@@ -15,6 +15,12 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/favicon.ico",
+        has: [{ type: "host", value: "bhaktivoice.com" }],
+        destination: "https://www.bhaktivoice.com/favicon.ico",
+        permanent: true,
+      },
+      {
         source: "/:path*",
         has: [{ type: "host", value: "bhaktivoice.com" }],
         destination: "https://www.bhaktivoice.com/:path*",
