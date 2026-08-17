@@ -166,7 +166,7 @@ export const messages = {
         title: "Aaj Ki Tithi — Hindu Panchang for Delhi",
         description:
           "Today's tithi, paksha, masa, nakshatra and Rahu Kaal, calculated for Delhi from the Moon and the Sun. No copied almanac — the sky is the source.",
-        h1: "Aaj Ki Tithi",
+        h1: "Aaj Ki Tithi: Today's Panchang & Hindu Calendar Details",
       },
       bhajan: {
         title: "Bhajan — Devotional Songs for Daily Listening",
@@ -262,6 +262,19 @@ export const messages = {
       vikramSamvat: "Vikram Samvat",
       amanta: "Amanta",
       pada: (n: number) => `pada ${n}`,
+      sunrise: "Sunrise",
+      sunset: "Sunset",
+      tithiStarts: "Tithi begins",
+      tithiEnds: "Tithi ends",
+      nextTithi: "Next tithi",
+      specialObservances: "Special observances today",
+      tithiTimings: "Tithi timings and the Sun",
+      alignments: "Astrological alignments",
+      delhiPanchangNote:
+        "Times are for Delhi (IST), calculated from the Sun and Moon — not copied from an almanac, and not a temple notice board.",
+      tithiJaapTitle: "The tithi is known. Sit.",
+      tithiJaapBody: "After you have seen today's panchang, keep one mala of 108. The sky has already begun; the beads finish the day.",
+      faqTitle: "Frequently asked questions",
       cartTitle: "Your Cart",
       cartH1: "Your cart is a quiet tray",
       cartBody:
@@ -541,7 +554,7 @@ export const messages = {
         title: "आज की तिथि — दिल्ली का हिन्दू पंचांग",
         description:
           "आज की तिथि, पक्ष, मास, नक्षत्र और राहु काल, चंद्रमा और सूर्य से दिल्ली के लिए गणना। नकल नहीं — आकाश स्रोत है।",
-        h1: "आज की तिथि",
+        h1: "आज की तिथि: आज का पंचांग और हिन्दू कैलेंडर",
       },
       bhajan: {
         title: "भजन — दैनिक श्रवण के भक्ति गीत",
@@ -634,6 +647,19 @@ export const messages = {
       vikramSamvat: "विक्रम संवत",
       amanta: "अमान्त",
       pada: (n: number) => `पाद ${n}`,
+      sunrise: "सूर्योदय",
+      sunset: "सूर्यास्त",
+      tithiStarts: "तिथि आरम्भ",
+      tithiEnds: "तिथि समाप्ति",
+      nextTithi: "अगली तिथि",
+      specialObservances: "आज के विशेष व्रत",
+      tithiTimings: "तिथि का समय और सूर्य",
+      alignments: "ज्योतिषीय स्थितियाँ",
+      delhiPanchangNote:
+        "समय दिल्ली (IST) के हैं, सूर्य और चंद्रमा से गणना — पंचांग की नकल नहीं, मंदिर का सूचना पट्ट नहीं।",
+      tithiJaapTitle: "तिथि ज्ञात है। बैठें।",
+      tithiJaapBody: "आज का पंचांग देख लिया हो तो १०८ की एक माला बैठें। आकाश पहले से चल रहा है; मनके दिन पूरा करते हैं।",
+      faqTitle: "अक्सर पूछे जाने वाले प्रश्न",
       cartTitle: "आपकी टोकरी",
       cartH1: "आपकी टोकरी एक शांत थाली है",
       cartBody:

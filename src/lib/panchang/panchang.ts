@@ -24,6 +24,7 @@ import {
   MASA_NAMES,
   MASA_NAMES_HI,
   NAKSHATRA_NAMES,
+  NAKSHATRA_NAMES_HI,
   RAHU_KAAL_PERIOD,
   RITU_NAMES,
   RITU_NAMES_HI,
@@ -93,12 +94,12 @@ function rituFromMasa(masaIndex: number): { name: string; nameHi: string } {
   return { name: RITU_NAMES[ritu], nameHi: RITU_NAMES_HI[ritu] };
 }
 
-function nakshatraAt(date: Date): { name: string; pada: number } {
+function nakshatraAt(date: Date): { name: string; nameHi: string; pada: number } {
   const moon = siderealLon(tropicalMoonLon(date), date);
   const span = moon / NAKSHATRA_SPAN;
   const index = Math.min(26, Math.floor(span));
   const pada = Math.min(4, Math.floor((span - index) * 4) + 1);
-  return { name: NAKSHATRA_NAMES[index], pada };
+  return { name: NAKSHATRA_NAMES[index], nameHi: NAKSHATRA_NAMES_HI[index], pada };
 }
 
 function yogaAt(date: Date): { name: string } {
@@ -181,6 +182,7 @@ function dayBlock(date: Date): Omit<DayPanchang, "upcoming" | "tithiNow" | "inst
     yoga: yogaAt(sunrise),
     karana: karanaAt(sunrise),
     rahuKaal: rahuKaal(sunrise, sunset, weekday),
+    nextTithi: tithiSnapshot(new Date(atSunrise.end.getTime() + 60_000)),
     observances: observancesFor({
       masaIndex: purnimanta.index,
       paksha: atSunrise.paksha,

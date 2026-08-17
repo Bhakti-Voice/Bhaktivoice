@@ -31,10 +31,11 @@ export type DayPanchang = {
   masaPurnimanta: { index: number; name: string; nameHi: string; adhika: boolean };
   vikramSamvat: number;
   ritu: { name: string; nameHi: string };
-  nakshatra: { name: string; pada: number };
+  nakshatra: { name: string; nameHi: string; pada: number };
   yoga: { name: string };
   karana: { name: string };
   rahuKaal: { start: Date; end: Date };
+  nextTithi: TithiSnapshot;
   observances: Observance[];
   upcoming: {
     date: Date;
