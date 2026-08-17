@@ -17,6 +17,7 @@ import { PATHS } from "@/lib/seo/paths";
 type Props = { params: Promise<{ slug: string }> };
 
 export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
@@ -56,32 +57,27 @@ export default async function BlogPostPage({ params }: Props) {
         })}
       />
       <Breadcrumbs items={page.breadcrumbs} />
-      <div className="mt-6 grid items-start gap-5 sm:grid-cols-[minmax(0,1fr)_220px] lg:grid-cols-[minmax(0,1fr)_260px] lg:gap-8">
+
+      <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
         <div>
           <p className="text-xs uppercase tracking-[0.2em] text-saffron">{page.category}</p>
           <h1 className="mt-2 font-serif text-3xl leading-tight text-ink lg:text-4xl">{page.h1}</h1>
           <p className="mt-3 text-sm text-muted">
             {page.author} · {page.readingTime} · Updated {page.updatedAt}
           </p>
-        </div>
-        {page.heroImage ? (
-          <div className="relative aspect-[4/3] w-full max-w-[260px] overflow-hidden rounded-2xl bg-sand sm:max-w-none">
-            <MediaImage
-              src={page.heroImage}
-              alt={page.heroImageAlt}
-              fill
-              priority
-              className="object-cover"
-              sizes="260px"
-            />
-          </div>
-        ) : null}
-      </div>
-
-      <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
-        <div>
-          <div>
-            <p className="max-w-3xl text-lg leading-relaxed text-muted">{page.introduction}</p>
+          {page.heroImage ? (
+            <div className="relative mt-6 aspect-[2/1] w-full overflow-hidden rounded-2xl bg-sand">
+              <MediaImage
+                src={page.heroImage}
+                alt={page.heroImageAlt}
+                fill
+                priority
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 900px"
+              />
+            </div>
+          ) : null}
+          <p className="mt-8 max-w-3xl text-lg leading-relaxed text-muted">{page.introduction}</p>
             {toc.length ? (
               <nav className="mt-6 rounded-3xl bg-cream p-5 text-sm ring-1 ring-line">
                 <p className="font-medium text-ink">In this guide</p>
@@ -112,7 +108,6 @@ export default async function BlogPostPage({ params }: Props) {
                 ))}
               </section>
             ))}
-          </div>
           <FaqList faqs={page.faqs} />
           <RelatedContent links={related} />
         </div>

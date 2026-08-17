@@ -98,12 +98,16 @@ export type IndexableUrl = {
   priority: number;
 };
 
-async function cmsGet<T>(path: string, fallback: T): Promise<T> {
+async function cmsGet<T>(
+  path: string,
+  fallback: T,
+  mode: "revalidate" | "fresh" = "revalidate",
+): Promise<T> {
   const url = `${CMS_API_URL}${path}`;
   try {
     const response = await fetch(url, {
       headers: cmsFetchHeaders(),
-      next: { revalidate: 30 },
+      ...(mode === "fresh" ? { cache: "no-store" as const } : { next: { revalidate: 30 } }),
       signal: AbortSignal.timeout(12000),
     });
     if (response.status === 404) {
@@ -139,6 +143,7 @@ export async function getContent<T>(kind: string, slug: string): Promise<T | nul
   return cmsGet<T | null>(
     await withLocaleQuery(`/api/content/${kind}/${encodeURIComponent(slug)}`),
     null,
+    "fresh",
   );
 }
 

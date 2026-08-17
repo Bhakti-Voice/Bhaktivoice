@@ -19,7 +19,10 @@ export async function proxyToCms(request: Request, path: string) {
     const text = await response.text();
     return new NextResponse(text, {
       status: response.status,
-      headers: { "Content-Type": response.headers.get("Content-Type") ?? "application/json" },
+      headers: {
+        "Content-Type": response.headers.get("Content-Type") ?? "application/json",
+        "Cache-Control": "no-store, must-revalidate",
+      },
     });
   } catch {
     return NextResponse.json({ ok: false, stored: false, error: "CMS unavailable" }, { status: 503 });
