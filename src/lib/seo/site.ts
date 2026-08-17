@@ -6,6 +6,8 @@ export const SITE = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.bhaktivoice.com",
   locale: "en_IN",
   twitter: "@bhakti",
+  ogHome: "/assets/bhakti-voice-og-home.jpg",
+  ogHomeAlt: "Bhakti Voice - Online Naam Jaap, Katha, and Spiritual Sadhana",
 } as const;
 
 export function absoluteUrl(path = "/") {

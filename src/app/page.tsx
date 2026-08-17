@@ -34,8 +34,8 @@ export async function generateMetadata(): Promise<Metadata> {
     title: t.home.title,
     description: t.home.description,
     path: "/",
-    image: "/images/krishna-hero.png",
-    imageAlt: "Lord Krishna playing the flute by a river at sunset",
+    image: "/assets/bhakti-voice-og-home.jpg",
+    imageAlt: "Bhakti Voice - Online Naam Jaap, Katha, and Spiritual Sadhana",
     absoluteTitle: true,
   });
 }

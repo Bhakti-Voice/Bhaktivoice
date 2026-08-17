@@ -40,6 +40,15 @@ export const metadata: Metadata = {
     template: "%s | Bhakti Voice",
   },
   description: SITE.description,
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "32x32" },
+      { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+    shortcut: "/favicon.ico",
+  },
   openGraph: {
     title: "Bhakti Voice — Your Companion on the Spiritual Journey",
     description: SITE.description,
@@ -49,10 +58,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: absoluteUrl("/images/krishna-hero.webp"),
+        url: absoluteUrl(SITE.ogHome),
         width: 1200,
         height: 630,
-        alt: "Lord Krishna playing the flute by a river at sunset",
+        alt: SITE.ogHomeAlt,
       },
     ],
   },
@@ -61,7 +70,7 @@ export const metadata: Metadata = {
     site: SITE.twitter,
     title: "Bhakti Voice — Your Companion on the Spiritual Journey",
     description: SITE.description,
-    images: [absoluteUrl("/images/krishna-hero.webp")],
+    images: [absoluteUrl(SITE.ogHome)],
   },
   robots: { index: true, follow: true },
 };
