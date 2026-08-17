@@ -17,8 +17,9 @@ export function websiteSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": `${SITE.url}/#website`,
     name: SITE.name,
-    url: SITE.url,
+    url: `${SITE.url}/`,
     description: SITE.description,
     potentialAction: {
       "@type": "SearchAction",

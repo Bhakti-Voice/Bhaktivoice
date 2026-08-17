@@ -12,6 +12,7 @@ export function PageHero({
   image,
   imageAlt,
   children,
+  breadcrumbJsonLd = true,
 }: {
   title: string;
   subtitle?: string;
@@ -20,6 +21,7 @@ export function PageHero({
   image?: string;
   imageAlt?: string;
   children?: ReactNode;
+  breadcrumbJsonLd?: boolean;
 }) {
   const preset = hub ? HUB_HEROES[hub] : HUB_HEROES.more;
   const src = image || preset.image;
@@ -38,7 +40,7 @@ export function PageHero({
       />
       <div className="page-hero-veil pointer-events-none absolute inset-0" />
       <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-center px-4 py-8 lg:px-8">
-        {crumbs ? <Breadcrumbs items={crumbs} /> : null}
+        {crumbs ? <Breadcrumbs items={crumbs} jsonLd={breadcrumbJsonLd} /> : null}
         <h1 className="mt-2 max-w-2xl font-display text-3xl leading-tight text-[#2c1810] sm:text-4xl lg:text-5xl">
           {title}
         </h1>

@@ -7,15 +7,17 @@ export function FaqList({
   faqs,
   className,
   title = "Frequently asked questions",
+  jsonLd = true,
 }: {
   faqs: Faq[];
   className?: string;
   title?: string;
+  jsonLd?: boolean;
 }) {
   if (!faqs.length) return null;
   return (
     <section className={className ?? "mt-10"} aria-labelledby="faq-heading">
-      <JsonLd data={faqSchema(faqs)} />
+      {jsonLd ? <JsonLd data={faqSchema(faqs)} /> : null}
       <h2 id="faq-heading" className="font-serif text-lg text-ink">
         {title}
       </h2>

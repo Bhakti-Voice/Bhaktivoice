@@ -3,10 +3,15 @@ import { PageHero } from "@/components/layout/PageHero";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { TithiPageView } from "@/components/tithi/TithiPageView";
-import { tithiPageFaqs, tithiPageMeta, toTithiPageData } from "@/lib/panchang";
+import {
+  tithiPageFaqs,
+  tithiPageGraph,
+  tithiPageMeta,
+  tithiPageProse,
+  toTithiPageData,
+} from "@/lib/panchang";
 import { localizedCrumbs } from "@/lib/seo/crumbs";
 import { localizedMetadata } from "@/lib/seo/metadata";
-import { SITE } from "@/lib/seo/site";
 import { getLocale, getMessages } from "@/lib/i18n/server";
 import { PATHS } from "@/lib/seo/paths";
 
@@ -20,15 +25,19 @@ export async function generateMetadata(): Promise<Metadata> {
     title: meta.title,
     description: meta.description,
     path: PATHS.tithi,
+    absoluteTitle: true,
     keywords: [
       "aaj ki tithi",
+      "today panchang",
+      "hindu calendar",
       data.currentTithi,
       data.currentPaksha,
       data.currentMasa,
       data.currentNakshatra,
-      "hindu panchang",
+      ...data.specialFestivals,
       "delhi",
     ],
+    modifiedTime: data.isoDate,
   });
 }
 
@@ -36,37 +45,24 @@ export default async function TithiPage() {
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
   const data = toTithiPageData(locale);
   const faqs = tithiPageFaqs(data, locale);
-  const meta = tithiPageMeta(data, locale);
+  const crumbs = localizedCrumbs(t.homeName, [t.nav.tithi, PATHS.tithi]);
 
   return (
     <div>
+      <JsonLd data={tithiPageGraph(data, faqs, crumbs, locale)} />
       <PageHero
         title={t.hubs.tithi.h1}
         subtitle={data.currentDate}
         hub="tithi"
-        crumbs={localizedCrumbs(t.homeName, [t.nav.tithi, PATHS.tithi])}
+        crumbs={crumbs}
+        breadcrumbJsonLd={false}
       />
-      <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@type": "WebPage",
-          name: meta.title,
-          url: `${SITE.url}${PATHS.tithi}`,
-          description: meta.description,
-          dateModified: new Date().toISOString().slice(0, 10),
-        }}
-      />
-      <div className="mx-auto max-w-4xl px-4 pt-6 lg:px-8">
-        <p className="text-xs uppercase tracking-[0.2em] text-saffron">{t.common.panchang}</p>
-        <p className="mt-2 font-serif text-3xl text-ink sm:text-4xl">{data.currentTithi}</p>
-        <p className="mt-1 text-muted">
-          {data.currentPaksha} · {data.currentMasa} · {t.common.vikramSamvat} {data.currentVikramSamvat}
-        </p>
-      </div>
       <TithiPageView
         data={data}
         faqs={faqs}
+        prose={tithiPageProse(data, locale)}
         copy={{
+          panchang: t.common.panchang,
           specialTitle: t.common.specialObservances,
           timingsTitle: t.common.tithiTimings,
           sunrise: t.common.sunrise,
@@ -80,17 +76,22 @@ export default async function TithiPage() {
           paksha: t.common.paksha,
           nakshatra: t.common.nakshatra,
           vikramSamvat: t.common.vikramSamvat,
+          vara: t.common.vara,
+          ritu: t.common.ritu,
+          yoga: t.common.yoga,
+          karana: t.common.karana,
           upcomingTitle: t.common.upcomingTithis,
-          upcomingLead: t.common.nextDaysSunrise,
           delhiNote: t.common.delhiPanchangNote,
           faqTitle: t.common.faqTitle,
           jaapTitle: t.common.tithiJaapTitle,
           jaapBody: t.common.tithiJaapBody,
           jaapLabel: t.common.startJaap,
+          readMore: t.common.readMore,
+          readLess: t.common.readLess,
         }}
       />
       <div className="mx-auto max-w-4xl px-4 pb-8 lg:px-8 lg:pb-12">
-        <HubSeoBlock id="tithi" />
+        <HubSeoBlock id="tithi" faqJsonLd={false} />
       </div>
     </div>
   );

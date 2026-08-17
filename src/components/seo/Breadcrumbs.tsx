@@ -7,13 +7,13 @@ import type { BreadcrumbItem } from "@/lib/content/types";
 import { breadcrumbSchema } from "@/lib/seo/schema";
 import { JsonLd } from "./JsonLd";
 
-export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
+export function Breadcrumbs({ items, jsonLd = true }: { items: BreadcrumbItem[]; jsonLd?: boolean }) {
   const locale = useLocale();
   const localized = items.map((item) => ({ ...item, href: withLocale(item.href, locale) }));
 
   return (
     <>
-      <JsonLd data={breadcrumbSchema(localized)} />
+      {jsonLd ? <JsonLd data={breadcrumbSchema(localized)} /> : null}
       <nav aria-label="Breadcrumb" className="text-sm text-muted">
         <ol className="flex flex-wrap items-center gap-1">
           {localized.map((item, index) => (

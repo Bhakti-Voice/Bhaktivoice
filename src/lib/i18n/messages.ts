@@ -275,6 +275,8 @@ export const messages = {
       tithiJaapTitle: "The tithi is known. Sit.",
       tithiJaapBody: "After you have seen today's panchang, keep one mala of 108. The sky has already begun; the beads finish the day.",
       faqTitle: "Frequently asked questions",
+      readMore: "Read more",
+      readLess: "Read less",
       cartTitle: "Your Cart",
       cartH1: "Your cart is a quiet tray",
       cartBody:
@@ -660,6 +662,8 @@ export const messages = {
       tithiJaapTitle: "तिथि ज्ञात है। बैठें।",
       tithiJaapBody: "आज का पंचांग देख लिया हो तो १०८ की एक माला बैठें। आकाश पहले से चल रहा है; मनके दिन पूरा करते हैं।",
       faqTitle: "अक्सर पूछे जाने वाले प्रश्न",
+      readMore: "और पढ़ें",
+      readLess: "कम दिखाएँ",
       cartTitle: "आपकी टोकरी",
       cartH1: "आपकी टोकरी एक शांत थाली है",
       cartBody:

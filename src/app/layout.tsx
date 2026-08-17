@@ -79,11 +79,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const t = await getMessages();
   return (
     <html lang={t.htmlLang}>
-      <head>
-        <link rel="icon" href="/images/lotus-logo.png" type="image/png" sizes="192x192" />
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-      </head>
       <HreflangLinks />
       <body className={`${playfair.variable} ${inter.variable} ${devanagari.variable} bg-ivory text-ink antialiased`}>
         <JsonLd data={[organizationSchema(), websiteSchema()]} />

@@ -241,6 +241,20 @@ export function formatIstDate(date: Date, locale: string = "en"): string {
   }).format(date);
 }
 
+export function formatIstMonthDayYear(date: Date, locale: string = "en"): string {
+  return new Intl.DateTimeFormat(locale === "hi" ? "hi-IN" : "en-US", {
+    timeZone: DELHI.timeZone,
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(date);
+}
+
+export function isoIstDate(date: Date): string {
+  const { year, month, day } = istCalendarDate(date);
+  return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+}
+
 export function pakshaLabel(paksha: Paksha): { en: string; hi: string } {
   return paksha === "shukla"
     ? { en: "Shukla paksha", hi: "शुक्ल पक्ष" }

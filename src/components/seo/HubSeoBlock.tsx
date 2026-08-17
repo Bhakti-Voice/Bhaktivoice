@@ -4,15 +4,31 @@ import { ExpandableSection } from "@/components/seo/ExpandableSection";
 import { getHubSeo } from "@/lib/content";
 import type { HubSeoId } from "@/lib/content/hub-seo";
 
-export function HubSeoBlock({ id, collapsible = false }: { id: HubSeoId; collapsible?: boolean }) {
+export function HubSeoBlock({
+  id,
+  collapsible = false,
+  faqJsonLd = true,
+}: {
+  id: HubSeoId;
+  collapsible?: boolean;
+  faqJsonLd?: boolean;
+}) {
   return (
     <Suspense fallback={null}>
-      <HubSeoInner id={id} collapsible={collapsible} />
+      <HubSeoInner id={id} collapsible={collapsible} faqJsonLd={faqJsonLd} />
     </Suspense>
   );
 }
 
-async function HubSeoInner({ id, collapsible }: { id: HubSeoId; collapsible: boolean }) {
+async function HubSeoInner({
+  id,
+  collapsible,
+  faqJsonLd,
+}: {
+  id: HubSeoId;
+  collapsible: boolean;
+  faqJsonLd: boolean;
+}) {
   const hub = await getHubSeo(id);
   if (!hub?.heading) return null;
 
@@ -32,7 +48,7 @@ async function HubSeoInner({ id, collapsible }: { id: HubSeoId; collapsible: boo
           </ul>
         ) : null}
       </ExpandableSection>
-      <FaqList faqs={hub.faqs ?? []} />
+      <FaqList faqs={hub.faqs ?? []} jsonLd={faqJsonLd} />
     </section>
   );
 }
