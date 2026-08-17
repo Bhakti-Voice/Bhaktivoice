@@ -22,7 +22,7 @@ export default async function StorePage() {
   const [products, storeCategories] = await Promise.all([listProducts(), listStoreCategories()]);
   return (
     <div>
-      <PageHero title="Bhakti Store" crumbs={pageCrumbs(["Store", PATHS.store])} />
+      <PageHero title="Bhakti Store" hub="store" crumbs={pageCrumbs(["Store", PATHS.store])} />
       <div className="mx-auto max-w-7xl px-4 pb-8 lg:px-8 lg:pb-12">
       <JsonLd
         data={itemListSchema(

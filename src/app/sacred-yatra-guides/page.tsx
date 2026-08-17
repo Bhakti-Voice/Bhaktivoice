@@ -37,7 +37,7 @@ export default async function YatraIndexPage({ searchParams }: Props) {
 
   return (
     <div>
-      <PageHero title={t.hubs.yatra.h1} crumbs={localizedCrumbs(t.homeName, [t.nav.yatra, PATHS.yatra])} />
+      <PageHero title={t.hubs.yatra.h1} hub="yatra" crumbs={localizedCrumbs(t.homeName, [t.nav.yatra, PATHS.yatra])} />
       <div className="mx-auto max-w-7xl px-4 pb-8 lg:px-8 lg:pb-12">
       <JsonLd
         data={itemListSchema(

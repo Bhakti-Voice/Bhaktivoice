@@ -44,6 +44,7 @@ export default async function TithiPage() {
       <PageHero
         title={t.hubs.tithi.h1}
         subtitle={dateLabel}
+        hub="tithi"
         crumbs={localizedCrumbs(t.homeName, [t.nav.tithi, PATHS.tithi])}
       />
       <div className="mx-auto max-w-4xl px-4 pb-8 lg:px-8 lg:pb-12">

@@ -19,7 +19,7 @@ export default async function AartiPage() {
   const items = await listAarti();
   return (
     <div>
-      <PageHero title="Aarti" crumbs={pageCrumbs(["Aarti", PATHS.aarti])}>
+      <PageHero title="Aarti" hub="aarti" crumbs={pageCrumbs(["Aarti", PATHS.aarti])}>
         <div className="mt-5 flex flex-wrap gap-3">
           <Link href={PATHS.yatra} className="rounded-full bg-navy px-5 py-2.5 text-sm text-white">
             Explore Yatra

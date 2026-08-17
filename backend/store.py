@@ -9,7 +9,15 @@ from slugs import join_slug, seo_slug, tokens_from
 
 
 def entry_title(data: dict) -> str:
-    return str(data.get("title") or data.get("h1") or data.get("name") or data.get("heading") or "")
+    return str(
+        data.get("title")
+        or data.get("h1")
+        or data.get("name")
+        or data.get("heading")
+        or data.get("text")
+        or data.get("attribution")
+        or ""
+    )
 
 
 def entry_slug(kind: str, data: dict, existing: str = "") -> str:

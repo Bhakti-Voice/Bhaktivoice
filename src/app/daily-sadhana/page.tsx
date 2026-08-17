@@ -61,7 +61,7 @@ const CARDS = [
 export default function SadhanaPage() {
   return (
     <div>
-      <PageHero title="Today's Bhakti" crumbs={pageCrumbs(["Sadhana", PATHS.sadhana])}>
+      <PageHero title="Today's Bhakti" hub="sadhana" crumbs={pageCrumbs(["Sadhana", PATHS.sadhana])}>
         <Link
           href={PATHS.diary}
           className="mt-5 inline-flex rounded-full border border-line bg-white px-5 py-2 text-sm"

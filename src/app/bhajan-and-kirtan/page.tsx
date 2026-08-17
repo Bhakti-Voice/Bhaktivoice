@@ -19,7 +19,7 @@ export default async function BhajanPage() {
   const items = await listBhajan();
   return (
     <div>
-      <PageHero title="Bhajan" crumbs={pageCrumbs(["Bhajan", PATHS.bhajan])}>
+      <PageHero title="Bhajan" hub="bhajan" crumbs={pageCrumbs(["Bhajan", PATHS.bhajan])}>
         <div className="mt-5 flex flex-wrap gap-3">
           <Link href={PATHS.katha} className="rounded-full bg-navy px-5 py-2.5 text-sm text-white">
             Explore Katha

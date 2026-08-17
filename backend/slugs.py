@@ -16,6 +16,7 @@ KIND_SLUG_TAIL = {
     "store_category": "bhakti store category for sadhana",
     "community_group": "devotee community group for naam jaap",
     "sankalp_offer": "sankalp vow for daily sadhana",
+    "quotes": "daily bhakti quote",
 }
 
 MIN_WORDS = 5

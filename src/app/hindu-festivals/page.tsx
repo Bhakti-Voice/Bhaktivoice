@@ -24,6 +24,7 @@ export default async function FestivalsIndexPage() {
     <div>
       <PageHero
         title={t.hubs.festivals.h1}
+        hub="festivals"
         crumbs={localizedCrumbs(t.homeName, [t.hubs.festivals.h1, PATHS.festivals])}
       >
         <p className="mt-3 text-sm text-muted">

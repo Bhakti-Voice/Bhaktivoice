@@ -1,10 +1,11 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-ivory: #fdfbf7;
-  --color-cream: #fcf9f2;
+  --color-ivory: #fff9f2;
+  --color-cream: #fff6eb;
   --color-sand: #f7f0e6;
   --color-navy: #1a1a2e;
+  --color-maroon: #4a1014;
   --color-saffron: #e67e22;
   --color-saffron-deep: #d35400;
   --color-gold: #ebc06f;
@@ -29,7 +30,7 @@ summary::-webkit-details-marker {
 }
 
 body {
-  background: #fdfbf7;
+  background: #fff9f2;
   color: #2c241b;
   font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
@@ -41,6 +42,11 @@ h3,
   font-family: var(--font-playfair), ui-serif, Georgia, serif;
 }
 
+.font-display {
+  font-family: var(--font-playfair), ui-serif, Georgia, serif;
+  letter-spacing: -0.02em;
+}
+
 html[lang="hi"] body {
   font-family: var(--font-devanagari), var(--font-inter), ui-sans-serif, sans-serif;
 }
@@ -48,7 +54,8 @@ html[lang="hi"] body {
 html[lang="hi"] h1,
 html[lang="hi"] h2,
 html[lang="hi"] h3,
-html[lang="hi"] .font-serif {
+html[lang="hi"] .font-serif,
+html[lang="hi"] .font-display {
   font-family: var(--font-devanagari), var(--font-playfair), ui-serif, serif;
 }
 
@@ -81,29 +88,116 @@ button:disabled,
   color: #1a1a2e;
 }
 
-.hero-krishna-fade {
+.hero-krishna-mobile {
+  opacity: 0.72;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 14%, #000 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 14%, #000 100%);
+}
+
+.hero-krishna-text-veil {
+  position: absolute;
+  inset: 0;
   background: linear-gradient(
-    180deg,
-    rgba(253, 251, 247, 0.04) 0%,
-    rgba(253, 251, 247, 0.02) 38%,
-    rgba(253, 251, 247, 0.28) 58%,
-    rgba(253, 251, 247, 0.78) 78%,
-    #fdfbf7 100%
+    90deg,
+    #fff9f2 0%,
+    rgba(255, 249, 242, 0.98) 36%,
+    rgba(255, 249, 242, 0.88) 52%,
+    rgba(255, 249, 242, 0.58) 68%,
+    rgba(255, 249, 242, 0.28) 82%,
+    rgba(255, 249, 242, 0.12) 100%
   );
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 58%, rgba(0, 0, 0, 0.45) 78%, transparent 100%);
+  mask-image: linear-gradient(90deg, #000 0%, #000 58%, rgba(0, 0, 0, 0.45) 78%, transparent 100%);
+}
+
+.hero-krishna-fade {
+  background:
+    linear-gradient(
+      90deg,
+      #fff9f2 0%,
+      rgba(255, 249, 242, 0.97) 40%,
+      rgba(255, 249, 242, 0.7) 56%,
+      rgba(255, 249, 242, 0.28) 72%,
+      rgba(255, 249, 242, 0.08) 88%,
+      transparent 100%
+    ),
+    linear-gradient(
+      180deg,
+      transparent 68%,
+      rgba(255, 249, 242, 0.14) 84%,
+      rgba(255, 249, 242, 0.58) 100%
+    );
 }
 
 @media (min-width: 1024px) {
+  .hero-krishna-text-veil {
+    inset: 0 38% 0 0;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
   .hero-krishna-fade {
     background: linear-gradient(
       90deg,
-      #fdfbf7 0%,
-      #fdfbf7 22%,
-      rgba(253, 251, 247, 0.92) 36%,
-      rgba(253, 251, 247, 0.45) 52%,
-      rgba(253, 251, 247, 0.12) 66%,
-      transparent 80%
+      #fff9f2 0%,
+      #fff9f2 18%,
+      rgba(255, 249, 242, 0.88) 32%,
+      rgba(255, 249, 242, 0.38) 48%,
+      rgba(255, 249, 242, 0.08) 62%,
+      transparent 76%
     );
   }
+}
+
+.home-feature-card {
+  background:
+    radial-gradient(circle at 50% 32%, #fffefb 0%, #fff8ee 52%, #f6e6d0 100%);
+  border: 1.5px solid rgba(232, 145, 58, 0.7);
+  box-shadow:
+    0 0 0 1px rgba(255, 220, 170, 0.7),
+    0 8px 20px rgba(230, 126, 34, 0.32),
+    0 0 28px rgba(230, 126, 34, 0.16);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.home-feature-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 0 1px rgba(255, 220, 170, 0.9),
+    0 12px 26px rgba(230, 126, 34, 0.4),
+    0 0 34px rgba(230, 126, 34, 0.22);
+}
+
+.hero-krishna-blur-bottom {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 22%;
+  background: linear-gradient(to top, rgba(255, 249, 242, 0.5) 0%, rgba(255, 249, 242, 0.14) 55%, transparent 100%);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  -webkit-mask-image: linear-gradient(to top, black 0%, rgba(0, 0, 0, 0.45) 50%, transparent 100%);
+  mask-image: linear-gradient(to top, black 0%, rgba(0, 0, 0, 0.45) 50%, transparent 100%);
+}
+
+.page-hero-veil {
+  background:
+    linear-gradient(
+      90deg,
+      #fff9f2 0%,
+      rgba(255, 249, 242, 0.96) 32%,
+      rgba(255, 249, 242, 0.78) 48%,
+      rgba(255, 249, 242, 0.4) 64%,
+      rgba(255, 249, 242, 0.14) 82%,
+      rgba(255, 249, 242, 0.06) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 249, 242, 0.18) 0%,
+      transparent 42%,
+      rgba(255, 249, 242, 0.35) 100%
+    );
 }
 
 .community-krishna-fade {

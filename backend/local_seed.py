@@ -283,6 +283,16 @@ DUMMY_ENTRIES: list[dict] = [
         },
     },
     {
+        "kind": "quotes",
+        "slug": "bhakti-is-the-purest-form-of-love",
+        "data": {
+            "text": "Bhakti is the purest form of love — a path that turns every breath into prayer.",
+            "textHi": "भक्ति प्रेम का सबसे शुद्ध रूप है — हर श्वास को प्रार्थना बनाने वाला मार्ग।",
+            "attribution": "Lord Krishna",
+            "attributionHi": "भगवान कृष्ण",
+        },
+    },
+    {
         "kind": "hub_seo",
         "slug": "home",
         "data": {

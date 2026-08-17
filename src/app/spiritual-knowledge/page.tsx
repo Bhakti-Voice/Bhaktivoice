@@ -23,6 +23,7 @@ export default async function SpiritualityIndexPage() {
     <div>
       <PageHero
         title={t.hubs.spirituality.h1}
+        hub="spirituality"
         crumbs={localizedCrumbs(t.homeName, [t.hubs.spirituality.h1, PATHS.spirituality])}
       />
       <div className="mx-auto max-w-7xl px-4 pb-8 lg:px-8 lg:pb-12">

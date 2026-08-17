@@ -21,7 +21,7 @@ export default async function TemplesIndexPage() {
   const [temples, t] = await Promise.all([listTemples(), getMessages()]);
   return (
     <div>
-      <PageHero title={t.hubs.temples.h1} crumbs={localizedCrumbs(t.homeName, [t.hubs.temples.h1, PATHS.temples])} />
+      <PageHero title={t.hubs.temples.h1} hub="temples" crumbs={localizedCrumbs(t.homeName, [t.hubs.temples.h1, PATHS.temples])} />
       <div className="mx-auto max-w-7xl px-4 pb-8 lg:px-8 lg:pb-12">
       <JsonLd
         data={itemListSchema(

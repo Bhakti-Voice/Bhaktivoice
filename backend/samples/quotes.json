@@ -1,0 +1,23 @@
+[
+  {
+    "kind": "quotes",
+    "slug": "bhakti-is-the-purest-form-of-love",
+    "status": "published",
+    "data": {
+      "text": "Bhakti is the purest form of love — a path that turns every breath into prayer.",
+      "textHi": "भक्ति प्रेम का सबसे शुद्ध रूप है — हर श्वास को प्रार्थना बनाने वाला मार्ग।",
+      "attribution": "Lord Krishna",
+      "attributionHi": "भगवान कृष्ण"
+    }
+  },
+  {
+    "kind": "quotes",
+    "status": "published",
+    "data": {
+      "text": "Wherever there is Krishna, the Lord of Yoga, there will certainly be opulence, victory, extraordinary power, and morality.",
+      "textHi": "जहाँ योगेश्वर कृष्ण हैं, वहाँ श्री, विजय, विभूति और निति अवश्य रहती है।",
+      "attribution": "Lord Krishna",
+      "attributionHi": "भगवान कृष्ण"
+    }
+  }
+]

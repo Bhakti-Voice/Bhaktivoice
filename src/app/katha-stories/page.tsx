@@ -33,7 +33,7 @@ export default async function KathaIndexPage() {
 
   return (
     <div>
-      <PageHero title={t.hubs.katha.h1} crumbs={localizedCrumbs(t.homeName, [t.hubs.katha.h1, PATHS.katha])} />
+      <PageHero title={t.hubs.katha.h1} hub="katha" crumbs={localizedCrumbs(t.homeName, [t.hubs.katha.h1, PATHS.katha])} />
       <div className="mx-auto max-w-7xl px-4 pb-8 lg:px-8 lg:pb-12">
       <JsonLd
         data={itemListSchema(

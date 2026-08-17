@@ -34,7 +34,7 @@ export default async function MorePage() {
 
   return (
     <div>
-      <PageHero title={t.hubs.more.h1} crumbs={localizedCrumbs(t.homeName, [t.hubs.more.h1, PATHS.more])} />
+      <PageHero title={t.hubs.more.h1} hub="more" crumbs={localizedCrumbs(t.homeName, [t.hubs.more.h1, PATHS.more])} />
       <div className="mx-auto max-w-3xl px-4 pb-12 lg:px-8">
         <ul className="divide-y divide-line rounded-3xl bg-white ring-1 ring-line">
           {links.map((link) => (

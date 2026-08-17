@@ -24,6 +24,7 @@ export default async function MantrasIndexPage() {
     <div>
       <PageHero
         title={t.hubs.mantras.h1}
+        hub="mantras"
         crumbs={localizedCrumbs(t.homeName, [t.hubs.mantras.h1, PATHS.mantras])}
       >
         <LocaleLink

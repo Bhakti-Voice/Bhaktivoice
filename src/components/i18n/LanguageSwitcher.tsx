@@ -14,7 +14,7 @@ export function LanguageSwitcher() {
     <a
       href={href}
       hrefLang={next === "hi" ? "hi-IN" : "en-IN"}
-      className="inline-flex h-10 shrink-0 cursor-pointer items-center rounded-full border border-line bg-white px-2.5 text-xs font-medium text-ink/80 hover:text-saffron sm:px-3"
+      className="inline-flex h-10 shrink-0 cursor-pointer items-center rounded-full bg-[#f4efe8] px-2.5 text-xs font-medium text-ink/70 hover:text-saffron sm:px-3"
       aria-label={next === "hi" ? "हिंदी में देखें" : "View in English"}
     >
       {next === "hi" ? "हिंदी" : "EN"}

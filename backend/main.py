@@ -1,9 +1,10 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import secrets
-from datetime import date
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import quote
 
@@ -224,6 +225,22 @@ def user_stats(uid: str):
 
 def normalize_locale(locale: str | None) -> str:
     return "hi" if (locale or "").lower().startswith("hi") else "en"
+
+
+def ist_today() -> str:
+    return datetime.now(timezone(timedelta(hours=5, minutes=30))).date().isoformat()
+
+
+@app.get("/api/quotes/daily")
+def daily_quote(locale: str = "en"):
+    rows = db().fetchall(
+        "SELECT * FROM cms_entries WHERE kind = 'quotes' AND status = 'published' ORDER BY id",
+    )
+    if not rows:
+        raise HTTPException(status_code=404, detail="Not found")
+    digest = hashlib.sha256(f"quotes:{ist_today()}".encode()).hexdigest()
+    row = rows[int(digest, 16) % len(rows)]
+    return row_public(row, normalize_locale(locale))
 
 
 @app.get("/api/content/{kind}")

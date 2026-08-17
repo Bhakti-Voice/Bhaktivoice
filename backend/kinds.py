@@ -240,6 +240,16 @@ KINDS: dict[str, Kind] = {
         fields=SEO_FIELDS
         + (Field("sections", "Sections", "sections", "## Heading then body"),),
     ),
+    "quotes": Kind(
+        "quotes",
+        "Quote",
+        "Quotes",
+        "/",
+        fields=(
+            Field("text", "Quote", "textarea", "Shown on the homepage banner", rows=4),
+            Field("attribution", "Attribution", hint="e.g. Lord Krishna"),
+        ),
+    ),
 }
 
 HINDI_FIELD_TYPES = {
@@ -305,6 +315,7 @@ KIND_LABEL_HI = {
     "product": "भंडार",
     "bhajan": "भजन",
     "aarti": "आरती",
+    "quotes": "उद्धरण",
 }
 CTA_DEFAULTS = {
     "en": {
@@ -791,5 +802,11 @@ def public_simple(
             "paragraphs": data.get("paragraphs") or [],
             "points": data.get("points") or [],
             "faqs": data.get("faqs") or [],
+        }
+    if kind.key == "quotes":
+        return {
+            "slug": slug,
+            "text": data.get("text") or "",
+            "attribution": data.get("attribution") or "",
         }
     return {"slug": slug, **strip_hi_keys(data)}

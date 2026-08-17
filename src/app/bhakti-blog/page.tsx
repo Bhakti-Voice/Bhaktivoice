@@ -29,7 +29,7 @@ export default async function BlogIndexPage() {
 
   return (
     <div>
-      <PageHero title={t.hubs.blog.h1} crumbs={localizedCrumbs(t.homeName, [t.nav.blog, PATHS.blog])} />
+      <PageHero title={t.hubs.blog.h1} hub="blog" crumbs={localizedCrumbs(t.homeName, [t.nav.blog, PATHS.blog])} />
       <div className="mx-auto max-w-7xl px-4 pb-8 lg:px-8 lg:pb-12">
       <JsonLd
         data={itemListSchema(

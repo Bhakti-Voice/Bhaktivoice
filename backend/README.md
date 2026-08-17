@@ -36,5 +36,5 @@ Local dummy content (one sample of every kind) is written into that SQLite file 
 npm run seed:local
 ```
 
-Admin also accepts JSON: open `/admin/json`, paste one object or a list, or upload a `.json` file. Download current rows from **Download all JSON**.
+Admin also accepts JSON: open `/admin/json`, paste one object or a list, or upload a `.json` file. Download current rows from **Download all JSON**. For homepage quotes, choose kind **Quotes** (`quotes`) and import an array like `backend/samples/quotes.json`. One published quote is shown on the home banner; it stays the same all day (IST) and changes the next day.
 

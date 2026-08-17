@@ -22,7 +22,7 @@ export default async function CommunityPage() {
 
   return (
     <div>
-      <PageHero title="Devotee Community" crumbs={pageCrumbs(["Community", PATHS.community])} />
+      <PageHero title="Devotee Community" hub="community" crumbs={pageCrumbs(["Community", PATHS.community])} />
 
       <section className="mx-auto max-w-7xl px-4 pb-8 lg:px-8">
         <div className="overflow-hidden rounded-[32px] bg-navy text-white md:grid md:grid-cols-2">

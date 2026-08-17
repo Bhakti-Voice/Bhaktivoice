@@ -1,4 +1,4 @@
-import { BookOpen, CircleDot, Home, MapPin, UserRound } from "lucide-react";
+import { BookOpen, CircleDot, Home, LayoutGrid, ShoppingBag } from "lucide-react";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { getMessages } from "@/lib/i18n/server";
 import { PATHS } from "@/lib/seo/paths";
@@ -9,8 +9,8 @@ export async function MobileNav() {
     { href: "/", label: t.nav.home, icon: Home },
     { href: PATHS.naamJaap, label: t.nav.jaap, icon: CircleDot },
     { href: PATHS.katha, label: t.nav.katha, icon: BookOpen },
-    { href: PATHS.yatra, label: t.nav.yatra, icon: MapPin },
-    { href: "/profile", label: t.profile, icon: UserRound },
+    { href: PATHS.store, label: t.nav.store, icon: ShoppingBag },
+    { href: PATHS.more, label: t.more, icon: LayoutGrid },
   ];
 
   return (

@@ -75,6 +75,12 @@ export type UserStats = {
   sankalps: number;
 };
 
+export type DailyQuote = {
+  slug: string;
+  text: string;
+  attribution: string;
+};
+
 export type SearchHit = {
   title: string;
   introduction: string;
@@ -154,6 +160,12 @@ export const getStats = cache(async (): Promise<JaapStats> => {
     users: 0,
     byMantra: [],
   });
+});
+
+export const getDailyQuote = cache(async (): Promise<DailyQuote | null> => {
+  const quote = await cmsGet<DailyQuote | null>(await withLocaleQuery("/api/quotes/daily"), null);
+  if (!quote?.text?.trim()) return null;
+  return quote;
 });
 
 export async function getUserStats(uid: string): Promise<UserStats> {
