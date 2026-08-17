@@ -1,14 +1,11 @@
-import { MediaImage } from "@/components/media/MediaImage";
+import { CoverMedia } from "@/components/media/CoverMedia";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { ContextualCta } from "@/components/seo/ContextualCta";
 import { ExpandableSection } from "@/components/seo/ExpandableSection";
 import { FaqList } from "@/components/seo/FaqList";
-import { RelatedContent } from "@/components/seo/RelatedContent";
-import { gatherRelated } from "@/lib/content/related";
 import type { YatraPage } from "@/lib/content/types";
 
 export function YatraDetailView({ page }: { page: YatraPage }) {
-  const related = gatherRelated(page, 6);
 
   const subtitle =
     page.category === "itinerary"
@@ -29,18 +26,13 @@ export function YatraDetailView({ page }: { page: YatraPage }) {
         </div>
       </div>
 
-      <div className="relative mt-8 aspect-[16/8] overflow-hidden rounded-[32px] bg-sand">
-        {page.heroImage ? (
-          <MediaImage
-            src={page.heroImage}
-            alt={page.heroImageAlt}
-            fill
-            priority
-            className="object-cover"
-            sizes="(max-width: 1280px) 100vw, 1200px"
-          />
-        ) : null}
-      </div>
+      <CoverMedia
+        src={page.heroImage}
+        alt={page.heroImageAlt}
+        className="mt-8 aspect-[2/1] w-full rounded-2xl"
+        priority
+        sizes="(max-width: 1280px) 100vw, 1200px"
+      />
 
       <dl className="mt-6 grid gap-3 sm:grid-cols-3">
         {[
@@ -125,7 +117,6 @@ export function YatraDetailView({ page }: { page: YatraPage }) {
           </ExpandableSection>
 
           <FaqList faqs={page.faqs ?? []} />
-          <RelatedContent title="Related yatra" links={related} />
         </div>
         <div className="h-fit lg:sticky lg:top-24">
           <ContextualCta

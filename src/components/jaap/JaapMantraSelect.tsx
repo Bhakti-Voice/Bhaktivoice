@@ -65,7 +65,7 @@ export function JaapMantraSelect({
         <div
           role="listbox"
           aria-labelledby="jaap-mantra"
-          className="absolute top-[calc(100%+10px)] left-1/2 z-30 w-[280px] -translate-x-1/2 rounded-2xl bg-white p-1.5 shadow-lg ring-1 ring-line"
+          className="absolute top-[calc(100%+10px)] left-1/2 z-30 w-[min(280px,calc(100vw-2rem))] -translate-x-1/2 rounded-2xl bg-white p-1.5 shadow-lg ring-1 ring-line"
         >
           {JAAP_MANTRAS.map((mantra) => {
             const active = mantra.slug === value;

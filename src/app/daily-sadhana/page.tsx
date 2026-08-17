@@ -10,8 +10,8 @@ import {
   Sparkles,
 } from "lucide-react";
 import { hubMetadata } from "@/lib/i18n/hub";
+import { PageHero } from "@/components/layout/PageHero";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
-import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { pageCrumbs } from "@/lib/seo/crumbs";
 import { PATHS } from "@/lib/seo/paths";
 
@@ -60,19 +60,16 @@ const CARDS = [
 
 export default function SadhanaPage() {
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <Breadcrumbs items={pageCrumbs(["Sadhana", PATHS.sadhana])} />
-          <h1 className="mt-4 font-serif text-4xl text-ink lg:text-5xl">Today&apos;s Bhakti</h1>
-        </div>
+    <div>
+      <PageHero title="Today's Bhakti" crumbs={pageCrumbs(["Sadhana", PATHS.sadhana])}>
         <Link
           href={PATHS.diary}
-          className="rounded-full border border-line bg-white px-5 py-2 text-sm"
+          className="mt-5 inline-flex rounded-full border border-line bg-white px-5 py-2 text-sm"
         >
           Edit
         </Link>
-      </div>
+      </PageHero>
+      <div className="mx-auto max-w-7xl px-4 pb-8 lg:px-8 lg:pb-12">
 
       <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {CARDS.map((card) => (
@@ -111,6 +108,7 @@ export default function SadhanaPage() {
         </div>
       </section>
       <HubSeoBlock id="sadhana" />
+      </div>
     </div>
   );
 }

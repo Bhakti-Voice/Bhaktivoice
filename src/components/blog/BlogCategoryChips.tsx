@@ -39,7 +39,6 @@ export function BlogCategoryChips({ posts }: { posts: BlogPost[] }) {
             image={post.heroImage}
             imageAlt={post.heroImageAlt}
             meta={`${post.category} · ${post.readingTime}`}
-            compact
           />
         ))}
       </div>

@@ -33,11 +33,7 @@ export default async function MantraDetailPage({ params }: Props) {
   if (!page) notFound();
 
   return (
-    <ArticleLayout
-      page={page}
-      path={`${PATHS.mantras}/${page.slug}`}
-      relatedTitle="Related mantras and paths"
-      lead={
+    <ArticleLayout page={page} path={`${PATHS.mantras}/${page.slug}`} lead={
         <div className="rounded-3xl bg-cream p-6 ring-1 ring-line">
           <p className="font-serif text-2xl text-ink">{page.mantra}</p>
           <p className="mt-2 text-sm text-muted">{page.pronunciation}</p>

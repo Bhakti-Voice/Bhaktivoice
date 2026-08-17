@@ -33,8 +33,12 @@ export default async function NaamJaapPage() {
       <Breadcrumbs items={localizedCrumbs(t.homeName, [t.nav.naamJaap, PATHS.naamJaap])} />
       <h1 className="mt-4 font-serif text-4xl text-ink lg:text-5xl">{t.jaap.counter}</h1>
       <div className="mt-8 grid gap-6 overflow-visible lg:grid-cols-[210px_minmax(0,1fr)]">
-        <JaapSidebar />
-        <JaapCounter />
+        <div className="order-2 min-w-0 lg:order-1">
+          <JaapSidebar />
+        </div>
+        <div className="order-1 min-w-0 lg:order-2">
+          <JaapCounter />
+        </div>
       </div>
       <HubSeoBlock id="naam-jaap" collapsible />
       <FaqList faqs={[...t.jaap.faqs]} title={t.jaap.faqTitle} />

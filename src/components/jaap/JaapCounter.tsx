@@ -276,7 +276,7 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
       </div>
 
       <div
-        className="relative cursor-pointer overflow-visible rounded-[32px] bg-[#fff8f1] px-4 py-10 shadow-sm ring-1 ring-line select-none sm:px-10"
+        className="relative cursor-pointer overflow-hidden rounded-[32px] bg-[#fff8f1] px-3 py-8 shadow-sm ring-1 ring-line select-none sm:overflow-visible sm:px-10 sm:py-10"
         onClick={onCardClick}
       >
         <audio
@@ -290,16 +290,16 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
           <div
             data-jaap-ignore
             onClick={(event) => event.stopPropagation()}
-            className="absolute top-4 left-4 z-20 hidden items-center gap-2 rounded-full bg-[#fff4ea] py-1.5 pr-3 pl-1.5 shadow-sm ring-1 ring-[#f3d2b3] md:flex"
+            className="absolute top-3 left-3 z-20 flex items-center gap-2 rounded-full bg-[#fff4ea] py-1 pr-1.5 pl-1.5 shadow-sm ring-1 ring-[#f3d2b3] sm:top-4 sm:left-4 sm:py-1.5 md:pr-3"
           >
             <button
               type="button"
               onClick={toggleVoice}
-              className="inline-flex h-8 w-8 items-center justify-center rounded-full text-saffron"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full text-saffron sm:h-8 sm:w-8"
               aria-label={voiceOn ? t.jaap.mute : t.jaap.play}
               title={voiceOn ? t.jaap.mute : "Bhakti Voice"}
             >
-              {voiceOn ? <VolumeX className="h-4 w-4 text-saffron-deep" /> : <Volume2 className="h-4 w-4" />}
+              {voiceOn ? <VolumeX className="h-5 w-5 text-saffron-deep sm:h-4 sm:w-4" /> : <Volume2 className="h-5 w-5 sm:h-4 sm:w-4" />}
             </button>
             <input
               type="range"
@@ -309,20 +309,20 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
               value={volume}
               onChange={onVolumeChange}
               aria-label="Voice volume"
-              className="jaap-volume w-20 cursor-pointer sm:w-28"
+              className="jaap-volume hidden w-20 cursor-pointer md:block md:w-28"
               style={{
                 background: `linear-gradient(to right, #e67e22 ${volume * 100}%, #f7e4d2 ${volume * 100}%)`,
               }}
             />
           </div>
         ) : null}
-        <div className="relative z-10 mx-auto flex max-w-xl flex-col items-center">
+        <div className="relative z-10 mx-auto flex max-w-xl flex-col items-center pt-10 sm:pt-2">
           <JaapMantraSelect
             value={store.mantra}
             onChange={(slug) => persist({ ...store, mantra: slug })}
           />
 
-          <div className="relative mt-6 flex h-[320px] w-[320px] items-center justify-center sm:h-[340px] sm:w-[340px]">
+          <div className="relative mt-6 flex aspect-square w-full max-w-[320px] items-center justify-center">
             <JaapChakraRing malaProgress={malaProgress} />
             <span className="relative z-10 flex flex-col items-center">
               <span className="font-serif text-5xl font-semibold tracking-tight text-ink sm:text-6xl">

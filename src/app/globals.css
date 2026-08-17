@@ -52,6 +52,30 @@ html[lang="hi"] .font-serif {
   font-family: var(--font-devanagari), var(--font-playfair), ui-serif, serif;
 }
 
+html[lang="hi"] .listing-card-title {
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+html[lang="hi"] .listing-card-text {
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+a,
+button,
+summary,
+select,
+label[for],
+[role="button"] {
+  cursor: pointer;
+}
+
+button:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
 ::selection {
   background: #ebc06f;
   color: #1a1a2e;
@@ -59,25 +83,49 @@ html[lang="hi"] .font-serif {
 
 .hero-krishna-fade {
   background: linear-gradient(
-    90deg,
-    #fdfbf7 0%,
-    #fdfbf7 26%,
-    rgba(253, 251, 247, 0.92) 38%,
-    rgba(253, 251, 247, 0.45) 52%,
-    rgba(253, 251, 247, 0.12) 64%,
-    transparent 76%
+    180deg,
+    rgba(253, 251, 247, 0.04) 0%,
+    rgba(253, 251, 247, 0.02) 38%,
+    rgba(253, 251, 247, 0.28) 58%,
+    rgba(253, 251, 247, 0.78) 78%,
+    #fdfbf7 100%
   );
+}
+
+@media (min-width: 1024px) {
+  .hero-krishna-fade {
+    background: linear-gradient(
+      90deg,
+      #fdfbf7 0%,
+      #fdfbf7 22%,
+      rgba(253, 251, 247, 0.92) 36%,
+      rgba(253, 251, 247, 0.45) 52%,
+      rgba(253, 251, 247, 0.12) 66%,
+      transparent 80%
+    );
+  }
 }
 
 .community-krishna-fade {
   background: linear-gradient(
-    90deg,
-    #fdfbf7 0%,
-    #fdfbf7 12%,
-    rgba(253, 251, 247, 0.92) 34%,
-    rgba(253, 251, 247, 0.45) 58%,
-    transparent 82%
+    180deg,
+    rgba(253, 251, 247, 0.04) 0%,
+    rgba(253, 251, 247, 0.2) 55%,
+    #fdfbf7 100%
   );
+}
+
+@media (min-width: 1024px) {
+  .community-krishna-fade {
+    background: linear-gradient(
+      90deg,
+      #fdfbf7 0%,
+      #fdfbf7 12%,
+      rgba(253, 251, 247, 0.92) 34%,
+      rgba(253, 251, 247, 0.45) 58%,
+      transparent 82%
+    );
+  }
 }
 
 .font-devanagari {

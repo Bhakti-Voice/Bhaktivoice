@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { BlogCategoryChips } from "@/components/blog/BlogCategoryChips";
+import { BlogTagCloud } from "@/components/blog/BlogTagCloud";
 import { EmptyListing } from "@/components/content/EmptyListing";
-import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
+import { PageHero } from "@/components/layout/PageHero";
 import { ContextualCta } from "@/components/seo/ContextualCta";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { LocaleLink } from "@/components/i18n/LocaleLink";
+import { ListingPager } from "@/components/content/ListingPager";
 import { listBlog } from "@/lib/content";
 import { getBlogPage, getBlogPageCount } from "@/lib/content/blog-pagination";
 import { hubMetadata } from "@/lib/i18n/hub";
@@ -27,24 +28,16 @@ export default async function BlogIndexPage() {
   const tags = Array.from(new Set(blogPosts.flatMap((post) => post.tags ?? [])));
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
+    <div>
+      <PageHero title={t.hubs.blog.h1} crumbs={localizedCrumbs(t.homeName, [t.nav.blog, PATHS.blog])} />
+      <div className="mx-auto max-w-7xl px-4 pb-8 lg:px-8 lg:pb-12">
       <JsonLd
         data={itemListSchema(
           t.hubs.blog.h1,
           posts.map((post) => ({ name: post.title, url: `${PATHS.blog}/${post.slug}` })),
         )}
       />
-      <Breadcrumbs items={localizedCrumbs(t.homeName, [t.nav.blog, PATHS.blog])} />
-      <h1 className="mt-4 font-serif text-4xl text-ink lg:text-5xl">{t.hubs.blog.h1}</h1>
-      {tags.length ? (
-        <div className="mt-5 flex flex-wrap gap-2">
-          {tags.map((tag) => (
-            <span key={tag} className="rounded-full bg-cream px-3 py-1 text-xs text-muted">
-              {tag}
-            </span>
-          ))}
-        </div>
-      ) : null}
+      <BlogTagCloud tags={tags} />
 
       <div className="mt-8">
         {posts.length ? (
@@ -52,14 +45,14 @@ export default async function BlogIndexPage() {
         ) : (
           <EmptyListing kind="blog" />
         )}
-        {pages > 1 ? (
-          <p className="mt-8 text-sm text-muted">
-            {t.common.pageOf(1, pages)} ·{" "}
-            <LocaleLink href={`${PATHS.blog}/page/2`} className="text-saffron">
-              {t.common.next}
-            </LocaleLink>
-          </p>
-        ) : null}
+        <ListingPager
+          page={1}
+          pages={pages}
+          basePath={PATHS.blog}
+          previousLabel={t.common.previous}
+          nextLabel={t.common.next}
+          pageOf={t.common.pageOf}
+        />
       </div>
 
       <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -75,6 +68,7 @@ export default async function BlogIndexPage() {
         />
       </div>
       <HubSeoBlock id="blog" />
+      </div>
     </div>
   );
 }

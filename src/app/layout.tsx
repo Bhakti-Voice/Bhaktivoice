@@ -77,7 +77,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <LocaleRefresh />
         <AuthProvider>
           <Header />
-          <main className="min-h-[70vh]">{children}</main>
+          <main className="min-h-[70vh] min-w-0 overflow-x-clip">{children}</main>
           <MobileNav />
         </AuthProvider>
         <Footer />

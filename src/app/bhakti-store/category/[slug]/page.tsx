@@ -37,20 +37,17 @@ export default async function StoreCategoryPage({ params }: Props) {
       <Breadcrumbs items={pageCrumbs(["Store", PATHS.store], [category.name, category.href])} />
       <h1 className="mt-4 font-serif text-4xl text-ink">{category.name}</h1>
       {items.length ? (
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-3">
           {items.map((product) => (
-            <article key={product.slug} className="overflow-hidden rounded-3xl bg-white ring-1 ring-line">
-              <ListingCard
-                href={`${PATHS.store}/${product.slug}`}
-                title={product.name}
-                text={`₹${product.priceInr.toLocaleString("en-IN")}`}
-                image={product.heroImage}
-                imageAlt={product.heroImageAlt}
-              />
-              <div className="px-5 pb-5">
-                <AddToCartButton slug={product.slug} name={product.name} />
-              </div>
-            </article>
+            <ListingCard
+              key={product.slug}
+              href={`${PATHS.store}/${product.slug}`}
+              title={product.name}
+              text={`₹${product.priceInr.toLocaleString("en-IN")}`}
+              image={product.heroImage}
+              imageAlt={product.heroImageAlt}
+              footer={<AddToCartButton slug={product.slug} name={product.name} />}
+            />
           ))}
         </div>
       ) : (

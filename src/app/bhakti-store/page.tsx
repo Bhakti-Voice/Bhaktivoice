@@ -3,7 +3,7 @@ import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { ListingCard } from "@/components/content/ListingCard";
 import { EmptyListing } from "@/components/content/EmptyListing";
 import { AddToCartButton } from "@/components/store/AddToCartButton";
-import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
+import { PageHero } from "@/components/layout/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
 import { listProducts, listStoreCategories } from "@/lib/content";
@@ -21,15 +21,15 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function StorePage() {
   const [products, storeCategories] = await Promise.all([listProducts(), listStoreCategories()]);
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
+    <div>
+      <PageHero title="Bhakti Store" crumbs={pageCrumbs(["Store", PATHS.store])} />
+      <div className="mx-auto max-w-7xl px-4 pb-8 lg:px-8 lg:pb-12">
       <JsonLd
         data={itemListSchema(
           "Bhakti store",
           products.map((product) => ({ name: product.name, url: `${PATHS.store}/${product.slug}` })),
         )}
       />
-      <Breadcrumbs items={pageCrumbs(["Store", PATHS.store])} />
-      <h1 className="mt-4 font-serif text-4xl text-ink lg:text-5xl">Bhakti Store</h1>
 
       {storeCategories.length ? (
         <div className="mt-10 flex flex-wrap gap-4">
@@ -47,24 +47,18 @@ export default async function StorePage() {
       <section className="mt-12">
         <h2 className="font-serif text-2xl text-ink">Best Sellers</h2>
         {products.length ? (
-          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-3">
             {products.map((product) => (
-              <article
+              <ListingCard
                 key={product.slug}
-                className="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-line"
-              >
-                <ListingCard
-                  href={`${PATHS.store}/${product.slug}`}
-                  title={product.name}
-                  text={`₹${product.priceInr.toLocaleString("en-IN")}`}
-                  image={product.heroImage}
-                  imageAlt={product.heroImageAlt}
-                  meta={product.categorySlug}
-                />
-                <div className="px-5 pb-5">
-                  <AddToCartButton slug={product.slug} name={product.name} />
-                </div>
-              </article>
+                href={`${PATHS.store}/${product.slug}`}
+                title={product.name}
+                text={`₹${product.priceInr.toLocaleString("en-IN")}`}
+                image={product.heroImage}
+                imageAlt={product.heroImageAlt}
+                meta={product.categorySlug}
+                footer={<AddToCartButton slug={product.slug} name={product.name} />}
+              />
             ))}
           </div>
         ) : (
@@ -72,6 +66,7 @@ export default async function StorePage() {
         )}
       </section>
       <HubSeoBlock id="store" />
+      </div>
     </div>
   );
 }

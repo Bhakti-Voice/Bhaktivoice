@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
-import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
+import { PageHero } from "@/components/layout/PageHero";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { hubMetadata } from "@/lib/i18n/hub";
 import { getMessages } from "@/lib/i18n/server";
@@ -33,19 +33,20 @@ export default async function MorePage() {
   ];
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12">
-      <Breadcrumbs items={localizedCrumbs(t.homeName, [t.hubs.more.h1, PATHS.more])} />
-      <h1 className="mt-4 font-serif text-4xl text-ink">{t.hubs.more.h1}</h1>
-      <ul className="mt-8 divide-y divide-line rounded-3xl bg-white ring-1 ring-line">
-        {links.map((link) => (
-          <li key={link.href}>
-            <LocaleLink href={link.href} className="block px-5 py-4 text-ink hover:text-saffron">
-              {link.label}
-            </LocaleLink>
-          </li>
-        ))}
-      </ul>
-      <HubSeoBlock id="more" />
+    <div>
+      <PageHero title={t.hubs.more.h1} crumbs={localizedCrumbs(t.homeName, [t.hubs.more.h1, PATHS.more])} />
+      <div className="mx-auto max-w-3xl px-4 pb-12 lg:px-8">
+        <ul className="divide-y divide-line rounded-3xl bg-white ring-1 ring-line">
+          {links.map((link) => (
+            <li key={link.href}>
+              <LocaleLink href={link.href} className="block px-5 py-4 text-ink hover:text-saffron">
+                {link.label}
+              </LocaleLink>
+            </li>
+          ))}
+        </ul>
+        <HubSeoBlock id="more" />
+      </div>
     </div>
   );
 }

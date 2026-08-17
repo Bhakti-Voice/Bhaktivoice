@@ -7,7 +7,7 @@ import { articleSchema } from "@/lib/seo/schema";
 import { localizedMetadata } from "@/lib/seo/metadata";
 import { PATHS } from "@/lib/seo/paths";
 
-type Props = { params: Promise<{ slug: string }> };
+type Props = { params: Promise<{ slug: string }>; searchParams: Promise<{ listen?: string }> };
 
 export const dynamic = "force-dynamic";
 
@@ -28,10 +28,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
-export default async function KathaDetailPage({ params }: Props) {
+export default async function KathaDetailPage({ params, searchParams }: Props) {
   const { slug } = await params;
+  const { listen } = await searchParams;
   const page = await getKatha(slug);
   if (!page) notFound();
+  const autoListen = listen === "1" || listen === "true";
 
   return (
     <>
@@ -46,7 +48,7 @@ export default async function KathaDetailPage({ params }: Props) {
           path: `${PATHS.katha}/${page.slug}`,
         })}
       />
-      <KathaSeriesView series={page} />
+      <KathaSeriesView series={page} autoListen={autoListen} />
     </>
   );
 }

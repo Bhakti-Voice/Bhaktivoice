@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
-import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
+import { PageHero } from "@/components/layout/PageHero";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
@@ -40,7 +40,13 @@ export default async function TithiPage() {
   const dateTime = (value: Date) => formatIstDateTime(value, locale);
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8 lg:px-8 lg:py-12">
+    <div>
+      <PageHero
+        title={t.hubs.tithi.h1}
+        subtitle={dateLabel}
+        crumbs={localizedCrumbs(t.homeName, [t.nav.tithi, PATHS.tithi])}
+      />
+      <div className="mx-auto max-w-4xl px-4 pb-8 lg:px-8 lg:pb-12">
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -50,10 +56,7 @@ export default async function TithiPage() {
           description: t.hubs.tithi.description,
         }}
       />
-      <Breadcrumbs items={localizedCrumbs(t.homeName, [t.nav.tithi, PATHS.tithi])} />
-      <p className="mt-4 text-xs uppercase tracking-[0.2em] text-saffron">{t.common.panchang}</p>
-      <h1 className="mt-2 font-serif text-4xl text-ink lg:text-5xl">{t.hubs.tithi.h1}</h1>
-      <p className="mt-2 text-lg text-muted">{dateLabel}</p>
+      <p className="mt-2 text-xs uppercase tracking-[0.2em] text-saffron">{t.common.panchang}</p>
 
       <section className="mt-8 overflow-hidden rounded-[32px] bg-white shadow-sm ring-1 ring-line">
         <div className="bg-[#fff4ea] px-6 py-8 text-center sm:px-10">
@@ -223,6 +226,7 @@ export default async function TithiPage() {
       </p>
 
       <HubSeoBlock id="tithi" />
+      </div>
     </div>
   );
 }

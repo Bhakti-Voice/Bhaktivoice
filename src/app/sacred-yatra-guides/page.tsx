@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ListingCard } from "@/components/content/ListingCard";
 import { EmptyListing } from "@/components/content/EmptyListing";
-import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
+import { PageHero } from "@/components/layout/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
@@ -36,15 +36,15 @@ export default async function YatraIndexPage({ searchParams }: Props) {
       : yatraPages.filter((page) => page.filters?.includes(active));
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
+    <div>
+      <PageHero title={t.hubs.yatra.h1} crumbs={localizedCrumbs(t.homeName, [t.nav.yatra, PATHS.yatra])} />
+      <div className="mx-auto max-w-7xl px-4 pb-8 lg:px-8 lg:pb-12">
       <JsonLd
         data={itemListSchema(
           t.hubs.yatra.h1,
           pages.map((page) => ({ name: page.title, url: `${PATHS.yatra}/${page.slug}` })),
         )}
       />
-      <Breadcrumbs items={localizedCrumbs(t.homeName, [t.nav.yatra, PATHS.yatra])} />
-      <h1 className="mt-4 font-serif text-4xl text-ink lg:text-5xl">{t.hubs.yatra.h1}</h1>
 
       {filters.length > 1 ? (
         <div className="mt-8 flex flex-wrap gap-2">
@@ -67,7 +67,7 @@ export default async function YatraIndexPage({ searchParams }: Props) {
       ) : null}
 
       {pages.length ? (
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-3">
           {pages.map((page) => (
             <ListingCard
               key={page.slug}
@@ -84,6 +84,7 @@ export default async function YatraIndexPage({ searchParams }: Props) {
         <EmptyListing kind="trips" />
       )}
       <HubSeoBlock id="yatra" />
+      </div>
     </div>
   );
 }

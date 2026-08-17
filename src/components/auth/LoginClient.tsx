@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { MediaImage } from "@/components/media/MediaImage";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { pageCrumbs } from "@/lib/seo/crumbs";
 import { useAuth } from "@/lib/auth/AuthProvider";
@@ -27,6 +28,16 @@ export function LoginClient() {
         <p className="mt-3 text-sm text-muted">
           Save jaap counts, sankalps, and the diary across devices.
         </p>
+        <div className="mx-auto mt-8 flex h-28 w-28 items-center justify-center bg-transparent">
+          <MediaImage
+            src="/images/lotus-logo-mark.png"
+            alt="Bhakti Voice"
+            width={112}
+            height={112}
+            priority
+            className="h-28 w-28 bg-transparent object-contain"
+          />
+        </div>
         {user ? (
           <p className="mt-6 text-sm text-ink">You are already signed in as {user.displayName ?? user.email}.</p>
         ) : (
@@ -34,7 +45,7 @@ export function LoginClient() {
             type="button"
             onClick={() => void onGoogle()}
             disabled={loading || !configured}
-            className="mt-8 w-full rounded-full bg-navy px-5 py-3 text-sm font-medium text-white disabled:opacity-60"
+            className="mt-6 w-full rounded-full bg-navy px-5 py-3 text-sm font-medium text-white disabled:opacity-60"
           >
             Continue with Google
           </button>

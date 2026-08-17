@@ -61,22 +61,23 @@ export default async function HomePage() {
         )}
       />
 
-      <section className="relative min-h-[580px] overflow-hidden lg:min-h-[700px]">
+      <section className="relative isolate min-h-[calc(100svh-3.5rem)] overflow-hidden lg:min-h-[760px]">
         <MediaImage
           src="/images/krishna-hero.png"
           alt="Lord Krishna playing the flute by a river at sunset"
           fill
           priority
-          className="object-cover object-[72%_8%] scale-x-[-1]"
+          className="object-cover object-[center_14%] scale-x-[-1] sm:object-[58%_10%] lg:object-[72%_8%]"
           sizes="100vw"
         />
         <div className="hero-krishna-fade pointer-events-none absolute inset-0" />
-        <div className="relative z-10 mx-auto max-w-7xl px-4 pt-16 pb-8 lg:px-8 lg:pt-24 lg:pb-10">
+        <div className="relative z-10 mx-auto flex min-h-[calc(100svh-3.5rem)] max-w-7xl flex-col justify-end px-4 pb-24 pt-8 lg:min-h-[760px] lg:justify-center lg:px-8 lg:pb-16 lg:pt-24">
           <div className="max-w-xl lg:max-w-2xl">
-            <h1 className="font-serif text-4xl leading-[1.15] text-ink sm:text-5xl lg:text-[3.5rem]">
+            <p className="text-xs font-medium uppercase tracking-[0.28em] text-saffron">Bhakti Voice</p>
+            <h1 className="mt-3 font-serif text-3xl leading-[1.15] text-ink sm:text-5xl lg:text-[3.5rem]">
               {t.home.h1}
             </h1>
-            <p className="mt-4 text-lg text-muted">{t.home.sub}</p>
+            <p className="mt-3 text-base text-muted sm:text-lg">{t.home.sub}</p>
             <div className="mt-6 flex flex-wrap gap-3">
               <LocaleLink
                 href={PATHS.naamJaap}
@@ -109,21 +110,24 @@ export default async function HomePage() {
               </Suspense>
             </div>
           </div>
-          <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:mt-20 lg:grid-cols-6">
-            {features.map((feature) => (
-              <LocaleLink
-                key={feature.href}
-                href={feature.href}
-                className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-line transition hover:-translate-y-0.5"
-              >
-                <span className={`inline-flex rounded-2xl p-2 ${feature.color}`}>
-                  <feature.icon className="h-5 w-5" />
-                </span>
-                <h2 className="mt-4 font-semibold text-ink">{feature.title}</h2>
-                <p className="mt-1 text-sm text-muted">{feature.text}</p>
-              </LocaleLink>
-            ))}
-          </div>
+        </div>
+      </section>
+
+      <section className="relative z-10 mx-auto max-w-7xl px-4 pb-4 lg:px-8">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-6">
+          {features.map((feature) => (
+            <LocaleLink
+              key={feature.href}
+              href={feature.href}
+              className="min-w-0 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-line transition hover:-translate-y-0.5 sm:rounded-3xl sm:p-5"
+            >
+              <span className={`inline-flex rounded-2xl p-2 ${feature.color}`}>
+                <feature.icon className="h-5 w-5" />
+              </span>
+              <h2 className="mt-3 font-semibold text-ink sm:mt-4">{feature.title}</h2>
+              <p className="mt-1 text-sm text-muted">{feature.text}</p>
+            </LocaleLink>
+          ))}
         </div>
       </section>
 
@@ -153,9 +157,9 @@ async function HomeChantBanner({ locale, t }: { locale: string; t: Messages }) {
     count: formatCount(stats.byMantra.find((row) => row.slug === item.slug)?.total ?? 0, locale),
   }));
   return (
-    <section className="mx-auto max-w-7xl px-4 pt-2 pb-16 lg:px-8">
-      <div className="grid items-center gap-8 rounded-[32px] bg-navy px-6 py-8 text-white md:grid-cols-[1.1fr_0.8fr_1fr] lg:px-10">
-        <div>
+    <section className="mx-auto max-w-7xl px-4 pt-6 pb-16 lg:px-8">
+      <div className="grid items-center gap-6 rounded-[32px] bg-navy px-5 py-7 text-white sm:px-6 md:grid-cols-[1.15fr_0.9fr_1fr] md:gap-8 md:px-8 md:py-8 lg:px-10">
+        <div className="text-center md:text-left">
           <p className="text-sm text-white/80">{t.home.globalToday}</p>
           <p className="mt-2 font-serif text-4xl font-semibold sm:text-5xl">
             {formatCount(stats.total, locale)}
@@ -168,16 +172,16 @@ async function HomeChantBanner({ locale, t }: { locale: string; t: Messages }) {
             {t.home.joinSankalp}
           </LocaleLink>
         </div>
-        <div className="relative mx-auto h-40 w-full max-w-xs">
+        <div className="relative mx-auto aspect-[5/4] w-full max-w-[260px] overflow-hidden rounded-[28px] md:max-w-[300px]">
           <MediaImage
-            src="/images/diyas.png"
+            src="/images/diyas-mark.png"
             alt="Lit diyas glowing in the dark"
             fill
-            className="object-contain"
-            sizes="240px"
+            className="object-contain object-[center_60%] mix-blend-lighten"
+            sizes="(max-width: 768px) 260px, 300px"
           />
         </div>
-        <div className="grid gap-4">
+        <div className="grid justify-items-center gap-4 md:justify-items-start">
           {counts.map((item) => (
             <div key={item.name} className="flex items-center gap-3">
               <span className={`h-8 w-8 shrink-0 rounded-full ${item.color}`} />
@@ -192,4 +196,3 @@ async function HomeChantBanner({ locale, t }: { locale: string; t: Messages }) {
     </section>
   );
 }
-

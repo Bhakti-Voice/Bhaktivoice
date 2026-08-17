@@ -22,8 +22,8 @@ export async function MobileNav() {
         {items.map((item) => (
           <li key={item.href}>
             <LocaleLink href={item.href} className="flex flex-col items-center gap-1 py-1 text-[11px] text-muted">
-              <item.icon className="h-5 w-5" />
-              {item.label}
+              <item.icon className="h-5 w-5 shrink-0" />
+              <span className="max-w-full truncate px-0.5">{item.label}</span>
             </LocaleLink>
           </li>
         ))}

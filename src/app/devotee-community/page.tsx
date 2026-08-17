@@ -3,8 +3,8 @@ import { MediaImage } from "@/components/media/MediaImage";
 import Link from "next/link";
 import { Users } from "lucide-react";
 import { hubMetadata } from "@/lib/i18n/hub";
+import { PageHero } from "@/components/layout/PageHero";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
-import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { EmptyListing } from "@/components/content/EmptyListing";
 import { pageCrumbs } from "@/lib/seo/crumbs";
 import { PATHS } from "@/lib/seo/paths";
@@ -22,25 +22,7 @@ export default async function CommunityPage() {
 
   return (
     <div>
-      <section className="relative min-h-[280px] overflow-hidden lg:min-h-[340px]">
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-[58%] max-w-[640px]">
-          <MediaImage
-            src="/images/krishna-hero.png"
-            alt="Lord Krishna playing the flute by a river at sunset"
-            fill
-            priority
-            className="object-cover object-[center_20%] scale-x-[-1]"
-            sizes="(max-width: 1024px) 70vw, 640px"
-          />
-          <div className="community-krishna-fade absolute inset-0" />
-        </div>
-        <div className="relative z-10 mx-auto max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
-          <div className="max-w-xl">
-            <Breadcrumbs items={pageCrumbs(["Community", PATHS.community])} />
-            <h1 className="mt-4 font-serif text-4xl text-ink lg:text-5xl">Devotee Community</h1>
-          </div>
-        </div>
-      </section>
+      <PageHero title="Devotee Community" crumbs={pageCrumbs(["Community", PATHS.community])} />
 
       <section className="mx-auto max-w-7xl px-4 pb-8 lg:px-8">
         <div className="overflow-hidden rounded-[32px] bg-navy text-white md:grid md:grid-cols-2">
