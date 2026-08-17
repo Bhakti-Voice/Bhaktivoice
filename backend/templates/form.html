@@ -4,7 +4,7 @@
   <p><a href="/admin/{{ kind.key }}">← {{ kind.plural }}</a></p>
     <h1>{% if item_id %}Edit{% else %}New{% endif %} {{ kind.label }}</h1>
     <p class="hint">English is the default public page. Fill every “(Hindi)” field so <code>/hi</code> shows a full translation. Empty Hindi fields fall back to English. One Turso row, one slug, two languages.</p>
-  <form class="card" method="post" action="/admin/{{ kind.key }}/save" id="entry-form">
+  <form class="card" method="post" action="/admin/{{ kind.key }}/save" id="entry-form" accept-charset="UTF-8">
     {% if item_id %}<input type="hidden" name="item_id" value="{{ item_id }}" />{% endif %}
     <label>Status
       <select name="status">
@@ -21,11 +21,11 @@
             {% endfor %}
           </select>
         {% elif field.type in ["textarea", "lines", "faqs", "related", "places", "itinerary", "episodes", "sections", "paragraphs", "tags"] %}
-          <textarea name="{{ field.name }}" rows="{{ field.rows }}">{{ values[field.name] }}</textarea>
+          <textarea name="{{ field.name }}" rows="{{ field.rows }}">{{ values.get(field.name, '') }}</textarea>
         {% elif field.type == "number" %}
-          <input type="number" name="{{ field.name }}" value="{{ values[field.name] }}" />
+          <input type="number" name="{{ field.name }}" value="{{ values.get(field.name, '') }}" />
         {% else %}
-          <input name="{{ field.name }}" value="{{ values[field.name] }}" />
+          <input name="{{ field.name }}" value="{{ values.get(field.name, '') }}" />
         {% endif %}
       </label>
       {% if field.hint %}<p class="hint">{{ field.hint }}</p>{% endif %}

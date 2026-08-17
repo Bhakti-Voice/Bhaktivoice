@@ -30,6 +30,7 @@ from kinds import (
     today,
 )
 from json_import import kind_placeholders
+from store import save_entry
 
 ROOT = Path(__file__).resolve().parent
 load_dotenv(ROOT.parent / ".env")
@@ -161,6 +162,33 @@ def published(kind: str, slug: str | None = None, locale: str = "en") -> list[di
 def require_admin(request: Request) -> None:
     if not request.session.get("admin"):
         raise HTTPException(status_code=401, detail="Admin login required")
+
+
+async def read_admin_form(request: Request):
+    kwargs = {"max_files": 0, "max_fields": 500, "max_part_size": 20 * 1024 * 1024}
+    try:
+        form = await request.form(**kwargs)
+    except TypeError:
+        form = await request.form()
+    payload: dict[str, str] = {}
+    for key, value in dict(form).items():
+        if value is None:
+            payload[str(key)] = ""
+        elif isinstance(value, (bytes, bytearray)):
+            payload[str(key)] = bytes(value).decode("utf-8", "replace")
+        else:
+            payload[str(key)] = str(value)
+    return payload
+
+
+def parse_item_id(raw: str) -> int | None:
+    text = str(raw or "").strip()
+    if not text:
+        return None
+    try:
+        return int(text)
+    except (TypeError, ValueError):
+        return None
 
 
 @app.get("/api/health")
@@ -589,29 +617,45 @@ def admin_edit(request: Request, kind: str, item_id: int):
         return RedirectResponse("/admin/login", status_code=302)
     if kind not in KINDS:
         raise HTTPException(status_code=404)
-    row = db().fetchone("SELECT * FROM cms_entries WHERE id = ? AND kind = ?", [item_id, kind])
+    spec = KINDS[kind]
+    try:
+        row = db().fetchone("SELECT * FROM cms_entries WHERE id = ? AND kind = ?", [item_id, kind])
+    except Exception as error:
+        return templates.TemplateResponse(
+            "list.html",
+            admin_context(request, kind=spec, rows=[], error=f"Could not load this entry: {error}"),
+            status_code=500,
+        )
     if not row:
         raise HTTPException(status_code=404)
-    spec = KINDS[kind]
     data = parse_data(row.get("data"))
+    values = {}
+    form_error = None
+    for field in spec.fields:
+        try:
+            values[field.name] = dump_field(field, data)
+        except Exception as error:
+            values[field.name] = ""
+            form_error = form_error or f"Could not unpack {field.label}: {error}"
     try:
-        values = {field.name: dump_field(field, data) for field in spec.fields}
-        form_error = None
+        return templates.TemplateResponse(
+            "form.html",
+            admin_context(
+                request,
+                kind=spec,
+                values=values,
+                slug=row.get("slug") or "",
+                status=row.get("status") or "published",
+                item_id=item_id,
+                error=form_error,
+            ),
+        )
     except Exception as error:
-        values = {field.name: "" for field in spec.fields}
-        form_error = f"Could not unpack this entry for editing: {error}"
-    return templates.TemplateResponse(
-        "form.html",
-        admin_context(
-            request,
-            kind=spec,
-            values=values,
-            slug=row["slug"],
-            status=row["status"],
-            item_id=item_id,
-            error=form_error,
-        ),
-    )
+        return templates.TemplateResponse(
+            "base.html",
+            admin_context(request, error=f"Could not render the edit form: {error}"),
+            status_code=500,
+        )
 
 
 @app.post("/admin/{kind}/save")
@@ -619,30 +663,29 @@ async def admin_save(request: Request, kind: str):
     require_admin(request)
     if kind not in KINDS:
         raise HTTPException(status_code=404)
-    form = dict((await request.form()))
     spec = KINDS[kind]
-    status = str(form.get("status") or "published")
-    item_id = str(form.get("item_id") or "").strip()
-    data = form_to_data(spec, {key: str(value) for key, value in form.items()})
+    status = "published"
+    slug = ""
+    parsed_id = None
+    values = {field.name: "" for field in spec.fields}
     try:
-        save_entry(
-            kind,
-            data,
-            slug=str(form.get("slug") or ""),
-            status=status,
-            item_id=int(item_id) if item_id else None,
-        )
-    except ValueError as error:
-        values = {field.name: str(form.get(field.name) or "") for field in spec.fields}
+        form = await read_admin_form(request)
+        status = form.get("status") or "published"
+        slug = form.get("slug") or ""
+        parsed_id = parse_item_id(form.get("item_id") or "")
+        values = {field.name: form.get(field.name) or "" for field in spec.fields}
+        data = form_to_data(spec, form)
+        save_entry(kind, data, slug=slug, status=status, item_id=parsed_id)
+    except Exception as error:
         return templates.TemplateResponse(
             "form.html",
             admin_context(
                 request,
                 kind=spec,
                 values=values,
-                slug=str(form.get("slug") or ""),
+                slug=slug,
                 status=status,
-                item_id=int(item_id) if item_id else None,
+                item_id=parsed_id,
                 error=str(error),
             ),
             status_code=400,

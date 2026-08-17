@@ -23,6 +23,8 @@ export default async function MorePage() {
     { href: PATHS.festivals, label: t.nav.festivals },
     { href: PATHS.tithi, label: t.nav.tithi },
     { href: PATHS.mantras, label: t.nav.mantras },
+    { href: PATHS.bhajan, label: t.nav.bhajan },
+    { href: PATHS.aarti, label: t.nav.aarti },
     { href: PATHS.spirituality, label: t.nav.spirituality },
     { href: PATHS.community, label: t.nav.community },
     { href: PATHS.store, label: t.nav.store },

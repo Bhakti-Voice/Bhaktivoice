@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from datetime import datetime
+from typing import Any
 
 from db import get_db
 from kinds import KINDS
@@ -34,6 +35,26 @@ def entry_slug(kind: str, data: dict, existing: str = "") -> str:
     )
 
 
+def _json_safe(value: Any) -> Any:
+    if isinstance(value, str):
+        return value.encode("utf-8", "replace").decode("utf-8").replace("\x00", "")
+    if isinstance(value, list):
+        return [_json_safe(item) for item in value]
+    if isinstance(value, dict):
+        return {str(key): _json_safe(item) for key, item in value.items()}
+    if isinstance(value, (int, float, bool)) or value is None:
+        return value
+    return str(value)
+
+
+def _save_error(error: Exception) -> ValueError:
+    message = str(error).lower()
+    if "unique" in message or "constraint" in message:
+        return ValueError("That URL slug is already used by another entry. Change the slug and save again.")
+    text = str(error).strip() or type(error).__name__
+    return ValueError(text)
+
+
 def save_entry(
     kind: str,
     data: dict,
@@ -54,38 +75,49 @@ def save_entry(
     title = entry_title(data) or slug
     if not slug:
         raise ValueError("Add a title so we can build a long URL slug.")
-    payload = json.dumps(data, ensure_ascii=False)
+    payload = json.dumps(_json_safe(data), ensure_ascii=False)
     now = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
     conn = get_db()
-    if item_id:
+    try:
+        if item_id:
+            clash = conn.fetchone(
+                "SELECT id FROM cms_entries WHERE kind = ? AND slug = ? AND id != ?",
+                [kind, slug, int(item_id)],
+            )
+            if clash:
+                raise ValueError("That URL slug is already used by another entry. Change the slug and save again.")
+            conn.execute(
+                """
+                UPDATE cms_entries
+                SET slug = ?, title = ?, status = ?, data = ?, updated_at = ?
+                WHERE id = ? AND kind = ?
+                """,
+                [slug, title, status, payload, now, int(item_id), kind],
+            )
+            return slug, "updated"
+        existing = conn.fetchone(
+            "SELECT id FROM cms_entries WHERE kind = ? AND slug = ?",
+            [kind, slug],
+        )
+        if existing:
+            conn.execute(
+                """
+                UPDATE cms_entries
+                SET title = ?, status = ?, data = ?, updated_at = ?
+                WHERE id = ?
+                """,
+                [title, status, payload, now, existing["id"]],
+            )
+            return slug, "updated"
         conn.execute(
             """
-            UPDATE cms_entries
-            SET slug = ?, title = ?, status = ?, data = ?, updated_at = ?
-            WHERE id = ? AND kind = ?
+            INSERT INTO cms_entries (kind, slug, title, status, data, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
             """,
-            [slug, title, status, payload, now, int(item_id), kind],
+            [kind, slug, title, status, payload, now, now],
         )
-        return slug, "updated"
-    existing = conn.fetchone(
-        "SELECT id FROM cms_entries WHERE kind = ? AND slug = ?",
-        [kind, slug],
-    )
-    if existing:
-        conn.execute(
-            """
-            UPDATE cms_entries
-            SET title = ?, status = ?, data = ?, updated_at = ?
-            WHERE id = ?
-            """,
-            [title, status, payload, now, existing["id"]],
-        )
-        return slug, "updated"
-    conn.execute(
-        """
-        INSERT INTO cms_entries (kind, slug, title, status, data, created_at, updated_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-        """,
-        [kind, slug, title, status, payload, now, now],
-    )
-    return slug, "created"
+        return slug, "created"
+    except ValueError:
+        raise
+    except Exception as error:
+        raise _save_error(error) from error

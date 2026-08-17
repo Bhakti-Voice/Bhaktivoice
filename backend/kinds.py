@@ -505,7 +505,8 @@ def parse_paragraphs(value: str) -> list[str]:
 def form_to_data(kind: Kind, form: dict[str, str]) -> dict[str, Any]:
     data: dict[str, Any] = {}
     for item in kind.fields:
-        raw = (form.get(item.name) or "").strip()
+        value = form.get(item.name)
+        raw = "" if value is None else str(value).strip()
         if item.type == "lines":
             data[item.name] = lines(raw)
         elif item.type == "tags":
@@ -560,75 +561,121 @@ def parse_spirituality_sections(value: str) -> list[dict[str, str]]:
     return sections
 
 
+def _safe_text(value: Any) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, bytes):
+        text = value.decode("utf-8", "replace")
+    else:
+        text = str(value)
+    return text.encode("utf-8", "replace").decode("utf-8").replace("\x00", "")
+
+
+def _plain(value: Any) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, list):
+        return " ".join(part for part in (_plain(item) for item in value) if part)
+    if isinstance(value, dict):
+        for key in ("text", "answer", "question", "body", "label", "name"):
+            if key in value:
+                return _plain(value.get(key))
+        return ""
+    return _safe_text(value).strip()
+
+
 def _str_list(value: Any) -> list[str]:
     if isinstance(value, str):
         return [value] if value.strip() else []
     if not isinstance(value, list):
-        return []
+        text = _plain(value)
+        return [text] if text else []
     items: list[str] = []
     for item in value:
-        if item is None or isinstance(item, (dict, list)):
+        if item is None:
             continue
-        text = str(item).strip()
+        if isinstance(item, (dict, list)):
+            text = _plain(item)
+        else:
+            text = _safe_text(item).strip()
         if text:
-            items.append(str(item))
+            items.append(text)
     return items
 
 
 def _dict_list(value: Any) -> list[dict[str, Any]]:
+    if isinstance(value, dict):
+        for key in ("items", "faqs", "sections", "links"):
+            nested = value.get(key)
+            if isinstance(nested, list):
+                value = nested
+                break
+        else:
+            return [value]
     if not isinstance(value, list):
         return []
     return [item for item in value if isinstance(item, dict)]
 
 
 def dump_field(item: Field, data: dict[str, Any]) -> str:
-    value = data.get(item.name)
-    if item.name == "yatraCategory":
-        value = data.get("yatraCategory") or data.get("category") or "destination"
-    if value is None:
-        return ""
-    if item.type == "lines":
-        return "\n".join(_str_list(value))
-    if item.type == "tags":
-        return ", ".join(_str_list(value))
-    if item.type == "faqs":
-        return "\n".join(
-            f"{faq.get('question', '')} || {faq.get('answer', '')}"
-            for faq in _dict_list(value)
-        )
-    if item.type == "related":
-        return "\n".join(
-            f"{link.get('kind', 'page')} | {link.get('href', '')} | {link.get('label', '')}"
-            for link in _dict_list(value)
-        )
-    if item.type == "places":
-        rows = []
-        for place in _dict_list(value):
-            href = place.get("href") or ""
-            rows.append(f"{place.get('name', '')} || {place.get('note', '')} || {href}".rstrip(" |"))
-        return "\n".join(rows)
-    if item.type == "itinerary":
-        return "\n".join(f"{row.get('day', '')} || {row.get('plan', '')}" for row in _dict_list(value))
-    if item.type == "episodes":
-        return "\n".join(
-            f"{row.get('number', '')} || {row.get('title', '')} || {row.get('duration', '')} || {row.get('summary', '')}"
-            for row in _dict_list(value)
-        )
-    if item.type == "sections":
-        chunks = []
-        for section in _dict_list(value):
-            heading = section.get("heading")
-            if heading:
-                chunks.append(f"## {heading}")
-            if "paragraphs" in section:
-                chunks.append("\n\n".join(_str_list(section.get("paragraphs"))))
-            else:
-                chunks.append(str(section.get("body") or ""))
-            chunks.append("")
-        return "\n".join(chunks).strip()
-    if item.type == "paragraphs":
-        return "\n\n".join(_str_list(value))
-    return str(value)
+    try:
+        value = data.get(item.name)
+        if item.name == "yatraCategory":
+            value = data.get("yatraCategory") or data.get("category") or "destination"
+        if value is None:
+            return ""
+        if item.type == "lines":
+            return "\n".join(_str_list(value))
+        if item.type == "tags":
+            return ", ".join(_str_list(value))
+        if item.type == "faqs":
+            return "\n".join(
+                f"{_plain(faq.get('question'))} || {_plain(faq.get('answer'))}"
+                for faq in _dict_list(value)
+                if _plain(faq.get("question")) or _plain(faq.get("answer"))
+            )
+        if item.type == "related":
+            return "\n".join(
+                f"{_plain(link.get('kind')) or 'page'} | {_plain(link.get('href'))} | {_plain(link.get('label'))}"
+                for link in _dict_list(value)
+            )
+        if item.type == "places":
+            rows = []
+            for place in _dict_list(value):
+                href = _plain(place.get("href"))
+                rows.append(f"{_plain(place.get('name'))} || {_plain(place.get('note'))} || {href}".rstrip(" |"))
+            return "\n".join(rows)
+        if item.type == "itinerary":
+            return "\n".join(
+                f"{_plain(row.get('day'))} || {_plain(row.get('plan'))}" for row in _dict_list(value)
+            )
+        if item.type == "episodes":
+            return "\n".join(
+                f"{_plain(row.get('number'))} || {_plain(row.get('title'))} || {_plain(row.get('duration'))} || {_plain(row.get('summary'))}"
+                for row in _dict_list(value)
+            )
+        if item.type == "sections":
+            if isinstance(value, str):
+                return _safe_text(value)
+            if isinstance(value, list) and value and not any(isinstance(item, dict) for item in value):
+                return "\n\n".join(_str_list(value))
+            chunks = []
+            for section in _dict_list(value):
+                heading = _plain(section.get("heading"))
+                if heading:
+                    chunks.append(f"## {heading}")
+                if "paragraphs" in section:
+                    chunks.append("\n\n".join(_str_list(section.get("paragraphs"))))
+                else:
+                    chunks.append(_plain(section.get("body")))
+                chunks.append("")
+            return "\n".join(chunks).strip()
+        if item.type == "paragraphs":
+            return "\n\n".join(_str_list(value))
+        return _safe_text(value)
+    except Exception:
+        value = data.get(item.name) if isinstance(data, dict) else None
+        return _safe_text(value) if isinstance(value, str) else ""
 
 
 def empty_related() -> dict[str, list]:

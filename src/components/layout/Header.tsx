@@ -38,6 +38,8 @@ export function Header() {
     { href: PATHS.festivals, label: t.nav.festivals },
     { href: PATHS.tithi, label: t.nav.tithi },
     { href: PATHS.mantras, label: t.nav.mantras },
+    { href: PATHS.bhajan, label: t.nav.bhajan },
+    { href: PATHS.aarti, label: t.nav.aarti },
     { href: PATHS.spirituality, label: t.nav.spirituality },
     { href: PATHS.yatraPlanner, label: t.nav.yatraPlanner },
     { href: PATHS.sankalp, label: t.nav.sankalp },
