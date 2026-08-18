@@ -5,6 +5,7 @@ import { ArticleLayout } from "@/components/content/ArticleLayout";
 import { getMantra } from "@/lib/content";
 import { localizedMetadata } from "@/lib/seo/metadata";
 import { PATHS } from "@/lib/seo/paths";
+import { ProseText, SectionBody } from "@/components/content/SectionBody";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -35,8 +36,8 @@ export default async function MantraDetailPage({ params }: Props) {
   return (
     <ArticleLayout page={page} path={`${PATHS.mantras}/${page.slug}`} lead={
         <div className="rounded-3xl bg-cream p-6 ring-1 ring-line">
-          <p className="font-serif text-2xl text-ink">{page.mantra}</p>
-          <p className="mt-2 text-sm text-muted">{page.pronunciation}</p>
+          <ProseText text={page.mantra} className="font-serif text-2xl text-ink" />
+          <ProseText text={page.pronunciation} className="mt-2 text-sm text-muted" />
           <p className="mt-3 text-sm text-ink">
             <strong>Suggested count:</strong> {page.suggestedCount}
           </p>
@@ -56,19 +57,19 @@ export default async function MantraDetailPage({ params }: Props) {
         <h2 className="font-serif text-2xl text-ink">How to chant</h2>
         <ol className="mt-3 list-decimal space-y-2 pl-5 text-muted">
           {(page.howToChant ?? []).map((step) => (
-            <li key={step}>{step}</li>
+            <ProseText as="li" key={step} text={step} />
           ))}
         </ol>
       </section>
       <section className="mt-8">
         <h2 className="font-serif text-2xl text-ink">Significance</h2>
-        <p className="mt-3 leading-relaxed text-muted">{page.significance}</p>
+        <SectionBody body={page.significance} />
       </section>
       <section className="mt-8">
         <h2 className="font-serif text-2xl text-ink">Traditional benefits</h2>
         <ul className="mt-3 list-disc space-y-2 pl-5 text-muted">
           {(page.traditionalBenefits ?? []).map((item) => (
-            <li key={item}>{item}</li>
+            <ProseText as="li" key={item} text={item} />
           ))}
         </ul>
       </section>

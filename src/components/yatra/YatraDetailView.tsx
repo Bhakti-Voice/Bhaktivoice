@@ -4,6 +4,7 @@ import { ContextualCta } from "@/components/seo/ContextualCta";
 import { ExpandableSection } from "@/components/seo/ExpandableSection";
 import { FaqList } from "@/components/seo/FaqList";
 import type { YatraPage } from "@/lib/content/types";
+import { ProseText } from "@/components/content/SectionBody";
 
 export function YatraDetailView({ page }: { page: YatraPage }) {
 
@@ -42,7 +43,9 @@ export function YatraDetailView({ page }: { page: YatraPage }) {
         ].map((item) => (
           <div key={item.label} className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-line">
             <dt className="text-xs uppercase tracking-wide text-saffron">{item.label}</dt>
-            <dd className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted">{item.value}</dd>
+            <dd className="mt-2">
+              <ProseText text={item.value} className="line-clamp-2 text-sm leading-relaxed text-muted" />
+            </dd>
           </div>
         ))}
       </dl>
@@ -51,14 +54,14 @@ export function YatraDetailView({ page }: { page: YatraPage }) {
         <div>
           <ExpandableSection title="Overview" className="mt-0" collapsible={false}>
             <div className="space-y-6 text-base leading-relaxed text-ink">
-              <p>{page.introduction}</p>
+              <ProseText text={page.introduction} />
               <section>
                 <h2 className="font-serif text-2xl">Why visit</h2>
-                <p className="mt-3 text-muted">{page.whyVisit}</p>
+                <ProseText text={page.whyVisit} className="mt-3 text-muted" />
               </section>
               <section>
                 <h2 className="font-serif text-2xl">Significance</h2>
-                <p className="mt-3 text-muted">{page.significance}</p>
+                <ProseText text={page.significance} className="mt-3 text-muted" />
               </section>
             </div>
           </ExpandableSection>
@@ -68,7 +71,7 @@ export function YatraDetailView({ page }: { page: YatraPage }) {
               {(page.places ?? []).map((place) => (
                 <li key={place.name} className="rounded-3xl bg-cream p-5 ring-1 ring-line">
                   <h2 className="font-serif text-xl text-ink">{place.name}</h2>
-                  <p className="mt-2 text-sm text-muted">{place.note}</p>
+                  <ProseText text={place.note} className="mt-2 text-sm text-muted" />
                 </li>
               ))}
             </ul>
@@ -79,7 +82,7 @@ export function YatraDetailView({ page }: { page: YatraPage }) {
               {(page.itinerary ?? []).map((item) => (
                 <li key={item.day} className="rounded-3xl bg-cream p-5 ring-1 ring-line">
                   <p className="text-xs uppercase tracking-wide text-saffron">{item.day}</p>
-                  <p className="mt-2 text-sm text-muted">{item.plan}</p>
+                  <ProseText text={item.plan} className="mt-2 text-sm text-muted" />
                 </li>
               ))}
             </ol>
@@ -89,15 +92,15 @@ export function YatraDetailView({ page }: { page: YatraPage }) {
             <div className="space-y-5 text-sm leading-relaxed text-muted">
               <p>
                 <strong className="text-ink">How to reach. </strong>
-                {page.howToReach}
+                <ProseText as="span" text={page.howToReach} />
               </p>
               <p>
                 <strong className="text-ink">Stay. </strong>
-                {page.stay}
+                <ProseText as="span" text={page.stay} />
               </p>
               <p>
                 <strong className="text-ink">Food. </strong>
-                {page.food}
+                <ProseText as="span" text={page.food} />
               </p>
               <p>
                 <strong className="text-ink">Nearby. </strong>
@@ -109,9 +112,7 @@ export function YatraDetailView({ page }: { page: YatraPage }) {
           <ExpandableSection title="Tips" collapsible={false}>
             <ul className="space-y-3">
               {(page.tips ?? []).map((tip) => (
-                <li key={tip} className="rounded-3xl bg-cream p-5 text-sm text-ink">
-                  {tip}
-                </li>
+                <ProseText as="li" key={tip} text={tip} className="rounded-3xl bg-cream p-5 text-sm text-ink" />
               ))}
             </ul>
           </ExpandableSection>

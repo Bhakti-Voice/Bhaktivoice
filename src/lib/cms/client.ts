@@ -1,4 +1,5 @@
 import { cache } from "react";
+import { expandNewlinesDeep } from "@/lib/text/newlines";
 
 export type ContentKind =
   | "mantra"
@@ -123,7 +124,7 @@ async function cmsGet<T>(
       console.error(`CMS ${response.status} ${url}`);
       return fallback;
     }
-    return (await response.json()) as T;
+    return expandNewlinesDeep((await response.json()) as T);
   } catch (error) {
     console.error(`CMS unavailable ${url}`, error instanceof Error ? error.message : error);
     return fallback;

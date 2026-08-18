@@ -1,4 +1,5 @@
 import { LocaleLink } from "@/components/i18n/LocaleLink";
+import { ProseText } from "@/components/content/SectionBody";
 
 export function ContextualCta({
   title,
@@ -24,9 +25,10 @@ export function ContextualCta({
       <h2 className={`font-serif text-2xl ${tone === "navy" ? "text-white" : "text-ink"}`}>
         {title}
       </h2>
-      <p className={`mt-2 text-sm ${tone === "navy" ? "text-white/80" : "text-muted"}`}>
-        {body}
-      </p>
+      <ProseText
+        text={body}
+        className={`mt-2 text-sm ${tone === "navy" ? "text-white/80" : "text-muted"}`}
+      />
       <LocaleLink
         href={href}
         className={`mt-4 inline-flex rounded-full px-5 py-2.5 text-sm font-medium ${

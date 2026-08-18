@@ -8,6 +8,7 @@ import { EmptyListing } from "@/components/content/EmptyListing";
 import { pageCrumbs } from "@/lib/seo/crumbs";
 import { PATHS } from "@/lib/seo/paths";
 import { listSankalpOffers } from "@/lib/content";
+import { ProseText } from "@/components/content/SectionBody";
 
 export const dynamic = "force-dynamic";
 
@@ -60,7 +61,7 @@ export default async function SankalpPage() {
               >
                 <div>
                   <h3 className="font-serif text-xl text-ink">{item.title}</h3>
-                  <p className="mt-1 text-sm text-muted">{item.text}</p>
+                  <ProseText text={item.text} className="mt-1 text-sm text-muted" />
                 </div>
                 <Link
                   href={item.href}

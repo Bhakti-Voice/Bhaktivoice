@@ -2,6 +2,7 @@ import { ChevronDown } from "lucide-react";
 import type { Faq } from "@/lib/content/types";
 import { faqSchema } from "@/lib/seo/schema";
 import { JsonLd } from "./JsonLd";
+import { ProseText } from "@/components/content/SectionBody";
 
 export function FaqList({
   faqs,
@@ -31,7 +32,7 @@ export function FaqList({
               <span>{faq.question}</span>
               <ChevronDown className="mt-0.5 h-4 w-4 shrink-0 text-saffron transition group-open:rotate-180" />
             </summary>
-            <p className="mt-3 text-sm leading-relaxed text-muted">{faq.answer}</p>
+            <ProseText text={faq.answer} className="mt-3 text-sm leading-relaxed text-muted" />
           </details>
         ))}
       </div>

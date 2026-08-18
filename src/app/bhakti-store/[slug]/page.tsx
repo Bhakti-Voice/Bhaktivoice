@@ -11,6 +11,7 @@ import { getProduct } from "@/lib/content";
 import { productSchema } from "@/lib/seo/schema";
 import { localizedMetadata } from "@/lib/seo/metadata";
 import { PATHS } from "@/lib/seo/paths";
+import { ProseText } from "@/components/content/SectionBody";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -63,8 +64,8 @@ export default async function ProductDetailPage({ params }: Props) {
             <AddToCartButton slug={page.slug} name={page.name} />
           </div>
           <ExpandableSection title="About this item" className="mt-6" collapsible={false}>
-            <p className="leading-relaxed text-muted">{page.introduction}</p>
-            <p className="mt-4 text-sm leading-relaxed text-muted">{page.description}</p>
+            <ProseText text={page.introduction} className="leading-relaxed text-muted" />
+            <ProseText text={page.description} className="mt-4 text-sm leading-relaxed text-muted" />
           </ExpandableSection>
           <FaqList faqs={page.faqs} />
         </div>

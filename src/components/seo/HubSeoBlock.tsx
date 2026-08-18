@@ -3,6 +3,7 @@ import { FaqList } from "@/components/seo/FaqList";
 import { ExpandableSection } from "@/components/seo/ExpandableSection";
 import { getHubSeo } from "@/lib/content";
 import type { HubSeoId } from "@/lib/content/hub-seo";
+import { ProseText } from "@/components/content/SectionBody";
 
 export function HubSeoBlock({
   id,
@@ -37,13 +38,13 @@ async function HubSeoInner({
       <ExpandableSection title={hub.heading} className="mt-0" collapsible={collapsible}>
         <div className="max-w-3xl space-y-4 text-[15px] leading-relaxed text-muted">
           {hub.paragraphs.map((paragraph) => (
-            <p key={paragraph.slice(0, 48)}>{paragraph}</p>
+            <ProseText key={paragraph.slice(0, 48)} text={paragraph} />
           ))}
         </div>
         {hub.points?.length ? (
           <ul className="mt-5 max-w-3xl list-disc space-y-2 pl-5 text-[15px] leading-relaxed text-muted">
             {hub.points.map((point) => (
-              <li key={point}>{point}</li>
+              <ProseText as="li" key={point} text={point} />
             ))}
           </ul>
         ) : null}

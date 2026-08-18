@@ -5,6 +5,7 @@ import { getTemple } from "@/lib/content";
 import { touristAttractionSchema } from "@/lib/seo/schema";
 import { localizedMetadata } from "@/lib/seo/metadata";
 import { PATHS } from "@/lib/seo/paths";
+import { SectionBody } from "@/components/content/SectionBody";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -65,7 +66,7 @@ export default async function TempleDetailPage({ params }: Props) {
       ].map((section) => (
         <section key={section.heading} className="mt-8 first:mt-0">
           <h2 className="font-serif text-2xl text-ink">{section.heading}</h2>
-          <p className="mt-3 leading-relaxed text-muted">{section.body}</p>
+          <SectionBody body={section.body} />
         </section>
       ))}
       <section className="mt-8">

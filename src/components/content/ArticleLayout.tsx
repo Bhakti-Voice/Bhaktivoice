@@ -5,6 +5,7 @@ import { ContextualCta } from "@/components/seo/ContextualCta";
 import { ExpandableSection } from "@/components/seo/ExpandableSection";
 import { FaqList } from "@/components/seo/FaqList";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { ProseText } from "@/components/content/SectionBody";
 import type { SeoPage } from "@/lib/content/types";
 import { articleSchema } from "@/lib/seo/schema";
 
@@ -51,7 +52,10 @@ export function ArticleLayout({
           />
           {lead ? <div className="mt-6">{lead}</div> : null}
           <ExpandableSection title="Read this page" className="mt-8" collapsible={false}>
-            <p className="max-w-3xl text-lg leading-relaxed text-muted">{page.introduction}</p>
+            <ProseText
+              text={page.introduction}
+              className="max-w-3xl text-lg leading-relaxed text-muted"
+            />
             <div className="mt-6">{children}</div>
           </ExpandableSection>
           <FaqList faqs={page.faqs ?? []} />

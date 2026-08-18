@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { CoverMedia } from "@/components/media/CoverMedia";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
+import { ProseText } from "@/components/content/SectionBody";
 
 export function ListingCard({
   href,
@@ -32,7 +33,10 @@ export function ListingCard({
         <h2 className="listing-card-title mt-1 line-clamp-2 break-words font-serif text-base leading-snug text-ink sm:text-lg">
           {title}
         </h2>
-        <p className="listing-card-text mt-1.5 line-clamp-2 break-words text-sm leading-relaxed text-muted">{text}</p>
+        <ProseText
+          text={text}
+          className="listing-card-text mt-1.5 line-clamp-2 break-words text-sm leading-relaxed text-muted"
+        />
       </div>
     </>
   );

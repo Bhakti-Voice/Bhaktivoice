@@ -10,6 +10,7 @@ import { pageCrumbs } from "@/lib/seo/crumbs";
 import { PATHS } from "@/lib/seo/paths";
 import { formatCount, getStats } from "@/lib/cms/client";
 import { listCommunityGroups } from "@/lib/content";
+import { ProseText } from "@/components/content/SectionBody";
 
 export const dynamic = "force-dynamic";
 
@@ -61,7 +62,7 @@ export default async function CommunityPage() {
               <li key={group.slug} className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-line">
                 <Users className="h-5 w-5 text-saffron" />
                 <h3 className="mt-3 font-serif text-xl text-ink">{group.name}</h3>
-                <p className="mt-2 text-sm text-muted">{group.text}</p>
+                <ProseText text={group.text} className="mt-2 text-sm text-muted" />
                 <p className="mt-3 text-xs text-muted">{formatCount(group.members)} devotees</p>
                 <Link
                   href="/login"

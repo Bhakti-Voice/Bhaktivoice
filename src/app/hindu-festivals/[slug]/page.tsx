@@ -4,6 +4,7 @@ import { ArticleLayout } from "@/components/content/ArticleLayout";
 import { getFestival } from "@/lib/content";
 import { localizedMetadata } from "@/lib/seo/metadata";
 import { PATHS } from "@/lib/seo/paths";
+import { ProseText, SectionBody } from "@/components/content/SectionBody";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -35,23 +36,23 @@ export default async function FestivalDetailPage({ params }: Props) {
     <ArticleLayout
       page={page}
       path={`${PATHS.festivals}/${page.slug}`}
-      lead={<p className="rounded-3xl bg-cream p-5 text-sm text-muted">{page.dateNote}</p>}
+      lead={<ProseText text={page.dateNote} className="rounded-3xl bg-cream p-5 text-sm text-muted" />}
     >
       <section>
         <h2 className="font-serif text-2xl text-ink">The story</h2>
-        <p className="mt-3 leading-relaxed text-muted">{page.story}</p>
+        <SectionBody body={page.story} />
       </section>
       <section className="mt-8">
         <h2 className="font-serif text-2xl text-ink">Traditions</h2>
         <ul className="mt-3 list-disc space-y-2 pl-5 text-muted">
           {(page.traditions ?? []).map((item) => (
-            <li key={item}>{item}</li>
+            <ProseText as="li" key={item} text={item} />
           ))}
         </ul>
       </section>
       <section className="mt-8">
         <h2 className="font-serif text-2xl text-ink">Puja at home</h2>
-        <p className="mt-3 leading-relaxed text-muted">{page.puja}</p>
+        <SectionBody body={page.puja} />
       </section>
     </ArticleLayout>
   );

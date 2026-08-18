@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ProseText } from "@/components/content/SectionBody";
 
 export function CollapsedProse({
   paragraphs,
@@ -19,14 +20,13 @@ export function CollapsedProse({
     <section className="mt-10 max-w-3xl">
       <div className={open ? "space-y-4" : ""}>
         {visible.map((paragraph, index) => (
-          <p
+          <ProseText
             key={paragraph.slice(0, 48)}
+            text={paragraph}
             className={`text-[15px] leading-relaxed text-muted ${
               open ? "" : index === 0 ? "line-clamp-3" : "sr-only"
             }`}
-          >
-            {paragraph}
-          </p>
+          />
         ))}
       </div>
       {visible.length > 1 || visible[0].length > 160 ? (

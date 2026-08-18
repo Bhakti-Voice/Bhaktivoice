@@ -23,6 +23,7 @@ import { PATHS } from "@/lib/seo/paths";
 import { localizedMetadata } from "@/lib/seo/metadata";
 import { getLocale, getMessages } from "@/lib/i18n/server";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
+import { ProseText } from "@/components/content/SectionBody";
 import type { Messages } from "@/lib/i18n/messages";
 import type { Metadata } from "next";
 
@@ -286,7 +287,7 @@ async function HomeContentSections({ t }: { t: Messages }) {
                     <ArrowRight className="h-4 w-4" />
                   </span>
                 </div>
-                <p className="mt-1 line-clamp-2 text-sm text-muted">{item.text}</p>
+                <ProseText text={item.text} className="mt-1 line-clamp-2 text-sm text-muted" />
               </LocaleLink>
             ))}
           </div>
@@ -304,9 +305,10 @@ async function HomeContentSections({ t }: { t: Messages }) {
               sizes="160px"
             />
           </div>
-          <p className="relative font-serif text-lg italic leading-relaxed sm:text-xl">
-            {quote?.text || t.home.krishnaQuote}
-          </p>
+          <ProseText
+            text={quote?.text || t.home.krishnaQuote}
+            className="relative font-serif text-lg italic leading-relaxed text-white sm:text-xl"
+          />
           <p className="relative mt-2 text-sm text-white/80">
             {quote?.attribution
               ? quote.attribution.startsWith("—") || quote.attribution.startsWith("–")
@@ -338,7 +340,10 @@ async function HomeContentSections({ t }: { t: Messages }) {
                     ) : null}
                   </div>
                   <h3 className="mt-3 font-serif text-xl leading-snug text-ink">{item.title}</h3>
-                  <p className="mt-2 line-clamp-2 text-sm text-muted">{item.excerpt || item.introduction}</p>
+                  <ProseText
+                    text={item.excerpt || item.introduction}
+                    className="mt-2 line-clamp-2 text-sm text-muted"
+                  />
                   <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-lotus">
                     {t.home.readMore}
                     <ArrowRight className="h-3.5 w-3.5" />

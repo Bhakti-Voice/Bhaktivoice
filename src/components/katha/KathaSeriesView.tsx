@@ -6,6 +6,7 @@ import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { ContextualCta } from "@/components/seo/ContextualCta";
 import { FaqList } from "@/components/seo/FaqList";
 import type { KathaSeries } from "@/lib/content/types";
+import { ProseText } from "@/components/content/SectionBody";
 
 export function KathaSeriesView({
   series,
@@ -21,7 +22,7 @@ export function KathaSeriesView({
         <div className="min-w-0">
           <p className="text-xs uppercase tracking-[0.2em] text-saffron">{series.category}</p>
           <h1 className="mt-2 font-serif text-3xl text-ink lg:text-4xl">{series.h1}</h1>
-          <p className="mt-2 text-lg text-muted">{series.subtitle}</p>
+          <ProseText text={series.subtitle} className="mt-2 text-lg text-muted" />
           <KathaNarrator
             title={series.h1}
             subtitle={series.subtitle}
@@ -48,7 +49,7 @@ export function KathaSeriesView({
           </div>
 
           <ExpandableSection title="Overview" className="mt-8" collapsible={false}>
-            <p className="text-base leading-relaxed text-ink">{series.introduction}</p>
+            <ProseText text={series.introduction} className="text-base leading-relaxed text-ink" />
           </ExpandableSection>
 
           <ExpandableSection title="Episodes" id="episodes" collapsible={false}>
@@ -57,7 +58,7 @@ export function KathaSeriesView({
                 <li key={episode.number} className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-line">
                   <p className="text-xs text-saffron">Episode {episode.number}</p>
                   <h2 className="mt-1 font-serif text-xl text-ink">{episode.title}</h2>
-                  <p className="mt-2 text-sm text-muted">{episode.summary}</p>
+                  <ProseText text={episode.summary} className="mt-2 text-sm text-muted" />
                   <p className="mt-2 text-xs text-muted">{episode.duration}</p>
                 </li>
               ))}

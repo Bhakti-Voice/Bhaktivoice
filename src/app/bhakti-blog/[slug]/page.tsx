@@ -10,6 +10,7 @@ import { getBlog } from "@/lib/content";
 import { articleSchema } from "@/lib/seo/schema";
 import { localizedMetadata } from "@/lib/seo/metadata";
 import { PATHS } from "@/lib/seo/paths";
+import { ProseText } from "@/components/content/SectionBody";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -68,7 +69,10 @@ export default async function BlogPostPage({ params }: Props) {
             priority
             sizes="(max-width: 1024px) 100vw, 900px"
           />
-          <p className="mt-8 max-w-3xl text-lg leading-relaxed text-muted">{page.introduction}</p>
+          <ProseText
+            text={page.introduction}
+            className="mt-8 max-w-3xl text-lg leading-relaxed text-muted"
+          />
           {toc.length ? (
             <nav className="mt-6 rounded-3xl bg-cream p-5 text-sm ring-1 ring-line">
               <p className="font-medium text-ink">In this guide</p>
@@ -89,9 +93,11 @@ export default async function BlogPostPage({ params }: Props) {
             >
               {section.heading ? <h2 className="font-serif text-2xl text-ink">{section.heading}</h2> : null}
               {section.paragraphs.map((paragraph) => (
-                <p key={paragraph.slice(0, 40)} className="mt-3 leading-relaxed text-muted">
-                  {paragraph}
-                </p>
+                <ProseText
+                  key={paragraph.slice(0, 40)}
+                  text={paragraph}
+                  className="mt-3 leading-relaxed text-muted"
+                />
               ))}
             </section>
           ))}
