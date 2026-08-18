@@ -8,7 +8,12 @@ export function organizationSchema() {
     name: SITE.name,
     url: SITE.url,
     slogan: SITE.tagline,
-    logo: absoluteUrl("/logo.png"),
+    logo: {
+      "@type": "ImageObject",
+      url: absoluteUrl("/logo.png"),
+      width: 192,
+      height: 192,
+    },
     sameAs: [],
   };
 }

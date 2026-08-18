@@ -12,19 +12,13 @@ const nextConfig: NextConfig = {
       static: 180,
     },
   },
-  async redirects() {
+  async headers() {
     return [
       {
-        source: "/favicon.ico",
-        has: [{ type: "host", value: "bhaktivoice.com" }],
-        destination: "https://www.bhaktivoice.com/favicon.ico",
-        permanent: true,
-      },
-      {
-        source: "/:path*",
-        has: [{ type: "host", value: "bhaktivoice.com" }],
-        destination: "https://www.bhaktivoice.com/:path*",
-        permanent: true,
+        source: "/:file(favicon.ico|icon.png|icon-48.png|icon-96.png|icon-192.png|icon-512.png|apple-touch-icon.png|apple-icon.png|logo.png|site.webmanifest)",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" },
+        ],
       },
     ];
   },

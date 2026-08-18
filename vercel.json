@@ -40,20 +40,6 @@
       ]
     }
   },
-  "redirects": [
-    {
-      "source": "/favicon.ico",
-      "has": [{ "type": "host", "value": "bhaktivoice.com" }],
-      "destination": "https://www.bhaktivoice.com/favicon.ico",
-      "permanent": true
-    },
-    {
-      "source": "/:path*",
-      "has": [{ "type": "host", "value": "bhaktivoice.com" }],
-      "destination": "https://www.bhaktivoice.com/:path*",
-      "permanent": true
-    }
-  ],
   "rewrites": [
     {
       "source": "/favicon.ico",

@@ -44,13 +44,16 @@ export const metadata: Metadata = {
   description: SITE.description,
   icons: {
     icon: [
-      { url: "/images/lotus-logo.png", type: "image/png", sizes: "192x192" },
-      { url: "/icon.png", type: "image/png", sizes: "192x192" },
-      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.ico", sizes: "48x48" },
+      { url: "/icon-48.png", type: "image/png", sizes: "48x48" },
+      { url: "/icon-96.png", type: "image/png", sizes: "96x96" },
+      { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
+      { url: "/icon-512.png", type: "image/png", sizes: "512x512" },
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
-    shortcut: "/images/lotus-logo.png",
+    shortcut: "/favicon.ico",
   },
+  manifest: "/site.webmanifest",
   openGraph: {
     title: "Bhakti Voice — Your Companion on the Spiritual Journey",
     description: SITE.description,
@@ -62,7 +65,7 @@ export const metadata: Metadata = {
       {
         url: absoluteUrl(SITE.ogHome),
         width: 1200,
-        height: 630,
+        height: 800,
         alt: SITE.ogHomeAlt,
       },
     ],
