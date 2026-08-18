@@ -21,7 +21,7 @@ export default async function DiaryPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
       <Breadcrumbs items={pageCrumbs([t.nav.sadhana, PATHS.sadhana], [t.nav.diary, PATHS.diary])} />
-      <h1 className="mt-4 font-serif text-4xl text-ink lg:text-5xl">{t.pages.diary.h1}</h1>
+      <h1 className="mt-4 font-serif text-4xl text-ink lg:text-5xl">{t.hubs.diary.h1}</h1>
       <p className="mt-3 max-w-2xl text-sm text-muted">{t.common.diaryWhereHint}</p>
       <div className="mt-10">
         <DiaryClient />

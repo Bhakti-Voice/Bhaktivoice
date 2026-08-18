@@ -64,7 +64,7 @@ export default async function SadhanaPage() {
   return (
     <div>
       <PageHero
-        title={t.pages.sadhana.h1}
+        title={t.hubs.sadhana.h1}
         hub="sadhana"
         crumbs={pageCrumbs([t.nav.sadhana, PATHS.sadhana])}
         subtitle={t.common.sadhanaDiaryLead}
