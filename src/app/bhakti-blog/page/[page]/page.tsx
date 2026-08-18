@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { BlogCategoryChips } from "@/components/blog/BlogCategoryChips";
+import { BlogPromiseBar } from "@/components/blog/BlogPromiseBar";
 import { ListingPager } from "@/components/content/ListingPager";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
-import { ContextualCta } from "@/components/seo/ContextualCta";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { listBlog } from "@/lib/content";
@@ -51,7 +51,15 @@ export default async function BlogPagedPage({ params }: Props) {
       />
       <h1 className="mt-4 font-serif text-4xl text-ink lg:text-5xl">Bhakti Blog · Page {pageNumber}</h1>
       <div className="mt-8">
-        <BlogCategoryChips key={posts.map((post) => post.title).join("|")} posts={posts} />
+        <BlogCategoryChips
+          key={posts.map((post) => post.slug).join("|")}
+          posts={posts}
+          allLabel={t.common.all}
+          readMore={t.common.blogReadMore}
+          saveLabel={t.common.blogSave}
+          savedLabel={t.common.blogSaved}
+          authorFallback={t.common.blogAuthorFallback}
+        />
         <ListingPager
           page={pageNumber}
           pages={total}
@@ -61,14 +69,7 @@ export default async function BlogPagedPage({ params }: Props) {
           pageOf={t.common.pageOf}
         />
       </div>
-      <div className="mt-10">
-        <ContextualCta
-          title="Start 108 Naam Jaap"
-          body="Let the next sitting be shorter than the article you just finished."
-          href="/naam-jaap"
-          label="Start Jaap"
-        />
-      </div>
+      <BlogPromiseBar items={t.common.blogPromises} />
       <HubSeoBlock id="blog" />
     </div>
   );

@@ -403,6 +403,108 @@ async def save_jaap(request: Request):
     return {"ok": True, "stored": True}
 
 
+def _diary_payload(row: dict) -> dict:
+    raw = row.get("notes") or ""
+    mood = "Peaceful"
+    jaap = ""
+    note = raw
+    try:
+        parsed = json.loads(raw) if isinstance(raw, str) and raw.startswith("{") else None
+        if isinstance(parsed, dict):
+            mood = parsed.get("mood") or mood
+            jaap = parsed.get("jaap") or ""
+            note = parsed.get("note") or ""
+    except json.JSONDecodeError:
+        note = raw
+    return {
+        "mood": mood,
+        "jaap": jaap,
+        "note": note,
+    }
+
+
+@app.get("/api/diary")
+async def get_diary(userId: str):
+    if not userId:
+        raise HTTPException(status_code=400, detail="Missing userId")
+    rows = db().fetchall(
+        "SELECT date, notes FROM diary_entries WHERE user_id = ? ORDER BY date DESC",
+        [userId],
+    )
+    entries = {item["date"]: _diary_payload(item) for item in rows}
+    return {"ok": True, "entries": entries}
+
+
+@app.post("/api/diary")
+async def save_diary(request: Request):
+    body = await request.json()
+    user_id = body.get("userId")
+    day = body.get("date")
+    if not user_id or not day:
+        raise HTTPException(status_code=400, detail="Invalid payload")
+    notes = json.dumps(
+        {
+            "mood": body.get("mood") or "Peaceful",
+            "jaap": body.get("jaap") or "",
+            "note": body.get("note") or "",
+        },
+        ensure_ascii=False,
+    )
+    jaap_count = 0
+    try:
+        jaap_count = int(str(body.get("jaap") or "0").split()[0])
+    except (TypeError, ValueError):
+        jaap_count = 0
+    db().execute(
+        """
+        INSERT INTO diary_entries (user_id, date, jaap_count, notes)
+        VALUES (?, ?, ?, ?)
+        ON CONFLICT(user_id, date) DO UPDATE SET
+          jaap_count = excluded.jaap_count,
+          notes = excluded.notes
+        """,
+        [user_id, day, jaap_count, notes],
+    )
+    return {"ok": True, "stored": True}
+
+
+@app.get("/api/saved")
+async def get_saved(userId: str, type: str = "blog"):
+    if not userId:
+        raise HTTPException(status_code=400, detail="Missing userId")
+    rows = db().fetchall(
+        "SELECT slug FROM saved_items WHERE user_id = ? AND type = ?",
+        [userId, type],
+    )
+    return {"ok": True, "slugs": [row["slug"] for row in rows]}
+
+
+@app.post("/api/saved")
+async def save_item(request: Request):
+    body = await request.json()
+    user_id = body.get("userId")
+    kind = body.get("type") or "blog"
+    slug = body.get("slug")
+    saved = body.get("saved")
+    if not user_id or not slug:
+        raise HTTPException(status_code=400, detail="Invalid payload")
+    if saved:
+        db().execute(
+            """
+            INSERT INTO saved_items (user_id, type, slug)
+            VALUES (?, ?, ?)
+            ON CONFLICT(user_id, type, slug) DO NOTHING
+            """,
+            [user_id, kind, slug],
+        )
+    else:
+        db().execute(
+            "DELETE FROM saved_items WHERE user_id = ? AND type = ? AND slug = ?",
+            [user_id, kind, slug],
+        )
+    return {"ok": True, "stored": True}
+
+
 @app.post("/api/auth/sync")
 async def sync_user(request: Request):
     body = await request.json()

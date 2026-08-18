@@ -10,6 +10,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { hubMetadata } from "@/lib/i18n/hub";
+import { getMessages } from "@/lib/i18n/server";
 import { PageHero } from "@/components/layout/PageHero";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
 import { pageCrumbs } from "@/lib/seo/crumbs";
@@ -58,15 +59,21 @@ const CARDS = [
   },
 ];
 
-export default function SadhanaPage() {
+export default async function SadhanaPage() {
+  const t = await getMessages();
   return (
     <div>
-      <PageHero title="Today's Bhakti" hub="sadhana" crumbs={pageCrumbs(["Sadhana", PATHS.sadhana])}>
+      <PageHero
+        title={t.pages.sadhana.h1}
+        hub="sadhana"
+        crumbs={pageCrumbs([t.nav.sadhana, PATHS.sadhana])}
+        subtitle={t.common.sadhanaDiaryLead}
+      >
         <Link
           href={PATHS.diary}
-          className="mt-5 inline-flex rounded-full border border-line bg-white px-5 py-2 text-sm"
+          className="mt-3 inline-flex w-fit self-start rounded-full bg-white px-4 py-1.5 text-sm font-medium text-ink shadow-sm ring-1 ring-line hover:bg-ivory"
         >
-          Edit
+          {t.common.openDiary}
         </Link>
       </PageHero>
       <div className="mx-auto max-w-7xl px-4 pb-8 lg:px-8 lg:pb-12">

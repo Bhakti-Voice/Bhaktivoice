@@ -98,9 +98,11 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
   const postTimer = useRef<number | undefined>(undefined);
   const floatId = useRef(0);
   const voiceRef = useRef<HTMLAudioElement>(null);
+  const voiceOnRef = useRef(false);
   const [voiceOn, setVoiceOn] = useState(false);
   const [volume, setVolume] = useState(0.7);
   const isRadhe = store.mantra === "radhe-radhe";
+  voiceOnRef.current = voiceOn;
 
   useEffect(() => {
     const next = readStore();
@@ -226,9 +228,26 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
       return;
     }
     try {
+      audio.loop = true;
       audio.volume = volume;
       await audio.play();
       setVoiceOn(true);
+    } catch {
+      setVoiceOn(false);
+    }
+  }
+
+  function restartVoice() {
+    const audio = voiceRef.current;
+    if (!audio || !voiceOnRef.current || !isRadhe) {
+      setVoiceOn(false);
+      return;
+    }
+    try {
+      audio.currentTime = 0;
+      audio.loop = true;
+      audio.volume = volume;
+      void audio.play().catch(() => setVoiceOn(false));
     } catch {
       setVoiceOn(false);
     }
@@ -284,7 +303,7 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
           src="/audio/radhe-premanand.mp3"
           loop
           preload="none"
-          onEnded={() => setVoiceOn(false)}
+          onEnded={restartVoice}
         />
         {isRadhe ? (
           <div

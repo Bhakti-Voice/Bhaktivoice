@@ -4,6 +4,7 @@ import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
 import { pageCrumbs } from "@/lib/seo/crumbs";
 import { hubMetadata } from "@/lib/i18n/hub";
+import { getMessages } from "@/lib/i18n/server";
 import { PATHS } from "@/lib/seo/paths";
 
 const DiaryClient = dynamic(
@@ -15,11 +16,13 @@ export async function generateMetadata(): Promise<Metadata> {
   return hubMetadata("diary");
 }
 
-export default function DiaryPage() {
+export default async function DiaryPage() {
+  const t = await getMessages();
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
-      <Breadcrumbs items={pageCrumbs(["Sadhana", PATHS.sadhana], ["Diary", PATHS.diary])} />
-      <h1 className="mt-4 font-serif text-4xl text-ink lg:text-5xl">Bhakti Diary</h1>
+      <Breadcrumbs items={pageCrumbs([t.nav.sadhana, PATHS.sadhana], [t.nav.diary, PATHS.diary])} />
+      <h1 className="mt-4 font-serif text-4xl text-ink lg:text-5xl">{t.pages.diary.h1}</h1>
+      <p className="mt-3 max-w-2xl text-sm text-muted">{t.common.diaryWhereHint}</p>
       <div className="mt-10">
         <DiaryClient />
       </div>
