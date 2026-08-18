@@ -11,6 +11,8 @@ import { LocaleRefresh } from "@/components/i18n/LocaleRefresh";
 import { OpenDetailsOnHash } from "@/components/seo/OpenDetailsOnHash";
 import { organizationSchema, websiteSchema } from "@/lib/seo/schema";
 import { SITE, absoluteUrl } from "@/lib/seo/site";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
+import { getGaMeasurementId } from "@/lib/analytics/ga";
 import { getMessages } from "@/lib/i18n/server";
 
 const playfair = Playfair_Display({
@@ -77,10 +79,12 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const t = await getMessages();
+  const gaId = getGaMeasurementId();
   return (
     <html lang={t.htmlLang}>
       <HreflangLinks />
       <body className={`${playfair.variable} ${inter.variable} ${devanagari.variable} bg-ivory text-ink antialiased`}>
+        <GoogleAnalytics measurementId={gaId} />
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
         <OpenDetailsOnHash />
         <LocaleRefresh />
