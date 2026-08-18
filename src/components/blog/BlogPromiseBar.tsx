@@ -5,7 +5,7 @@ const ICONS = [BookOpen, Sparkles, Users, Bell];
 export function BlogPromiseBar({
   items,
 }: {
-  items: { title: string; text: string }[];
+  items: readonly { title: string; text: string }[];
 }) {
   return (
     <section className="mt-8 rounded-[28px] bg-[#f8efe4] px-5 py-6 sm:px-8">
