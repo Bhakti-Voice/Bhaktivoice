@@ -63,7 +63,7 @@ export const messages = {
       exploreKatha: "Explore Katha",
       devoteesJoined: "Devotees Joined",
       heroQuote: "Bhakti makes life beautiful.",
-      globalToday: "Bhakti Naam Jaap Today",
+      globalToday: "Bhakti Naam Jaap Worldwide",
       naamChanted: "Naam Chanted by Devotees Worldwide",
       joinSankalp: "Join Global Sankalp",
       popularTitle: "Popular Bhakti Content",
@@ -367,6 +367,10 @@ export const messages = {
       statistics: "Statistics",
       achievements: "Achievements",
       today: "Jaap Today",
+      worldwide: "Worldwide",
+      sync: "Sync",
+      syncHint: "Sign in to save",
+      thisSitting: "This sitting",
       malaCount: (n: number) => `${n} Mala`,
       dayStreak: (n: number) => `${n} Day Streak`,
       continueJaap: "Continue Jaap",
@@ -391,7 +395,7 @@ export const messages = {
         {
           question: "How do I use this jaap counter?",
           answer:
-            "Choose a mantra, then tap the circle once for each name. A mala is 108. Today's total, mala count, and streak stay on this device so you can return tomorrow without hurry.",
+            "Choose a naam, then tap the circle once for each name. A mala is 108. Guests add to that naam's worldwide count. Sign in to keep your own count and streak across devices.",
         },
         {
           question: "Do I need a physical mala?",
@@ -406,7 +410,7 @@ export const messages = {
         {
           question: "Do I need to sign in?",
           answer:
-            "You can sit as a guest. Sign in if you want the count, streak, and sankalp to follow you on another phone. The jaap itself does not require an account.",
+            "You can sit as a guest — each tap still joins the worldwide count for that naam. Tap Sync and sign in with Google to add this sitting to your own jaap counter.",
         },
         {
           question: "What if I miss a day?",
@@ -513,7 +517,7 @@ export const messages = {
       exploreKatha: "कथा देखें",
       devoteesJoined: "भक्त जुड़े",
       heroQuote: "भक्ति जीवन को सुंदर बनाती है।",
-      globalToday: "आज का भक्ति नाम जप",
+      globalToday: "विश्व भर का भक्ति नाम जप",
       naamChanted: "विश्व भर के भक्तों द्वारा जपा गया नाम",
       joinSankalp: "वैश्विक संकल्प में जुड़ें",
       popularTitle: "लोकप्रिय भक्ति सामग्री",
@@ -809,6 +813,10 @@ export const messages = {
       statistics: "आँकड़े",
       achievements: "उपलब्धियाँ",
       today: "आज का जप",
+      worldwide: "विश्वभर",
+      sync: "सिंक",
+      syncHint: "सहेजने के लिए साइन इन करें",
+      thisSitting: "यह बैठक",
       malaCount: (n: number) => `${n} माला`,
       dayStreak: (n: number) => `${n} दिन की श्रृंखला`,
       continueJaap: "जप जारी रखें",
@@ -833,7 +841,7 @@ export const messages = {
         {
           question: "इस जप काउंटर का उपयोग कैसे करें?",
           answer:
-            "मंत्र चुनें, फिर प्रत्येक नाम पर वृत्त को एक बार स्पर्श करें। एक माला १०८ है। आज का योग, माला और श्रृंखला इसी उपकरण पर रहती है, ताकि कल बिना जल्दबाजी लौट सकें।",
+            "नाम चुनें, फिर प्रत्येक नाम पर वृत्त को एक बार स्पर्श करें। एक माला १०८ है। अतिथि उस नाम की विश्वभर गिनती बढ़ाते हैं। अपना जप और श्रृंखला रखने के लिए साइन इन करें।",
         },
         {
           question: "क्या भौतिक माला आवश्यक है?",
@@ -848,7 +856,7 @@ export const messages = {
         {
           question: "क्या साइन इन ज़रूरी है?",
           answer:
-            "अतिथि की तरह बैठ सकते हैं। साइन इन तब करें जब गिनती, श्रृंखला और संकल्प दूसरे फ़ोन पर भी साथ चलें। जप के लिए खाता अनिवार्य नहीं।",
+            "अतिथि की तरह बैठ सकते हैं — प्रत्येक स्पर्श उस नाम की विश्वभर गिनती में जुड़ता है। सिंक दबाकर Google से साइन इन करें, तो यह बैठक आपके अपने जप काउंटर में जुड़ जाएगी।",
         },
         {
           question: "यदि एक दिन छूट जाए तो?",

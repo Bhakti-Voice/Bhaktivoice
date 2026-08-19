@@ -3,6 +3,7 @@
 import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import { useLocale, useMessages } from "@/lib/i18n/client";
+import { withLocale } from "@/lib/i18n/config";
 import {
   CircleDot,
   Flame,
@@ -17,13 +18,20 @@ import {
 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState, type ChangeEvent, type MouseEvent } from "react";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 
 const JaapChakraRing = dynamic(
   () => import("@/components/jaap/JaapChakraRing").then((mod) => mod.JaapChakraRing),
   { ssr: false },
 );
 import { JaapMantraSelect } from "@/components/jaap/JaapMantraSelect";
-import { JAAP_MANTRAS, type JaapMantraSlug } from "@/components/jaap/mantras";
+import {
+  emptyJaapCounts,
+  isJaapMantraSlug,
+  JAAP_MANTRAS,
+  type JaapCounts,
+  type JaapMantraSlug,
+} from "@/components/jaap/mantras";
 import { PATHS } from "@/lib/seo/paths";
 import { authHeaders } from "@/lib/auth/headers";
 
@@ -31,6 +39,11 @@ const JAAP_VOICE: Partial<Record<JaapMantraSlug, string>> = {
   "radhe-radhe": "/audio/radhe-premanand.mp3",
   namokar: "/audio/namokar-maha-mantra.mp3",
 };
+
+const OLD_STORAGE_KEY = "bhakti-jaap-v1";
+const PENDING_KEY = "bhakti-jaap-pending";
+const MAX_DELTA = 1080;
+const syncedUsers = new Set<string>();
 
 type FloatNaam = {
   id: number;
@@ -42,45 +55,42 @@ type FloatNaam = {
   delay: number;
 };
 
-type JaapStore = {
-  mantra: JaapMantraSlug;
-  counts: Record<string, number>;
-  total: number;
-  streak: number;
-  lastDate: string;
-};
-
-const STORAGE_KEY = "bhakti-jaap-v1";
-
 function todayKey() {
   return new Date().toISOString().slice(0, 10);
 }
 
-function emptyStore(): JaapStore {
-  return {
-    mantra: "radhe-radhe",
-    counts: {},
-    total: 0,
-    streak: 0,
-    lastDate: "",
-  };
+function parseCounts(raw: unknown): JaapCounts {
+  const next = emptyJaapCounts();
+  if (!raw || typeof raw !== "object") return next;
+  for (const [slug, value] of Object.entries(raw as Record<string, unknown>)) {
+    if (!isJaapMantraSlug(slug)) continue;
+    const count = Number(value);
+    if (Number.isFinite(count) && count > 0) next[slug] = Math.floor(count);
+  }
+  return next;
 }
 
-function readStore(): JaapStore {
-  if (typeof window === "undefined") return emptyStore();
+function readPending(): JaapCounts {
+  if (typeof window === "undefined") return emptyJaapCounts();
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return emptyStore();
-    const parsed = JSON.parse(raw) as Partial<JaapStore>;
-    return {
-      ...emptyStore(),
-      ...parsed,
-      counts: parsed.counts ?? {},
-      mantra: parsed.mantra ?? "radhe-radhe",
-    };
+    return parseCounts(JSON.parse(window.sessionStorage.getItem(PENDING_KEY) || "null"));
   } catch {
-    return emptyStore();
+    return emptyJaapCounts();
   }
+}
+
+function writePending(pending: JaapCounts) {
+  if (typeof window === "undefined") return;
+  window.sessionStorage.setItem(PENDING_KEY, JSON.stringify(pending));
+}
+
+function clearPending() {
+  if (typeof window === "undefined") return;
+  window.sessionStorage.removeItem(PENDING_KEY);
+}
+
+function pendingSum(pending: JaapCounts) {
+  return Object.values(pending).reduce((sum, value) => sum + value, 0);
 }
 
 const QUICK = [
@@ -92,38 +102,183 @@ const QUICK = [
 ];
 
 export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" }) {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const t = useMessages();
   const locale = useLocale();
+  const router = useRouter();
   const countLocale = locale === "hi" ? "hi-IN" : "en-IN";
   const [hydrated, setHydrated] = useState(false);
-  const [store, setStore] = useState<JaapStore>(emptyStore);
-  const [date, setDate] = useState(todayKey);
+  const [mantra, setMantra] = useState<JaapMantraSlug>("radhe-radhe");
+  const [globalTotals, setGlobalTotals] = useState<JaapCounts>(emptyJaapCounts);
+  const [personalToday, setPersonalToday] = useState<JaapCounts>(emptyJaapCounts);
+  const [personalTotals, setPersonalTotals] = useState<JaapCounts>(emptyJaapCounts);
+  const [pending, setPending] = useState<JaapCounts>(emptyJaapCounts);
+  const [streak, setStreak] = useState(0);
   const [step, setStep] = useState(108);
   const [floats, setFloats] = useState<FloatNaam[]>([]);
+  const queueRef = useRef<Partial<JaapCounts>>({});
   const postTimer = useRef<number | undefined>(undefined);
   const floatId = useRef(0);
   const voiceRef = useRef<HTMLAudioElement>(null);
   const voiceOnRef = useRef(false);
+  const userRef = useRef(user);
+  const pendingRef = useRef(pending);
+  const syncedUser = useRef<string | null>(null);
   const [voiceOn, setVoiceOn] = useState(false);
   const [volume, setVolume] = useState(0.7);
-  const voiceSrc = JAAP_VOICE[store.mantra];
+  const voiceSrc = JAAP_VOICE[mantra];
   const hasVoice = Boolean(voiceSrc);
   voiceOnRef.current = voiceOn;
+  userRef.current = user;
+  pendingRef.current = pending;
+
+  const applyGlobalRows = useCallback((rows: { slug: string; total: number }[] | undefined) => {
+    if (!rows?.length) return;
+    setGlobalTotals((current) => {
+      const next = { ...current };
+      for (const row of rows) {
+        if (!isJaapMantraSlug(row.slug)) continue;
+        next[row.slug] = Math.max(next[row.slug] ?? 0, Number(row.total) || 0);
+      }
+      return next;
+    });
+  }, []);
+
+  const loadGlobals = useCallback(async () => {
+    const response = await fetch("/api/stats", { cache: "no-store" });
+    if (!response.ok) return;
+    const data = (await response.json()) as { byMantra?: { slug: string; total: number }[] };
+    applyGlobalRows(data.byMantra);
+  }, [applyGlobalRows]);
+
+  const loadPersonal = useCallback(
+    async (currentUser: NonNullable<typeof user>) => {
+      const response = await fetch("/api/jaap", {
+        headers: await authHeaders(currentUser),
+        cache: "no-store",
+      });
+      if (!response.ok) return;
+      const data = (await response.json()) as {
+        today?: Record<string, number>;
+        totals?: Record<string, number>;
+        streak?: number;
+        global?: { slug: string; total: number }[];
+      };
+      setPersonalToday(parseCounts(data.today));
+      setPersonalTotals(parseCounts(data.totals));
+      setStreak(Number(data.streak) || 0);
+      applyGlobalRows(data.global);
+    },
+    [applyGlobalRows],
+  );
+
+  const flushQueue = useCallback(async () => {
+    const queued = queueRef.current;
+    queueRef.current = {};
+    const entries = Object.entries(queued).filter(([, value]) => (value ?? 0) > 0) as [JaapMantraSlug, number][];
+    if (!entries.length) return {};
+    const currentUser = userRef.current;
+    const flushed: Partial<JaapCounts> = {};
+    for (const [slug, delta] of entries) {
+      try {
+        const headers = currentUser ? await authHeaders(currentUser) : { "Content-Type": "application/json" };
+        const response = await fetch("/api/jaap", {
+          method: "POST",
+          headers,
+          body: JSON.stringify({ mantraSlug: slug, delta, date: todayKey() }),
+        });
+        if (!response.ok) {
+          queueRef.current[slug] = (queueRef.current[slug] ?? 0) + delta;
+          continue;
+        }
+        flushed[slug] = delta;
+        const data = (await response.json()) as {
+          global?: number;
+          personalToday?: number;
+          personalTotal?: number;
+        };
+        if (typeof data.global === "number") {
+          setGlobalTotals((current) => ({
+            ...current,
+            [slug]: Math.max(current[slug] ?? 0, data.global ?? 0),
+          }));
+        }
+        if (currentUser && typeof data.personalToday === "number") {
+          setPersonalToday((current) => ({
+            ...current,
+            [slug]: Math.max(current[slug] ?? 0, data.personalToday ?? 0),
+          }));
+        }
+        if (currentUser && typeof data.personalTotal === "number") {
+          setPersonalTotals((current) => ({
+            ...current,
+            [slug]: Math.max(current[slug] ?? 0, data.personalTotal ?? 0),
+          }));
+        }
+      } catch {
+        queueRef.current[slug] = (queueRef.current[slug] ?? 0) + delta;
+      }
+    }
+    return flushed;
+  }, []);
+
+  const scheduleFlush = useCallback(() => {
+    window.clearTimeout(postTimer.current);
+    postTimer.current = window.setTimeout(() => {
+      void flushQueue();
+    }, 350);
+  }, [flushQueue]);
 
   useEffect(() => {
-    const next = readStore();
-    const today = todayKey();
-    if (next.lastDate && next.lastDate !== today) {
-      const yesterday = new Date();
-      yesterday.setDate(yesterday.getDate() - 1);
-      const yesterdayKey = yesterday.toISOString().slice(0, 10);
-      next.streak = next.lastDate === yesterdayKey ? next.streak : 0;
+    window.localStorage.removeItem(OLD_STORAGE_KEY);
+    const storedPending = readPending();
+    setPending(storedPending);
+    void (async () => {
+      try {
+        await loadGlobals();
+      } finally {
+        setHydrated(true);
+      }
+    })();
+    return () => {
+      window.clearTimeout(postTimer.current);
+      void flushQueue();
+    };
+  }, [flushQueue, loadGlobals]);
+
+  useEffect(() => {
+    if (authLoading || !hydrated) return;
+    if (!user) {
+      if (syncedUser.current) syncedUsers.delete(syncedUser.current);
+      syncedUser.current = null;
+      return;
     }
-    setStore(next);
-    setDate(today);
-    setHydrated(true);
-  }, []);
+    if (syncedUsers.has(user.uid) || syncedUser.current === user.uid) return;
+    syncedUsers.add(user.uid);
+    syncedUser.current = user.uid;
+    void (async () => {
+      const unsent = await flushQueue();
+      const session = { ...pendingRef.current };
+      const remaining = emptyJaapCounts();
+      for (const slug of Object.keys(session) as JaapMantraSlug[]) {
+        remaining[slug] = Math.max(0, (session[slug] ?? 0) - (unsent[slug] ?? 0));
+      }
+      if (pendingSum(remaining) > 0) {
+        const headers = await authHeaders(user);
+        await fetch("/api/jaap", {
+          method: "POST",
+          headers,
+          body: JSON.stringify({ pending: remaining, personalOnly: true, date: todayKey() }),
+        });
+      }
+      clearPending();
+      setPending(emptyJaapCounts());
+      await loadPersonal(user);
+    })().catch(() => {
+      syncedUsers.delete(user.uid);
+      syncedUser.current = null;
+    });
+  }, [authLoading, flushQueue, hydrated, loadPersonal, user]);
 
   useEffect(() => {
     if (voiceRef.current) voiceRef.current.volume = volume;
@@ -146,61 +301,46 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
     };
   }, []);
 
-  const todayCount = store.counts[date] ?? 0;
-  const malaProgress = todayCount % 108;
-  const malasToday = Math.floor(todayCount / 108);
-
-  const persist = useCallback(
-    (next: JaapStore) => {
-      setStore(next);
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-      if (!user) return;
-      window.clearTimeout(postTimer.current);
-      postTimer.current = window.setTimeout(() => {
-        void (async () => {
-          const headers = await authHeaders(user);
-          await fetch("/api/jaap", {
-            method: "POST",
-            headers,
-            body: JSON.stringify({
-              mantraSlug: next.mantra,
-              count: next.counts[date] ?? 0,
-              date,
-            }),
-          });
-        })();
-      }, 400);
-    },
-    [date, user],
-  );
+  const displayCount = user ? (personalToday[mantra] ?? 0) : (globalTotals[mantra] ?? 0);
+  const malaProgress = displayCount % 108;
+  const malasToday = Math.floor(displayCount / 108);
+  const worldwideTotal = Object.values(globalTotals).reduce((sum, value) => sum + value, 0);
+  const personalAll = Object.values(personalTotals).reduce((sum, value) => sum + value, 0);
+  const selected = JAAP_MANTRAS.find((item) => item.slug === mantra) ?? JAAP_MANTRAS[0];
 
   const add = useCallback(
-    (delta: number) => {
-      const current = store.counts[date] ?? 0;
-      const nextCount = Math.max(0, current + delta);
-      const applied = nextCount - current;
-      persist({
-        ...store,
-        counts: { ...store.counts, [date]: nextCount },
-        total: Math.max(0, store.total + applied),
-        lastDate: date,
-        streak: store.lastDate === date || !store.lastDate ? Math.max(store.streak, 1) : store.streak + 1,
-      });
+    (rawDelta: number) => {
+      const delta = Math.min(MAX_DELTA, Math.max(0, Math.floor(rawDelta)));
+      if (!delta) return;
+      const currentUser = userRef.current;
+      setGlobalTotals((current) => ({ ...current, [mantra]: (current[mantra] ?? 0) + delta }));
+      if (currentUser) {
+        setPersonalToday((current) => ({ ...current, [mantra]: (current[mantra] ?? 0) + delta }));
+        setPersonalTotals((current) => ({ ...current, [mantra]: (current[mantra] ?? 0) + delta }));
+        setStreak((current) => Math.max(current, 1));
+      } else {
+        setPending((current) => {
+          const next = { ...current, [mantra]: (current[mantra] ?? 0) + delta };
+          writePending(next);
+          return next;
+        });
+      }
+      queueRef.current[mantra] = (queueRef.current[mantra] ?? 0) + delta;
+      scheduleFlush();
     },
-    [date, persist, store],
+    [mantra, scheduleFlush],
   );
 
   const spawnNaam = useCallback(
     (x: number, y: number) => {
-      const mantra = JAAP_MANTRAS.find((item) => item.slug === store.mantra) ?? JAAP_MANTRAS[0];
       const id = floatId.current + 1;
       floatId.current = id;
       setFloats((current) => [
         ...current.slice(-8),
         {
           id,
-          text: mantra.balloon,
-          color: mantra.color,
+          text: selected.balloon,
+          color: selected.color,
           x,
           y,
           drift: 200 * (Math.random() - 0.5),
@@ -208,7 +348,7 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
         },
       ]);
     },
-    [store.mantra],
+    [selected],
   );
 
   function onCardClick(event: MouseEvent<HTMLDivElement>) {
@@ -226,9 +366,17 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
 
   function onClear(event: MouseEvent<HTMLButtonElement>) {
     event.stopPropagation();
-    persist(emptyStore());
     setStep(108);
     setFloats([]);
+  }
+
+  async function onSync(event: MouseEvent<HTMLButtonElement>) {
+    event.stopPropagation();
+    writePending(pendingRef.current);
+    await flushQueue();
+    writePending(pendingRef.current);
+    const next = withLocale(PATHS.naamJaap, locale);
+    router.push(withLocale(`/login?next=${encodeURIComponent(next)}`, locale));
   }
 
   async function toggleVoice(event: MouseEvent<HTMLButtonElement>) {
@@ -274,6 +422,53 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
   }
 
   const beads = useMemo(() => Array.from({ length: 108 }, (_, index) => index), []);
+  const progressCards = user
+    ? [
+        {
+          label: t.jaap.dailyTarget,
+          value: `${Math.min(displayCount, 10000).toLocaleString(countLocale)} / 10,000`,
+          icon: Hand,
+          tone: "bg-[#ffedd5] text-[#c2410c]",
+        },
+        {
+          label: t.jaap.malaToday,
+          value: `${malasToday} / 216`,
+          icon: CircleDot,
+          tone: "bg-[#ffedd5] text-[#ea580c]",
+        },
+        {
+          label: t.jaap.totalJaap,
+          value: personalAll.toLocaleString(countLocale),
+          icon: UserRound,
+          tone: "bg-[#dbeafe] text-[#1d4ed8]",
+        },
+        {
+          label: t.jaap.streak,
+          value: t.jaap.days(streak || 0),
+          icon: Mountain,
+          tone: "bg-[#ede9fe] text-[#6d28d9]",
+        },
+      ]
+    : [
+        {
+          label: selected.label,
+          value: displayCount.toLocaleString(countLocale),
+          icon: Hand,
+          tone: "bg-[#ffedd5] text-[#c2410c]",
+        },
+        {
+          label: t.jaap.thisSitting,
+          value: (pending[mantra] ?? 0).toLocaleString(countLocale),
+          icon: CircleDot,
+          tone: "bg-[#ffedd5] text-[#ea580c]",
+        },
+        {
+          label: t.jaap.totalJaap,
+          value: worldwideTotal.toLocaleString(countLocale),
+          icon: UserRound,
+          tone: "bg-[#dbeafe] text-[#1d4ed8]",
+        },
+      ];
 
   if (!hydrated) {
     return (
@@ -351,24 +546,34 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
             />
           </div>
         ) : null}
+        {!user && !authLoading ? (
+          <button
+            type="button"
+            data-jaap-ignore
+            onClick={onSync}
+            title={t.jaap.syncHint}
+            className="absolute top-3 right-3 z-20 text-sm font-medium text-saffron-deep underline decoration-saffron/40 underline-offset-4 sm:top-4 sm:right-4"
+          >
+            {t.jaap.sync}
+          </button>
+        ) : null}
         <div className="relative z-10 mx-auto flex max-w-xl flex-col items-center pt-10 sm:pt-2">
-          <JaapMantraSelect
-            value={store.mantra}
-            onChange={(slug) => persist({ ...store, mantra: slug })}
-          />
+          <JaapMantraSelect value={mantra} onChange={setMantra} />
 
           <div className="relative mt-6 flex aspect-square w-full max-w-[320px] items-center justify-center">
             <JaapChakraRing malaProgress={malaProgress} />
             <span className="relative z-10 flex flex-col items-center">
               <span className="font-serif text-5xl font-semibold tracking-tight text-ink sm:text-6xl">
-                {todayCount.toLocaleString(countLocale)}
+                {displayCount.toLocaleString(countLocale)}
               </span>
-              <span className="mt-1 text-sm text-muted">{t.jaap.today}</span>
+              <span className="mt-1 text-sm text-muted">{user ? t.jaap.today : t.jaap.worldwide}</span>
               <span className="mt-4 text-base font-semibold text-ink">{t.jaap.malaCount(malasToday)}</span>
-              <span className="mt-1 inline-flex items-center gap-1 text-sm text-saffron-deep">
-                <Flame className="h-4 w-4 fill-saffron text-saffron" />
-                {t.jaap.dayStreak(store.streak)}
-              </span>
+              {user ? (
+                <span className="mt-1 inline-flex items-center gap-1 text-sm text-saffron-deep">
+                  <Flame className="h-4 w-4 fill-saffron text-saffron" />
+                  {t.jaap.dayStreak(streak)}
+                </span>
+              ) : null}
             </span>
           </div>
 
@@ -383,13 +588,13 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
             </button>
             <input
               value={step}
-              onChange={(event) => setStep(Math.max(1, Number(event.target.value) || 1))}
+              onChange={(event) => setStep(Math.max(1, Math.min(MAX_DELTA, Number(event.target.value) || 1)))}
               className="h-11 w-24 rounded-2xl bg-[#fff4ea] text-center text-lg font-medium text-saffron-deep outline-none"
               aria-label="Jaap increment"
             />
             <button
               type="button"
-              onClick={() => setStep((value) => value + 1)}
+              onClick={() => setStep((value) => Math.min(MAX_DELTA, value + 1))}
               className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#fff4ea] text-saffron"
               aria-label="Increase step"
             >
@@ -422,7 +627,7 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
           <h2 className="font-serif text-xl text-ink">{t.jaap.malaBeads}</h2>
           <div className="mt-4 grid grid-cols-12 gap-1.5">
             {beads.map((index) => {
-              const filled = index < malaProgress || (malaProgress === 0 && todayCount > 0 && index === 107);
+              const filled = index < malaProgress || (malaProgress === 0 && displayCount > 0 && index === 107);
               const active = malaProgress > 0 && index < malaProgress;
               return (
                 <button
@@ -430,7 +635,7 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
                   type="button"
                   onClick={() => add(1)}
                   className={`h-4 w-4 rounded-full ${
-                    active || (todayCount > 0 && filled && malaProgress === 0) ? "bg-saffron" : "bg-sand"
+                    active || (displayCount > 0 && filled && malaProgress === 0) ? "bg-saffron" : "bg-sand"
                   }`}
                   aria-label={`Bead ${index + 1}`}
                 />
@@ -443,32 +648,7 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
       <section className="mt-6 rounded-[28px] bg-white p-5 shadow-sm ring-1 ring-line sm:p-6">
         <h2 className="font-serif text-xl text-ink">{t.jaap.progress}</h2>
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {[
-            {
-              label: t.jaap.dailyTarget,
-              value: `${Math.min(todayCount, 10000).toLocaleString(countLocale)} / 10,000`,
-              icon: Hand,
-              tone: "bg-[#ffedd5] text-[#c2410c]",
-            },
-            {
-              label: t.jaap.malaToday,
-              value: `${malasToday} / 216`,
-              icon: CircleDot,
-              tone: "bg-[#ffedd5] text-[#ea580c]",
-            },
-            {
-              label: t.jaap.totalJaap,
-              value: store.total.toLocaleString(countLocale),
-              icon: UserRound,
-              tone: "bg-[#dbeafe] text-[#1d4ed8]",
-            },
-            {
-              label: t.jaap.streak,
-              value: t.jaap.days(store.streak || 0),
-              icon: Mountain,
-              tone: "bg-[#ede9fe] text-[#6d28d9]",
-            },
-          ].map((card) => (
+          {progressCards.map((card) => (
             <div key={card.label} className="flex items-center gap-3 rounded-2xl bg-[#fff7ef] p-4">
               <span className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${card.tone}`}>
                 <card.icon className="h-4 w-4" />

@@ -18,6 +18,11 @@ CREATE TABLE IF NOT EXISTS jaap_counts (
   UNIQUE(user_id, mantra_slug, date)
 );
 
+CREATE TABLE IF NOT EXISTS jaap_totals (
+  mantra_slug TEXT PRIMARY KEY,
+  count INTEGER NOT NULL DEFAULT 0
+);
+
 CREATE TABLE IF NOT EXISTS sankalps (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id TEXT NOT NULL,

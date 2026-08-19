@@ -135,6 +135,147 @@ def db():
     return get_db()
 
 
+JAAP_SLUGS = (
+    "radhe-radhe",
+    "ram-naam",
+    "hare-krishna",
+    "om-namah-shivaya",
+    "shri-ram",
+    "namokar",
+)
+MAX_JAAP_DELTA = 1080
+MAX_JAAP_SYNC = 21600
+
+
+def _parse_jaap_day(raw: object) -> str:
+    text = str(raw or "").strip()[:10]
+    try:
+        parsed = date.fromisoformat(text)
+    except ValueError:
+        return today()
+    today_d = date.fromisoformat(today())
+    if abs((parsed - today_d).days) > 1:
+        return today()
+    return parsed.isoformat()
+
+
+def _parse_jaap_delta(raw: object, *, cap: int = MAX_JAAP_DELTA) -> int:
+    try:
+        value = int(raw)
+    except (TypeError, ValueError):
+        return 0
+    if value < 1:
+        return 0
+    return min(value, cap)
+
+
+def ensure_jaap_totals() -> None:
+    db().execute(
+        """
+        INSERT INTO jaap_totals (mantra_slug, count)
+        SELECT mantra_slug, COALESCE(SUM(count), 0)
+        FROM jaap_counts
+        GROUP BY mantra_slug
+        ON CONFLICT(mantra_slug) DO NOTHING
+        """
+    )
+
+
+def _global_by_mantra() -> list[dict[str, object]]:
+    ensure_jaap_totals()
+    rows = db().fetchall("SELECT mantra_slug AS slug, count AS total FROM jaap_totals")
+    totals = {str(row["slug"]): int(row["total"] or 0) for row in rows}
+    return [{"slug": slug, "total": totals.get(slug, 0)} for slug in JAAP_SLUGS]
+
+
+def _increment_global(mantra_slug: str, delta: int) -> int:
+    db().execute(
+        """
+        INSERT INTO jaap_totals (mantra_slug, count)
+        VALUES (?, ?)
+        ON CONFLICT(mantra_slug) DO UPDATE SET count = jaap_totals.count + excluded.count
+        """,
+        [mantra_slug, delta],
+    )
+    row = db().fetchone("SELECT count FROM jaap_totals WHERE mantra_slug = ?", [mantra_slug])
+    return int((row or {}).get("count") or 0)
+
+
+def _increment_personal(user_id: str, mantra_slug: str, delta: int, day: str) -> tuple[int, int]:
+    db().execute(
+        """
+        INSERT INTO jaap_counts (user_id, mantra_slug, count, date)
+        VALUES (?, ?, ?, ?)
+        ON CONFLICT(user_id, mantra_slug, date) DO UPDATE SET count = jaap_counts.count + excluded.count
+        """,
+        [user_id, mantra_slug, delta, day],
+    )
+    today_row = db().fetchone(
+        """
+        SELECT COALESCE(SUM(count), 0) AS total
+        FROM jaap_counts
+        WHERE user_id = ? AND mantra_slug = ? AND date = ?
+        """,
+        [user_id, mantra_slug, day],
+    )
+    all_row = db().fetchone(
+        """
+        SELECT COALESCE(SUM(count), 0) AS total
+        FROM jaap_counts
+        WHERE user_id = ? AND mantra_slug = ?
+        """,
+        [user_id, mantra_slug],
+    )
+    return int((today_row or {}).get("total") or 0), int((all_row or {}).get("total") or 0)
+
+
+def _user_streak(user_id: str) -> int:
+    streak_days = db().fetchall(
+        "SELECT DISTINCT date FROM jaap_counts WHERE user_id = ? ORDER BY date DESC",
+        [user_id],
+    )
+    streak = 0
+    cursor = date.today()
+    dates = {str(row["date"])[:10] for row in streak_days}
+    while cursor.isoformat() in dates:
+        streak += 1
+        cursor = date.fromordinal(cursor.toordinal() - 1)
+    return streak
+
+
+def _user_jaap_payload(user_id: str, day: str) -> dict[str, object]:
+    today_map = {slug: 0 for slug in JAAP_SLUGS}
+    total_map = {slug: 0 for slug in JAAP_SLUGS}
+    today_rows = db().fetchall(
+        "SELECT mantra_slug, count FROM jaap_counts WHERE user_id = ? AND date = ?",
+        [user_id, day],
+    )
+    total_rows = db().fetchall(
+        """
+        SELECT mantra_slug, COALESCE(SUM(count), 0) AS total
+        FROM jaap_counts
+        WHERE user_id = ?
+        GROUP BY mantra_slug
+        """,
+        [user_id],
+    )
+    for row in today_rows:
+        slug = str(row["mantra_slug"])
+        if slug in today_map:
+            today_map[slug] = int(row["count"] or 0)
+    for row in total_rows:
+        slug = str(row["mantra_slug"])
+        if slug in total_map:
+            total_map[slug] = int(row["total"] or 0)
+    return {
+        "today": today_map,
+        "totals": total_map,
+        "all": sum(total_map.values()),
+        "streak": _user_streak(user_id),
+        "date": day,
+    }
+
+
 def parse_data(raw) -> dict:
     if raw is None or raw == "":
         return {}
@@ -238,20 +379,17 @@ def health():
 
 @app.get("/api/stats")
 def stats():
-    total_row = db().fetchone("SELECT COALESCE(SUM(count), 0) AS total FROM jaap_counts")
+    by_mantra = _global_by_mantra()
     today_row = db().fetchone(
         "SELECT COUNT(DISTINCT user_id) AS devotees FROM jaap_counts WHERE date = ?",
         [today()],
     )
-    by_mantra = db().fetchall(
-        "SELECT mantra_slug AS slug, COALESCE(SUM(count), 0) AS total FROM jaap_counts GROUP BY mantra_slug"
-    )
     users_row = db().fetchone("SELECT COUNT(*) AS total FROM users")
     return {
-        "total": int(total_row["total"] if total_row else 0),
+        "total": sum(int(row["total"]) for row in by_mantra),
         "todayDevotees": int(today_row["devotees"] if today_row else 0),
         "users": int(users_row["total"] if users_row else 0),
-        "byMantra": [{"slug": row["slug"], "total": int(row["total"])} for row in by_mantra],
+        "byMantra": by_mantra,
     }
 
 
@@ -260,28 +398,16 @@ def user_stats(uid: str, request: Request):
     user_id = require_user_id(request)
     if user_id != uid:
         raise HTTPException(status_code=403, detail="Forbidden")
-    total = db().fetchone(
-        "SELECT COALESCE(SUM(count), 0) AS total FROM jaap_counts WHERE user_id = ?",
-        [uid],
-    )
-    streak_days = db().fetchall(
-        "SELECT DISTINCT date FROM jaap_counts WHERE user_id = ? ORDER BY date DESC",
-        [uid],
-    )
-    streak = 0
-    cursor = date.today()
-    dates = {row["date"][:10] for row in streak_days}
-    while cursor.isoformat() in dates:
-        streak += 1
-        cursor = date.fromordinal(cursor.toordinal() - 1)
+    payload = _user_jaap_payload(uid, today())
     sankalps = db().fetchone(
         "SELECT COUNT(*) AS total FROM sankalps WHERE user_id = ?",
         [uid],
     )
     return {
-        "naam": int(total["total"] if total else 0),
-        "streak": streak,
+        "naam": int(payload["all"]),
+        "streak": int(payload["streak"]),
         "sankalps": int(sankalps["total"] if sankalps else 0),
+        "byMantra": [{"slug": slug, "total": int(total)} for slug, total in payload["totals"].items()],
     }
 
 
@@ -469,24 +595,69 @@ def sitemap():
     return roots
 
 
+@app.get("/api/jaap")
+def get_jaap(request: Request):
+    user_id = require_user_id(request)
+    return {"ok": True, "global": _global_by_mantra(), **_user_jaap_payload(user_id, today())}
+
+
 @app.post("/api/jaap")
 async def save_jaap(request: Request):
-    user_id = require_user_id(request)
+    user_id = optional_user_id(request)
     body = await request.json()
-    mantra_slug = body.get("mantraSlug")
-    count = body.get("count")
-    day = body.get("date") or today()
-    if not mantra_slug or not isinstance(count, int):
+    day = _parse_jaap_day(body.get("date"))
+    personal_only = bool(body.get("personalOnly"))
+    pending = body.get("pending")
+    ensure_jaap_totals()
+
+    if isinstance(pending, dict):
+        if not user_id:
+            raise HTTPException(status_code=401, detail="Sign in required")
+        if not personal_only:
+            raise HTTPException(status_code=400, detail="Invalid payload")
+        for slug, raw_delta in pending.items():
+            mantra_slug = str(slug).strip()
+            if mantra_slug not in JAAP_SLUGS:
+                continue
+            delta = _parse_jaap_delta(raw_delta, cap=MAX_JAAP_SYNC)
+            if delta:
+                _increment_personal(user_id, mantra_slug, delta, day)
+        return {
+            "ok": True,
+            "stored": True,
+            "global": _global_by_mantra(),
+            **_user_jaap_payload(user_id, day),
+        }
+
+    mantra_slug = str(body.get("mantraSlug") or "").strip()
+    if mantra_slug not in JAAP_SLUGS:
+        raise HTTPException(status_code=400, detail="Invalid mantra")
+    delta = _parse_jaap_delta(body.get("delta"))
+    if not delta:
         raise HTTPException(status_code=400, detail="Invalid payload")
-    db().execute(
-        """
-        INSERT INTO jaap_counts (user_id, mantra_slug, count, date)
-        VALUES (?, ?, ?, ?)
-        ON CONFLICT(user_id, mantra_slug, date) DO UPDATE SET count = excluded.count
-        """,
-        [user_id, mantra_slug, count, day],
-    )
-    return {"ok": True, "stored": True}
+    if personal_only and not user_id:
+        raise HTTPException(status_code=401, detail="Sign in required")
+
+    global_count = None
+    if not personal_only:
+        global_count = _increment_global(mantra_slug, delta)
+    else:
+        row = db().fetchone("SELECT count FROM jaap_totals WHERE mantra_slug = ?", [mantra_slug])
+        global_count = int((row or {}).get("count") or 0)
+
+    personal_today = 0
+    personal_total = 0
+    if user_id:
+        personal_today, personal_total = _increment_personal(user_id, mantra_slug, delta, day)
+
+    return {
+        "ok": True,
+        "stored": True,
+        "mantraSlug": mantra_slug,
+        "global": global_count,
+        "personalToday": personal_today,
+        "personalTotal": personal_total,
+    }
 
 
 def _diary_payload(row: dict) -> dict:

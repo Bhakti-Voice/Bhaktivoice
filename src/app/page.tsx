@@ -25,6 +25,7 @@ import { localizedMetadata } from "@/lib/seo/metadata";
 import { getLocale, getMessages } from "@/lib/i18n/server";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { ProseText } from "@/components/content/SectionBody";
+import { JAAP_MANTRAS } from "@/components/jaap/mantras";
 import type { Messages } from "@/lib/i18n/messages";
 import type { Metadata } from "next";
 
@@ -41,12 +42,6 @@ export async function generateMetadata(): Promise<Metadata> {
     absoluteTitle: true,
   });
 }
-
-const COUNT_LABELS = [
-  { slug: "ram-naam", name: "Ram Naam", color: "bg-orange-400" },
-  { slug: "radhe-radhe", name: "Radhe Radhe", color: "bg-purple-400" },
-  { slug: "om-namah-shivaya", name: "Om Namah Shivaya", color: "bg-sky-200" },
-];
 
 const AVATARS = ["#c05621", "#d97706", "#7c3aed", "#be185d", "#1d4ed8", "#0f766e", "#b45309"];
 
@@ -193,8 +188,10 @@ async function DevoteeCount({ locale, label }: { locale: string; label: string }
 
 async function HomeChantBanner({ locale, t }: { locale: string; t: Messages }) {
   const stats = await getStats();
-  const counts = COUNT_LABELS.map((item) => ({
-    ...item,
+  const counts = JAAP_MANTRAS.map((item) => ({
+    slug: item.slug,
+    name: item.label,
+    color: item.dot,
     count: formatCount(stats.byMantra.find((row) => row.slug === item.slug)?.total ?? 0, locale),
   }));
   return (
@@ -223,9 +220,9 @@ async function HomeChantBanner({ locale, t }: { locale: string; t: Messages }) {
             sizes="(max-width: 768px) 200px, 300px"
           />
         </div>
-        <div className="col-span-2 grid w-full gap-3 md:col-span-1 md:gap-4">
+        <div className="col-span-2 grid w-full grid-cols-2 gap-3 md:col-span-1 md:gap-3">
           {counts.map((item) => (
-            <div key={item.name} className="flex w-full items-center gap-3">
+            <div key={item.slug} className="flex w-full items-center gap-3">
               <span className={`h-3 w-3 shrink-0 rounded-full ${item.color}`} />
               <div>
                 <p className="text-xs text-white/70">{item.name}</p>

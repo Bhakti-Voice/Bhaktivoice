@@ -74,6 +74,7 @@ export type UserStats = {
   naam: number;
   streak: number;
   sankalps: number;
+  byMantra?: { slug: string; total: number }[];
 };
 
 export type DailyQuote = {
