@@ -58,13 +58,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const token = await next.getIdToken();
         await fetch("/api/auth/sync", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
           body: JSON.stringify({
-            uid: next.uid,
             email: next.email,
             name: next.displayName,
             photoUrl: next.photoURL,
-            token,
           }),
         }).catch(() => undefined);
       });

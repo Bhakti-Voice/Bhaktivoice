@@ -25,6 +25,7 @@ const JaapChakraRing = dynamic(
 import { JaapMantraSelect } from "@/components/jaap/JaapMantraSelect";
 import { JAAP_MANTRAS, type JaapMantraSlug } from "@/components/jaap/mantras";
 import { PATHS } from "@/lib/seo/paths";
+import { authHeaders } from "@/lib/auth/headers";
 
 type FloatNaam = {
   id: number;
@@ -146,16 +147,18 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
       if (!user) return;
       window.clearTimeout(postTimer.current);
       postTimer.current = window.setTimeout(() => {
-        void fetch("/api/jaap", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            userId: user.uid,
-            mantraSlug: next.mantra,
-            count: next.counts[date] ?? 0,
-            date,
-          }),
-        });
+        void (async () => {
+          const headers = await authHeaders(user);
+          await fetch("/api/jaap", {
+            method: "POST",
+            headers,
+            body: JSON.stringify({
+              mantraSlug: next.mantra,
+              count: next.counts[date] ?? 0,
+              date,
+            }),
+          });
+        })();
       }, 400);
     },
     [date, user],

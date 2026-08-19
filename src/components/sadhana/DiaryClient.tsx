@@ -2,6 +2,7 @@
 
 import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { useAuth } from "@/lib/auth/AuthProvider";
+import { authHeaders } from "@/lib/auth/headers";
 import { useLocale, useMessages } from "@/lib/i18n/client";
 import { withLocale } from "@/lib/i18n/config";
 import { useRouter } from "next/navigation";
@@ -73,8 +74,9 @@ export function DiaryClient() {
     setError("");
     void (async () => {
       try {
-        const response = await fetch(`/api/diary?userId=${encodeURIComponent(user.uid)}`, {
+        const response = await fetch("/api/diary", {
           cache: "no-store",
+          headers: await authHeaders(user),
         });
         const data = (await response.json()) as { ok?: boolean; entries?: Record<string, unknown> };
         if (cancelled) return;
@@ -137,9 +139,8 @@ export function DiaryClient() {
     try {
       const response = await fetch("/api/diary", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: await authHeaders(user),
         body: JSON.stringify({
-          userId: user.uid,
           date: selected,
           mood: draft.mood,
           jaap: draft.jaap,

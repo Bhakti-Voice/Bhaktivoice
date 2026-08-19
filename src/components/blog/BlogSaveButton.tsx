@@ -4,6 +4,7 @@ import { Bookmark } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth/AuthProvider";
+import { authHeaders } from "@/lib/auth/headers";
 import { useLocale } from "@/lib/i18n/client";
 import { withLocale } from "@/lib/i18n/config";
 
@@ -40,10 +41,10 @@ export function BlogSaveButton({
     let cancelled = false;
     void (async () => {
       try {
-        const response = await fetch(
-          `/api/saved?userId=${encodeURIComponent(user.uid)}&type=blog`,
-          { cache: "no-store" },
-        );
+        const response = await fetch("/api/saved?type=blog", {
+          cache: "no-store",
+          headers: await authHeaders(user),
+        });
         const data = (await response.json()) as { slugs?: string[] };
         if (!cancelled) setSaved((data.slugs ?? []).includes(slug));
       } catch {
@@ -72,9 +73,8 @@ export function BlogSaveButton({
     try {
       const response = await fetch("/api/saved", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: await authHeaders(user),
         body: JSON.stringify({
-          userId: user.uid,
           type: "blog",
           slug,
           saved: next,

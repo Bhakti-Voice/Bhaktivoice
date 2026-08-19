@@ -9,6 +9,8 @@ export async function proxyToCms(request: Request, path: string) {
       "Content-Type": "application/json",
       ...Object.fromEntries(new Headers(cmsFetchHeaders()).entries()),
     };
+    const authorization = request.headers.get("authorization");
+    if (authorization) headers.Authorization = authorization;
     const response = await fetch(target, {
       method: request.method,
       headers,

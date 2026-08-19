@@ -31,6 +31,7 @@ from kinds import (
 )
 from json_import import coerce_entry, kind_placeholders, parse_json_text
 from store import save_entry
+from firebase_auth import require_user_id
 
 ROOT = Path(__file__).resolve().parent
 load_dotenv(ROOT.parent / ".env")
@@ -45,19 +46,21 @@ SESSION_SECRET = (
 SITE_ORIGIN = (
     os.environ.get("SITE_ORIGIN")
     or (f"https://{os.environ['VERCEL_URL']}" if os.environ.get("VERCEL_URL") else "http://localhost:3000")
-).strip()
-CORS_ORIGINS = [
-    origin
-    for origin in {
+).strip().rstrip("/")
+
+
+def cors_origins() -> list[str]:
+    origins = {
         SITE_ORIGIN,
-        "http://127.0.0.1:3000",
-        "http://localhost:3000",
         "https://www.bhaktivoice.com",
         "https://bhaktivoice.com",
-        "https://bhaktivoice.vercel.app",
     }
-    if origin
-]
+    if not os.environ.get("VERCEL"):
+        origins.update({"http://127.0.0.1:3000", "http://localhost:3000"})
+    return [origin for origin in origins if origin]
+
+
+CORS_ORIGINS = cors_origins()
 
 class StripBackendPrefixMiddleware:
     """Vercel public rewrites keep /api/backend; FastAPI routes live at /api/..."""
@@ -82,8 +85,10 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=CORS_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type"],
+    expose_headers=[],
+    max_age=600,
 )
 app.add_middleware(
     SessionMiddleware,
@@ -225,7 +230,10 @@ def stats():
 
 
 @app.get("/api/stats/user/{uid}")
-def user_stats(uid: str):
+def user_stats(uid: str, request: Request):
+    user_id = require_user_id(request)
+    if user_id != uid:
+        raise HTTPException(status_code=403, detail="Forbidden")
     total = db().fetchone(
         "SELECT COALESCE(SUM(count), 0) AS total FROM jaap_counts WHERE user_id = ?",
         [uid],
@@ -385,12 +393,12 @@ def sitemap():
 
 @app.post("/api/jaap")
 async def save_jaap(request: Request):
+    user_id = require_user_id(request)
     body = await request.json()
-    user_id = body.get("userId")
     mantra_slug = body.get("mantraSlug")
     count = body.get("count")
     day = body.get("date") or today()
-    if not user_id or not mantra_slug or not isinstance(count, int):
+    if not mantra_slug or not isinstance(count, int):
         raise HTTPException(status_code=400, detail="Invalid payload")
     db().execute(
         """
@@ -424,12 +432,11 @@ def _diary_payload(row: dict) -> dict:
 
 
 @app.get("/api/diary")
-async def get_diary(userId: str):
-    if not userId:
-        raise HTTPException(status_code=400, detail="Missing userId")
+async def get_diary(request: Request):
+    user_id = require_user_id(request)
     rows = db().fetchall(
         "SELECT date, notes FROM diary_entries WHERE user_id = ? ORDER BY date DESC",
-        [userId],
+        [user_id],
     )
     entries = {item["date"]: _diary_payload(item) for item in rows}
     return {"ok": True, "entries": entries}
@@ -437,10 +444,10 @@ async def get_diary(userId: str):
 
 @app.post("/api/diary")
 async def save_diary(request: Request):
+    user_id = require_user_id(request)
     body = await request.json()
-    user_id = body.get("userId")
     day = body.get("date")
-    if not user_id or not day:
+    if not day:
         raise HTTPException(status_code=400, detail="Invalid payload")
     notes = json.dumps(
         {
@@ -469,24 +476,23 @@ async def save_diary(request: Request):
 
 
 @app.get("/api/saved")
-async def get_saved(userId: str, type: str = "blog"):
-    if not userId:
-        raise HTTPException(status_code=400, detail="Missing userId")
+async def get_saved(request: Request, type: str = "blog"):
+    user_id = require_user_id(request)
     rows = db().fetchall(
         "SELECT slug FROM saved_items WHERE user_id = ? AND type = ?",
-        [userId, type],
+        [user_id, type],
     )
     return {"ok": True, "slugs": [row["slug"] for row in rows]}
 
 
 @app.post("/api/saved")
 async def save_item(request: Request):
+    user_id = require_user_id(request)
     body = await request.json()
-    user_id = body.get("userId")
     kind = body.get("type") or "blog"
     slug = body.get("slug")
     saved = body.get("saved")
-    if not user_id or not slug:
+    if not slug:
         raise HTTPException(status_code=400, detail="Invalid payload")
     if saved:
         db().execute(
@@ -507,10 +513,8 @@ async def save_item(request: Request):
 
 @app.post("/api/auth/sync")
 async def sync_user(request: Request):
+    uid = require_user_id(request)
     body = await request.json()
-    uid = body.get("uid")
-    if not uid:
-        raise HTTPException(status_code=400, detail="Missing uid")
     db().execute(
         """
         INSERT INTO users (id, firebase_uid, email, name, photo_url)

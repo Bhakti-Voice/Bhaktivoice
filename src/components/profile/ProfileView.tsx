@@ -8,6 +8,7 @@ import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { pageCrumbs } from "@/lib/seo/crumbs";
 import { PATHS } from "@/lib/seo/paths";
 import { useAuth } from "@/lib/auth/AuthProvider";
+import { authHeaders } from "@/lib/auth/headers";
 
 const QUICK = [
   { href: PATHS.naamJaap, label: "Naam Jaap", icon: CircleDot },
@@ -30,16 +31,22 @@ export function ProfileView() {
       setStats({ naam: 0, streak: 0, sankalps: 0 });
       return;
     }
-    void fetch(`/api/stats/user/${encodeURIComponent(user.uid)}`)
-      .then((response) => response.json())
-      .then((data: { naam?: number; streak?: number; sankalps?: number }) => {
+    void (async () => {
+      try {
+        const response = await fetch(`/api/stats/user/${encodeURIComponent(user.uid)}`, {
+          headers: await authHeaders(user),
+          cache: "no-store",
+        });
+        const data = (await response.json()) as { naam?: number; streak?: number; sankalps?: number };
         setStats({
           naam: data.naam ?? 0,
           streak: data.streak ?? 0,
           sankalps: data.sankalps ?? 0,
         });
-      })
-      .catch(() => setStats({ naam: 0, streak: 0, sankalps: 0 }));
+      } catch {
+        setStats({ naam: 0, streak: 0, sankalps: 0 });
+      }
+    })();
   }, [user?.uid]);
 
   return (
