@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { ListingCard } from "@/components/content/ListingCard";
 import { EmptyListing } from "@/components/content/EmptyListing";
+import { ListingPager } from "@/components/content/ListingPager";
 import { PageHero } from "@/components/layout/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { listYatra } from "@/lib/content";
+import { getListingPage, parseListingPage } from "@/lib/content/listing-pagination";
 import { hubMetadata } from "@/lib/i18n/hub";
 import { getMessages } from "@/lib/i18n/server";
 import { localizedCrumbs } from "@/lib/seo/crumbs";
@@ -14,7 +16,7 @@ import { PATHS } from "@/lib/seo/paths";
 
 export const dynamic = "force-dynamic";
 
-type Props = { searchParams: Promise<{ category?: string }> };
+type Props = { searchParams: Promise<{ category?: string; page?: string }> };
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
   const { category } = await searchParams;
@@ -23,17 +25,19 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 }
 
 export default async function YatraIndexPage({ searchParams }: Props) {
-  const { category } = await searchParams;
+  const { category, page: rawPage } = await searchParams;
   const [yatraPages, t] = await Promise.all([listYatra(), getMessages()]);
   const filters = [
     "All",
     ...Array.from(new Set(yatraPages.flatMap((page) => page.filters ?? []))),
   ];
   const active = category && filters.includes(category) ? category : "All";
-  const pages =
+  const filtered =
     active === "All"
       ? yatraPages.filter((page) => page.category === "destination" || !page.category)
       : yatraPages.filter((page) => page.filters?.includes(active));
+  const { items, page, pages } = getListingPage(filtered, parseListingPage(rawPage));
+  const pagerQuery = active === "All" ? undefined : { category: active };
 
   return (
     <div>
@@ -42,7 +46,7 @@ export default async function YatraIndexPage({ searchParams }: Props) {
       <JsonLd
         data={itemListSchema(
           t.hubs.yatra.h1,
-          pages.map((page) => ({ name: page.title, url: `${PATHS.yatra}/${page.slug}` })),
+          items.map((item) => ({ name: item.title, url: `${PATHS.yatra}/${item.slug}` })),
         )}
       />
 
@@ -66,23 +70,32 @@ export default async function YatraIndexPage({ searchParams }: Props) {
         </div>
       ) : null}
 
-      {pages.length ? (
+      {items.length ? (
         <div className="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-3">
-          {pages.map((page) => (
+          {items.map((item) => (
             <ListingCard
-              key={page.slug}
-              href={`${PATHS.yatra}/${page.slug}`}
-              title={page.title}
-              text={page.introduction}
-              image={page.heroImage}
-              imageAlt={page.heroImageAlt}
-              meta={`${page.destination} · ${page.state}`}
+              key={item.slug}
+              href={`${PATHS.yatra}/${item.slug}`}
+              title={item.title}
+              text={item.introduction}
+              image={item.heroImage}
+              imageAlt={item.heroImageAlt}
+              meta={`${item.destination} · ${item.state}`}
             />
           ))}
         </div>
       ) : (
         <EmptyListing kind="trips" />
       )}
+      <ListingPager
+        page={page}
+        pages={pages}
+        basePath={PATHS.yatra}
+        query={pagerQuery}
+        previousLabel={t.common.previous}
+        nextLabel={t.common.next}
+        pageOf={t.common.pageOf}
+      />
       <HubSeoBlock id="yatra" />
       </div>
     </div>

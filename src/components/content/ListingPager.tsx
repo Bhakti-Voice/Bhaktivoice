@@ -7,6 +7,8 @@ export function ListingPager({
   previousLabel,
   nextLabel,
   pageOf,
+  query,
+  variant = "query",
 }: {
   page: number;
   pages: number;
@@ -14,16 +16,27 @@ export function ListingPager({
   previousLabel: string;
   nextLabel: string;
   pageOf: (page: number, total: number) => string;
+  query?: Record<string, string>;
+  variant?: "query" | "path";
 }) {
   if (pages <= 1) return null;
-  const prevHref = page <= 2 ? basePath : `${basePath}/page/${page - 1}`;
-  const nextHref = `${basePath}/page/${page + 1}`;
+
+  function hrefFor(target: number) {
+    if (variant === "path") {
+      return target <= 1 ? basePath : `${basePath}/page/${target}`;
+    }
+    const params = new URLSearchParams(query);
+    if (target <= 1) params.delete("page");
+    else params.set("page", String(target));
+    const qs = params.toString();
+    return qs ? `${basePath}?${qs}` : basePath;
+  }
 
   return (
     <nav className="mt-10 flex flex-wrap items-center justify-between gap-3" aria-label="Pagination">
       {page > 1 ? (
         <LocaleLink
-          href={prevHref}
+          href={hrefFor(page - 1)}
           className="inline-flex min-w-24 cursor-pointer items-center justify-center rounded-full border border-line bg-white px-5 py-3 text-sm font-medium text-ink hover:border-saffron sm:min-w-32 sm:px-6 sm:text-base"
         >
           {previousLabel}
@@ -34,7 +47,7 @@ export function ListingPager({
       <p className="text-sm text-muted">{pageOf(page, pages)}</p>
       {page < pages ? (
         <LocaleLink
-          href={nextHref}
+          href={hrefFor(page + 1)}
           className="inline-flex min-w-24 cursor-pointer items-center justify-center rounded-full bg-saffron px-5 py-3 text-sm font-medium text-white hover:bg-saffron-deep sm:min-w-32 sm:px-8 sm:text-base"
         >
           {nextLabel}

@@ -7,7 +7,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { listFestivals } from "@/lib/content";
-import { getFestivalPage, getFestivalPageCount } from "@/lib/content/festival-pagination";
+import { getListingPage, parseListingPage } from "@/lib/content/listing-pagination";
 import { hubMetadata } from "@/lib/i18n/hub";
 import { getMessages } from "@/lib/i18n/server";
 import { localizedCrumbs } from "@/lib/seo/crumbs";
@@ -16,14 +16,19 @@ import { PATHS } from "@/lib/seo/paths";
 
 export const dynamic = "force-dynamic";
 
+type Props = { searchParams: Promise<{ page?: string }> };
+
 export async function generateMetadata(): Promise<Metadata> {
   return hubMetadata("festivals");
 }
 
-export default async function FestivalsIndexPage() {
-  const [festivals, t] = await Promise.all([listFestivals(), getMessages()]);
-  const pageItems = getFestivalPage(festivals, 1);
-  const pages = getFestivalPageCount(festivals.length);
+export default async function FestivalsIndexPage({ searchParams }: Props) {
+  const [{ page: rawPage }, festivals, t] = await Promise.all([
+    searchParams,
+    listFestivals(),
+    getMessages(),
+  ]);
+  const { items, page, pages } = getListingPage(festivals, parseListingPage(rawPage));
 
   return (
     <div>
@@ -44,20 +49,20 @@ export default async function FestivalsIndexPage() {
       <JsonLd
         data={itemListSchema(
           t.hubs.festivals.h1,
-          pageItems.map((page) => ({ name: page.title, url: `${PATHS.festivals}/${page.slug}` })),
+          items.map((item) => ({ name: item.title, url: `${PATHS.festivals}/${item.slug}` })),
         )}
       />
-      {pageItems.length ? (
+      {items.length ? (
         <div className="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-3">
-          {pageItems.map((page) => (
+          {items.map((item) => (
             <ListingCard
-              key={page.slug}
-              href={`${PATHS.festivals}/${page.slug}`}
-              title={page.title}
-              text={page.introduction}
-              image={page.heroImage}
-              imageAlt={page.heroImageAlt}
-              meta={page.monthHint}
+              key={item.slug}
+              href={`${PATHS.festivals}/${item.slug}`}
+              title={item.title}
+              text={item.introduction}
+              image={item.heroImage}
+              imageAlt={item.heroImageAlt}
+              meta={item.monthHint}
             />
           ))}
         </div>
@@ -65,7 +70,7 @@ export default async function FestivalsIndexPage() {
         <EmptyListing kind="festivals" />
       )}
       <ListingPager
-        page={1}
+        page={page}
         pages={pages}
         basePath={PATHS.festivals}
         previousLabel={t.common.previous}

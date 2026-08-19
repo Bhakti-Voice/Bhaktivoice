@@ -64,6 +64,7 @@ export default async function BlogPagedPage({ params }: Props) {
           page={pageNumber}
           pages={total}
           basePath={PATHS.blog}
+          variant="path"
           previousLabel={t.common.previous}
           nextLabel={t.common.next}
           pageOf={t.common.pageOf}

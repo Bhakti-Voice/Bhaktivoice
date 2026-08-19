@@ -33,7 +33,7 @@ from kinds import (
 )
 from json_import import coerce_entry, kind_placeholders, parse_json_text
 from store import save_entry
-from media import MAX_UPLOAD_BYTES, load_media, replace_hero_image, safe_image_src, save_media
+from media import load_media, replace_hero_image, safe_image_src
 from firebase_auth import optional_user_id, require_user_id
 from community import (
     MAX_ABOUT,
@@ -155,7 +155,7 @@ def form_image_kwargs(kind, values: dict | None = None) -> dict:
     values = values or {}
     return {
         "hero_src": safe_image_src(str(values.get("heroImage") or "")),
-        "show_image_upload": has_hero_image(kind),
+        "show_image": has_hero_image(kind),
     }
 
 
@@ -1273,11 +1273,11 @@ async def admin_save_json(request: Request, kind: str, item_id: int, json_text: 
 
 
 @app.post("/admin/{kind}/{item_id}/image")
-async def admin_upload_image(
+async def admin_save_image_url(
     request: Request,
     kind: str,
     item_id: int,
-    image: UploadFile | None = File(default=None),
+    heroImage: str = Form(""),
     next: str = Form(""),
 ):
     require_admin(request)
@@ -1301,16 +1301,11 @@ async def admin_upload_image(
         key = "error" if failed else "notice"
         return RedirectResponse(f"{base}?{key}={quote(message)}", status_code=302)
 
-    if not image or not image.filename:
-        return bounce("Choose an image first", failed=True)
-    raw = await image.read(MAX_UPLOAD_BYTES + 1)
-    if len(raw) > MAX_UPLOAD_BYTES:
-        return bounce("Image is too large. Use a file under 8 MB.", failed=True)
+    url = (heroImage or "").strip()
+    if url and not safe_image_src(url):
+        return bounce("Use an https:// cloud URL or a site path starting with /.", failed=True)
     try:
-        url = save_media(raw)
         data = replace_hero_image(parse_data(row.get("data")), url)
-        if not str(data.get("heroImageAlt") or "").strip():
-            data["heroImageAlt"] = row.get("title") or "Image"
         save_entry(
             kind,
             data,
@@ -1320,7 +1315,7 @@ async def admin_upload_image(
         )
     except Exception as error:
         return bounce(str(error), failed=True)
-    return bounce("Image saved")
+    return bounce("Image URL saved")
 
 
 @app.post("/admin/{kind}/{item_id}/delete")

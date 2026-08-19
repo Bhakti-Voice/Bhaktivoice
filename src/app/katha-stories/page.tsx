@@ -5,8 +5,10 @@ import { PageHero } from "@/components/layout/PageHero";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
 import { EmptyListing } from "@/components/content/EmptyListing";
 import { ListingCard } from "@/components/content/ListingCard";
+import { ListingPager } from "@/components/content/ListingPager";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { listKatha } from "@/lib/content";
+import { getListingPage, parseListingPage } from "@/lib/content/listing-pagination";
 import { localizedCrumbs } from "@/lib/seo/crumbs";
 import { itemListSchema } from "@/lib/seo/schema";
 import { hubMetadata } from "@/lib/i18n/hub";
@@ -14,6 +16,8 @@ import { getMessages } from "@/lib/i18n/server";
 import { PATHS } from "@/lib/seo/paths";
 
 export const dynamic = "force-dynamic";
+
+type Props = { searchParams: Promise<{ page?: string }> };
 
 export async function generateMetadata(): Promise<Metadata> {
   return hubMetadata("katha");
@@ -28,8 +32,13 @@ const TONES = [
   "bg-[#fee2e2] text-[#b91c1c]",
 ];
 
-export default async function KathaIndexPage() {
-  const [kathaSeries, t] = await Promise.all([listKatha(), getMessages()]);
+export default async function KathaIndexPage({ searchParams }: Props) {
+  const [{ page: rawPage }, kathaSeries, t] = await Promise.all([
+    searchParams,
+    listKatha(),
+    getMessages(),
+  ]);
+  const { items, page, pages } = getListingPage(kathaSeries, parseListingPage(rawPage));
 
   return (
     <div>
@@ -38,13 +47,13 @@ export default async function KathaIndexPage() {
       <JsonLd
         data={itemListSchema(
           t.hubs.katha.h1,
-          kathaSeries.map((series) => ({ name: series.title, url: `${PATHS.katha}/${series.slug}` })),
+          items.map((series) => ({ name: series.title, url: `${PATHS.katha}/${series.slug}` })),
         )}
       />
 
-      {kathaSeries.length ? (
+      {items.length ? (
         <div className="mt-10 flex flex-wrap gap-4">
-          {kathaSeries.map((series, index) => (
+          {items.map((series, index) => (
             <LocaleLink
               key={series.slug}
               href={`${PATHS.katha}/${series.slug}`}
@@ -63,9 +72,9 @@ export default async function KathaIndexPage() {
 
       <section className="mt-12">
         <h2 className="font-serif text-2xl text-ink">{t.common.popularKatha}</h2>
-        {kathaSeries.length ? (
+        {items.length ? (
           <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {kathaSeries.map((series) => (
+            {items.map((series) => (
               <ListingCard
                 key={series.slug}
                 href={`${PATHS.katha}/${series.slug}`}
@@ -90,6 +99,14 @@ export default async function KathaIndexPage() {
           <EmptyListing kind="katha" />
         )}
       </section>
+      <ListingPager
+        page={page}
+        pages={pages}
+        basePath={PATHS.katha}
+        previousLabel={t.common.previous}
+        nextLabel={t.common.next}
+        pageOf={t.common.pageOf}
+      />
       <HubSeoBlock id="katha" />
       </div>
     </div>

@@ -38,5 +38,5 @@ npm run seed:local
 
 Admin also accepts JSON: open `/admin/json`, paste one object or a list, or upload a `.json` file. Download current rows from **Download all JSON**. For homepage quotes, choose kind **Quotes** (`quotes`) and import an array like `backend/samples/quotes.json`. One published quote is shown on the home banner; it stays the same all day (IST) and changes the next day.
 
-On any list row that has a hero image (katha, blog, yatra, temples, festivals, mantras, store products, and the rest of the page types), upload a JPG/PNG/WEBP/GIF. The current picture is shown on that row. The file is stored, `data.heroImage` is filled with `/api/backend/media/…`, and the same Turso entry is updated. You can also upload from the Edit form or Edit JSON page.
+On any list row that has a hero image (katha, blog, yatra, temples, festivals, mantras, store products, and the rest of the page types), paste a cloud image URL and save. The current picture is shown on that row. `data.heroImage` is updated on the same Turso entry.
 

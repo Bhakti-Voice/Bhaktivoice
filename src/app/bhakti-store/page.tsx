@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { ListingCard } from "@/components/content/ListingCard";
 import { EmptyListing } from "@/components/content/EmptyListing";
+import { ListingPager } from "@/components/content/ListingPager";
 import { AddToCartButton } from "@/components/store/AddToCartButton";
 import { PageHero } from "@/components/layout/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
 import { listProducts, listStoreCategories } from "@/lib/content";
+import { getListingPage, parseListingPage } from "@/lib/content/listing-pagination";
 import { getMessages } from "@/lib/i18n/server";
 import { pageCrumbs } from "@/lib/seo/crumbs";
 import { itemListSchema } from "@/lib/seo/schema";
@@ -15,16 +17,21 @@ import { PATHS } from "@/lib/seo/paths";
 
 export const dynamic = "force-dynamic";
 
+type Props = { searchParams: Promise<{ page?: string }> };
+
 export async function generateMetadata(): Promise<Metadata> {
   return hubMetadata("store");
 }
 
-export default async function StorePage() {
-  const [products, storeCategories, t] = await Promise.all([
+export default async function StorePage({ searchParams }: Props) {
+  const [{ page: rawPage }, products, storeCategories, t] = await Promise.all([
+    searchParams,
     listProducts(),
     listStoreCategories(),
     getMessages(),
   ]);
+  const { items, page, pages } = getListingPage(products, parseListingPage(rawPage));
+
   return (
     <div>
       <PageHero title="Bhakti Store" hub="store" crumbs={pageCrumbs(["Store", PATHS.store])} />
@@ -32,7 +39,7 @@ export default async function StorePage() {
       <JsonLd
         data={itemListSchema(
           "Bhakti store",
-          products.map((product) => ({ name: product.name, url: `${PATHS.store}/${product.slug}` })),
+          items.map((product) => ({ name: product.name, url: `${PATHS.store}/${product.slug}` })),
         )}
       />
 
@@ -51,9 +58,9 @@ export default async function StorePage() {
 
       <section className="mt-12">
         <h2 className="font-serif text-2xl text-ink">Best Sellers</h2>
-        {products.length ? (
+        {items.length ? (
           <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-3">
-            {products.map((product) => (
+            {items.map((product) => (
               <ListingCard
                 key={product.slug}
                 href={`${PATHS.store}/${product.slug}`}
@@ -71,6 +78,14 @@ export default async function StorePage() {
           <EmptyListing kind="products" />
         )}
       </section>
+      <ListingPager
+        page={page}
+        pages={pages}
+        basePath={PATHS.store}
+        previousLabel={t.common.previous}
+        nextLabel={t.common.next}
+        pageOf={t.common.pageOf}
+      />
       <HubSeoBlock id="store" />
       </div>
     </div>

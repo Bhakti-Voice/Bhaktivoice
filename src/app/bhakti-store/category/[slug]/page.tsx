@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ListingCard } from "@/components/content/ListingCard";
 import { EmptyListing } from "@/components/content/EmptyListing";
+import { ListingPager } from "@/components/content/ListingPager";
 import { AddToCartButton } from "@/components/store/AddToCartButton";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { getStoreCategory, listProducts } from "@/lib/content";
+import { getListingPage, parseListingPage } from "@/lib/content/listing-pagination";
 import { getMessages } from "@/lib/i18n/server";
 import { pageCrumbs } from "@/lib/seo/crumbs";
 import { localizedMetadata } from "@/lib/seo/metadata";
@@ -12,7 +14,7 @@ import { PATHS } from "@/lib/seo/paths";
 
 export const dynamic = "force-dynamic";
 
-type Props = { params: Promise<{ slug: string }> };
+type Props = { params: Promise<{ slug: string }>; searchParams: Promise<{ page?: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
@@ -26,12 +28,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
-export default async function StoreCategoryPage({ params }: Props) {
+export default async function StoreCategoryPage({ params, searchParams }: Props) {
   const { slug } = await params;
+  const { page: rawPage } = await searchParams;
   const category = await getStoreCategory(slug);
   if (!category) notFound();
   const [products, t] = await Promise.all([listProducts(), getMessages()]);
-  const items = products.filter((product) => product.categorySlug === category.slug);
+  const filtered = products.filter((product) => product.categorySlug === category.slug);
+  const { items, page, pages } = getListingPage(filtered, parseListingPage(rawPage));
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
@@ -55,6 +59,14 @@ export default async function StoreCategoryPage({ params }: Props) {
       ) : (
         <EmptyListing label="products in this category" />
       )}
+      <ListingPager
+        page={page}
+        pages={pages}
+        basePath={category.href}
+        previousLabel={t.common.previous}
+        nextLabel={t.common.next}
+        pageOf={t.common.pageOf}
+      />
     </div>
   );
 }

@@ -31,7 +31,7 @@ SEO_FIELDS = (
     Field("seoTitle", "SEO title"),
     Field("metaDescription", "Meta description", "textarea", rows=3),
     Field("introduction", "Introduction", "textarea", rows=5),
-    Field("heroImage", "Hero image URL", hint="Upload from the list row, or paste a URL such as /images/krishna-hero.png"),
+    Field("heroImage", "Hero image URL", hint="Paste a cloud image URL, e.g. https://...jpg"),
     Field("heroImageAlt", "Hero image alt"),
     Field("category", "Category"),
     Field("author", "Author", hint="Shown on the article"),

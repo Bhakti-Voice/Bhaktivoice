@@ -26,16 +26,20 @@
             <tr>
               {% if show_images %}
                 <td>
-                  <form class="image-upload" method="post" action="/admin/{{ kind.key }}/{{ row.id }}/image" enctype="multipart/form-data">
+                  <form class="image-url" method="post" action="/admin/{{ kind.key }}/{{ row.id }}/image">
                     {% if row.heroImage %}
-                      <img class="thumb" src="{{ row.heroImage }}" alt="" />
+                      <img class="thumb" src="{{ row.heroImage }}" alt="" data-preview />
                     {% else %}
-                      <span class="thumb empty">No image</span>
+                      <span class="thumb empty" data-empty>No image</span>
                     {% endif %}
-                    <label class="btn ghost">
-                      Upload
-                      <input type="file" name="image" accept="image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.png,.webp,.gif" onchange="this.form.submit()" hidden />
-                    </label>
+                    <input
+                      type="text"
+                      name="heroImage"
+                      value="{{ row.heroImage }}"
+                      placeholder="https://… cloud image URL"
+                      inputmode="url"
+                    />
+                    <button class="btn ghost" type="submit">Save URL</button>
                   </form>
                 </td>
               {% endif %}
@@ -54,6 +58,27 @@
         </tbody>
       </table>
     </div>
+    <script>
+      document.querySelectorAll("form.image-url").forEach((form) => {
+        const input = form.querySelector('input[name="heroImage"]');
+        input.addEventListener("input", () => {
+          const url = input.value.trim();
+          let img = form.querySelector("img[data-preview]");
+          let empty = form.querySelector("[data-empty]");
+          if (/^(https?:\/\/|\/)[^\s]+$/i.test(url) && !url.startsWith("//")) {
+            if (!img) {
+              img = document.createElement("img");
+              img.className = "thumb";
+              img.setAttribute("data-preview", "");
+              img.alt = "";
+              form.prepend(img);
+            }
+            img.src = url;
+            if (empty) empty.remove();
+          }
+        });
+      });
+    </script>
   {% else %}
     <p class="card muted" style="margin-top: 1rem;">None yet. Add the first {{ kind.label|lower }}.</p>
   {% endif %}

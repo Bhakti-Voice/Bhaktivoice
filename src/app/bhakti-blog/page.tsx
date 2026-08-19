@@ -50,6 +50,7 @@ export default async function BlogIndexPage() {
           page={1}
           pages={pages}
           basePath={PATHS.blog}
+          variant="path"
           previousLabel={t.common.previous}
           nextLabel={t.common.next}
           pageOf={t.common.pageOf}
