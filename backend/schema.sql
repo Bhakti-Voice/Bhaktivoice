@@ -101,3 +101,10 @@ CREATE TABLE IF NOT EXISTS community_replies (
 CREATE INDEX IF NOT EXISTS idx_community_members_slug ON community_members(community_slug);
 CREATE INDEX IF NOT EXISTS idx_community_threads_slug_created ON community_threads(community_slug, created_at);
 CREATE INDEX IF NOT EXISTS idx_community_replies_thread ON community_replies(thread_id, created_at);
+
+CREATE TABLE IF NOT EXISTS cms_media (
+  id TEXT PRIMARY KEY,
+  mime TEXT NOT NULL,
+  payload TEXT NOT NULL,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);

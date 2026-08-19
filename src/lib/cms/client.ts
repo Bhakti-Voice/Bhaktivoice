@@ -198,3 +198,22 @@ export async function searchContent(query: string): Promise<SearchHit[]> {
 export async function sitemapEntries(): Promise<IndexableUrl[]> {
   return cmsGet<IndexableUrl[]>("/api/sitemap", []);
 }
+
+export type QuotesList = {
+  items: DailyQuote[];
+  total: number;
+  offset: number;
+  limit: number;
+};
+
+export const listQuotesPage = cache(async (q = "", offset = 0, limit = 30): Promise<QuotesList> => {
+  const query = new URLSearchParams({
+    q,
+    offset: String(Math.max(offset, 0)),
+    limit: String(Math.min(Math.max(limit, 1), 60)),
+  });
+  return cmsGet<QuotesList>(
+    await withLocaleQuery(`/api/quotes?${query.toString()}`),
+    { items: [], total: 0, offset, limit },
+  );
+});

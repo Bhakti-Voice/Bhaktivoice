@@ -137,6 +137,7 @@ export type Product = SeoPage & {
   priceInr: number;
   categorySlug: string;
   description: string;
+  outOfStock: boolean;
 };
 
 export type StoreCategory = {

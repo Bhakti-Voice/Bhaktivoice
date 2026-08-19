@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from typing import Any
 
-from kinds import KINDS, Field, form_to_data
+from kinds import KINDS, Field, as_yes_no, form_to_data
 from local_seed import DUMMY_ENTRIES
 from store import save_entry
 
@@ -124,9 +124,12 @@ def json_to_data(kind_key: str, payload: dict[str, Any]) -> dict[str, Any]:
     extra = {key: value for key, value in payload.items() if key not in known}
     for item in spec.fields:
         if item.name not in payload:
-            form[item.name] = ""
+            form[item.name] = "no" if item.name == "outOfStock" else ""
             continue
         value = payload[item.name]
+        if item.name == "outOfStock":
+            form[item.name] = as_yes_no(value)
+            continue
         if _keep_structured(item, value):
             form[item.name] = ""
             keep[item.name] = value

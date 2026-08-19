@@ -35,6 +35,7 @@ export async function Footer() {
         { href: PATHS.blog, label: t.nav.blog },
         { href: PATHS.temples, label: t.nav.temples },
         { href: PATHS.festivals, label: t.nav.festivals },
+        { href: PATHS.quotes, label: t.nav.quotes },
         { href: PATHS.mantras, label: t.nav.mantras },
         { href: PATHS.aarti, label: t.nav.aarti },
         { href: PATHS.bhajan, label: t.nav.bhajan },

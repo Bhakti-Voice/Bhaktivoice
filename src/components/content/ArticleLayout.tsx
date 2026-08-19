@@ -15,12 +15,14 @@ export function ArticleLayout({
   children,
   lead,
   schema,
+  coverClassName = "mt-6 aspect-[2/1] w-full rounded-2xl",
 }: {
   page: SeoPage;
   path: string;
   children?: ReactNode;
   lead?: ReactNode;
   schema?: object | null;
+  coverClassName?: string;
 }) {
   return (
     <article className="mx-auto max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
@@ -46,9 +48,9 @@ export function ArticleLayout({
           <CoverMedia
             src={page.heroImage}
             alt={page.heroImageAlt}
-            className="mt-6 aspect-[2/1] w-full rounded-2xl"
+            className={coverClassName}
             priority
-            sizes="(max-width: 1024px) 100vw, 900px"
+            sizes="(max-width: 1024px) 100vw, 560px"
           />
           {lead ? <div className="mt-6">{lead}</div> : null}
           <ExpandableSection title="Read this page" className="mt-8" collapsible={false}>

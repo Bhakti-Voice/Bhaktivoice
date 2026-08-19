@@ -256,6 +256,7 @@ DUMMY_ENTRIES: list[dict] = [
             "nameHi": "तुलसी जप माला",
             "priceInr": 251,
             "categorySlug": "local-dev-malas",
+            "outOfStock": "no",
             "description": "Sample product. Not for sale on production.",
             "cta_href": "/bhakti-store",
             "cta_label": "Store",

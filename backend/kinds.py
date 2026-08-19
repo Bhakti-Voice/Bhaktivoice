@@ -31,7 +31,7 @@ SEO_FIELDS = (
     Field("seoTitle", "SEO title"),
     Field("metaDescription", "Meta description", "textarea", rows=3),
     Field("introduction", "Introduction", "textarea", rows=5),
-    Field("heroImage", "Hero image URL", hint="e.g. /images/krishna-hero.png"),
+    Field("heroImage", "Hero image URL", hint="Upload from the list row, or paste a URL such as /images/krishna-hero.png"),
     Field("heroImageAlt", "Hero image alt"),
     Field("category", "Category"),
     Field("author", "Author", hint="Shown on the article"),
@@ -145,8 +145,8 @@ KINDS: dict[str, Kind] = {
     ),
     "spirituality": Kind(
         "spirituality",
-        "Spirituality article",
-        "Spirituality",
+        "Spiritual knowledge",
+        "Spiritual Knowledge",
         "/spiritual-knowledge",
         fields=SEO_FIELDS
         + (Field("sections", "Sections", "sections", "## Heading then body"),),
@@ -178,6 +178,13 @@ KINDS: dict[str, Kind] = {
             Field("name", "Product name"),
             Field("priceInr", "Price (INR)", "number"),
             Field("categorySlug", "Category slug"),
+            Field(
+                "outOfStock",
+                "Out of stock",
+                "select",
+                "Yes = still shown in the store so people can see it, but they cannot add it to cart",
+                options=("no", "yes"),
+            ),
             Field("description", "Description", "textarea", rows=4),
         ),
     ),
@@ -244,9 +251,9 @@ KINDS: dict[str, Kind] = {
         "quotes",
         "Quote",
         "Quotes",
-        "/",
+        "/daily-quotes",
         fields=(
-            Field("text", "Quote", "textarea", "Shown on the homepage banner", rows=4),
+            Field("text", "Quote", "textarea", "Shown on the homepage banner and the quotes page", rows=4),
             Field("attribution", "Attribution", hint="e.g. Lord Krishna"),
         ),
     ),
@@ -278,6 +285,7 @@ SKIP_HINDI_NAMES = {
     "destinationSlug",
     "suggestedCount",
     "yatraCategory",
+    "outOfStock",
 }
 
 
@@ -331,6 +339,19 @@ CTA_DEFAULTS = {
 }
 
 
+def as_yes_no(value: Any, default: str = "no") -> str:
+    if isinstance(value, bool):
+        return "yes" if value else "no"
+    if isinstance(value, (int, float)) and value in (0, 1) and not isinstance(value, bool):
+        return "yes" if int(value) == 1 else "no"
+    text = str(value or "").strip().lower()
+    if text in {"yes", "y", "true", "1"}:
+        return "yes"
+    if text in {"no", "n", "false", "0", ""}:
+        return default if text == "" else "no"
+    return default
+
+
 def _filled(value: Any) -> bool:
     if value is None:
         return False
@@ -355,6 +376,10 @@ def apply_locale(data: dict[str, Any], locale: str) -> dict[str, Any]:
 
 def strip_hi_keys(data: dict[str, Any]) -> dict[str, Any]:
     return {key: value for key, value in data.items() if not key.endswith("Hi")}
+
+
+def has_hero_image(kind: Kind) -> bool:
+    return any(item.name == "heroImage" for item in kind.fields)
 
 
 def kind_crumb_name(kind: Kind, locale: str) -> str:
@@ -530,6 +555,8 @@ def form_to_data(kind: Kind, form: dict[str, str]) -> dict[str, Any]:
                 data[item.name] = int(raw or "0")
             except ValueError:
                 data[item.name] = 0
+        elif item.name == "outOfStock":
+            data[item.name] = as_yes_no(raw)
         else:
             data[item.name] = raw
     if kind.key == "yatra":
@@ -672,6 +699,8 @@ def dump_field(item: Field, data: dict[str, Any]) -> str:
             return "\n".join(chunks).strip()
         if item.type == "paragraphs":
             return "\n\n".join(_str_list(value))
+        if item.name == "outOfStock":
+            return as_yes_no(value)
         return _safe_text(value)
     except Exception:
         value = data.get(item.name) if isinstance(data, dict) else None
@@ -806,6 +835,7 @@ def public_page(
             extras["priceInr"] = 0
         extras["categorySlug"] = data.get("categorySlug") or ""
         extras["description"] = data.get("description") or ""
+        extras["outOfStock"] = as_yes_no(data.get("outOfStock")) == "yes"
         extras["category"] = data.get("categorySlug") or data.get("category") or ""
         page["breadcrumbs"] = [
             {"name": home_name, "href": "/"},

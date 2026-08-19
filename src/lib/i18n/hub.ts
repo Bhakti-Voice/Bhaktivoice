@@ -20,6 +20,7 @@ export const HUB_PATHS = {
   community: PATHS.community,
   store: PATHS.store,
   tithi: PATHS.tithi,
+  quotes: PATHS.quotes,
   bhajan: PATHS.bhajan,
   aarti: PATHS.aarti,
   more: PATHS.more,

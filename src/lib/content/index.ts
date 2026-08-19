@@ -64,10 +64,12 @@ export async function getKatha(slug: string) {
 }
 
 export async function listProducts() {
-  return listContent<Product>("product");
+  const items = await listContent<Product>("product");
+  return items.map((item) => ({ ...item, outOfStock: Boolean(item.outOfStock) }));
 }
 export async function getProduct(slug: string) {
-  return getContent<Product>("product", slug);
+  const item = await getContent<Product>("product", slug);
+  return item ? { ...item, outOfStock: Boolean(item.outOfStock) } : item;
 }
 
 export async function listStoreCategories() {

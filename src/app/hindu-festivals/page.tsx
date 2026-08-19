@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { ListingCard } from "@/components/content/ListingCard";
 import { EmptyListing } from "@/components/content/EmptyListing";
+import { ListingPager } from "@/components/content/ListingPager";
 import { PageHero } from "@/components/layout/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { listFestivals } from "@/lib/content";
+import { getFestivalPage, getFestivalPageCount } from "@/lib/content/festival-pagination";
 import { hubMetadata } from "@/lib/i18n/hub";
 import { getMessages } from "@/lib/i18n/server";
 import { localizedCrumbs } from "@/lib/seo/crumbs";
@@ -20,6 +22,9 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function FestivalsIndexPage() {
   const [festivals, t] = await Promise.all([listFestivals(), getMessages()]);
+  const pageItems = getFestivalPage(festivals, 1);
+  const pages = getFestivalPageCount(festivals.length);
+
   return (
     <div>
       <PageHero
@@ -39,12 +44,12 @@ export default async function FestivalsIndexPage() {
       <JsonLd
         data={itemListSchema(
           t.hubs.festivals.h1,
-          festivals.map((page) => ({ name: page.title, url: `${PATHS.festivals}/${page.slug}` })),
+          pageItems.map((page) => ({ name: page.title, url: `${PATHS.festivals}/${page.slug}` })),
         )}
       />
-      {festivals.length ? (
+      {pageItems.length ? (
         <div className="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-3">
-          {festivals.map((page) => (
+          {pageItems.map((page) => (
             <ListingCard
               key={page.slug}
               href={`${PATHS.festivals}/${page.slug}`}
@@ -59,6 +64,14 @@ export default async function FestivalsIndexPage() {
       ) : (
         <EmptyListing kind="festivals" />
       )}
+      <ListingPager
+        page={1}
+        pages={pages}
+        basePath={PATHS.festivals}
+        previousLabel={t.common.previous}
+        nextLabel={t.common.next}
+        pageOf={t.common.pageOf}
+      />
       <HubSeoBlock id="festivals" />
       </div>
     </div>

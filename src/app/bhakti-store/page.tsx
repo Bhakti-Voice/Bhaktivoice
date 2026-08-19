@@ -7,6 +7,7 @@ import { PageHero } from "@/components/layout/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
 import { listProducts, listStoreCategories } from "@/lib/content";
+import { getMessages } from "@/lib/i18n/server";
 import { pageCrumbs } from "@/lib/seo/crumbs";
 import { itemListSchema } from "@/lib/seo/schema";
 import { hubMetadata } from "@/lib/i18n/hub";
@@ -19,7 +20,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function StorePage() {
-  const [products, storeCategories] = await Promise.all([listProducts(), listStoreCategories()]);
+  const [products, storeCategories, t] = await Promise.all([
+    listProducts(),
+    listStoreCategories(),
+    getMessages(),
+  ]);
   return (
     <div>
       <PageHero title="Bhakti Store" hub="store" crumbs={pageCrumbs(["Store", PATHS.store])} />
@@ -57,7 +62,8 @@ export default async function StorePage() {
                 image={product.heroImage}
                 imageAlt={product.heroImageAlt}
                 meta={product.categorySlug}
-                footer={<AddToCartButton slug={product.slug} name={product.name} />}
+                badge={product.outOfStock ? t.common.outOfStock : undefined}
+                footer={<AddToCartButton slug={product.slug} name={product.name} outOfStock={product.outOfStock} />}
               />
             ))}
           </div>

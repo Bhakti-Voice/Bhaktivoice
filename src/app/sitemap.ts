@@ -21,6 +21,7 @@ const HUBS: { path: string; changeFrequency: MetadataRoute.Sitemap[0]["changeFre
   { path: PATHS.community, changeFrequency: "weekly", priority: 0.6 },
   { path: PATHS.store, changeFrequency: "weekly", priority: 0.6 },
   { path: PATHS.tithi, changeFrequency: "daily", priority: 0.7 },
+  { path: PATHS.quotes, changeFrequency: "weekly", priority: 0.6 },
   { path: PATHS.more, changeFrequency: "monthly", priority: 0.4 },
   { path: PATHS.bhajan, changeFrequency: "monthly", priority: 0.4 },
   { path: PATHS.aarti, changeFrequency: "monthly", priority: 0.4 },

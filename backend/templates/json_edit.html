@@ -4,6 +4,24 @@
   <p><a href="/admin/{{ kind.key }}">← {{ kind.plural }}</a></p>
   <h1>Edit JSON</h1>
   <p class="muted">This is the live row. Change the JSON and save — it writes back to the same id, not a new entry.</p>
+  {% if show_image_upload %}
+    <div class="card" style="margin-top: 1rem;">
+      <p style="margin: 0;">Hero image</p>
+      <form class="image-upload" method="post" action="/admin/{{ kind.key }}/{{ item_id }}/image" enctype="multipart/form-data" style="margin-top: 0.7rem;">
+        <input type="hidden" name="next" value="json" />
+        {% if hero_src %}
+          <img class="thumb-lg" src="{{ hero_src }}" alt="" />
+        {% else %}
+          <span class="thumb empty" style="width: 120px; height: 80px;">No image</span>
+        {% endif %}
+        <label class="btn ghost">
+          Upload image
+          <input type="file" name="image" accept="image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.png,.webp,.gif" onchange="this.form.submit()" hidden />
+        </label>
+      </form>
+      <p class="hint">Upload replaces <code>data.heroImage</code> in the JSON below for this same row.</p>
+    </div>
+  {% endif %}
   <form class="card" method="post" action="/admin/{{ kind.key }}/{{ item_id }}/json" style="margin-top: 1rem;" id="json-edit-form" accept-charset="UTF-8">
     <label>JSON
       <textarea class="json" name="json_text" id="json-text" rows="28">{{ json_text }}</textarea>

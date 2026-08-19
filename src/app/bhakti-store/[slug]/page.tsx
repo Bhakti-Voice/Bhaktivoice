@@ -8,6 +8,7 @@ import { FaqList } from "@/components/seo/FaqList";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { AddToCartButton } from "@/components/store/AddToCartButton";
 import { getProduct } from "@/lib/content";
+import { getMessages } from "@/lib/i18n/server";
 import { productSchema } from "@/lib/seo/schema";
 import { localizedMetadata } from "@/lib/seo/metadata";
 import { PATHS } from "@/lib/seo/paths";
@@ -33,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProductDetailPage({ params }: Props) {
   const { slug } = await params;
-  const page = await getProduct(slug);
+  const [page, t] = await Promise.all([getProduct(slug), getMessages()]);
   if (!page) notFound();
 
   return (
@@ -45,6 +46,7 @@ export default async function ProductDetailPage({ params }: Props) {
           image: page.heroImage,
           path: `${PATHS.store}/${page.slug}`,
           priceInr: page.priceInr,
+          outOfStock: page.outOfStock,
         })}
       />
       <Breadcrumbs items={page.breadcrumbs} />
@@ -53,6 +55,9 @@ export default async function ProductDetailPage({ params }: Props) {
           <p className="text-xs uppercase tracking-[0.2em] text-saffron">{page.categorySlug}</p>
           <h1 className="mt-2 font-serif text-3xl text-ink lg:text-4xl">{page.h1}</h1>
           <p className="mt-4 text-2xl text-saffron-deep">₹{page.priceInr.toLocaleString("en-IN")}</p>
+          {page.outOfStock ? (
+            <p className="mt-2 text-sm font-medium text-saffron-deep">{t.common.outOfStockNote}</p>
+          ) : null}
           <CoverMedia
             src={page.heroImage}
             alt={page.heroImageAlt}
@@ -61,7 +66,7 @@ export default async function ProductDetailPage({ params }: Props) {
             sizes="(max-width: 1024px) 100vw, 900px"
           />
           <div className="mt-6">
-            <AddToCartButton slug={page.slug} name={page.name} />
+            <AddToCartButton slug={page.slug} name={page.name} outOfStock={page.outOfStock} />
           </div>
           <ExpandableSection title="About this item" className="mt-6" collapsible={false}>
             <ProseText text={page.introduction} className="leading-relaxed text-muted" />

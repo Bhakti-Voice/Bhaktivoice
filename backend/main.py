@@ -11,7 +11,8 @@ from urllib.parse import quote
 from dotenv import load_dotenv
 from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse, Response
+from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from markupsafe import Markup
 from starlette.middleware.sessions import SessionMiddleware
@@ -25,12 +26,14 @@ from kinds import (
     apply_locale,
     dump_field,
     form_to_data,
+    has_hero_image,
     public_page,
     public_simple,
     today,
 )
 from json_import import coerce_entry, kind_placeholders, parse_json_text
 from store import save_entry
+from media import MAX_UPLOAD_BYTES, load_media, replace_hero_image, safe_image_src, save_media
 from firebase_auth import optional_user_id, require_user_id
 from community import (
     MAX_ABOUT,
@@ -146,6 +149,14 @@ def parse_data(raw) -> dict:
         return value if isinstance(value, dict) else {}
     except json.JSONDecodeError:
         return {}
+
+
+def form_image_kwargs(kind, values: dict | None = None) -> dict:
+    values = values or {}
+    return {
+        "hero_src": safe_image_src(str(values.get("heroImage") or "")),
+        "show_image_upload": has_hero_image(kind),
+    }
 
 
 def row_public(row: dict, locale: str = "en") -> dict:
@@ -292,6 +303,58 @@ def daily_quote(locale: str = "en"):
     digest = hashlib.sha256(f"quotes:{ist_today()}".encode()).hexdigest()
     row = rows[int(digest, 16) % len(rows)]
     return row_public(row, normalize_locale(locale))
+
+
+def _quote_blob(row: dict) -> str:
+    data = parse_data(row.get("data"))
+    return " ".join(
+        [
+            str(row.get("slug") or ""),
+            str(row.get("title") or ""),
+            str(data.get("text") or ""),
+            str(data.get("textHi") or ""),
+            str(data.get("attribution") or ""),
+            str(data.get("attributionHi") or ""),
+        ]
+    ).lower()
+
+
+@app.get("/api/quotes")
+def list_quotes(locale: str = "en", q: str = "", offset: int = 0, limit: int = 30):
+    limit = min(max(int(limit or 30), 1), 60)
+    offset = max(int(offset or 0), 0)
+    rows = db().fetchall(
+        "SELECT * FROM cms_entries WHERE kind = 'quotes' AND status = 'published' ORDER BY id DESC",
+    )
+    needle = (q or "").strip().lower()
+    lang = normalize_locale(locale)
+    matched = []
+    for row in rows:
+        if needle and needle not in _quote_blob(row):
+            continue
+        try:
+            matched.append(row_public(row, lang))
+        except Exception:
+            continue
+    return {
+        "items": matched[offset : offset + limit],
+        "total": len(matched),
+        "offset": offset,
+        "limit": limit,
+    }
+
+
+@app.get("/media/{media_id}")
+def serve_media(media_id: str):
+    loaded = load_media(media_id)
+    if not loaded:
+        raise HTTPException(status_code=404, detail="Not found")
+    payload, mime = loaded
+    return Response(
+        content=payload,
+        media_type=mime,
+        headers={"Cache-Control": "public, max-age=31536000, immutable"},
+    )
 
 
 @app.get("/api/content/{kind}")
@@ -860,7 +923,7 @@ def admin_context(request: Request, **extra):
         "kinds": KINDS,
         "counts": counts,
         "admin": request.session.get("admin"),
-        "error": db_error,
+        "error": db_error or request.query_params.get("error"),
         "notice": request.query_params.get("notice"),
         "turso": turso_configured(),
         **extra,
@@ -1024,13 +1087,20 @@ def admin_list(request: Request, kind: str):
         return RedirectResponse("/admin/login", status_code=302)
     if kind not in KINDS:
         raise HTTPException(status_code=404)
-    rows = db().fetchall(
-        "SELECT id, slug, title, status, updated_at FROM cms_entries WHERE kind = ? ORDER BY updated_at DESC, id DESC",
+    spec = KINDS[kind]
+    raw_rows = db().fetchall(
+        "SELECT id, slug, title, status, updated_at, data FROM cms_entries WHERE kind = ? ORDER BY updated_at DESC, id DESC",
         [kind],
     )
+    show_images = has_hero_image(spec)
+    rows = []
+    for row in raw_rows:
+        item = dict(row)
+        item["heroImage"] = safe_image_src(str(parse_data(item.pop("data", None)).get("heroImage") or "")) if show_images else ""
+        rows.append(item)
     return templates.TemplateResponse(
         "list.html",
-        admin_context(request, kind=KINDS[kind], rows=rows),
+        admin_context(request, kind=spec, rows=rows, show_images=show_images),
     )
 
 
@@ -1044,7 +1114,7 @@ def admin_new(request: Request, kind: str):
     values = {field.name: "" for field in spec.fields}
     return templates.TemplateResponse(
         "form.html",
-        admin_context(request, kind=spec, values=values, slug="", status="published", item_id=None),
+        admin_context(request, kind=spec, values=values, slug="", status="published", item_id=None, **form_image_kwargs(spec, values)),
     )
 
 
@@ -1085,6 +1155,7 @@ def admin_edit(request: Request, kind: str, item_id: int):
                 status=row.get("status") or "published",
                 item_id=item_id,
                 error=form_error,
+                **form_image_kwargs(spec, values),
             ),
         )
     except Exception as error:
@@ -1124,6 +1195,7 @@ async def admin_save(request: Request, kind: str):
                 status=status,
                 item_id=parsed_id,
                 error=str(error),
+                **form_image_kwargs(spec, values),
             ),
             status_code=400,
         )
@@ -1140,6 +1212,7 @@ def admin_edit_json(request: Request, kind: str, item_id: int):
     row = db().fetchone("SELECT * FROM cms_entries WHERE id = ? AND kind = ?", [item_id, kind])
     if not row:
         raise HTTPException(status_code=404)
+    data = parse_data(row.get("data"))
     return templates.TemplateResponse(
         "json_edit.html",
         admin_context(
@@ -1147,6 +1220,7 @@ def admin_edit_json(request: Request, kind: str, item_id: int):
             kind=spec,
             item_id=item_id,
             json_text=dump_entry_json(row),
+            **form_image_kwargs(spec, data),
         ),
     )
 
@@ -1164,7 +1238,14 @@ async def admin_save_json(request: Request, kind: str, item_id: int, json_text: 
     def render_json_error(message: str, text: str):
         return templates.TemplateResponse(
             "json_edit.html",
-            admin_context(request, kind=spec, item_id=item_id, json_text=text, error=message),
+            admin_context(
+                request,
+                kind=spec,
+                item_id=item_id,
+                json_text=text,
+                error=message,
+                **form_image_kwargs(spec, parse_data(row.get("data"))),
+            ),
             status_code=400,
         )
 
@@ -1191,6 +1272,57 @@ async def admin_save_json(request: Request, kind: str, item_id: int, json_text: 
     return RedirectResponse(f"/admin/{kind}/{item_id}/json?notice=Saved", status_code=302)
 
 
+@app.post("/admin/{kind}/{item_id}/image")
+async def admin_upload_image(
+    request: Request,
+    kind: str,
+    item_id: int,
+    image: UploadFile | None = File(default=None),
+    next: str = Form(""),
+):
+    require_admin(request)
+    if kind not in KINDS:
+        raise HTTPException(status_code=404)
+    spec = KINDS[kind]
+    if not has_hero_image(spec):
+        raise HTTPException(status_code=400, detail="This entry type has no image field.")
+    row = db().fetchone("SELECT * FROM cms_entries WHERE id = ? AND kind = ?", [item_id, kind])
+    if not row:
+        raise HTTPException(status_code=404)
+    nxt = (next or "").strip()
+    if nxt == "edit":
+        base = f"/admin/{kind}/{item_id}/edit"
+    elif nxt == "json":
+        base = f"/admin/{kind}/{item_id}/json"
+    else:
+        base = f"/admin/{kind}"
+
+    def bounce(message: str, *, failed: bool = False) -> RedirectResponse:
+        key = "error" if failed else "notice"
+        return RedirectResponse(f"{base}?{key}={quote(message)}", status_code=302)
+
+    if not image or not image.filename:
+        return bounce("Choose an image first", failed=True)
+    raw = await image.read(MAX_UPLOAD_BYTES + 1)
+    if len(raw) > MAX_UPLOAD_BYTES:
+        return bounce("Image is too large. Use a file under 8 MB.", failed=True)
+    try:
+        url = save_media(raw)
+        data = replace_hero_image(parse_data(row.get("data")), url)
+        if not str(data.get("heroImageAlt") or "").strip():
+            data["heroImageAlt"] = row.get("title") or "Image"
+        save_entry(
+            kind,
+            data,
+            slug=row.get("slug") or "",
+            status=row.get("status") or "published",
+            item_id=item_id,
+        )
+    except Exception as error:
+        return bounce(str(error), failed=True)
+    return bounce("Image saved")
+
+
 @app.post("/admin/{kind}/{item_id}/delete")
 def admin_delete(request: Request, kind: str, item_id: int):
     require_admin(request)
@@ -1201,3 +1333,8 @@ def admin_delete(request: Request, kind: str, item_id: int):
 @app.exception_handler(401)
 async def unauthorized(_request: Request, _exc: HTTPException):
     return RedirectResponse("/admin/login", status_code=302)
+
+
+images_dir = ROOT.parent / "public" / "images"
+if images_dir.is_dir():
+    app.mount("/images", StaticFiles(directory=str(images_dir)), name="images")

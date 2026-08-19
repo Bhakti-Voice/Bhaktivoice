@@ -151,6 +151,7 @@ export function productSchema(input: {
   image: string;
   path: string;
   priceInr: number;
+  outOfStock?: boolean;
 }) {
   return {
     "@context": "https://schema.org",
@@ -163,7 +164,9 @@ export function productSchema(input: {
       "@type": "Offer",
       priceCurrency: "INR",
       price: input.priceInr,
-      availability: "https://schema.org/InStock",
+      availability: input.outOfStock
+        ? "https://schema.org/OutOfStock"
+        : "https://schema.org/InStock",
     },
   };
 }

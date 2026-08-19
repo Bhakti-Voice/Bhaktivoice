@@ -12,7 +12,7 @@ type Props = {
 };
 
 function webpFor(src: string) {
-  if (!src.startsWith("/") || src.startsWith("//")) return null;
+  if (!src.startsWith("/") || src.startsWith("//") || src.startsWith("/api/")) return null;
   if (src.endsWith(".png") || src.endsWith(".jpg") || src.endsWith(".jpeg")) {
     return src.replace(/\.(png|jpe?g)$/i, ".webp");
   }

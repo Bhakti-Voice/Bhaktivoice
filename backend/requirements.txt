@@ -6,3 +6,4 @@ jinja2==3.1.6
 libsql-client==0.3.1
 itsdangerous==2.2.0
 google-auth==2.40.3
+Pillow==11.3.0

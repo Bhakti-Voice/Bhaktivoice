@@ -65,7 +65,49 @@
         color: var(--ink);
       }
       table { width: 100%; border-collapse: collapse; }
-      th, td { text-align: left; padding: 0.7rem 0.4rem; border-bottom: 1px solid var(--line); }
+      th, td { text-align: left; padding: 0.7rem 0.4rem; border-bottom: 1px solid var(--line); vertical-align: middle; }
+      .notice { background: #eef6ea; color: #215c2a; padding: 0.7rem 1rem; border-radius: 12px; }
+      .error { background: #fdecec; color: #8f2d2d; padding: 0.7rem 1rem; border-radius: 12px; }
+      .hint { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
+      .row { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
+      .muted { color: var(--muted); }
+      .count { font-size: 1.8rem; margin: 0.3rem 0 0; }
+      .thumb {
+        width: 72px;
+        height: 54px;
+        object-fit: cover;
+        border-radius: 10px;
+        background: var(--cream);
+        border: 1px solid var(--line);
+        display: block;
+      }
+      .thumb.empty {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.68rem;
+        color: var(--muted);
+        text-align: center;
+        padding: 0.2rem;
+      }
+      .thumb-lg {
+        max-width: 240px;
+        max-height: 150px;
+        object-fit: cover;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: var(--cream);
+        display: block;
+      }
+      .image-upload { display: flex; gap: 0.55rem; align-items: center; flex-wrap: wrap; }
+      .image-upload input[type=file] {
+        width: auto;
+        max-width: 12rem;
+        margin: 0;
+        padding: 0.35rem;
+        font-size: 0.75rem;
+      }
+      .image-upload .btn { padding: 0.4rem 0.85rem; font-size: 0.85rem; }
       .notice { background: #eef6ea; color: #215c2a; padding: 0.7rem 1rem; border-radius: 12px; }
       .error { background: #fdecec; color: #8f2d2d; padding: 0.7rem 1rem; border-radius: 12px; }
       .hint { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }

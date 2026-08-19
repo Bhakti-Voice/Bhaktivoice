@@ -10,10 +10,11 @@
     </div>
   </div>
   {% if rows %}
-    <div class="card" style="margin-top: 1rem;">
+    <div class="card" style="margin-top: 1rem; overflow-x: auto;">
       <table>
         <thead>
           <tr>
+            {% if show_images %}<th>Image</th>{% endif %}
             <th>Title</th>
             <th>Slug</th>
             <th>Status</th>
@@ -23,6 +24,21 @@
         <tbody>
           {% for row in rows %}
             <tr>
+              {% if show_images %}
+                <td>
+                  <form class="image-upload" method="post" action="/admin/{{ kind.key }}/{{ row.id }}/image" enctype="multipart/form-data">
+                    {% if row.heroImage %}
+                      <img class="thumb" src="{{ row.heroImage }}" alt="" />
+                    {% else %}
+                      <span class="thumb empty">No image</span>
+                    {% endif %}
+                    <label class="btn ghost">
+                      Upload
+                      <input type="file" name="image" accept="image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.png,.webp,.gif" onchange="this.form.submit()" hidden />
+                    </label>
+                  </form>
+                </td>
+              {% endif %}
               <td>{{ row.title }}</td>
               <td>{{ row.slug }}</td>
               <td>{{ row.status }}</td>

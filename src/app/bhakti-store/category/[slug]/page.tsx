@@ -5,6 +5,7 @@ import { EmptyListing } from "@/components/content/EmptyListing";
 import { AddToCartButton } from "@/components/store/AddToCartButton";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { getStoreCategory, listProducts } from "@/lib/content";
+import { getMessages } from "@/lib/i18n/server";
 import { pageCrumbs } from "@/lib/seo/crumbs";
 import { localizedMetadata } from "@/lib/seo/metadata";
 import { PATHS } from "@/lib/seo/paths";
@@ -29,7 +30,7 @@ export default async function StoreCategoryPage({ params }: Props) {
   const { slug } = await params;
   const category = await getStoreCategory(slug);
   if (!category) notFound();
-  const products = await listProducts();
+  const [products, t] = await Promise.all([listProducts(), getMessages()]);
   const items = products.filter((product) => product.categorySlug === category.slug);
 
   return (
@@ -46,7 +47,8 @@ export default async function StoreCategoryPage({ params }: Props) {
               text={`₹${product.priceInr.toLocaleString("en-IN")}`}
               image={product.heroImage}
               imageAlt={product.heroImageAlt}
-              footer={<AddToCartButton slug={product.slug} name={product.name} />}
+              badge={product.outOfStock ? t.common.outOfStock : undefined}
+              footer={<AddToCartButton slug={product.slug} name={product.name} outOfStock={product.outOfStock} />}
             />
           ))}
         </div>

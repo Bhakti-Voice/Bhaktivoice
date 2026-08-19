@@ -17,5 +17,6 @@ export const PATHS = {
   bhajan: "/bhajan-and-kirtan",
   aarti: "/aarti-chants",
   tithi: "/aaj-ki-tithi",
+  quotes: "/daily-quotes",
   more: "/more",
 } as const;

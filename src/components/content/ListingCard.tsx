@@ -10,6 +10,7 @@ export function ListingCard({
   image,
   imageAlt,
   meta,
+  badge,
   footer,
 }: {
   href: string;
@@ -18,16 +19,24 @@ export function ListingCard({
   image?: string;
   imageAlt: string;
   meta?: string;
+  badge?: string;
   footer?: ReactNode;
 }) {
   const body = (
     <>
-      <CoverMedia
-        src={image}
-        alt={imageAlt}
-        className="aspect-[2/1] w-full"
-        sizes="(max-width: 640px) 50vw, (max-width: 1280px) 33vw, 280px"
-      />
+      <div className="relative">
+        <CoverMedia
+          src={image}
+          alt={imageAlt}
+          className="aspect-[2/1] w-full"
+          sizes="(max-width: 640px) 50vw, (max-width: 1280px) 33vw, 280px"
+        />
+        {badge ? (
+          <span className="absolute left-2 top-2 rounded-full bg-white/95 px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide text-saffron-deep">
+            {badge}
+          </span>
+        ) : null}
+      </div>
       <div className="p-2.5 sm:p-3">
         {meta ? <p className="text-[11px] uppercase tracking-wide text-saffron">{meta}</p> : null}
         <h2 className="listing-card-title mt-1 line-clamp-2 break-words font-serif text-base leading-snug text-ink sm:text-lg">
