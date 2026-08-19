@@ -1,4 +1,4 @@
-export const LISTING_PAGE_SIZE = 16;
+export const LISTING_PAGE_SIZE = 18;
 
 export function parseListingPage(raw?: string | string[]) {
   const value = Array.isArray(raw) ? raw[0] : raw;
@@ -7,17 +7,17 @@ export function parseListingPage(raw?: string | string[]) {
   return page;
 }
 
-export function getListingPageCount(length: number) {
+export function getListingPageCount(length: number, pageSize = LISTING_PAGE_SIZE) {
   if (length <= 0) return 0;
-  return Math.ceil(length / LISTING_PAGE_SIZE);
+  return Math.ceil(length / pageSize);
 }
 
-export function getListingPage<T>(items: T[], page: number) {
-  const pages = getListingPageCount(items.length);
+export function getListingPage<T>(items: T[], page: number, pageSize = LISTING_PAGE_SIZE) {
+  const pages = getListingPageCount(items.length, pageSize);
   const current = pages ? Math.min(Math.max(page, 1), pages) : 1;
-  const start = (current - 1) * LISTING_PAGE_SIZE;
+  const start = (current - 1) * pageSize;
   return {
-    items: items.slice(start, start + LISTING_PAGE_SIZE),
+    items: items.slice(start, start + pageSize),
     page: current,
     pages,
   };

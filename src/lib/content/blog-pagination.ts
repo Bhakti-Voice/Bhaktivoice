@@ -1,4 +1,4 @@
-export const BLOG_PAGE_SIZE = 9;
+export const BLOG_PAGE_SIZE = 18;
 
 export function getBlogPageCount(length: number) {
   if (length <= 0) return 0;
