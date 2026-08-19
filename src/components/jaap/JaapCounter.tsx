@@ -27,6 +27,11 @@ import { JAAP_MANTRAS, type JaapMantraSlug } from "@/components/jaap/mantras";
 import { PATHS } from "@/lib/seo/paths";
 import { authHeaders } from "@/lib/auth/headers";
 
+const JAAP_VOICE: Partial<Record<JaapMantraSlug, string>> = {
+  "radhe-radhe": "/audio/radhe-premanand.mp3",
+  namokar: "/audio/namokar-maha-mantra.mp3",
+};
+
 type FloatNaam = {
   id: number;
   text: string;
@@ -102,7 +107,8 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
   const voiceOnRef = useRef(false);
   const [voiceOn, setVoiceOn] = useState(false);
   const [volume, setVolume] = useState(0.7);
-  const isRadhe = store.mantra === "radhe-radhe";
+  const voiceSrc = JAAP_VOICE[store.mantra];
+  const hasVoice = Boolean(voiceSrc);
   voiceOnRef.current = voiceOn;
 
   useEffect(() => {
@@ -120,15 +126,19 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
   }, []);
 
   useEffect(() => {
+    if (voiceRef.current) voiceRef.current.volume = volume;
+  }, [volume]);
+
+  useEffect(() => {
     const audio = voiceRef.current;
-    if (!audio) return;
-    audio.volume = volume;
-    if (!isRadhe) {
-      audio.pause();
-      audio.currentTime = 0;
+    if (!audio) {
       setVoiceOn(false);
+      return;
     }
-  }, [isRadhe, volume]);
+    audio.pause();
+    audio.currentTime = 0;
+    setVoiceOn(false);
+  }, [voiceSrc]);
 
   useEffect(() => {
     return () => {
@@ -242,7 +252,7 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
 
   function restartVoice() {
     const audio = voiceRef.current;
-    if (!audio || !voiceOnRef.current || !isRadhe) {
+    if (!audio || !voiceOnRef.current || !hasVoice) {
       setVoiceOn(false);
       return;
     }
@@ -301,14 +311,17 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
         className="relative cursor-pointer overflow-hidden rounded-[32px] bg-[#fff8f1] px-3 py-8 shadow-sm ring-1 ring-line select-none sm:overflow-visible sm:px-10 sm:py-10"
         onClick={onCardClick}
       >
-        <audio
-          ref={voiceRef}
-          src="/audio/radhe-premanand.mp3"
-          loop
-          preload="none"
-          onEnded={restartVoice}
-        />
-        {isRadhe ? (
+        {voiceSrc ? (
+          <audio
+            key={voiceSrc}
+            ref={voiceRef}
+            src={voiceSrc}
+            loop
+            preload="none"
+            onEnded={restartVoice}
+          />
+        ) : null}
+        {hasVoice ? (
           <div
             data-jaap-ignore
             onClick={(event) => event.stopPropagation()}
