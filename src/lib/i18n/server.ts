@@ -1,3 +1,4 @@
+import "server-only";
 import { cache } from "react";
 import { headers } from "next/headers";
 import { DEFAULT_LOCALE, isLocale, localeFromPath, type Locale } from "./config";

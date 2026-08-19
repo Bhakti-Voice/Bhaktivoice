@@ -8,7 +8,7 @@ import { useAuth } from "@/lib/auth/AuthProvider";
 import { authHeaders } from "@/lib/auth/headers";
 import { withLocale } from "@/lib/i18n/config";
 import { useLocale, useMessages } from "@/lib/i18n/client";
-import { formatCount } from "@/lib/cms/client";
+import { formatCount } from "@/lib/format";
 import { PATHS } from "@/lib/seo/paths";
 import type { CommunityGroup } from "@/lib/content/types";
 

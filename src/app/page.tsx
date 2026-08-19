@@ -16,7 +16,8 @@ import {
 } from "@/components/home/FeatureIcons";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
-import { formatCount, getDailyQuote, getStats } from "@/lib/cms/client";
+import { getDailyQuote, getStats } from "@/lib/cms/client";
+import { formatCount } from "@/lib/format";
 import { listBlog, listKatha, listYatra } from "@/lib/content";
 import { itemListSchema } from "@/lib/seo/schema";
 import { PATHS } from "@/lib/seo/paths";

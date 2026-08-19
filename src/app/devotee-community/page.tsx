@@ -8,7 +8,8 @@ import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
 import { CommunityGroupList } from "@/components/community/CommunityGroupList";
 import { pageCrumbs } from "@/lib/seo/crumbs";
 import { PATHS } from "@/lib/seo/paths";
-import { formatCount, getStats } from "@/lib/cms/client";
+import { getStats } from "@/lib/cms/client";
+import { formatCount } from "@/lib/format";
 import { listCommunityGroups } from "@/lib/content";
 
 export const dynamic = "force-dynamic";
