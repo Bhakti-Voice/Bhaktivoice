@@ -94,7 +94,7 @@ export default async function HomePage() {
           <div className="relative z-10 mx-auto flex min-h-[34rem] max-w-7xl flex-col justify-start px-4 pb-24 pt-5 sm:min-h-[40rem] sm:pb-32 sm:pt-8 lg:min-h-[760px] lg:justify-center lg:px-8 lg:pb-40 lg:pt-16">
             <div className="max-w-[17.5rem] sm:max-w-xl lg:max-w-2xl">
               <OmFlourish />
-              <h1 className="mt-3 font-display text-[1.85rem] font-semibold leading-[1.2] text-[#2c1810] sm:text-5xl lg:text-[3.35rem]">
+              <h1 className="mt-1 font-display text-[1.85rem] font-semibold leading-[1.2] text-[#2c1810] sm:text-5xl lg:text-[3.35rem]">
                 {t.home.h1}
               </h1>
               <p className="mt-3 text-sm leading-relaxed text-ink/70 sm:text-lg">{t.home.sub}</p>
