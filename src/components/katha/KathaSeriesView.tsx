@@ -1,4 +1,4 @@
-import { CoverMedia } from "@/components/media/CoverMedia";
+import { ARTICLE_COVER_CLASS, CoverMedia } from "@/components/media/CoverMedia";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { KathaNarrator } from "@/components/katha/KathaNarrator";
 import { ExpandableSection } from "@/components/seo/ExpandableSection";
@@ -34,7 +34,8 @@ export function KathaSeriesView({
           <CoverMedia
             src={series.heroImage}
             alt={series.heroImageAlt}
-            className="mt-6 aspect-[2/1] w-full rounded-2xl"
+            className={ARTICLE_COVER_CLASS}
+            fit="contain"
             priority
             sizes="(max-width: 1024px) 100vw, 900px"
           />

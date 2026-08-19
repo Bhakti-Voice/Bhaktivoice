@@ -36,7 +36,6 @@ export default async function FestivalDetailPage({ params }: Props) {
     <ArticleLayout
       page={page}
       path={`${PATHS.festivals}/${page.slug}`}
-      coverClassName="mt-6 h-40 w-full max-w-md rounded-2xl sm:h-48"
       lead={<ProseText text={page.dateNote} className="rounded-3xl bg-cream p-5 text-sm text-muted" />}
     >
       <section>

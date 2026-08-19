@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { CoverMedia } from "@/components/media/CoverMedia";
+import { ARTICLE_COVER_CLASS, CoverMedia } from "@/components/media/CoverMedia";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { ContextualCta } from "@/components/seo/ContextualCta";
 import { ExpandableSection } from "@/components/seo/ExpandableSection";
@@ -15,7 +15,7 @@ export function ArticleLayout({
   children,
   lead,
   schema,
-  coverClassName = "mt-6 aspect-[2/1] w-full rounded-2xl",
+  coverClassName = ARTICLE_COVER_CLASS,
 }: {
   page: SeoPage;
   path: string;
@@ -49,8 +49,9 @@ export function ArticleLayout({
             src={page.heroImage}
             alt={page.heroImageAlt}
             className={coverClassName}
+            fit="contain"
             priority
-            sizes="(max-width: 1024px) 100vw, 560px"
+            sizes="(max-width: 1024px) 100vw, 900px"
           />
           {lead ? <div className="mt-6">{lead}</div> : null}
           <ExpandableSection title="Read this page" className="mt-8" collapsible={false}>

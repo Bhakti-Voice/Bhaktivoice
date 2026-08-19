@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { BlogShare } from "@/components/blog/BlogShare";
-import { CoverMedia } from "@/components/media/CoverMedia";
+import { ARTICLE_COVER_CLASS, CoverMedia } from "@/components/media/CoverMedia";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { ContextualCta } from "@/components/seo/ContextualCta";
 import { FaqList } from "@/components/seo/FaqList";
@@ -65,7 +65,8 @@ export default async function BlogPostPage({ params }: Props) {
           <CoverMedia
             src={page.heroImage}
             alt={page.heroImageAlt}
-            className="mt-6 aspect-[2/1] w-full rounded-2xl"
+            className={ARTICLE_COVER_CLASS}
+            fit="contain"
             priority
             sizes="(max-width: 1024px) 100vw, 900px"
           />

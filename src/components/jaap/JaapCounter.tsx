@@ -231,15 +231,9 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
 
   useEffect(() => {
     window.localStorage.removeItem(OLD_STORAGE_KEY);
-    const storedPending = readPending();
-    setPending(storedPending);
-    void (async () => {
-      try {
-        await loadGlobals();
-      } finally {
-        setHydrated(true);
-      }
-    })();
+    setPending(emptyJaapCounts());
+    setHydrated(true);
+    void loadGlobals();
     return () => {
       window.clearTimeout(postTimer.current);
       void flushQueue();
@@ -258,10 +252,14 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
     syncedUser.current = user.uid;
     void (async () => {
       const unsent = await flushQueue();
-      const session = { ...pendingRef.current };
+      const stored = readPending();
       const remaining = emptyJaapCounts();
-      for (const slug of Object.keys(session) as JaapMantraSlug[]) {
-        remaining[slug] = Math.max(0, (session[slug] ?? 0) - (unsent[slug] ?? 0));
+      for (const item of JAAP_MANTRAS) {
+        const slug = item.slug;
+        remaining[slug] = Math.max(
+          0,
+          Math.max(pendingRef.current[slug] ?? 0, stored[slug] ?? 0) - (unsent[slug] ?? 0),
+        );
       }
       if (pendingSum(remaining) > 0) {
         const headers = await authHeaders(user);
@@ -272,7 +270,6 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
         });
       }
       clearPending();
-      setPending(emptyJaapCounts());
       await loadPersonal(user);
     })().catch(() => {
       syncedUsers.delete(user.uid);
@@ -301,7 +298,7 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
     };
   }, []);
 
-  const displayCount = user ? (personalToday[mantra] ?? 0) : (globalTotals[mantra] ?? 0);
+  const displayCount = pending[mantra] ?? 0;
   const malaProgress = displayCount % 108;
   const malasToday = Math.floor(displayCount / 108);
   const worldwideTotal = Object.values(globalTotals).reduce((sum, value) => sum + value, 0);
@@ -314,16 +311,10 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
       if (!delta) return;
       const currentUser = userRef.current;
       setGlobalTotals((current) => ({ ...current, [mantra]: (current[mantra] ?? 0) + delta }));
+      setPending((current) => ({ ...current, [mantra]: (current[mantra] ?? 0) + delta }));
       if (currentUser) {
-        setPersonalToday((current) => ({ ...current, [mantra]: (current[mantra] ?? 0) + delta }));
         setPersonalTotals((current) => ({ ...current, [mantra]: (current[mantra] ?? 0) + delta }));
         setStreak((current) => Math.max(current, 1));
-      } else {
-        setPending((current) => {
-          const next = { ...current, [mantra]: (current[mantra] ?? 0) + delta };
-          writePending(next);
-          return next;
-        });
       }
       queueRef.current[mantra] = (queueRef.current[mantra] ?? 0) + delta;
       scheduleFlush();
@@ -368,6 +359,7 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
     event.stopPropagation();
     setStep(108);
     setFloats([]);
+    setPending(emptyJaapCounts());
   }
 
   async function onSync(event: MouseEvent<HTMLButtonElement>) {
@@ -425,14 +417,14 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
   const progressCards = user
     ? [
         {
-          label: t.jaap.dailyTarget,
-          value: `${Math.min(displayCount, 10000).toLocaleString(countLocale)} / 10,000`,
+          label: t.jaap.thisSitting,
+          value: displayCount.toLocaleString(countLocale),
           icon: Hand,
           tone: "bg-[#ffedd5] text-[#c2410c]",
         },
         {
           label: t.jaap.malaToday,
-          value: `${malasToday} / 216`,
+          value: String(malasToday),
           icon: CircleDot,
           tone: "bg-[#ffedd5] text-[#ea580c]",
         },
@@ -451,19 +443,19 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
       ]
     : [
         {
-          label: selected.label,
+          label: t.jaap.thisSitting,
           value: displayCount.toLocaleString(countLocale),
           icon: Hand,
           tone: "bg-[#ffedd5] text-[#c2410c]",
         },
         {
-          label: t.jaap.thisSitting,
-          value: (pending[mantra] ?? 0).toLocaleString(countLocale),
+          label: t.jaap.malaToday,
+          value: String(malasToday),
           icon: CircleDot,
           tone: "bg-[#ffedd5] text-[#ea580c]",
         },
         {
-          label: t.jaap.totalJaap,
+          label: t.jaap.worldwide,
           value: worldwideTotal.toLocaleString(countLocale),
           icon: UserRound,
           tone: "bg-[#dbeafe] text-[#1d4ed8]",
@@ -566,7 +558,7 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
               <span className="font-serif text-5xl font-semibold tracking-tight text-ink sm:text-6xl">
                 {displayCount.toLocaleString(countLocale)}
               </span>
-              <span className="mt-1 text-sm text-muted">{user ? t.jaap.today : t.jaap.worldwide}</span>
+              <span className="mt-1 text-sm text-muted">{t.jaap.thisSitting}</span>
               <span className="mt-4 text-base font-semibold text-ink">{t.jaap.malaCount(malasToday)}</span>
               {user ? (
                 <span className="mt-1 inline-flex items-center gap-1 text-sm text-saffron-deep">
