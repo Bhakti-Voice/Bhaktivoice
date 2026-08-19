@@ -30,7 +30,7 @@ export function YatraDetailView({ page }: { page: YatraPage }) {
       <CoverMedia
         src={page.heroImage}
         alt={page.heroImageAlt}
-        className="mt-8 w-full px-1 sm:px-2"
+        className="mt-8 flex justify-center px-1 sm:px-2"
         fit="contain"
         priority
         sizes="(max-width: 1280px) 100vw, 1200px"

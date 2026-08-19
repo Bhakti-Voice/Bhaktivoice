@@ -1,7 +1,7 @@
 import { MediaImage } from "@/components/media/MediaImage";
 import { BrandFallback } from "@/components/media/BrandFallback";
 
-export const ARTICLE_COVER_CLASS = "mt-6 w-full px-1 sm:px-2";
+export const ARTICLE_COVER_CLASS = "mt-6 flex justify-center px-1 sm:px-2";
 
 export function CoverMedia({
   src,
@@ -29,10 +29,10 @@ export function CoverMedia({
             alt={alt}
             priority={priority}
             sizes={sizes}
-            className="h-auto w-full rounded-2xl object-contain"
+            className="h-auto max-h-64 w-auto max-w-full rounded-2xl object-contain sm:max-h-80 lg:max-w-lg"
           />
         ) : (
-          <div className="relative aspect-[2/1] overflow-hidden rounded-2xl bg-sand">
+          <div className="relative aspect-[2/1] w-full max-w-lg overflow-hidden rounded-2xl bg-sand">
             <BrandFallback />
           </div>
         )}
