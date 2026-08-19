@@ -4,16 +4,28 @@ import { NewsletterForm } from "@/components/layout/NewsletterForm";
 import { getMessages } from "@/lib/i18n/server";
 import { PATHS } from "@/lib/seo/paths";
 
-function SocialMark({ path, label }: { path: string; label: string }) {
-  return (
+function SocialMark({ path, label, href }: { path: string; label: string; href?: string }) {
+  const mark = (
     <span
-      aria-label={label}
+      aria-label={href ? undefined : label}
       className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white/80"
     >
       <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden>
         <path d={path} />
       </svg>
     </span>
+  );
+  if (!href) return mark;
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      className="hover:text-saffron"
+    >
+      {mark}
+    </a>
   );
 }
 
@@ -67,6 +79,7 @@ export async function Footer() {
     },
     {
       label: "X",
+      href: "https://x.com/bhaktivoice98",
       path: "M14.7 10.4 21.2 3h-1.6l-5.6 6.4L9.4 3H3.8l6.9 10L3.8 21h1.6l6-6.9 4.8 6.9h5.6zm-2.1 2.5-.7-1-5.8-8.2h2.5l4.7 6.7.7 1 6.1 8.7h-2.5z",
     },
   ];
@@ -80,7 +93,7 @@ export async function Footer() {
           <p className="mt-2 max-w-xs text-xs leading-relaxed text-white/50">{t.footerTagline}</p>
           <div className="mt-5 flex gap-2">
             {social.map((item) => (
-              <SocialMark key={item.label} label={item.label} path={item.path} />
+              <SocialMark key={item.label} label={item.label} path={item.path} href={item.href} />
             ))}
           </div>
         </div>

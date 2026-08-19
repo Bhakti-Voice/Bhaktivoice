@@ -5,7 +5,7 @@ export const SITE = {
     "Discover naam jaap, katha, sacred yatra, temples, festivals and daily sadhana — a peaceful home for devotion.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.bhaktivoice.com",
   locale: "en_IN",
-  twitter: "@bhakti",
+  twitter: "@bhaktivoice98",
   ogHome: "/assets/bhakti-voice-og-home.jpg",
   ogHomeAlt: "Bhakti Voice - Online Naam Jaap, Katha, and Spiritual Sadhana",
 } as const;
