@@ -169,6 +169,15 @@ export const getDailyQuote = cache(async (): Promise<DailyQuote | null> => {
   return quote;
 });
 
+export async function getLiveCommunity(slug: string) {
+  return cmsGet<{
+    ok?: boolean;
+    slug?: string;
+    name?: string;
+    text?: string;
+  } | null>(`/api/community/${encodeURIComponent(slug)}`, null, "fresh");
+}
+
 export async function getUserStats(uid: string): Promise<UserStats> {
   return cmsGet<UserStats>(`/api/stats/user/${encodeURIComponent(uid)}`, {
     naam: 0,

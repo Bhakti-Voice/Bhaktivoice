@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
 import { MediaImage } from "@/components/media/MediaImage";
 import Link from "next/link";
-import { Users } from "lucide-react";
 import { hubMetadata } from "@/lib/i18n/hub";
+import { getMessages } from "@/lib/i18n/server";
 import { PageHero } from "@/components/layout/PageHero";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
-import { EmptyListing } from "@/components/content/EmptyListing";
+import { CommunityGroupList } from "@/components/community/CommunityGroupList";
 import { pageCrumbs } from "@/lib/seo/crumbs";
 import { PATHS } from "@/lib/seo/paths";
 import { formatCount, getStats } from "@/lib/cms/client";
 import { listCommunityGroups } from "@/lib/content";
-import { ProseText } from "@/components/content/SectionBody";
 
 export const dynamic = "force-dynamic";
 
@@ -19,27 +18,31 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function CommunityPage() {
-  const [stats, groups] = await Promise.all([getStats(), listCommunityGroups()]);
+  const [stats, groups, t] = await Promise.all([getStats(), listCommunityGroups(), getMessages()]);
 
   return (
     <div>
-      <PageHero title="Devotee Community" hub="community" crumbs={pageCrumbs(["Community", PATHS.community])} />
+      <PageHero
+        title={t.hubs.community.h1}
+        hub="community"
+        crumbs={pageCrumbs([t.nav.community, PATHS.community])}
+      />
 
       <section className="mx-auto max-w-7xl px-4 pb-8 lg:px-8">
         <div className="overflow-hidden rounded-[32px] bg-navy text-white md:grid md:grid-cols-2">
           <div className="p-8 lg:p-10">
             <p className="text-xs uppercase tracking-[0.2em] text-gold">Sankalp</p>
-            <h2 className="mt-2 font-serif text-3xl">Global Ram Naam Sankalp</h2>
+            <h2 className="mt-2 font-serif text-3xl">{t.common.globalSankalp}</h2>
             <p className="mt-4 font-serif text-4xl">{formatCount(stats.total)}</p>
-            <p className="mt-1 text-sm text-white/75">Naam Chanted</p>
+            <p className="mt-1 text-sm text-white/75">{t.common.naamChanted}</p>
             <p className="mt-3 text-sm text-white/75">
-              {formatCount(stats.todayDevotees)} Devotees Chanting Today
+              {formatCount(stats.todayDevotees)} {t.common.chantingToday}
             </p>
             <Link
               href={PATHS.sankalp}
               className="mt-6 inline-flex rounded-full bg-saffron px-5 py-2.5 text-sm font-medium text-white"
             >
-              Join Now
+              {t.common.joinNow}
             </Link>
           </div>
           <div className="relative min-h-[200px]">
@@ -55,27 +58,8 @@ export default async function CommunityPage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-4 pb-16 lg:px-8">
-        <h2 className="font-serif text-2xl text-ink">Popular Groups</h2>
-        {groups.length ? (
-          <ul className="mt-5 grid gap-4 sm:grid-cols-2">
-            {groups.map((group) => (
-              <li key={group.slug} className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-line">
-                <Users className="h-5 w-5 text-saffron" />
-                <h3 className="mt-3 font-serif text-xl text-ink">{group.name}</h3>
-                <ProseText text={group.text} className="mt-2 text-sm text-muted" />
-                <p className="mt-3 text-xs text-muted">{formatCount(group.members)} devotees</p>
-                <Link
-                  href="/login"
-                  className="mt-4 inline-flex rounded-full border border-saffron px-4 py-1.5 text-sm text-saffron"
-                >
-                  Join
-                </Link>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <EmptyListing kind="groups" />
-        )}
+        <h2 className="font-serif text-2xl text-ink">{t.common.popularGroups}</h2>
+        <CommunityGroupList groups={groups} />
       </section>
       <div className="mx-auto max-w-7xl px-4 pb-16 lg:px-8">
         <HubSeoBlock id="community" />

@@ -31,7 +31,22 @@ from kinds import (
 )
 from json_import import coerce_entry, kind_placeholders, parse_json_text
 from store import save_entry
-from firebase_auth import require_user_id
+from firebase_auth import optional_user_id, require_user_id
+from community import (
+    MAX_ABOUT,
+    MAX_MEMBERS,
+    MAX_OWNED,
+    MAX_REPLIES,
+    MAX_THREADS,
+    clean_body,
+    clean_name,
+    new_id,
+    public_person,
+    require_slug,
+    slug_from_name,
+    too_soon,
+    valid_id,
+)
 
 ROOT = Path(__file__).resolve().parent
 load_dotenv(ROOT.parent / ".env")
@@ -527,6 +542,307 @@ async def sync_user(request: Request):
         [uid, uid, body.get("email"), body.get("name"), body.get("photoUrl")],
     )
     return {"ok": True, "stored": True}
+
+
+def _community_info(slug: str) -> dict:
+    owned = db().fetchone(
+        "SELECT slug, name, text, created_by FROM communities WHERE slug = ?",
+        [slug],
+    )
+    if owned:
+        return {
+            "kind": "user",
+            "slug": owned["slug"],
+            "name": owned["name"],
+            "text": owned["text"] or "",
+            "created_by": owned["created_by"],
+        }
+    row = db().fetchone(
+        """
+        SELECT slug, title, status, data FROM cms_entries
+        WHERE kind = 'community_group' AND slug = ? AND status = 'published'
+        """,
+        [slug],
+    )
+    if not row:
+        raise HTTPException(status_code=404, detail="Community not found")
+    data = parse_data(row.get("data"))
+    return {
+        "kind": "official",
+        "slug": slug,
+        "name": data.get("name") or row.get("title") or slug,
+        "text": data.get("text") or "",
+        "created_by": "",
+    }
+
+
+def _community_member(user_id: str, slug: str) -> bool:
+    row = db().fetchone(
+        "SELECT user_id FROM community_members WHERE user_id = ? AND community_slug = ?",
+        [user_id, slug],
+    )
+    return bool(row)
+
+
+def _ensure_member(user_id: str, slug: str) -> None:
+    if not _community_member(user_id, slug):
+        raise HTTPException(status_code=403, detail="Join this community to write")
+
+
+def _ensure_can_post(user_id: str, info: dict) -> None:
+    _ensure_member(user_id, info["slug"])
+    if info["kind"] == "user" and info["created_by"] != user_id:
+        raise HTTPException(status_code=403, detail="Only the admin can start a post")
+
+
+def _ensure_user_row(user_id: str) -> None:
+    db().execute(
+        """
+        INSERT INTO users (id, firebase_uid, name)
+        VALUES (?, ?, ?)
+        ON CONFLICT(id) DO NOTHING
+        """,
+        [user_id, user_id, "Devotee"],
+    )
+
+
+@app.get("/api/community/counts")
+def community_counts():
+    rows = db().fetchall(
+        "SELECT community_slug AS slug, COUNT(*) AS total FROM community_members GROUP BY community_slug"
+    )
+    return {"ok": True, "counts": {row["slug"]: int(row["total"]) for row in rows}}
+
+
+@app.get("/api/community/user-groups")
+def list_user_communities():
+    rows = db().fetchall(
+        """
+        SELECT c.slug, c.name, c.text, c.created_by,
+               (SELECT COUNT(*) FROM community_members m WHERE m.community_slug = c.slug) AS members
+        FROM communities c
+        ORDER BY c.created_at DESC
+        LIMIT 100
+        """
+    )
+    return {
+        "ok": True,
+        "groups": [
+            {
+                "slug": row["slug"],
+                "name": row["name"],
+                "text": row["text"] or "",
+                "members": int(row["members"] or 0),
+            }
+            for row in rows
+        ],
+    }
+
+
+@app.post("/api/community")
+async def create_community(request: Request):
+    user_id = require_user_id(request)
+    _ensure_user_row(user_id)
+    owned = db().fetchone(
+        "SELECT COUNT(*) AS total FROM communities WHERE created_by = ?",
+        [user_id],
+    )
+    if int(owned["total"] if owned else 0) >= MAX_OWNED:
+        raise HTTPException(status_code=400, detail="You can create at most 3 communities")
+    last = db().fetchone(
+        "SELECT created_at FROM communities WHERE created_by = ? ORDER BY created_at DESC LIMIT 1",
+        [user_id],
+    )
+    if last and too_soon(last.get("created_at")):
+        raise HTTPException(status_code=429, detail="Wait a moment before creating another community")
+    payload = await request.json()
+    name = clean_name(payload.get("name"))
+    about = clean_body(payload.get("text") or payload.get("about") or name, MAX_ABOUT)
+    slug = slug_from_name(name)
+    db().execute(
+        "INSERT INTO communities (slug, name, text, created_by) VALUES (?, ?, ?, ?)",
+        [slug, name, about, user_id],
+    )
+    db().execute(
+        """
+        INSERT INTO community_members (user_id, community_slug)
+        VALUES (?, ?)
+        ON CONFLICT(user_id, community_slug) DO NOTHING
+        """,
+        [user_id, slug],
+    )
+    return {"ok": True, "slug": slug, "name": name}
+
+
+@app.get("/api/community/{slug}")
+async def get_community(slug: str, request: Request):
+    slug = require_slug(slug)
+    info = _community_info(slug)
+    viewer = optional_user_id(request)
+    is_admin = bool(viewer and info["created_by"] and viewer == info["created_by"])
+    joined = bool(viewer and _community_member(viewer, slug))
+    members = db().fetchall(
+        """
+        SELECT m.joined_at, m.user_id, u.name, u.photo_url
+        FROM community_members m
+        LEFT JOIN users u ON u.id = m.user_id
+        WHERE m.community_slug = ?
+        ORDER BY m.joined_at DESC
+        LIMIT ?
+        """,
+        [slug, MAX_MEMBERS],
+    )
+    threads = db().fetchall(
+        """
+        SELECT t.id, t.body, t.created_at, t.user_id, u.name, u.photo_url
+        FROM community_threads t
+        LEFT JOIN users u ON u.id = t.user_id
+        WHERE t.community_slug = ?
+        ORDER BY t.created_at DESC
+        LIMIT ?
+        """,
+        [slug, MAX_THREADS],
+    )
+    replies_by_thread: dict[str, list] = {item["id"]: [] for item in threads}
+    if threads:
+        placeholders = ",".join("?" for _ in threads)
+        reply_rows = db().fetchall(
+            f"""
+            SELECT r.id, r.thread_id, r.body, r.created_at, u.name, u.photo_url
+            FROM community_replies r
+            LEFT JOIN users u ON u.id = r.user_id
+            WHERE r.thread_id IN ({placeholders})
+            ORDER BY r.created_at ASC
+            """,
+            [item["id"] for item in threads],
+        )
+        for reply in reply_rows:
+            bucket = replies_by_thread.get(reply["thread_id"])
+            if bucket is not None and len(bucket) < MAX_REPLIES:
+                bucket.append(
+                    {
+                        "id": reply["id"],
+                        "body": reply["body"],
+                        "createdAt": reply["created_at"],
+                        "author": public_person(reply.get("name"), reply.get("photo_url")),
+                    }
+                )
+    count_row = db().fetchone(
+        "SELECT COUNT(*) AS total FROM community_members WHERE community_slug = ?",
+        [slug],
+    )
+    return {
+        "ok": True,
+        "slug": slug,
+        "name": info["name"],
+        "text": info["text"],
+        "kind": info["kind"],
+        "joined": joined,
+        "isAdmin": is_admin,
+        "canPost": bool(joined and (info["kind"] == "official" or is_admin)),
+        "memberCount": int(count_row["total"] if count_row else 0),
+        "members": [
+            {
+                **public_person(item.get("name"), item.get("photo_url")),
+                "joinedAt": item.get("joined_at"),
+                "role": "admin" if info["created_by"] and item.get("user_id") == info["created_by"] else "member",
+            }
+            for item in members
+        ],
+        "threads": [
+            {
+                "id": item["id"],
+                "body": item["body"],
+                "createdAt": item["created_at"],
+                "author": public_person(item.get("name"), item.get("photo_url")),
+                "replies": replies_by_thread.get(item["id"], []),
+            }
+            for item in threads
+        ],
+    }
+
+
+@app.post("/api/community/{slug}/join")
+async def join_community(slug: str, request: Request):
+    slug = require_slug(slug)
+    _community_info(slug)
+    user_id = require_user_id(request)
+    _ensure_user_row(user_id)
+    db().execute(
+        """
+        INSERT INTO community_members (user_id, community_slug)
+        VALUES (?, ?)
+        ON CONFLICT(user_id, community_slug) DO NOTHING
+        """,
+        [user_id, slug],
+    )
+    return {"ok": True, "joined": True}
+
+
+@app.post("/api/community/{slug}/threads")
+async def create_thread(slug: str, request: Request):
+    slug = require_slug(slug)
+    info = _community_info(slug)
+    user_id = require_user_id(request)
+    _ensure_can_post(user_id, info)
+    body = await request.json()
+    text = clean_body(body.get("body"))
+    last = db().fetchone(
+        """
+        SELECT created_at FROM community_threads
+        WHERE user_id = ? AND community_slug = ?
+        ORDER BY created_at DESC LIMIT 1
+        """,
+        [user_id, slug],
+    )
+    if last and too_soon(last.get("created_at")):
+        raise HTTPException(status_code=429, detail="Wait a moment before posting again")
+    thread_id = new_id()
+    db().execute(
+        """
+        INSERT INTO community_threads (id, community_slug, user_id, body)
+        VALUES (?, ?, ?, ?)
+        """,
+        [thread_id, slug, user_id, text],
+    )
+    return {"ok": True, "id": thread_id}
+
+
+@app.post("/api/community/{slug}/threads/{thread_id}/replies")
+async def create_reply(slug: str, thread_id: str, request: Request):
+    slug = require_slug(slug)
+    _community_info(slug)
+    user_id = require_user_id(request)
+    _ensure_member(user_id, slug)
+    if not valid_id(thread_id):
+        raise HTTPException(status_code=400, detail="Invalid message")
+    thread = db().fetchone(
+        "SELECT id FROM community_threads WHERE id = ? AND community_slug = ?",
+        [thread_id, slug],
+    )
+    if not thread:
+        raise HTTPException(status_code=404, detail="Message not found")
+    payload = await request.json()
+    text = clean_body(payload.get("body"))
+    last = db().fetchone(
+        """
+        SELECT created_at FROM community_replies
+        WHERE user_id = ? AND community_slug = ?
+        ORDER BY created_at DESC LIMIT 1
+        """,
+        [user_id, slug],
+    )
+    if last and too_soon(last.get("created_at")):
+        raise HTTPException(status_code=429, detail="Wait a moment before posting again")
+    reply_id = new_id()
+    db().execute(
+        """
+        INSERT INTO community_replies (id, thread_id, community_slug, user_id, body)
+        VALUES (?, ?, ?, ?, ?)
+        """,
+        [reply_id, thread_id, slug, user_id, text],
+    )
+    return {"ok": True, "id": reply_id}
 
 
 def admin_context(request: Request, **extra):

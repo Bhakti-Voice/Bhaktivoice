@@ -1,14 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { MediaImage } from "@/components/media/MediaImage";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { pageCrumbs } from "@/lib/seo/crumbs";
 import { useAuth } from "@/lib/auth/AuthProvider";
+import { safeNextPath } from "@/lib/auth/next-path";
+import { PATHS } from "@/lib/seo/paths";
 
 export function LoginClient() {
   const { signInWithGoogle, configured, loading, user } = useAuth();
+  const router = useRouter();
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (loading || !user) return;
+    const next = safeNextPath(
+      new URLSearchParams(window.location.search).get("next"),
+      PATHS.community,
+    );
+    router.replace(next);
+  }, [user, loading, router]);
 
   async function onGoogle() {
     setError("");
@@ -45,7 +58,7 @@ export function LoginClient() {
             type="button"
             onClick={() => void onGoogle()}
             disabled={loading || !configured}
-            className="mt-6 w-full rounded-full bg-navy px-5 py-3 text-sm font-medium text-white disabled:opacity-60"
+            className="mt-6 w-full cursor-pointer rounded-full bg-navy px-5 py-3 text-sm font-medium text-white disabled:opacity-60"
           >
             Continue with Google
           </button>

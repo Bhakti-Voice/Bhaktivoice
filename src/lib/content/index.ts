@@ -1,4 +1,4 @@
-import { getContent, listContent, searchContent } from "@/lib/cms/client";
+import { getContent, getLiveCommunity, listContent, searchContent } from "@/lib/cms/client";
 import type {
   BlogPost,
   CommunityGroup,
@@ -79,6 +79,18 @@ export async function getStoreCategory(slug: string) {
 
 export async function listCommunityGroups() {
   return listContent<CommunityGroup>("community_group");
+}
+export async function getCommunityGroup(slug: string) {
+  const cms = await getContent<CommunityGroup>("community_group", slug);
+  if (cms?.name) return cms;
+  const live = await getLiveCommunity(slug);
+  if (!live?.name) return null;
+  return {
+    slug: live.slug || slug,
+    name: live.name,
+    text: live.text || "",
+    members: 0,
+  };
 }
 
 export async function listSankalpOffers() {

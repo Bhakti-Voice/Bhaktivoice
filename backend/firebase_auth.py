@@ -37,3 +37,12 @@ def require_user_id(request: Request) -> str:
     if not uid:
         raise HTTPException(status_code=401, detail="Invalid session")
     return uid
+
+
+def optional_user_id(request: Request) -> str | None:
+    if not _bearer_token(request):
+        return None
+    try:
+        return require_user_id(request)
+    except HTTPException:
+        return None
