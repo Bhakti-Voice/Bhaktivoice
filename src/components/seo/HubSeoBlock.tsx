@@ -1,11 +1,10 @@
-import { Suspense } from "react";
 import { FaqList } from "@/components/seo/FaqList";
 import { ExpandableSection } from "@/components/seo/ExpandableSection";
 import { getHubSeo } from "@/lib/content";
 import type { HubSeoId } from "@/lib/content/hub-seo";
 import { ProseText } from "@/components/content/SectionBody";
 
-export function HubSeoBlock({
+export async function HubSeoBlock({
   id,
   collapsible = false,
   faqJsonLd = true,
@@ -15,29 +14,6 @@ export function HubSeoBlock({
   collapsible?: boolean;
   faqJsonLd?: boolean;
   hideFaqs?: boolean;
-}) {
-  return (
-    <Suspense fallback={null}>
-      <HubSeoInner
-        id={id}
-        collapsible={collapsible}
-        faqJsonLd={faqJsonLd}
-        hideFaqs={hideFaqs}
-      />
-    </Suspense>
-  );
-}
-
-async function HubSeoInner({
-  id,
-  collapsible,
-  faqJsonLd,
-  hideFaqs,
-}: {
-  id: HubSeoId;
-  collapsible: boolean;
-  faqJsonLd: boolean;
-  hideFaqs: boolean;
 }) {
   const hub = await getHubSeo(id);
   if (!hub?.heading) return null;

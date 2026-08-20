@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { MediaImage } from "@/components/media/MediaImage";
-import Link from "next/link";
+import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { hubMetadata } from "@/lib/i18n/hub";
 import { getMessages } from "@/lib/i18n/server";
 import { PageHero } from "@/components/layout/PageHero";
@@ -12,7 +12,7 @@ import { getStats } from "@/lib/cms/client";
 import { formatCount } from "@/lib/format";
 import { listCommunityGroups } from "@/lib/content";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export async function generateMetadata(): Promise<Metadata> {
   return hubMetadata("community");
@@ -39,12 +39,12 @@ export default async function CommunityPage() {
             <p className="mt-3 text-sm text-white/75">
               {formatCount(stats.todayDevotees)} {t.common.chantingToday}
             </p>
-            <Link
+            <LocaleLink
               href={PATHS.sankalp}
               className="mt-6 inline-flex rounded-full bg-saffron px-5 py-2.5 text-sm font-medium text-white"
             >
               {t.common.joinNow}
-            </Link>
+            </LocaleLink>
           </div>
           <div className="relative min-h-[200px]">
             <MediaImage

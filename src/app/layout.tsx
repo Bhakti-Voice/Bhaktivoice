@@ -5,15 +5,14 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { AuthProvider } from "@/lib/auth/AuthProvider";
-import { HreflangLinks } from "@/components/seo/HreflangLinks";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { LocaleRefresh } from "@/components/i18n/LocaleRefresh";
+import { LocaleRoot } from "@/components/i18n/LocaleRoot";
 import { OpenDetailsOnHash } from "@/components/seo/OpenDetailsOnHash";
 import { organizationSchema, websiteSchema } from "@/lib/seo/schema";
 import { SITE, absoluteUrl } from "@/lib/seo/site";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { getGaMeasurementId } from "@/lib/analytics/ga";
-import { getMessages } from "@/lib/i18n/server";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -80,13 +79,14 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const t = await getMessages();
+export const revalidate = 1800;
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   const gaId = getGaMeasurementId();
   return (
-    <html lang={t.htmlLang}>
-      <HreflangLinks />
+    <html lang="en" suppressHydrationWarning>
       <body className={`${playfair.variable} ${inter.variable} ${devanagari.variable} bg-ivory text-ink antialiased`}>
+        <LocaleRoot>
         <GoogleAnalytics measurementId={gaId} />
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
         <OpenDetailsOnHash />
@@ -97,6 +97,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <MobileNav />
         </AuthProvider>
         <Footer />
+        </LocaleRoot>
       </body>
     </html>
   );

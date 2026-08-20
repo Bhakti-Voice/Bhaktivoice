@@ -1,5 +1,7 @@
 import { cache } from "react";
+import { unstable_cache } from "next/cache";
 import { expandNewlinesDeep } from "@/lib/text/newlines";
+import { CONTENT_REVALIDATE, SEARCH_REVALIDATE, SITEMAP_REVALIDATE, STATS_REVALIDATE } from "@/lib/cache";
 
 export type ContentKind =
   | "mantra"
@@ -109,14 +111,16 @@ export type IndexableUrl = {
 async function cmsGet<T>(
   path: string,
   fallback: T,
-  mode: "revalidate" | "fresh" = "revalidate",
+  revalidate: number | false = CONTENT_REVALIDATE,
 ): Promise<T> {
   const url = `${CMS_API_URL}${path}`;
   try {
     const response = await fetch(url, {
       headers: cmsFetchHeaders(),
-      ...(mode === "fresh" ? { cache: "no-store" as const } : { next: { revalidate: 30 } }),
-      signal: AbortSignal.timeout(12000),
+      ...(revalidate === false
+        ? { cache: "no-store" as const }
+        : { next: { revalidate } }),
+      signal: AbortSignal.timeout(8000),
     });
     if (response.status === 404) {
       return fallback;
@@ -132,6 +136,14 @@ async function cmsGet<T>(
   }
 }
 
+function cachedCmsGet<T>(path: string, fallback: T, revalidate: number) {
+  return unstable_cache(
+    async () => cmsGet<T>(path, fallback, revalidate),
+    ["cms", path, String(revalidate)],
+    { revalidate },
+  )();
+}
+
 async function withLocaleQuery(path: string) {
   const { getLocale } = await import("@/lib/i18n/server");
   const locale = await getLocale();
@@ -144,28 +156,36 @@ export function cmsUrl(path = "") {
 }
 
 export async function listContent<T>(kind: string): Promise<T[]> {
-  return cmsGet<T[]>(await withLocaleQuery(`/api/content/${kind}`), []);
+  return cachedCmsGet<T[]>(await withLocaleQuery(`/api/content/${kind}`), [], CONTENT_REVALIDATE);
 }
 
 export async function getContent<T>(kind: string, slug: string): Promise<T | null> {
-  return cmsGet<T | null>(
+  return cachedCmsGet<T | null>(
     await withLocaleQuery(`/api/content/${kind}/${encodeURIComponent(slug)}`),
     null,
-    "fresh",
+    CONTENT_REVALIDATE,
   );
 }
 
 export const getStats = cache(async (): Promise<JaapStats> => {
-  return cmsGet<JaapStats>("/api/stats", {
-    total: 0,
-    todayDevotees: 0,
-    users: 0,
-    byMantra: [],
-  });
+  return cachedCmsGet<JaapStats>(
+    "/api/stats",
+    {
+      total: 0,
+      todayDevotees: 0,
+      users: 0,
+      byMantra: [],
+    },
+    STATS_REVALIDATE,
+  );
 });
 
 export const getDailyQuote = cache(async (): Promise<DailyQuote | null> => {
-  const quote = await cmsGet<DailyQuote | null>(await withLocaleQuery("/api/quotes/daily"), null);
+  const quote = await cachedCmsGet<DailyQuote | null>(
+    await withLocaleQuery("/api/quotes/daily"),
+    null,
+    CONTENT_REVALIDATE,
+  );
   if (!quote?.text?.trim()) return null;
   return quote;
 });
@@ -176,15 +196,19 @@ export async function getLiveCommunity(slug: string) {
     slug?: string;
     name?: string;
     text?: string;
-  } | null>(`/api/community/${encodeURIComponent(slug)}`, null, "fresh");
+  } | null>(`/api/community/${encodeURIComponent(slug)}`, null, false);
 }
 
 export async function getUserStats(uid: string): Promise<UserStats> {
-  return cmsGet<UserStats>(`/api/stats/user/${encodeURIComponent(uid)}`, {
-    naam: 0,
-    streak: 0,
-    sankalps: 0,
-  });
+  return cmsGet<UserStats>(
+    `/api/stats/user/${encodeURIComponent(uid)}`,
+    {
+      naam: 0,
+      streak: 0,
+      sankalps: 0,
+    },
+    false,
+  );
 }
 
 export async function searchContent(query: string): Promise<SearchHit[]> {
@@ -193,11 +217,12 @@ export async function searchContent(query: string): Promise<SearchHit[]> {
   return cmsGet<SearchHit[]>(
     await withLocaleQuery(`/api/search?q=${encodeURIComponent(q)}`),
     [],
+    SEARCH_REVALIDATE,
   );
 }
 
 export async function sitemapEntries(): Promise<IndexableUrl[]> {
-  return cmsGet<IndexableUrl[]>("/api/sitemap", []);
+  return cachedCmsGet<IndexableUrl[]>("/api/sitemap", [], SITEMAP_REVALIDATE);
 }
 
 export type QuotesList = {
@@ -216,5 +241,6 @@ export const listQuotesPage = cache(async (q = "", offset = 0, limit = 30): Prom
   return cmsGet<QuotesList>(
     await withLocaleQuery(`/api/quotes?${query.toString()}`),
     { items: [], total: 0, offset, limit },
+    CONTENT_REVALIDATE,
   );
 });

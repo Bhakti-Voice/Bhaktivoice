@@ -6,6 +6,8 @@ import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
 import { pageCrumbs } from "@/lib/seo/crumbs";
 import { hubMetadata } from "@/lib/i18n/hub";
 
+export const revalidate = 3600;
+
 export async function generateMetadata(): Promise<Metadata> {
   return hubMetadata("mala");
 }

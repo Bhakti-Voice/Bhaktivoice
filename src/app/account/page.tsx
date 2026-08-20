@@ -3,6 +3,8 @@ import { PlaceholderPage } from "@/components/content/PlaceholderPage";
 import { pageCrumbs } from "@/lib/seo/crumbs";
 import { localizedMetadata } from "@/lib/seo/metadata";
 
+export const revalidate = 1800;
+
 export async function generateMetadata(): Promise<Metadata> {
   return localizedMetadata({
   title: "Account",

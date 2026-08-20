@@ -3,16 +3,15 @@ import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { YatraDetailView } from "@/components/yatra/YatraDetailView";
 import { getYatra } from "@/lib/content";
-import {
-  articleSchema,
-  touristDestinationSchema,
-} from "@/lib/seo/schema";
+import { touristDestinationSchema } from "@/lib/seo/schema";
+import { localizedArticleSchema } from "@/lib/seo/localized-schema";
+import { getLocale } from "@/lib/i18n/server";
 import { localizedMetadata } from "@/lib/seo/metadata";
 import { PATHS } from "@/lib/seo/paths";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export const dynamic = "force-dynamic";
+export const revalidate = 1800;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
@@ -36,6 +35,7 @@ export default async function YatraDetailPage({ params }: Props) {
   const page = await getYatra(slug);
   if (!page) notFound();
 
+  const locale = await getLocale();
   const mainSchema =
     page.schemaType === "TouristDestination"
       ? touristDestinationSchema({
@@ -43,8 +43,9 @@ export default async function YatraDetailPage({ params }: Props) {
           description: page.metaDescription,
           image: page.heroImage,
           path: `${PATHS.yatra}/${page.slug}`,
+          locale,
         })
-      : articleSchema({
+      : await localizedArticleSchema({
           headline: page.h1,
           description: page.metaDescription,
           image: page.heroImage,
@@ -52,6 +53,7 @@ export default async function YatraDetailPage({ params }: Props) {
           dateModified: page.updatedAt,
           author: page.author,
           path: `${PATHS.yatra}/${page.slug}`,
+          locale,
         });
 
   return (

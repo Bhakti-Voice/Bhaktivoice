@@ -6,7 +6,7 @@ import { getBhajan } from "@/lib/content";
 import { localizedMetadata } from "@/lib/seo/metadata";
 import { PATHS } from "@/lib/seo/paths";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 1800;
 
 type Props = { params: Promise<{ slug: string }> };
 

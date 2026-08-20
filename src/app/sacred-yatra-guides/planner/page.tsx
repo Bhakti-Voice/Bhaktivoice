@@ -20,7 +20,7 @@ const FEATURES = [
   { icon: Compass, title: "Local confirm", text: "Passes and aarti change — we do not invent clocks." },
 ];
 
-export const dynamic = "force-dynamic";
+export const revalidate = 1800;
 
 export default async function YatraPlannerPage() {
   const trips = await listYatra();

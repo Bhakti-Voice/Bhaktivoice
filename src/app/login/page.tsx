@@ -7,6 +7,8 @@ const LoginClient = dynamic(
   { loading: () => <div className="mx-auto mt-16 h-80 max-w-md animate-pulse rounded-[32px] bg-sand" /> },
 );
 
+export const revalidate = 1800;
+
 export async function generateMetadata(): Promise<Metadata> {
   return localizedMetadata({
   title: "Sign in to Bhakti Voice",

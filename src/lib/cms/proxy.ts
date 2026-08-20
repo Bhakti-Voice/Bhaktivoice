@@ -1,9 +1,29 @@
 import { cmsFetchHeaders, cmsUrl } from "@/lib/cms/client";
 import { NextResponse } from "next/server";
 
+const LIVE_PATHS = ["/api/jaap", "/api/community", "/api/diary", "/api/saved", "/api/auth"];
+const PUBLIC_GETS = ["/api/community/counts"];
+
+function isLivePath(path: string) {
+  if (PUBLIC_GETS.some((prefix) => path === prefix || path.startsWith(`${prefix}/`))) return false;
+  return LIVE_PATHS.some((prefix) => path === prefix || path.startsWith(`${prefix}/`));
+}
+
+function revalidateFor(path: string) {
+  if (path.includes("/stats")) return 45;
+  if (path.includes("/search")) return 60;
+  if (path.includes("/quotes")) return 300;
+  if (path.includes("/community/counts")) return 30;
+  return 1800;
+}
+
 export async function proxyToCms(request: Request, path: string) {
   const incoming = new URL(request.url);
   const target = `${cmsUrl()}${path}${incoming.search}`;
+  const method = request.method;
+  const isRead = method === "GET" || method === "HEAD";
+  const hasAuth = Boolean(request.headers.get("authorization"));
+  const live = !isRead || hasAuth || isLivePath(path);
   try {
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
@@ -12,18 +32,21 @@ export async function proxyToCms(request: Request, path: string) {
     const authorization = request.headers.get("authorization");
     if (authorization) headers.Authorization = authorization;
     const response = await fetch(target, {
-      method: request.method,
+      method,
       headers,
-      body: request.method === "GET" || request.method === "HEAD" ? undefined : await request.text(),
-      cache: "no-store",
-      signal: AbortSignal.timeout(12000),
+      body: isRead ? undefined : await request.text(),
+      ...(live ? { cache: "no-store" as const } : { next: { revalidate: revalidateFor(path) } }),
+      signal: AbortSignal.timeout(8000),
     });
     const text = await response.text();
+    const cacheControl = live
+      ? "private, no-store"
+      : response.headers.get("Cache-Control") || "public, max-age=15, s-maxage=60, stale-while-revalidate=300";
     return new NextResponse(text, {
       status: response.status,
       headers: {
         "Content-Type": response.headers.get("Content-Type") ?? "application/json",
-        "Cache-Control": "no-store, must-revalidate",
+        "Cache-Control": cacheControl,
       },
     });
   } catch {

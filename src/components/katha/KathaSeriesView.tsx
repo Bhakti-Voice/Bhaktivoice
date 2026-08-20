@@ -5,13 +5,13 @@ import { ExpandableSection } from "@/components/seo/ExpandableSection";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { ContextualCta } from "@/components/seo/ContextualCta";
 import { FaqList } from "@/components/seo/FaqList";
-import { ProseText } from "@/components/content/ProseText";
+import { ProseText } from "@/components/content/SectionBody";
 import { YouTubeEmbed } from "@/components/content/YouTubeEmbed";
 import type { KathaSeries } from "@/lib/content/types";
+import { Suspense } from "react";
 
 export function KathaSeriesView({
   series,
-  autoListen = false,
 }: {
   series: KathaSeries;
   autoListen?: boolean;
@@ -24,14 +24,15 @@ export function KathaSeriesView({
           <p className="text-xs uppercase tracking-[0.2em] text-saffron">{series.category}</p>
           <h1 className="mt-2 font-serif text-3xl text-ink lg:text-4xl">{series.h1}</h1>
           <ProseText text={series.subtitle} className="mt-2 text-lg text-muted" />
-          <KathaNarrator
-            title={series.h1}
-            subtitle={series.subtitle}
-            introduction={series.introduction}
-            language={series.language}
-            autoStart={autoListen}
-            episodes={series.episodes}
-          />
+          <Suspense fallback={null}>
+            <KathaNarrator
+              title={series.h1}
+              subtitle={series.subtitle}
+              introduction={series.introduction}
+              language={series.language}
+              episodes={series.episodes}
+            />
+          </Suspense>
           <CoverMedia
             src={series.heroImage}
             alt={series.heroImageAlt}

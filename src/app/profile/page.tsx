@@ -7,6 +7,8 @@ const ProfileView = dynamic(
   { loading: () => <div className="mx-auto mt-10 h-96 max-w-5xl animate-pulse rounded-[32px] bg-sand" /> },
 );
 
+export const revalidate = 1800;
+
 export async function generateMetadata(): Promise<Metadata> {
   return localizedMetadata({
   title: "My Bhakti Journey",

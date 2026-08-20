@@ -96,7 +96,7 @@ export function CommunityGroupList({ groups }: { groups: CommunityGroup[] }) {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    void fetch("/api/community/counts", { cache: "no-store" })
+    void fetch("/api/community/counts")
       .then((response) => response.json())
       .then((data: { counts?: Record<string, number> }) => setCounts(data.counts ?? {}))
       .catch(() => setCounts({}));

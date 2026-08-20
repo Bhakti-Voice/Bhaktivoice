@@ -1,4 +1,5 @@
 import { SITE, absoluteUrl } from "./site";
+import { DEFAULT_LOCALE, withLocale, type Locale } from "@/lib/i18n/config";
 import type { BreadcrumbItem, Faq } from "@/lib/content/types";
 
 export function organizationSchema() {
@@ -55,7 +56,9 @@ export function articleSchema(input: {
   dateModified: string;
   author: string;
   path: string;
+  locale?: Locale;
 }) {
+  const pageUrl = absoluteUrl(withLocale(input.path, input.locale ?? DEFAULT_LOCALE));
   return {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -76,7 +79,8 @@ export function articleSchema(input: {
         url: absoluteUrl("/logo.png"),
       },
     },
-    mainEntityOfPage: absoluteUrl(input.path),
+    inLanguage: (input.locale ?? DEFAULT_LOCALE) === "hi" ? "hi-IN" : "en-IN",
+    mainEntityOfPage: pageUrl,
   };
 }
 
@@ -99,6 +103,7 @@ export function faqSchema(faqs: Faq[]) {
 export function itemListSchema(
   name: string,
   items: { name: string; url: string }[],
+  locale: Locale = DEFAULT_LOCALE,
 ) {
   return {
     "@context": "https://schema.org",
@@ -108,7 +113,7 @@ export function itemListSchema(
       "@type": "ListItem",
       position: index + 1,
       name: item.name,
-      url: item.url.startsWith("http") ? item.url : absoluteUrl(item.url),
+      url: item.url.startsWith("http") ? item.url : absoluteUrl(withLocale(item.url, locale)),
     })),
   };
 }
@@ -118,6 +123,7 @@ export function touristDestinationSchema(input: {
   description: string;
   image: string;
   path: string;
+  locale?: Locale;
 }) {
   return {
     "@context": "https://schema.org",
@@ -125,7 +131,8 @@ export function touristDestinationSchema(input: {
     name: input.name,
     description: input.description,
     image: input.image.startsWith("http") ? input.image : absoluteUrl(input.image),
-    url: absoluteUrl(input.path),
+    url: absoluteUrl(withLocale(input.path, input.locale ?? DEFAULT_LOCALE)),
+    inLanguage: (input.locale ?? DEFAULT_LOCALE) === "hi" ? "hi-IN" : "en-IN",
   };
 }
 

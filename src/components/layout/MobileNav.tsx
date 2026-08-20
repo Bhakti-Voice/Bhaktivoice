@@ -1,10 +1,12 @@
+"use client";
+
 import { BookOpen, CircleDot, Home, LayoutGrid, ShoppingBag } from "lucide-react";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
-import { getMessages } from "@/lib/i18n/server";
+import { useMessages } from "@/lib/i18n/client";
 import { PATHS } from "@/lib/seo/paths";
 
-export async function MobileNav() {
-  const t = await getMessages();
+export function MobileNav() {
+  const t = useMessages();
   const items = [
     { href: "/", label: t.nav.home, icon: Home },
     { href: PATHS.naamJaap, label: t.nav.jaap, icon: CircleDot },

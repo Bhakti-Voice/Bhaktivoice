@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { MediaImage } from "@/components/media/MediaImage";
-import Link from "next/link";
+import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { hubMetadata } from "@/lib/i18n/hub";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
@@ -10,7 +10,7 @@ import { PATHS } from "@/lib/seo/paths";
 import { listSankalpOffers } from "@/lib/content";
 import { ProseText } from "@/components/content/SectionBody";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 1800;
 
 export async function generateMetadata(): Promise<Metadata> {
   return hubMetadata("sankalp");
@@ -32,12 +32,12 @@ export default async function SankalpPage() {
           <div className="mt-6 h-3 overflow-hidden rounded-full bg-sand">
             <div className="h-full w-0 rounded-full bg-saffron" />
           </div>
-          <Link
+          <LocaleLink
             href="/naam-jaap"
             className="mt-6 inline-flex rounded-full bg-saffron px-5 py-2.5 text-sm font-medium text-white"
           >
             Begin Jaap
-          </Link>
+          </LocaleLink>
         </div>
         <div className="relative min-h-[240px]">
           <MediaImage
@@ -63,12 +63,12 @@ export default async function SankalpPage() {
                   <h3 className="font-serif text-xl text-ink">{item.title}</h3>
                   <ProseText text={item.text} className="mt-1 text-sm text-muted" />
                 </div>
-                <Link
+                <LocaleLink
                   href={item.href}
                   className="rounded-full bg-navy px-5 py-2 text-sm font-medium text-white"
                 >
                   Join
-                </Link>
+                </LocaleLink>
               </li>
             ))}
           </ul>

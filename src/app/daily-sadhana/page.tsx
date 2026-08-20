@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { MediaImage } from "@/components/media/MediaImage";
-import Link from "next/link";
+import { LocaleLink } from "@/components/i18n/LocaleLink";
 import {
   BookOpen,
   CircleDot,
@@ -16,6 +16,8 @@ import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
 import { FaqList } from "@/components/seo/FaqList";
 import { pageCrumbs } from "@/lib/seo/crumbs";
 import { PATHS } from "@/lib/seo/paths";
+
+export const revalidate = 1800;
 
 export async function generateMetadata(): Promise<Metadata> {
   return hubMetadata("sadhana");
@@ -70,18 +72,18 @@ export default async function SadhanaPage() {
         crumbs={pageCrumbs([t.nav.sadhana, PATHS.sadhana])}
         subtitle={t.common.sadhanaDiaryLead}
       >
-        <Link
+        <LocaleLink
           href={PATHS.diary}
           className="mt-3 inline-flex w-fit self-start rounded-full bg-white px-4 py-1.5 text-sm font-medium text-ink shadow-sm ring-1 ring-line hover:bg-ivory"
         >
           {t.common.openDiary}
-        </Link>
+        </LocaleLink>
       </PageHero>
       <div className="mx-auto max-w-7xl px-4 pb-8 lg:px-8 lg:pb-12">
 
       <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {CARDS.map((card) => (
-          <Link
+          <LocaleLink
             key={card.href}
             href={card.href}
             className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-line transition hover:-translate-y-0.5"
@@ -91,7 +93,7 @@ export default async function SadhanaPage() {
             </span>
             <h2 className="mt-4 font-serif text-2xl text-ink">{card.title}</h2>
             <p className="mt-2 text-sm text-muted">{card.text}</p>
-          </Link>
+          </LocaleLink>
         ))}
       </div>
 

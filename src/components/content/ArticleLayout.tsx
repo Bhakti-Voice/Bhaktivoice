@@ -5,12 +5,12 @@ import { ContextualCta } from "@/components/seo/ContextualCta";
 import { ExpandableSection } from "@/components/seo/ExpandableSection";
 import { FaqList } from "@/components/seo/FaqList";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { ProseText } from "@/components/content/ProseText";
+import { ProseText } from "@/components/content/SectionBody";
 import { YouTubeEmbed } from "@/components/content/YouTubeEmbed";
 import type { SeoPage } from "@/lib/content/types";
-import { articleSchema } from "@/lib/seo/schema";
+import { localizedArticleSchema } from "@/lib/seo/localized-schema";
 
-export function ArticleLayout({
+export async function ArticleLayout({
   page,
   path,
   children,
@@ -30,7 +30,7 @@ export function ArticleLayout({
       <JsonLd
         data={
           schema ??
-          articleSchema({
+          (await localizedArticleSchema({
             headline: page.h1,
             description: page.metaDescription,
             image: page.heroImage,
@@ -38,7 +38,7 @@ export function ArticleLayout({
             dateModified: page.updatedAt,
             author: page.author,
             path,
-          })
+          }))
         }
       />
       <Breadcrumbs items={page.breadcrumbs} />

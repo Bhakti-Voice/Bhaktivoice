@@ -6,7 +6,7 @@ import { ContextualCta } from "@/components/seo/ContextualCta";
 import { ExpandableSection } from "@/components/seo/ExpandableSection";
 import { FaqList } from "@/components/seo/FaqList";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { ProseText } from "@/components/content/ProseText";
+import { ProseText } from "@/components/content/SectionBody";
 import { AddToCartButton } from "@/components/store/AddToCartButton";
 import { getProduct } from "@/lib/content";
 import { getMessages } from "@/lib/i18n/server";
@@ -17,7 +17,7 @@ import { YouTubeEmbed } from "@/components/content/YouTubeEmbed";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export const dynamic = "force-dynamic";
+export const revalidate = 1800;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;

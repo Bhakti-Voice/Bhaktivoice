@@ -20,7 +20,7 @@ import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
 import { getDailyQuote, getStats } from "@/lib/cms/client";
 import { formatCount } from "@/lib/format";
 import { listBlog, listKatha, listYatra } from "@/lib/content";
-import { itemListSchema } from "@/lib/seo/schema";
+import { localizedItemListSchema } from "@/lib/seo/localized-schema";
 import { PATHS } from "@/lib/seo/paths";
 import { localizedMetadata } from "@/lib/seo/metadata";
 import { getLocale, getMessages } from "@/lib/i18n/server";
@@ -30,7 +30,7 @@ import { JAAP_MANTRAS } from "@/components/jaap/mantras";
 import type { Messages } from "@/lib/i18n/messages";
 import type { Metadata } from "next";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 1800;
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getMessages();
@@ -60,7 +60,7 @@ export default async function HomePage() {
   return (
     <div>
       <JsonLd
-        data={itemListSchema(
+        data={await localizedItemListSchema(
           "Bhakti features",
           features.map((feature) => ({ name: feature.title, url: feature.href })),
         )}

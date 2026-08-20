@@ -13,6 +13,8 @@ const DiaryClient = dynamic(
   { loading: () => <div className="mt-10 h-80 animate-pulse rounded-[32px] bg-sand" /> },
 );
 
+export const revalidate = 3600;
+
 export async function generateMetadata(): Promise<Metadata> {
   return hubMetadata("diary");
 }

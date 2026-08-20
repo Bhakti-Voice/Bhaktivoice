@@ -79,6 +79,9 @@ export function buildMetadata({
       description,
       images: [imageUrl],
     },
+    other: {
+      "content-language": locale === "hi" ? "hi-IN" : "en-IN",
+    },
   };
 }
 

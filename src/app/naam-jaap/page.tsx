@@ -8,13 +8,15 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { hubMetadata } from "@/lib/i18n/hub";
 import { getMessages } from "@/lib/i18n/server";
 import { localizedCrumbs } from "@/lib/seo/crumbs";
-import { itemListSchema } from "@/lib/seo/schema";
+import { localizedItemListSchema } from "@/lib/seo/localized-schema";
 import { PATHS } from "@/lib/seo/paths";
 
 const JaapCounter = dynamic(
   () => import("@/components/jaap/JaapCounter").then((mod) => mod.JaapCounter),
   { loading: () => <div className="min-h-[420px] animate-pulse rounded-[32px] bg-sand" /> },
 );
+
+export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
   return hubMetadata("naamJaap");
@@ -25,7 +27,7 @@ export default async function NaamJaapPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 lg:px-8 lg:py-10">
       <JsonLd
-        data={itemListSchema(t.jaap.counter, [
+        data={await localizedItemListSchema(t.jaap.counter, [
           { name: t.jaap.counter, url: PATHS.naamJaap },
           { name: t.hubs.mala.h1, url: PATHS.mala },
         ])}

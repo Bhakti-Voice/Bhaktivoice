@@ -120,6 +120,18 @@ templates = Jinja2Templates(directory=str(ROOT / "templates"))
 templates.env.filters["tojson"] = lambda value: Markup(json.dumps(value, ensure_ascii=False))
 
 
+def public_json(data, *, seconds: int = 600):
+    return JSONResponse(
+        content=data,
+        headers={
+            "Cache-Control": (
+                f"public, max-age={min(seconds, 60)}, s-maxage={seconds}, "
+                f"stale-while-revalidate={max(seconds * 12, 3600)}"
+            ),
+        },
+    )
+
+
 @app.on_event("startup")
 def startup() -> None:
     if os.environ.get("VERCEL"):
@@ -187,6 +199,30 @@ def _global_by_mantra() -> list[dict[str, object]]:
     rows = db().fetchall("SELECT mantra_slug AS slug, count AS total FROM jaap_totals")
     totals = {str(row["slug"]): int(row["total"] or 0) for row in rows}
     return [{"slug": slug, "total": totals.get(slug, 0)} for slug in JAAP_SLUGS]
+
+
+def _claim_jaap_batch(batch_id: object) -> bool:
+    text = str(batch_id or "").strip()
+    if not text:
+        return True
+    if len(text) < 8 or len(text) > 80 or not all(char.isalnum() or char in "-_" for char in text):
+        return True
+    db().execute(
+        """
+        CREATE TABLE IF NOT EXISTS jaap_flush_batches (
+          batch_id TEXT PRIMARY KEY,
+          created_at TEXT DEFAULT CURRENT_TIMESTAMP
+        )
+        """
+    )
+    existing = db().fetchone("SELECT batch_id FROM jaap_flush_batches WHERE batch_id = ?", [text])
+    if existing:
+        return False
+    try:
+        db().execute("INSERT INTO jaap_flush_batches (batch_id) VALUES (?)", [text])
+        return True
+    except Exception:
+        return False
 
 
 def _increment_global(mantra_slug: str, delta: int) -> int:
@@ -388,12 +424,15 @@ def stats():
         [today()],
     )
     users_row = db().fetchone("SELECT COUNT(*) AS total FROM users")
-    return {
-        "total": sum(int(row["total"]) for row in by_mantra),
-        "todayDevotees": int(today_row["devotees"] if today_row else 0),
-        "users": int(users_row["total"] if users_row else 0),
-        "byMantra": by_mantra,
-    }
+    return public_json(
+        {
+            "total": sum(int(row["total"]) for row in by_mantra),
+            "todayDevotees": int(today_row["devotees"] if today_row else 0),
+            "users": int(users_row["total"] if users_row else 0),
+            "byMantra": by_mantra,
+        },
+        seconds=45,
+    )
 
 
 @app.get("/api/stats/user/{uid}")
@@ -431,7 +470,7 @@ def daily_quote(locale: str = "en"):
         raise HTTPException(status_code=404, detail="Not found")
     digest = hashlib.sha256(f"quotes:{ist_today()}".encode()).hexdigest()
     row = rows[int(digest, 16) % len(rows)]
-    return row_public(row, normalize_locale(locale))
+    return public_json(row_public(row, normalize_locale(locale)), seconds=3600)
 
 
 def _quote_blob(row: dict) -> str:
@@ -465,12 +504,15 @@ def list_quotes(locale: str = "en", q: str = "", offset: int = 0, limit: int = 3
             matched.append(row_public(row, lang))
         except Exception:
             continue
-    return {
-        "items": matched[offset : offset + limit],
-        "total": len(matched),
-        "offset": offset,
-        "limit": limit,
-    }
+    return public_json(
+        {
+            "items": matched[offset : offset + limit],
+            "total": len(matched),
+            "offset": offset,
+            "limit": limit,
+        },
+        seconds=300,
+    )
 
 
 @app.get("/media/{media_id}")
@@ -490,7 +532,7 @@ def serve_media(media_id: str):
 def list_content(kind: str, locale: str = "en"):
     if kind not in KINDS:
         raise HTTPException(status_code=404)
-    return published(kind, locale=normalize_locale(locale))
+    return public_json(published(kind, locale=normalize_locale(locale)), seconds=600)
 
 
 @app.get("/api/content/{kind}/{slug}")
@@ -501,16 +543,16 @@ def get_content(kind: str, slug: str, locale: str = "en"):
     if not item:
         # Hub SEO is optional per page; missing copy should not 404 the public UI.
         if kind == "hub_seo":
-            return {}
+            return public_json({}, seconds=600)
         raise HTTPException(status_code=404, detail="Not found")
-    return item
+    return public_json(item, seconds=600)
 
 
 @app.get("/api/search")
 def search(q: str = "", locale: str = "en"):
     query = q.strip()
     if not query:
-        return []
+        return public_json([], seconds=60)
     lang = normalize_locale(locale)
     placeholders = ",".join("?" for _ in SEARCH_KINDS)
     rows = db().fetchall(
@@ -554,7 +596,7 @@ def search(q: str = "", locale: str = "en"):
                 "slug": row["slug"],
             }
         )
-    return results
+    return public_json(results, seconds=60)
 
 
 @app.get("/api/sitemap")
@@ -595,7 +637,7 @@ def sitemap():
                 "priority": 0.7,
             }
         )
-    return roots
+    return public_json(roots, seconds=3600)
 
 
 @app.get("/api/jaap")
@@ -631,6 +673,33 @@ async def save_jaap(request: Request):
             "global": _global_by_mantra(),
             **_user_jaap_payload(user_id, day),
         }
+
+    counts = body.get("counts")
+    if isinstance(counts, dict):
+        if not _claim_jaap_batch(body.get("batchId")):
+            payload = {"ok": True, "stored": True, "duplicate": True, "global": _global_by_mantra()}
+            if user_id:
+                payload.update(_user_jaap_payload(user_id, day))
+            return payload
+        stored = False
+        for slug, raw_delta in counts.items():
+            mantra_slug = str(slug).strip()
+            if mantra_slug not in JAAP_SLUGS:
+                continue
+            delta = _parse_jaap_delta(raw_delta)
+            if not delta:
+                continue
+            stored = True
+            if not personal_only:
+                _increment_global(mantra_slug, delta)
+            if user_id:
+                _increment_personal(user_id, mantra_slug, delta, day)
+        if not stored:
+            raise HTTPException(status_code=400, detail="Invalid payload")
+        payload = {"ok": True, "stored": True, "global": _global_by_mantra()}
+        if user_id:
+            payload.update(_user_jaap_payload(user_id, day))
+        return payload
 
     mantra_slug = str(body.get("mantraSlug") or "").strip()
     if mantra_slug not in JAAP_SLUGS:
@@ -848,7 +917,10 @@ def community_counts():
     rows = db().fetchall(
         "SELECT community_slug AS slug, COUNT(*) AS total FROM community_members GROUP BY community_slug"
     )
-    return {"ok": True, "counts": {row["slug"]: int(row["total"]) for row in rows}}
+    return public_json(
+        {"ok": True, "counts": {row["slug"]: int(row["total"]) for row in rows}},
+        seconds=30,
+    )
 
 
 @app.get("/api/community/user-groups")

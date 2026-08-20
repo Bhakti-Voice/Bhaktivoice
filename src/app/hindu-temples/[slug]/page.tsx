@@ -9,7 +9,7 @@ import { SectionBody } from "@/components/content/SectionBody";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export const dynamic = "force-dynamic";
+export const revalidate = 1800;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;

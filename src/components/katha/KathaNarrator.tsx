@@ -2,6 +2,7 @@
 
 import { Headphones, Pause, Play, Square } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useLocale, useMessages } from "@/lib/i18n/client";
 import {
   chunkForSpeech,
@@ -28,6 +29,9 @@ export function KathaNarrator({
   episodes,
 }: Props) {
   const t = useMessages();
+  const searchParams = useSearchParams();
+  const listen = searchParams.get("listen");
+  const shouldAutoStart = autoStart || listen === "1" || listen === "true";
   const locale = useLocale();
   const lang = narratorLang(locale, language);
   const [status, setStatus] = useState<"idle" | "playing" | "paused">("idle");
@@ -116,14 +120,14 @@ export function KathaNarrator({
   }, [lang]);
 
   useEffect(() => {
-    if (!autoStart || didAuto.current) return;
+    if (!shouldAutoStart || didAuto.current) return;
     const timer = window.setTimeout(() => {
       if (didAuto.current) return;
       didAuto.current = true;
       start();
     }, 450);
     return () => window.clearTimeout(timer);
-  }, [autoStart, start]);
+  }, [shouldAutoStart, start]);
 
   function toggle() {
     const synth = window.speechSynthesis;

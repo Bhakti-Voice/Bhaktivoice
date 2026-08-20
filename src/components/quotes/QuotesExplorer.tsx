@@ -53,7 +53,7 @@ export function QuotesExplorer({ initial }: { initial: QuotesList }) {
           offset: String(offset),
           limit: String(PAGE_SIZE),
         });
-        const response = await fetch(`/api/quotes?${params}`, { cache: "no-store" });
+        const response = await fetch(`/api/quotes?${params}`);
         const data = (await response.json()) as QuotesList;
         if (id !== requestId.current) return;
         const next = Array.isArray(data.items) ? data.items : [];

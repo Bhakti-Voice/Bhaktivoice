@@ -42,7 +42,11 @@ const JAAP_VOICE: Partial<Record<JaapMantraSlug, string>> = {
 
 const OLD_STORAGE_KEY = "bhakti-jaap-v1";
 const PENDING_KEY = "bhakti-jaap-pending";
+const UNSENT_KEY = "bhakti-jaap-unsent";
 const MAX_DELTA = 1080;
+const IDLE_FLUSH_MS = 5000;
+const MAX_FLUSH_MS = 15000;
+const COUNT_FLUSH = 27;
 const syncedUsers = new Set<string>();
 
 type FloatNaam = {
@@ -93,6 +97,42 @@ function pendingSum(pending: JaapCounts) {
   return Object.values(pending).reduce((sum, value) => sum + value, 0);
 }
 
+function newBatchId() {
+  return `j-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
+function readUnsent(): { batchId: string; counts: JaapCounts } | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = JSON.parse(window.localStorage.getItem(UNSENT_KEY) || "null") as {
+      batchId?: string;
+      counts?: unknown;
+    } | null;
+    if (!raw || typeof raw !== "object") return null;
+    const counts = parseCounts(raw.counts ?? raw);
+    if (!pendingSum(counts)) return null;
+    const batchId = typeof raw.batchId === "string" && raw.batchId.length >= 8 ? raw.batchId : newBatchId();
+    return { batchId, counts };
+  } catch {
+    return null;
+  }
+}
+
+function writeUnsent(batchId: string, counts: Partial<JaapCounts>) {
+  if (typeof window === "undefined") return;
+  const parsed = parseCounts(counts);
+  if (!pendingSum(parsed)) {
+    window.localStorage.removeItem(UNSENT_KEY);
+    return;
+  }
+  window.localStorage.setItem(UNSENT_KEY, JSON.stringify({ batchId, date: todayKey(), counts: parsed }));
+}
+
+function clearUnsent() {
+  if (typeof window === "undefined") return;
+  window.localStorage.removeItem(UNSENT_KEY);
+}
+
 const QUICK = [
   { slug: "ram-naam", label: "Ram Naam", href: `${PATHS.mantras}/ram-naam`, tone: "bg-[#ffedd5] text-[#c2410c]" },
   { slug: "hare-krishna", label: "Hare Krishna", href: `${PATHS.mantras}/hare-krishna`, tone: "bg-[#dcfce7] text-[#15803d]" },
@@ -118,6 +158,10 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
   const [floats, setFloats] = useState<FloatNaam[]>([]);
   const queueRef = useRef<Partial<JaapCounts>>({});
   const postTimer = useRef<number | undefined>(undefined);
+  const flushStartedAt = useRef(0);
+  const flushingRef = useRef(false);
+  const batchIdRef = useRef("");
+  const tokenRef = useRef("");
   const floatId = useRef(0);
   const voiceRef = useRef<HTMLAudioElement>(null);
   const voiceOnRef = useRef(false);
@@ -145,7 +189,7 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
   }, []);
 
   const loadGlobals = useCallback(async () => {
-    const response = await fetch("/api/stats", { cache: "no-store" });
+    const response = await fetch("/api/stats");
     if (!response.ok) return;
     const data = (await response.json()) as { byMantra?: { slug: string; total: number }[] };
     applyGlobalRows(data.byMantra);
@@ -172,73 +216,160 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
     [applyGlobalRows],
   );
 
-  const flushQueue = useCallback(async () => {
-    const queued = queueRef.current;
-    queueRef.current = {};
-    const entries = Object.entries(queued).filter(([, value]) => (value ?? 0) > 0) as [JaapMantraSlug, number][];
-    if (!entries.length) return {};
-    const currentUser = userRef.current;
-    const flushed: Partial<JaapCounts> = {};
-    for (const [slug, delta] of entries) {
-      try {
-        const headers = currentUser ? await authHeaders(currentUser) : { "Content-Type": "application/json" };
-        const response = await fetch("/api/jaap", {
-          method: "POST",
-          headers,
-          body: JSON.stringify({ mantraSlug: slug, delta, date: todayKey() }),
-        });
-        if (!response.ok) {
-          queueRef.current[slug] = (queueRef.current[slug] ?? 0) + delta;
-          continue;
-        }
-        flushed[slug] = delta;
-        const data = (await response.json()) as {
-          global?: number;
-          personalToday?: number;
-          personalTotal?: number;
-        };
-        if (typeof data.global === "number") {
-          setGlobalTotals((current) => ({
-            ...current,
-            [slug]: Math.max(current[slug] ?? 0, data.global ?? 0),
-          }));
-        }
-        if (currentUser && typeof data.personalToday === "number") {
-          setPersonalToday((current) => ({
-            ...current,
-            [slug]: Math.max(current[slug] ?? 0, data.personalToday ?? 0),
-          }));
-        }
-        if (currentUser && typeof data.personalTotal === "number") {
-          setPersonalTotals((current) => ({
-            ...current,
-            [slug]: Math.max(current[slug] ?? 0, data.personalTotal ?? 0),
-          }));
-        }
-      } catch {
-        queueRef.current[slug] = (queueRef.current[slug] ?? 0) + delta;
-      }
+  const restoreQueue = useCallback((counts: Partial<JaapCounts>) => {
+    for (const [slug, value] of Object.entries(counts)) {
+      if (!isJaapMantraSlug(slug) || !value) continue;
+      queueRef.current[slug] = (queueRef.current[slug] ?? 0) + value;
     }
-    return flushed;
   }, []);
 
+  const persistQueue = useCallback(() => {
+    if (!batchIdRef.current) batchIdRef.current = newBatchId();
+    writeUnsent(batchIdRef.current, queueRef.current);
+  }, []);
+
+  const sendKeepalive = useCallback(() => {
+    persistQueue();
+    const stored = readUnsent();
+    if (!stored) return;
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (tokenRef.current) headers.Authorization = `Bearer ${tokenRef.current}`;
+    void fetch("/api/jaap", {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ counts: stored.counts, date: todayKey(), batchId: stored.batchId }),
+      keepalive: true,
+    });
+  }, [persistQueue]);
+
+  const flushQueue = useCallback(async () => {
+    if (flushingRef.current) return {};
+    let counts = Object.fromEntries(
+      Object.entries(queueRef.current).filter(([, value]) => (value ?? 0) > 0),
+    ) as Partial<JaapCounts>;
+    if (!Object.keys(counts).length) {
+      const stored = readUnsent();
+      if (!stored) return {};
+      counts = stored.counts;
+      batchIdRef.current = stored.batchId;
+    }
+    if (!batchIdRef.current) batchIdRef.current = newBatchId();
+    const batchId = batchIdRef.current;
+    writeUnsent(batchId, counts);
+    queueRef.current = {};
+    flushStartedAt.current = 0;
+    flushingRef.current = true;
+    const currentUser = userRef.current;
+    try {
+      const headers = currentUser
+        ? await authHeaders(currentUser)
+        : tokenRef.current
+          ? { Authorization: `Bearer ${tokenRef.current}`, "Content-Type": "application/json" }
+          : { "Content-Type": "application/json" };
+      if ("Authorization" in headers) {
+        const token = String((headers as { Authorization?: string }).Authorization || "").replace(/^Bearer\s+/i, "");
+        if (token) tokenRef.current = token;
+      }
+      const response = await fetch("/api/jaap", {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ counts, date: todayKey(), batchId }),
+        keepalive: true,
+      });
+      if (!response.ok) {
+        restoreQueue(counts);
+        writeUnsent(batchId, { ...counts, ...queueRef.current });
+        return {};
+      }
+      const data = (await response.json()) as {
+        global?: { slug: string; total: number }[] | number;
+        today?: Record<string, number>;
+        totals?: Record<string, number>;
+      };
+      clearUnsent();
+      batchIdRef.current = "";
+      if (Array.isArray(data.global)) applyGlobalRows(data.global);
+      if (currentUser) {
+        if (data.today) setPersonalToday(parseCounts(data.today));
+        if (data.totals) setPersonalTotals(parseCounts(data.totals));
+      }
+      return counts;
+    } catch {
+      restoreQueue(counts);
+      writeUnsent(batchId, { ...counts, ...queueRef.current });
+      return {};
+    } finally {
+      flushingRef.current = false;
+      if (pendingSum({ ...emptyJaapCounts(), ...queueRef.current })) {
+        window.clearTimeout(postTimer.current);
+        postTimer.current = window.setTimeout(() => {
+          void flushQueue();
+        }, IDLE_FLUSH_MS);
+      }
+    }
+  }, [applyGlobalRows, restoreQueue]);
+
   const scheduleFlush = useCallback(() => {
+    const queued = pendingSum({ ...emptyJaapCounts(), ...queueRef.current });
+    if (!queued) return;
+    if (!flushStartedAt.current) flushStartedAt.current = Date.now();
     window.clearTimeout(postTimer.current);
+    const waited = Date.now() - flushStartedAt.current;
+    const delay =
+      queued >= COUNT_FLUSH || waited >= MAX_FLUSH_MS
+        ? 0
+        : Math.min(IDLE_FLUSH_MS, Math.max(0, MAX_FLUSH_MS - waited));
     postTimer.current = window.setTimeout(() => {
       void flushQueue();
-    }, 350);
+    }, delay);
   }, [flushQueue]);
 
   useEffect(() => {
+    if (!user) {
+      tokenRef.current = "";
+      return;
+    }
+    let cancelled = false;
+    const refresh = () => {
+      void user.getIdToken().then((token) => {
+        if (!cancelled) tokenRef.current = token;
+      });
+    };
+    refresh();
+    const timer = window.setInterval(refresh, 10 * 60 * 1000);
+    return () => {
+      cancelled = true;
+      window.clearInterval(timer);
+    };
+  }, [user]);
+
+  useEffect(() => {
     window.localStorage.removeItem(OLD_STORAGE_KEY);
+    const stored = readUnsent();
+    if (stored) {
+      batchIdRef.current = stored.batchId;
+      queueRef.current = stored.counts;
+    }
     setPending(emptyJaapCounts());
     setHydrated(true);
     void loadGlobals();
-    return () => {
+    if (stored) void flushQueue();
+    const onHide = () => {
       window.clearTimeout(postTimer.current);
-      void flushQueue();
+      sendKeepalive();
     };
-  }, [flushQueue, loadGlobals]);
+    const onVisibility = () => {
+      if (document.visibilityState === "hidden") onHide();
+    };
+    window.addEventListener("pagehide", onHide);
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      window.removeEventListener("pagehide", onHide);
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.clearTimeout(postTimer.current);
+      sendKeepalive();
+    };
+  }, [flushQueue, loadGlobals, sendKeepalive]);
 
   useEffect(() => {
     if (authLoading || !hydrated) return;
@@ -317,9 +448,10 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
         setStreak((current) => Math.max(current, 1));
       }
       queueRef.current[mantra] = (queueRef.current[mantra] ?? 0) + delta;
+      persistQueue();
       scheduleFlush();
     },
-    [mantra, scheduleFlush],
+    [mantra, persistQueue, scheduleFlush],
   );
 
   const spawnNaam = useCallback(

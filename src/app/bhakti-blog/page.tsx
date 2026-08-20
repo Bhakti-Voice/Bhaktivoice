@@ -11,10 +11,10 @@ import { getBlogPage, getBlogPageCount } from "@/lib/content/blog-pagination";
 import { hubMetadata } from "@/lib/i18n/hub";
 import { getMessages } from "@/lib/i18n/server";
 import { localizedCrumbs } from "@/lib/seo/crumbs";
-import { itemListSchema } from "@/lib/seo/schema";
+import { localizedItemListSchema } from "@/lib/seo/localized-schema";
 import { PATHS } from "@/lib/seo/paths";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 1800;
 
 export async function generateMetadata(): Promise<Metadata> {
   return hubMetadata("blog");
@@ -41,7 +41,7 @@ export default async function BlogIndexPage() {
       />
       <div className="mx-auto max-w-7xl px-4 pb-8 lg:px-8 lg:pb-10">
         <JsonLd
-          data={itemListSchema(
+          data={await localizedItemListSchema(
             t.hubs.blog.h1,
             posts.map((post) => ({ name: post.title, url: `${PATHS.blog}/${post.slug}` })),
           )}

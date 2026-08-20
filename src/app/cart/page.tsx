@@ -4,6 +4,8 @@ import { pageCrumbs } from "@/lib/seo/crumbs";
 import { localizedMetadata } from "@/lib/seo/metadata";
 import { PATHS } from "@/lib/seo/paths";
 
+export const revalidate = 1800;
+
 export async function generateMetadata(): Promise<Metadata> {
   return localizedMetadata({
   title: "Your Cart",

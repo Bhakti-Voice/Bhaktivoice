@@ -15,7 +15,7 @@ import { localizedMetadata } from "@/lib/seo/metadata";
 import { getLocale, getMessages } from "@/lib/i18n/server";
 import { PATHS } from "@/lib/seo/paths";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();

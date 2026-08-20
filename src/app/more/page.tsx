@@ -7,6 +7,8 @@ import { getMessages } from "@/lib/i18n/server";
 import { localizedCrumbs } from "@/lib/seo/crumbs";
 import { PATHS } from "@/lib/seo/paths";
 
+export const revalidate = 1800;
+
 export async function generateMetadata(): Promise<Metadata> {
   return hubMetadata("more");
 }

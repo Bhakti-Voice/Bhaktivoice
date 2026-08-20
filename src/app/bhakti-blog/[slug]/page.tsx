@@ -6,17 +6,16 @@ import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { ContextualCta } from "@/components/seo/ContextualCta";
 import { FaqList } from "@/components/seo/FaqList";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { ProseText } from "@/components/content/ProseText";
+import { ProseText } from "@/components/content/SectionBody";
 import { getBlog } from "@/lib/content";
-import { articleSchema } from "@/lib/seo/schema";
+import { localizedArticleSchema } from "@/lib/seo/localized-schema";
 import { localizedMetadata } from "@/lib/seo/metadata";
 import { PATHS } from "@/lib/seo/paths";
 import { YouTubeEmbed } from "@/components/content/YouTubeEmbed";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export const dynamic = "force-dynamic";
-export const fetchCache = "force-no-store";
+export const revalidate = 1800;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
@@ -44,7 +43,7 @@ export default async function BlogPostPage({ params }: Props) {
   return (
     <article className="mx-auto max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
       <JsonLd
-        data={articleSchema({
+        data={await localizedArticleSchema({
           headline: page.h1,
           description: page.metaDescription,
           image: page.heroImage,

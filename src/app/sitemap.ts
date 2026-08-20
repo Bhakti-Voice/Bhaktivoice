@@ -5,7 +5,7 @@ import { PATHS } from "@/lib/seo/paths";
 import { SITE } from "@/lib/seo/site";
 import type { MetadataRoute } from "next";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 const HUBS: { path: string; changeFrequency: MetadataRoute.Sitemap[0]["changeFrequency"]; priority: number }[] = [
   { path: "/", changeFrequency: "weekly", priority: 1 },

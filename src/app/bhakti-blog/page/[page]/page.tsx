@@ -11,11 +11,11 @@ import { listBlog } from "@/lib/content";
 import { getBlogPage, getBlogPageCount } from "@/lib/content/blog-pagination";
 import { getMessages } from "@/lib/i18n/server";
 import { pageCrumbs } from "@/lib/seo/crumbs";
-import { itemListSchema } from "@/lib/seo/schema";
+import { localizedItemListSchema } from "@/lib/seo/localized-schema";
 import { localizedMetadata } from "@/lib/seo/metadata";
 import { PATHS } from "@/lib/seo/paths";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 1800;
 
 type Props = { params: Promise<{ page: string }> };
 
@@ -42,7 +42,7 @@ export default async function BlogPagedPage({ params }: Props) {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
       <JsonLd
-        data={itemListSchema(
+        data={await localizedItemListSchema(
           `Bhakti blog page ${pageNumber}`,
           posts.map((post) => ({ name: post.title, url: `${PATHS.blog}/${post.slug}` })),
         )}

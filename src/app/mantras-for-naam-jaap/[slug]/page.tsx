@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { notFound } from "next/navigation";
 import { ArticleLayout } from "@/components/content/ArticleLayout";
 import { getMantra } from "@/lib/content";
@@ -9,7 +9,7 @@ import { ProseText, SectionBody } from "@/components/content/SectionBody";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export const dynamic = "force-dynamic";
+export const revalidate = 1800;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
@@ -44,12 +44,12 @@ export default async function MantraDetailPage({ params }: Props) {
           <p className="mt-1 text-sm text-ink">
             <strong>Deity:</strong> {page.deity}
           </p>
-          <Link
+          <LocaleLink
             href="/naam-jaap"
             className="mt-5 inline-flex rounded-full bg-saffron px-5 py-2.5 text-sm font-medium text-white"
           >
             Start 108 Naam Jaap
-          </Link>
+          </LocaleLink>
         </div>
       }
     >

@@ -3,7 +3,7 @@ import { QuotesExplorer } from "@/components/quotes/QuotesExplorer";
 import { listQuotesPage } from "@/lib/cms/client";
 import { hubMetadata } from "@/lib/i18n/hub";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 1800;
 
 export async function generateMetadata(): Promise<Metadata> {
   return hubMetadata("quotes");
