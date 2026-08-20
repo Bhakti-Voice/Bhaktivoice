@@ -5,7 +5,8 @@ import { ContextualCta } from "@/components/seo/ContextualCta";
 import { ExpandableSection } from "@/components/seo/ExpandableSection";
 import { FaqList } from "@/components/seo/FaqList";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { ProseText } from "@/components/content/SectionBody";
+import { ProseText } from "@/components/content/ProseText";
+import { YouTubeEmbed } from "@/components/content/YouTubeEmbed";
 import type { SeoPage } from "@/lib/content/types";
 import { articleSchema } from "@/lib/seo/schema";
 
@@ -63,13 +64,14 @@ export function ArticleLayout({
           </ExpandableSection>
           <FaqList faqs={page.faqs ?? []} />
         </div>
-        <aside className="h-fit lg:sticky lg:top-24">
+        <aside className="h-fit space-y-4 lg:sticky lg:top-24">
           <ContextualCta
             title={page.cta.title}
             body={page.cta.body}
             href={page.cta.href}
             label={page.cta.label}
           />
+          <YouTubeEmbed url={page.youtubeUrl} title={page.h1} compact />
         </aside>
       </div>
     </article>

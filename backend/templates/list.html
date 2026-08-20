@@ -15,6 +15,7 @@
         <thead>
           <tr>
             {% if show_images %}<th>Image</th>{% endif %}
+            {% if show_youtube %}<th>YouTube</th>{% endif %}
             <th>Title</th>
             <th>Slug</th>
             <th>Status</th>
@@ -43,6 +44,18 @@
                   </form>
                 </td>
               {% endif %}
+              {% if show_youtube %}
+                <td>
+                  <form class="image-url youtube-embed" method="post" action="/admin/{{ kind.key }}/{{ row.id }}/youtube">
+                    <textarea
+                      name="youtubeUrl"
+                      rows="3"
+                      placeholder='<iframe src="https://www.youtube.com/embed/…"></iframe>'
+                    >{{ row.youtubeUrl }}</textarea>
+                    <button class="btn ghost" type="submit">Save embed</button>
+                  </form>
+                </td>
+              {% endif %}
               <td>{{ row.title }}</td>
               <td>{{ row.slug }}</td>
               <td>{{ row.status }}</td>
@@ -61,6 +74,7 @@
     <script>
       document.querySelectorAll("form.image-url").forEach((form) => {
         const input = form.querySelector('input[name="heroImage"]');
+        if (!input) return;
         input.addEventListener("input", () => {
           const url = input.value.trim();
           let img = form.querySelector("img[data-preview]");

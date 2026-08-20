@@ -7,6 +7,7 @@ import { AddToCartButton } from "@/components/store/AddToCartButton";
 import { PageHero } from "@/components/layout/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
+import { FaqList } from "@/components/seo/FaqList";
 import { listProducts, listStoreCategories } from "@/lib/content";
 import { getListingPage, parseListingPage } from "@/lib/content/listing-pagination";
 import { getMessages } from "@/lib/i18n/server";
@@ -86,7 +87,8 @@ export default async function StorePage({ searchParams }: Props) {
         nextLabel={t.common.next}
         pageOf={t.common.pageOf}
       />
-      <HubSeoBlock id="store" />
+      <HubSeoBlock id="store" hideFaqs />
+      <FaqList faqs={[...t.listingFaqs.store]} title={t.common.faqTitle} />
       </div>
     </div>
   );

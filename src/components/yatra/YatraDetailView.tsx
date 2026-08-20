@@ -3,8 +3,9 @@ import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { ContextualCta } from "@/components/seo/ContextualCta";
 import { ExpandableSection } from "@/components/seo/ExpandableSection";
 import { FaqList } from "@/components/seo/FaqList";
+import { ProseText } from "@/components/content/ProseText";
+import { YouTubeEmbed } from "@/components/content/YouTubeEmbed";
 import type { YatraPage } from "@/lib/content/types";
-import { ProseText } from "@/components/content/SectionBody";
 
 export function YatraDetailView({ page }: { page: YatraPage }) {
 
@@ -120,7 +121,7 @@ export function YatraDetailView({ page }: { page: YatraPage }) {
 
           <FaqList faqs={page.faqs ?? []} />
         </div>
-        <div className="h-fit lg:sticky lg:top-24">
+        <div className="h-fit space-y-4 lg:sticky lg:top-24">
           <ContextualCta
             title={page.cta.title}
             body={page.cta.body}
@@ -128,6 +129,7 @@ export function YatraDetailView({ page }: { page: YatraPage }) {
             label={page.cta.label}
             tone="navy"
           />
+          <YouTubeEmbed url={page.youtubeUrl} title={page.h1} compact />
         </div>
       </div>
     </article>

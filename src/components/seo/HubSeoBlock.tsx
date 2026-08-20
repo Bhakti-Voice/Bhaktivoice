@@ -9,14 +9,21 @@ export function HubSeoBlock({
   id,
   collapsible = false,
   faqJsonLd = true,
+  hideFaqs = false,
 }: {
   id: HubSeoId;
   collapsible?: boolean;
   faqJsonLd?: boolean;
+  hideFaqs?: boolean;
 }) {
   return (
     <Suspense fallback={null}>
-      <HubSeoInner id={id} collapsible={collapsible} faqJsonLd={faqJsonLd} />
+      <HubSeoInner
+        id={id}
+        collapsible={collapsible}
+        faqJsonLd={faqJsonLd}
+        hideFaqs={hideFaqs}
+      />
     </Suspense>
   );
 }
@@ -25,10 +32,12 @@ async function HubSeoInner({
   id,
   collapsible,
   faqJsonLd,
+  hideFaqs,
 }: {
   id: HubSeoId;
   collapsible: boolean;
   faqJsonLd: boolean;
+  hideFaqs: boolean;
 }) {
   const hub = await getHubSeo(id);
   if (!hub?.heading) return null;
@@ -49,7 +58,7 @@ async function HubSeoInner({
           </ul>
         ) : null}
       </ExpandableSection>
-      <FaqList faqs={hub.faqs ?? []} jsonLd={faqJsonLd} />
+      {hideFaqs ? null : <FaqList faqs={hub.faqs ?? []} jsonLd={faqJsonLd} />}
     </section>
   );
 }

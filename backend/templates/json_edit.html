@@ -20,6 +20,17 @@
       <p class="hint">Paste a cloud image URL. It writes <code>data.heroImage</code> for this same row.</p>
     </div>
   {% endif %}
+  {% if show_youtube %}
+    <div class="card" style="margin-top: 1rem;">
+      <p style="margin: 0;">YouTube embed</p>
+      <form class="image-url youtube-embed" method="post" action="/admin/{{ kind.key }}/{{ item_id }}/youtube" style="margin-top: 0.7rem;">
+        <input type="hidden" name="next" value="json" />
+        <textarea name="youtubeUrl" rows="5" placeholder='<iframe width="560" height="315" src="https://www.youtube.com/embed/…" title="YouTube video player" frameborder="0" allowfullscreen></iframe>'>{{ youtube_src }}</textarea>
+        <button class="btn" type="submit">Save embed</button>
+      </form>
+      <p class="hint">Paste the full iframe from YouTube → Share → Embed. Empty hides the video. Writes <code>data.youtubeUrl</code>. We do not own these videos — embed only.</p>
+    </div>
+  {% endif %}
   <form class="card" method="post" action="/admin/{{ kind.key }}/{{ item_id }}/json" style="margin-top: 1rem;" id="json-edit-form" accept-charset="UTF-8">
     <label>JSON
       <textarea class="json" name="json_text" id="json-text" rows="28">{{ json_text }}</textarea>

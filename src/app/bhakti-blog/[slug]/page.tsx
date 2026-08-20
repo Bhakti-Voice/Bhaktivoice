@@ -6,11 +6,12 @@ import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { ContextualCta } from "@/components/seo/ContextualCta";
 import { FaqList } from "@/components/seo/FaqList";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { ProseText } from "@/components/content/ProseText";
 import { getBlog } from "@/lib/content";
 import { articleSchema } from "@/lib/seo/schema";
 import { localizedMetadata } from "@/lib/seo/metadata";
 import { PATHS } from "@/lib/seo/paths";
-import { ProseText } from "@/components/content/SectionBody";
+import { YouTubeEmbed } from "@/components/content/YouTubeEmbed";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -112,6 +113,7 @@ export default async function BlogPostPage({ params }: Props) {
             href="/naam-jaap"
             label="Start 108 Naam Jaap"
           />
+          <YouTubeEmbed url={page.youtubeUrl} title={page.h1} compact />
         </aside>
       </div>
     </article>

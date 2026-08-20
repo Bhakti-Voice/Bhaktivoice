@@ -43,6 +43,35 @@ def safe_image_src(url: str) -> str:
     return ""
 
 
+YOUTUBE_ID_RE = re.compile(r"^[A-Za-z0-9_-]{11}$")
+YOUTUBE_PATH_RE = re.compile(
+    r"(?:youtube(?:-nocookie)?\.com/(?:embed|shorts|live)/|youtu\.be/)([A-Za-z0-9_-]{11})"
+)
+YOUTUBE_QUERY_RE = re.compile(r"[?&]v=([A-Za-z0-9_-]{11})")
+
+
+def youtube_video_id(raw: str) -> str:
+    text = (raw or "").strip()
+    if not text:
+        return ""
+    path_match = YOUTUBE_PATH_RE.search(text)
+    if path_match:
+        return path_match.group(1)
+    query_match = YOUTUBE_QUERY_RE.search(text)
+    if query_match:
+        return query_match.group(1)
+    if YOUTUBE_ID_RE.fullmatch(text):
+        return text
+    return ""
+
+
+def safe_youtube_src(raw: str) -> str:
+    text = (raw or "").strip()
+    if not text:
+        return ""
+    return text if youtube_video_id(text) else ""
+
+
 def sniff_image(raw: bytes) -> str | None:
     if len(raw) < 12:
         return None

@@ -62,6 +62,7 @@ export const messages = {
       startJaap: "Start Naam Jaap",
       exploreKatha: "Explore Katha",
       devoteesJoined: "Devotees Joined",
+      joinJourney: "Join the Bhakti Journey",
       heroQuote: "Bhakti makes life beautiful.",
       globalToday: "Bhakti Naam Jaap Worldwide",
       naamChanted: "Naam Chanted by Devotees Worldwide",
@@ -424,6 +425,170 @@ export const messages = {
         },
       ],
     },
+    listingFaqs: {
+      aarti: [
+        {
+          question: "What are aarti chants, and how is this page meant to be used?",
+          answer:
+            "Aarti chants are the short hymns sung while a lamp is offered to the deity — in a temple hall, at a home shrine, or at dusk when the house finally quiets. This aarti chants listing is a library of those companions: aarti meaning first, then aarti lyrics when we can publish them. Open a card, read slowly, and keep one diya if fire is safe in your room. We do not own temple recordings; any video at the end of an article is a YouTube embed. Empty cards stay empty rather than invent a hymn. Confirm local temple aarti times on the temple or yatra page — Bhakti Voice never writes a clock we have not been given.",
+        },
+        {
+          question: "How do I perform evening aarti at home without a priest?",
+          answer:
+            "Wash your hands. Stand or sit before your ishta. Light a diya if you can. Offer the light in a slow circle and recite the aarti your family already knows — or one sincere line if memory is tired. Home aarti does not need a shikhara, a loudspeaker, or a perfect tune. These pages sit beside the lamp for householders who want aarti lyrics and aarti meaning in one place, not a performance for neighbours. Keep the sitting short enough that you will return tomorrow. After the flame is down, let the naam stay in the mouth.",
+        },
+        {
+          question: "Are these the official aarti lyrics of a famous temple?",
+          answer:
+            "No listing here is a temple notice board. Sampradayas keep their own wording; a shrine in Vrindavan may sing a line differently from a home in Pune. What you find under aarti chants is a study companion — context, a gentle introduction, and verses only when we can share them without copying a copyrighted hymn book. For a specific mandir’s aarti, follow that mandir. We do not paste full commercial lyric sheets, and we do not invent mangala aarti or sandhya aarti timings.",
+        },
+        {
+          question: "Can listening to aarti on a phone still count as sadhana?",
+          answer:
+            "Yes, if the listening turns into presence. An aarti playing while you cook is a start; two minutes of standing with a lamp is fuller. When the recording ends, sit for naam jaap or open a katha. Bhakti Voice links aarti chants with daily sadhana on purpose: the hymn is not a playlist to finish, it is a door into the rest of the evening. If a card has a video, it is an embed we do not own — use it as a companion, then return to your own voice.",
+        },
+        {
+          question: "What should I do after aarti, and how does this connect to jaap?",
+          answer:
+            "Let the room stay dim for a breath. If a name is left on the tongue, count it — eleven names or a mala of 108 on the jaap counter. If a story is calling, open katha. If you want a record of the evening, write one line in the bhakti diary. Evening aarti is the lamp; the leftover warmth is the practice. You can move from this aarti chants page into bhajan and kirtan, naam jaap, or daily sadhana without turning devotion into a scoreboard. Return when the next dusk arrives.",
+        },
+      ],
+      bhajan: [
+        {
+          question: "What is bhajan and kirtan, and why keep them on one listing?",
+          answer:
+            "Bhajan is a devotional song you can sit with; kirtan is that same naam sung together, often with a simple refrain that the room can catch. This bhajan and kirtan page gathers those companions so a householder can find lyrics, meaning, and a way back to naam jaap without hunting across the internet. We publish what we may: introductions, context, and verses we are allowed to share. We do not own concert recordings. Where a video appears at the end of a page, it is a YouTube embed. Empty cards wait rather than fill with copied songbooks.",
+        },
+        {
+          question: "How should I use these bhajan lyrics during daily sadhana?",
+          answer:
+            "Pick one bhajan, not a whole evening of tabs. Read the meaning first so the mouth knows what it is offering. Sing softly at home, or keep the refrain in the mind on a walk. After the last line, sit for naam jaap — Radhe, Ram, Krishna, Shiva, or the mantra your guru gave. Bhajan and kirtan are not a replacement for jaap; they often wake the naam so the mala has somewhere to go. Keep the sitting short enough for an ordinary weekday.",
+        },
+        {
+          question: "Do I need a group or a harmonium for kirtan?",
+          answer:
+            "No. Kirtan in a hall is beautiful; kirtan in a kitchen with one voice is still kirtan. A kartal, a phone speaker, or silence will do. This listing is written for devotees who cannot reach a weekly satsang every evening. If you later sit with others, carry the same bhajan — the naam does not change because the room got larger. Confirm any public programme locally; we do not invent temple kirtan clocks.",
+        },
+        {
+          question: "Are Krishna bhajan and Ram bhajan different practices?",
+          answer:
+            "The ishta may differ; the posture is the same: sing with attention, then let the name continue without the tune. A Krishna bhajan, a Ram bhajan, or a Shiva hymn can all feed daily sadhana if you return to them. Choose the one your heart already leans toward. If a guru has given you a mantra, that mantra stays first even while you enjoy bhajan and kirtan as companions. Bhakti Voice will not rank one naam above another.",
+        },
+        {
+          question: "Why are some bhajan pages without full lyrics?",
+          answer:
+            "Because we will not copy a copyrighted songbook to look complete. Many beloved bhajans live in printed collections and recordings we do not own. On those days you will find meaning, a gentle guide, and perhaps an embed — not a pirated lyric sheet. When we can publish lines, we do so as a study companion. Meanwhile, naam jaap, katha, and aarti chants remain open. Devotion does not wait for a perfect library.",
+        },
+      ],
+      blog: [
+        {
+          question: "What is the Bhakti blog, and who is it written for?",
+          answer:
+            "The Bhakti blog is a journal for devotees and householders: yatra notes, mantra meaning, festival sense, and daily practice written without hurry. It is not a news feed and not a temple notice board. Essays here are meant to be read slowly, then carried into naam jaap or a short walk. We do not invent darshan timings. Before you travel, confirm aarti and opening hours locally. If a guide mentions a place, treat it as orientation, not a ticket. The bhakti blog exists so searching for a naam or a dham lands you in a quiet room, not a shouting page.",
+        },
+        {
+          question: "How should I read these spiritual essays without turning them into homework?",
+          answer:
+            "Open one article. Read the introduction. Keep whatever line stays. Then sit — eleven names or a mala — so the blog does not become another tab you finish. Tags for yatra, mantras, and daily sadhana are doors, not a syllabus. Save a post if you are signed in; return when the week allows. Bhakti Voice would rather you finish a small sitting than finish the archive. The bhakti blog is a companion to practice, not a replacement for it.",
+        },
+        {
+          question: "Do blog guides replace a guru, a panchang, or a local priest?",
+          answer:
+            "No. A blog can explain naam jaap, ekadashi as a householder might keep it, or how to think about a yatra day. It cannot give diksha, cannot see your health, and cannot speak for a mandir. Lunar dates move. Confirm tithi on Aaj Ki Tithi, then confirm local custom. We write original copy for devotees; we do not paste other sites. Where a page embeds a video, we do not own that film. Use the bhakti blog as a lamp, not as a master.",
+        },
+        {
+          question: "What topics will I find — yatra, mantras, or daily practice?",
+          answer:
+            "All three, in ordinary language. Some essays walk a pilgrim through a dham without pretending we stood at the gate this morning. Some sit with a mantra so pronunciation and mood are clear before you open the jaap counter. Some speak to daily sadhana: sankalp, diary, aarti, bhajan and kirtan. Browse from this listing, or search if you already know the naam. Related links at the end of an article are invitations, not a funnel.",
+        },
+        {
+          question: "Can I share a bhakti blog post with family who are new to jaap?",
+          answer:
+            "Yes. That is one reason the tone stays human. Send a single essay, not the whole archive. If they are new, pair the reading with the naam jaap counter so the idea has a sitting. Hindi pages exist for the same guides when a translation is published. Do not treat our words as scripture. They are a householder’s notes on the path — yatra, mantras, daily practice — written so a family can begin without fear of doing it wrong.",
+        },
+      ],
+      store: [
+        {
+          question: "What is the Bhakti store, and what belongs here?",
+          answer:
+            "The Bhakti store is a small shelf of companions for daily sadhana: tulsi mala and jaap mala, diyas, a puja thali, rudraksha when we list it, and other simple tools a householder might keep near the shrine. It is not a charm shop. We do not promise that a bead will grant a wish. A mala is for counting naam jaap; a diya is for evening aarti; a book or image is for remembering. Read the product page, see the price in rupees, and add to cart only what you will actually use. Out-of-stock items stay visible so you know the shelf, not so we pretend they can ship.",
+        },
+        {
+          question: "Do I need to buy a mala from here to start naam jaap?",
+          answer:
+            "No. Naam jaap does not wait for a parcel. You can count on fingers, on a tulsi mala you already own, or on the jaap counter in this site. The bhakti store exists for days when you want a well-made companion — not as a gate in front of practice. If you do buy a jaap mala, keep it clean, use it, and let it live near the place you sit. A mala in a drawer is only a string.",
+        },
+        {
+          question: "Are these puja items blessed, antique, or guaranteed authentic by a temple?",
+          answer:
+            "We describe what we sell in ordinary words. We do not invent a temple certificate or a miracle story to close a cart. If an item is a working tool — diya, mala, incense — treat it as that. Confirm material and size on the product page. We will not copy another shop’s copyrighted product essay. Shipping, stock, and checkout follow what the listing shows; if something is out of stock, the badge is honest.",
+        },
+        {
+          question: "How should I choose between a tulsi mala and other jaap malas?",
+          answer:
+            "Choose the mala you will pick up tomorrow. Many Vaishnava households keep tulsi for Ram or Krishna naam; others keep rudraksha for Shiva. If a guru has asked you to use a particular bead, follow that. If you are beginning, a simple 108-bead jaap mala is enough. The bhakti store will not rank one sampradaya above another. After the mala arrives, sit — the counter on this site still works if the beads are in another room.",
+        },
+        {
+          question: "Can I use store items together with aarti, bhajan, and the diary?",
+          answer:
+            "That is the intended loop. Light a diya for evening aarti, keep a mala for naam jaap, sing a bhajan if the house is willing, and write one line in the bhakti diary so the day has a trace. None of those pages require a purchase. The store is optional furniture for practice. If the cart feels loud, leave it and go back to daily sadhana. Devotion is the sitting, not the receipt.",
+        },
+      ],
+      sadhana: [
+        {
+          question: "What is daily sadhana on Bhakti Voice, and who is it for?",
+          answer:
+            "Daily sadhana here is a small map for householders: naam jaap, katha, a short meditation on a naam, a sankalp you can keep, vrat as health allows, and a little seva after you sit. It is not a monastery timetable and not a scoreboard. Today’s Bhakti page gathers those doors so an ordinary weekday still has a place to return. You do not have to open every card. Pick one sitting. Tomorrow, pick it again. The point is a practice that survives email, traffic, and a tired evening — not a perfect morning that never happens.",
+        },
+        {
+          question: "How do I begin daily sadhana if I have only ten minutes?",
+          answer:
+            "Sit for naam jaap — eleven names if a mala of 108 feels far. That is enough for a first week. If the mouth wants a tune, open bhajan and kirtan or aarti chants for two minutes, then return to the count. If the mind wants a story, one katha episode is plenty. Write a single line in the bhakti diary so the day is marked. Daily sadhana is the return, not the duration. Stretch later if the sitting becomes easy; do not stretch first and then quit.",
+        },
+        {
+          question: "What is the difference between naam jaap, sankalp, and vrat here?",
+          answer:
+            "Naam jaap is the repetition of a divine name, counted if you wish. A sankalp is a vow small enough to keep — perhaps a mala a day, perhaps no harsh speech until dusk. Vrat or upvas is a fast or a lighter day, often tied to ekadashi or a festival, kept as your health allows. We never tell you to ignore a doctor. Daily sadhana holds all three as optional rooms in the same house. Open the one that fits this week.",
+        },
+        {
+          question: "Do I need to sign in to keep a daily sadhana?",
+          answer:
+            "You can sit as a guest on the jaap counter; taps still join the worldwide naam count. Sign in if you want a personal jaap total, a bhakti diary that follows you across devices, or a sankalp that does not live only in memory. Practice itself does not require an account. Bhakti Voice uses sign-in as a shelf, not as a ticket to the path.",
+        },
+        {
+          question: "What if I miss a day of daily sadhana?",
+          answer:
+            "Begin again without a speech. A missed day is not a broken life. Open this daily sadhana page, choose naam jaap or katha, and sit for whatever is honest — even a few names. If you keep a diary, you may write that the day was noisy; that line is still sadhana. The doors stay open: jaap, katha, mantras, aarti, bhajan and kirtan, community seva. Return when you remember. That memory is the practice.",
+        },
+      ],
+      diary: [
+        {
+          question: "What is the Bhakti diary, and how is it different from a public blog?",
+          answer:
+            "The Bhakti diary is a private daily log of practice: mood, naam jaap, and what stayed with you after sitting. It is a calendar for householders, not a performance and not the bhakti blog. The blog is published essays for everyone; the diary is your own trace of the day. Write a short note after jaap, aarti, or katha. You do not need beautiful sentences. One honest line is enough. This page exists so daily sadhana has a memory that is not a streak on a scoreboard.",
+        },
+        {
+          question: "Do I need to sign in to use the spiritual diary?",
+          answer:
+            "To save entries across days and devices, yes — sign in with Google so the bhakti diary can rest on your account. Without sign-in you can still sit for naam jaap as a guest. The diary is for people who want a quiet record, not for guests who are only passing through. If Google sign-in is not configured in an environment, explore the rest of Bhakti Voice and return when saving is available. We do not ask you to publish your mood.",
+        },
+        {
+          question: "What should I write after naam jaap or evening aarti?",
+          answer:
+            "Write what was true, not what sounds holy. A restless mala, a soft evening aarti, a katha line that would not leave, a missed sankalp — all of that belongs. Note the naam you kept if you wish, or only the mood. The bhakti diary is not a confession booth and not a guru’s exam. Keep it short enough that you will open it tomorrow. If you have nothing to say, write the date and the word sit. That still marks the path.",
+        },
+        {
+          question: "Is this diary a replacement for a paper journal or a guru’s notebook?",
+          answer:
+            "No. Paper is still a friend. A teacher’s notebook, if you have one, stays first. This spiritual diary is a householder’s aid when the paper is in another bag and the phone is already in the hand. Use it to remember daily sadhana: jaap, katha, vrat, a small seva. Do not pour secrets you would not want in any digital tool. Bhakti Voice is a companion on the journey, not a vault that replaces caution.",
+        },
+        {
+          question: "How does the bhakti diary connect to jaap, sankalp, and the rest of sadhana?",
+          answer:
+            "After you count a mala, open the diary and leave a footprint. After you keep or break a sankalp, write one line so the vow stays human. After a festival or a tithi, note what you actually did, not what a perfect devotee would have done. Then return to naam jaap, aarti chants, or bhajan and kirtan if the throat is still warm. The diary does not complete the path; it keeps you from forgetting that you walked it. Come back on ordinary Tuesdays, not only on Purnima.",
+        },
+      ],
+    },
     emptyLabels: {
       katha: "katha series",
       festivals: "festivals",
@@ -516,6 +681,7 @@ export const messages = {
       startJaap: "नाम जप शुरू करें",
       exploreKatha: "कथा देखें",
       devoteesJoined: "भक्त जुड़े",
+      joinJourney: "भक्ति यात्रा में जुड़ें",
       heroQuote: "भक्ति जीवन को सुंदर बनाती है।",
       globalToday: "विश्व भर का भक्ति नाम जप",
       naamChanted: "विश्व भर के भक्तों द्वारा जपा गया नाम",
@@ -867,6 +1033,170 @@ export const messages = {
           question: "क्या ज़ोर से जप करें या मौन?",
           answer:
             "दोनों नाम जप हैं। फुसफुसाहट, वाणी, या मन में नाम। कंप्यूटर पर गिनती के साथ धीमी आवाज़ भी चल सकती है; फ़ोन पर बैठक शांत रहती है ताकि स्पर्श सरल रहे।",
+        },
+      ],
+    },
+    listingFaqs: {
+      aarti: [
+        {
+          question: "आरती चेंट क्या हैं, और यह पृष्ठ कैसे उपयोग करें?",
+          answer:
+            "आरती चेंट वे छोटे स्तोत्र हैं जो दीप दिखाते समय गाए जाते हैं — मंदिर में, घर की ठाकुरजी के आगे, या संध्या में जब घर शांत हो। यह आरती चेंट सूची उन्हीं साथियों की है: पहले आरती का अर्थ, फिर आरती के बोल जब हम उन्हें प्रकाशित कर सकते हैं। एक कार्ड खोलें, धीरे पढ़ें, और यदि आग सुरक्षित हो तो एक दीया रखें। मंदिर की रिकॉर्डिंग हमारी नहीं; लेख के अंत का वीडियो यूट्यूब एम्बेड है। खाली कार्ड खाली रहेंगे — हम भजन गढ़कर नहीं भरते। मंदिर या यात्रा पृष्ठ पर आरती का स्थानीय समय पूछें — भक्ति वॉइस वह घड़ी नहीं लिखता जो हमें दी ही नहीं गई।",
+        },
+        {
+          question: "पुजारी के बिना घर पर संध्या आरती कैसे करें?",
+          answer:
+            "हाथ धोएँ। इष्ट के आगे खड़े हों या बैठें। हो सके तो दीया जलाएँ। प्रकाश को धीरे घुमाएँ और वह आरती गाएँ जो परिवार पहले से जानता है — स्मृति थकी हो तो एक सच्ची पंक्ति काफी है। घर की आरती को शिखर, लाउडस्पीकर या पूर्ण सुर की ज़रूरत नहीं। ये पृष्ठ गृहस्थों के दीये के साथ हैं, पड़ोस के प्रदर्शन के लिए नहीं। बैठक इतनी छोटी रखें कि कल लौट सकें। ज्योति उतरे तो नाम मुँह में रहने दें।",
+        },
+        {
+          question: "क्या ये किसी प्रसिद्ध मंदिर की आधिकारिक आरती के बोल हैं?",
+          answer:
+            "यहाँ कोई सूची मंदिर का सूचना पट्ट नहीं। सम्प्रदाय अपने शब्द रखते हैं; वृन्दावन की एक पंक्ति पुणे के घर से भिन्न हो सकती है। आरती चेंट में जो मिलता है वह अध्ययन का साथी है — संदर्भ, कोमल परिचय, और वे पद जो हम कॉपीराइट भजन-पुस्तक चुराए बिना दे सकते हैं। किसी खास मंदिर की आरती के लिए उसी मंदिर का अनुसरण करें। हम व्यापारिक गीत-पुस्तकें नहीं चिपकाते, और मंगला आरती या संध्या आरती का समय गढ़ते नहीं।",
+        },
+        {
+          question: "फ़ोन पर आरती सुनना भी साधना है क्या?",
+          answer:
+            "हाँ, यदि सुनना उपस्थिति बने। रसोई में आरती चलना आरंभ है; दीये के साथ दो मिनट खड़े रहना अधिक पूरा है। रिकॉर्डिंग समाप्त हो तो नाम जप बैठें या कथा खोलें। भक्ति वॉइस आरती चेंट को दैनिक साधना से जानबूझकर जोड़ता है: स्तोत्र पूरा करने की प्लेलिस्ट नहीं, शाम के बाकी हिस्से का द्वार है। यदि कार्ड पर वीडियो है, वह एम्बेड हमारी संपत्ति नहीं — साथी की तरह सुनें, फिर अपनी वाणी पर लौटें।",
+        },
+        {
+          question: "आरती के बाद क्या करें, और यह जप से कैसे जुड़ता है?",
+          answer:
+            "एक श्वास तक कमरा मंद रहने दें। जीभ पर नाम बचा हो तो गिनें — ग्यारह नाम, या जप काउंटर पर १०८ की माला। कथा बुला रही हो तो खोलें। शाम का निशान चाहिए तो भक्ति डायरी में एक पंक्ति लिखें। संध्या आरती दीपक है; बचा हुआ ताप अभ्यास है। इस आरती चेंट पृष्ठ से भजन और कीर्तन, नाम जप, या दैनिक साधना में जा सकते हैं, बिना भक्ति को स्कोरबोर्ड बनाए। अगली संध्या पर लौट आइए।",
+        },
+      ],
+      bhajan: [
+        {
+          question: "भजन और कीर्तन क्या हैं, और एक सूची में क्यों?",
+          answer:
+            "भजन वह भक्ति गीत है जिसके साथ बैठा जा सकता है; कीर्तन वही नाम साथ मिलकर गाना है, अक्सर सरल दोहराव के साथ जिसे कमरा पकड़ ले। यह भजन और कीर्तन पृष्ठ उन साथियों को इकट्ठा करता है ताकि गृहस्थ गीत, अर्थ और नाम जप का रास्ता बिना पूरे इंटरनेट खोदे पा सके। हम वही प्रकाशित करते हैं जो हमें चाहिए: परिचय, संदर्भ, और वे पद जो बाँटे जा सकते हैं। संगीत कार्यक्रम की रिकॉर्डिंग हमारी नहीं। जहाँ पृष्ठ के अंत में वीडियो हो, वह यूट्यूब एम्बेड है। खाली कार्ड प्रतीक्षा करते हैं — नकल गीत-पुस्तक से नहीं भरते।",
+        },
+        {
+          question: "दैनिक साधना में इन भजन के बोल कैसे उपयोग करें?",
+          answer:
+            "एक भजन चुनें, पूरी शाम के टैब नहीं। पहले अर्थ पढ़ें ताकि मुँह जाने क्या अर्पित कर रहा है। घर पर धीरे गाएँ, या टहलते हुए मन में टेक रखें। अंतिम पंक्ति के बाद नाम जप बैठें — राधे, राम, कृष्ण, शिव, या गुरुदत्त मंत्र। भजन और कीर्तन जप की जगह नहीं लेते; अक्सर नाम जगाते हैं ताकि माला को दिशा मिले। बैठक साधारण कार्यदिवस जितनी छोटी रखें।",
+        },
+        {
+          question: "कीर्तन के लिए समूह या हारमोनियम चाहिए?",
+          answer:
+            "नहीं। सभा का कीर्तन सुंदर है; रसोई में एक कण्ठ का कीर्तन भी कीर्तन है। करताल, फ़ोन का स्पीकर, या मौन चल जाएगा। यह सूची उन भक्तों के लिए है जो हर शाम सत्संग नहीं पहुँच सकते। बाद में संग मिले तो वही भजन ले जाएँ — कमरा बड़ा होने से नाम नहीं बदलता। सार्वजनिक कार्यक्रम स्थानीय रूप से पूछें; हम मंदिर कीर्तन की घड़ी नहीं गढ़ते।",
+        },
+        {
+          question: "कृष्ण भजन और राम भजन अलग साधना हैं क्या?",
+          answer:
+            "इष्ट भिन्न हो सकता है; मुद्रा एक है: ध्यान से गाएँ, फिर सुर के बिना नाम चलने दें। कृष्ण भजन, राम भजन, या शिव स्तुति — तीनों दैनिक साधना को सींच सकते हैं यदि आप लौटते हैं। जिस ओर हृदय झुकता है, वही चुनें। गुरु ने मंत्र दिया हो तो भजन साथी रहें, मंत्र प्रथम। भक्ति वॉइस एक नाम को दूसरे से ऊँचा नहीं बैठता।",
+        },
+        {
+          question: "कुछ भजन पृष्ठों पर पूरे बोल क्यों नहीं?",
+          answer:
+            "क्योंकि पूर्ण दिखने के लिए हम कॉपीराइट गीत-पुस्तक नहीं चुराएँगे। कई प्रिय भजन छपी संग्रहों और रिकॉर्डिंग में रहते हैं जिनके हम स्वामी नहीं। उन दिनों अर्थ, कोमल मार्ग और शायद एक एम्बेड मिलेगा — चोरी का गीत-पत्र नहीं। जब पंक्तियाँ दे सकते हैं, अध्ययन साथी की तरह देते हैं। तब तक नाम जप, कथा और आरती चेंट खुले हैं। भक्ति पूर्ण पुस्तकालय की प्रतीक्षा नहीं करती।",
+        },
+      ],
+      blog: [
+        {
+          question: "भक्ति ब्लॉग क्या है, और यह किसके लिए लिखा गया?",
+          answer:
+            "भक्ति ब्लॉग भक्तों और गृहस्थों की पत्रिका है: यात्रा नोट, मंत्र का अर्थ, त्योहार की समझ, और बिना जल्दबाजी की दैनिक साधना। यह समाचार फ़ीड नहीं, मंदिर का सूचना पट्ट नहीं। यहाँ निबंध धीरे पढ़ने के लिए हैं, फिर नाम जप या छोटी सैर में ले जाने के लिए। हम दर्शन का समय गढ़ते नहीं। यात्रा से पहले आरती और खुलने का समय स्थानीय रूप से पूछें। स्थान का उल्लेख दिशा है, टिकट नहीं। भक्ति ब्लॉग इसलिए है कि नाम या धाम की खोज शांत कमरे में उतरे, चिल्लाते पृष्ठ पर नहीं।",
+        },
+        {
+          question: "इन आध्यात्मिक लेखों को गृहकार्य बनाए बिना कैसे पढ़ें?",
+          answer:
+            "एक लेख खोलें। भूमिका पढ़ें। जो पंक्ति रह जाए, वही रखें। फिर बैठें — ग्यारह नाम या एक माला — ताकि ब्लॉग एक और टैब न बन जाए। यात्रा, मंत्र और दैनिक साधना के टैग द्वार हैं, पाठ्यक्रम नहीं। साइन इन हों तो लेख सहेजें; सप्ताह मिले तो लौटें। भक्ति वॉइस चाहता है कि छोटी बैठक पूरी हो, पुरालेख नहीं। भक्ति ब्लॉग अभ्यास का साथी है, उसका विकल्प नहीं।",
+        },
+        {
+          question: "क्या ब्लॉग गुरु, पंचांग या स्थानीय पुजारी की जगह लेता है?",
+          answer:
+            "नहीं। ब्लॉग नाम जप समझा सकता है, गृहस्थ की एकादशी, या यात्रा के दिन की सोच। दीक्षा नहीं दे सकता, स्वास्थ्य नहीं देख सकता, मंदिर की ओर से नहीं बोल सकता। चंद्र तिथियाँ चलती हैं। आज की तिथि पर तिथि देखें, फिर स्थानीय रीति पूछें। हम भक्तों के लिए मौलिक लेख लिखते हैं; दूसरे स्थलों को नहीं चिपकाते। जहाँ वीडियो एम्बेड हो, वह फ़िल्म हमारी नहीं। भक्ति ब्लॉग को दीपक मानें, स्वामी नहीं।",
+        },
+        {
+          question: "यहाँ क्या मिलेगा — यात्रा, मंत्र, या दैनिक अभ्यास?",
+          answer:
+            "तीनों, साधारण भाषा में। कुछ निबंध तीर्थयात्री को धाम में घुमाते हैं, यह दावा किए बिना कि हम आज सुबह द्वार पर थे। कुछ मंत्र के साथ बैठते हैं ताकि जप काउंटर खोलने से पहले उच्चारण और भाव स्पष्ट हों। कुछ दैनिक साधना कहते हैं: संकल्प, डायरी, आरती, भजन और कीर्तन। इस सूची से घूमें, या नाम पहले से पता हो तो खोजें। लेख के अंत के संबंधित लिंक निमंत्रण हैं, फ़नल नहीं।",
+        },
+        {
+          question: "क्या भक्ति ब्लॉग परिवार के नए सदस्यों को भेज सकते हैं?",
+          answer:
+            "हाँ। स्वर इसलिए मानवीय रखा गया है। पूरा पुरालेख नहीं, एक निबंध भेजें। नए हों तो पढ़ने के साथ नाम जप काउंटर जोड़ें ताकि विचार की बैठक हो। वही मार्गदर्शक जब अनुवाद प्रकाशित हो तो हिंदी पृष्ठों पर भी हैं। हमारे शब्दों को शास्त्र न मानें। ये गृहस्थ के पथ-नोट हैं — यात्रा, मंत्र, दैनिक अभ्यास — ताकि परिवार बिना गलत करने के भय के आरंभ कर सके।",
+        },
+      ],
+      store: [
+        {
+          question: "भक्ति भंडार क्या है, और यहाँ क्या रखना चाहिए?",
+          answer:
+            "भक्ति भंडार दैनिक साधना के छोटे साथियों की अलमारी है: तुलसी माला और जप माला, दीये, पूजा थाली, रुद्राक्ष जब सूची में हो, और वे सरल उपकरण जो गृहस्थ मंदिर के पास रखे। यह चमत्कार की दुकान नहीं। हम यह नहीं कहते कि एक मनका मनोकामना पूरी करेगा। माला नाम जप गिनने के लिए है; दीया संध्या आरती के लिए; पुस्तक या चित्र स्मरण के लिए। उत्पाद पृष्ठ पढ़ें, रुपये में मूल्य देखें, और वही टोकरी में डालें जो सच में उपयोग होगा। स्टॉक में न होने वाली वस्तुएँ दिखती रहेंगी ताकि अलमारी दिखे, यह दिखावा नहीं कि वे भेजी जा सकती हैं।",
+        },
+        {
+          question: "नाम जप शुरू करने के लिए क्या यहीं से माला खरीदनी होगी?",
+          answer:
+            "नहीं। नाम जप पार्सल की प्रतीक्षा नहीं करता। उँगलियों पर, पहले से रखी तुलसी माला पर, या इस स्थल के जप काउंटर पर गिन सकते हैं। भक्ति भंडार उन दिनों के लिए है जब सुंदर साथी चाहिए — अभ्यास के द्वार पर ताला नहीं। जप माला खरीदें तो साफ़ रखें, उपयोग करें, बैठने की जगह के पास रहने दें। दराज की माला केवल धागा है।",
+        },
+        {
+          question: "क्या ये पूजा वस्तुएँ मंदिर से प्रमाणित, प्राचीन या चमत्कारी हैं?",
+          answer:
+            "हम जो बेचते हैं उसे साधारण शब्दों में कहते हैं। टोकरी बंद कराने के लिए मंदिर का प्रमाणपत्र या चमत्कार की कथा नहीं गढ़ते। दीया, माला, धूप — काम के उपकरण मानें। सामग्री और आकार उत्पाद पृष्ठ पर देखें। हम दूसरे दुकान के कॉपीराइट लेख नहीं चिपकाते। भेजना, स्टॉक और चेकआउट सूची के अनुसार है; स्टॉक न हो तो बैज सत्य है।",
+        },
+        {
+          question: "तुलसी माला और दूसरी जप माला में कैसे चुनें?",
+          answer:
+            "वह माला चुनें जिसे कल उठाएँगे। कई वैष्णव घर राम या कृष्ण नाम के लिए तुलसी रखते हैं; अन्य शिव के लिए रुद्राक्ष। गुरु ने विशेष मनका कहा हो तो वही। आरंभ हो तो १०८ मनकों की सादी जप माला काफी है। भक्ति भंडार एक सम्प्रदाय को दूसरे से ऊपर नहीं बैठाता। माला आए तो बैठें — मनके दूसरे कमरे में हों तब भी इस स्थल का काउंटर चलता है।",
+        },
+        {
+          question: "भंडार की वस्तुओं को आरती, भजन और डायरी के साथ कैसे जोड़ें?",
+          answer:
+            "यही इच्छित घेरा है। संध्या आरती के लिए दीया जलाएँ, नाम जप के लिए माला रखें, घर राज़ी हो तो भजन गाएँ, और भक्ति डायरी में एक पंक्ति लिखें ताकि दिन का चिह्न रहे। इनमें से कोई पृष्ठ खरीदारी नहीं माँगता। भंडार अभ्यास का वैकल्पिक फर्नीचर है। टोकरी शोर लगे तो छोड़कर दैनिक साधना पर लौटें। भक्ति बैठक है, रसीद नहीं।",
+        },
+      ],
+      sadhana: [
+        {
+          question: "भक्ति वॉइस पर दैनिक साधना क्या है, और यह किसके लिए है?",
+          answer:
+            "यहाँ दैनिक साधना गृहस्थों का छोटा मानचित्र है: नाम जप, कथा, नाम पर छोटा ध्यान, निभाया जा सकने वाला संकल्प, स्वास्थ्य के अनुसार व्रत, और बैठने के बाद थोड़ी सेवा। यह मठ की समय-सारणी नहीं, स्कोरबोर्ड नहीं। आज की भक्ति पृष्ठ ये द्वार इकट्ठा करता है ताकि साधारण कार्यदिवस में भी लौटने की जगह हो। हर कार्ड खोलना ज़रूरी नहीं। एक बैठक चुनें। कल फिर चुनें। बात उस अभ्यास की है जो मेल, भीड़ और थकी शाम में बचे — उस पूर्ण सुबह की नहीं जो कभी आती ही नहीं।",
+        },
+        {
+          question: "केवल दस मिनट हों तो दैनिक साधना कैसे शुरू करें?",
+          answer:
+            "नाम जप बैठें — १०८ की माला दूर लगे तो ग्यारह नाम। पहले सप्ताह के लिए काफी है। कण्ठ को सुर चाहिए तो भजन और कीर्तन या आरती चेंट दो मिनट खोलें, फिर गिनती पर लौटें। मन को कथा चाहिए तो एक प्रसंग काफी। भक्ति डायरी में एक पंक्ति लिखें ताकि दिन चिह्नित हो। दैनिक साधना अवधि नहीं, लौटना है। बैठक सरल हो तब बढ़ाएँ; पहले बढ़ाकर छोड़ देना ठीक नहीं।",
+        },
+        {
+          question: "नाम जप, संकल्प और व्रत में यहाँ क्या भेद है?",
+          answer:
+            "नाम जप ईश्वर के नाम का दोहराव है, चाहें तो गिनती के साथ। संकल्प इतना छोटा व्रत है कि निभ सके — शायद दिन में एक माला, शायद संध्या तक कठोर वचन नहीं। व्रत या उपवास हल्का दिन है, अक्सर एकादशी या त्योहार से जुड़ा, स्वास्थ्य के अनुसार। हम चिकित्सक को अनसुना करने को नहीं कहते। दैनिक साधना तीनों को एक घर के वैकल्पिक कमरे की तरह रखती है। इस सप्ताह जो फिट बैठे, वही खोलें।",
+        },
+        {
+          question: "दैनिक साधना रखने के लिए साइन इन ज़रूरी है?",
+          answer:
+            "जप काउंटर पर अतिथि की तरह बैठ सकते हैं; स्पर्श उस नाम की विश्वभर गिनती में जुड़ते हैं। व्यक्तिगत जप योग, उपकरणों पर चलने वाली भक्ति डायरी, या केवल स्मृति में न रहने वाला संकल्प चाहिए तो साइन इन करें। अभ्यास स्वयं खाता नहीं माँगता। भक्ति वॉइस साइन-इन को अलमारी मानता है, पथ का टिकट नहीं।",
+        },
+        {
+          question: "दैनिक साधना का एक दिन छूट जाए तो?",
+          answer:
+            "बिना भाषण के फिर बैठ जाएँ। छूटा दिन टूटा जीवन नहीं। यह दैनिक साधना पृष्ठ खोलें, नाम जप या कथा चुनें, और जो सत्य हो उतना बैठें — कुछ नाम भी। डायरी रखते हों तो लिख सकते हैं कि दिन शोर था; वह पंक्ति भी साधना है। द्वार खुले रहते हैं: जप, कथा, मंत्र, आरती, भजन और कीर्तन, समुदाय की सेवा। जब याद आए, लौटें। वही स्मृति अभ्यास है।",
+        },
+      ],
+      diary: [
+        {
+          question: "भक्ति डायरी क्या है, और सार्वजनिक ब्लॉग से कैसे भिन्न है?",
+          answer:
+            "भक्ति डायरी अभ्यास का निजी दैनिक लेख है: भाव, नाम जप, और बैठने के बाद जो रह गया। यह गृहस्थों का पंचांग है, प्रदर्शन नहीं, भक्ति ब्लॉग नहीं। ब्लॉग सबके लिए प्रकाशित निबंध हैं; डायरी दिन का आपका अपना चिह्न है। जप, आरती या कथा के बाद छोटी टिप्पणी लिखें। सुंदर वाक्य नहीं चाहिए। एक सच्ची पंक्ति काफी है। यह पृष्ठ इसलिए है कि दैनिक साधना की स्मृति स्कोरबोर्ड की श्रृंखला न बने।",
+        },
+        {
+          question: "आध्यात्मिक डायरी के लिए साइन इन चाहिए?",
+          answer:
+            "दिनों और उपकरणों पर प्रविष्टियाँ सहेजने के लिए हाँ — Google से साइन इन करें ताकि भक्ति डायरी आपके खाते पर टिके। बिना साइन-इन भी अतिथि की तरह नाम जप बैठ सकते हैं। डायरी उन लोगों के लिए है जिन्हें शांत रिकॉर्ड चाहिए, केवल गुज़रते अतिथि के लिए नहीं। किसी वातावरण में Google साइन-इन न हो तो भक्ति वॉइस का शेष घूमें, सहेजना उपलब्ध हो तब लौटें। हम आपका भाव प्रकाशित करने को नहीं कहते।",
+        },
+        {
+          question: "नाम जप या संध्या आरती के बाद क्या लिखें?",
+          answer:
+            "जो सत्य था, वह लिखें — जो पवित्र लगता है वह नहीं। बेचैन माला, कोमल संध्या आरती, कथा की एक पंक्ति जो नहीं गई, छूटा संकल्प — सब यहाँ आ सकते हैं। चाहें तो रखा हुआ नाम लिखें, या केवल भाव। भक्ति डायरी न स्वीकार-कक्ष है न गुरु की परीक्षा। इतनी छोटी रखें कि कल खोल सकें। कहने को कुछ न हो तो तिथि और शब्द बैठें लिख दें। वह भी पथ का चिह्न है।",
+        },
+        {
+          question: "क्या यह डायरी कागज़ की डायरी या गुरु की कॉपी की जगह लेती है?",
+          answer:
+            "नहीं। कागज़ अब भी मित्र है। गुरु की कॉपी हो तो वही प्रथम। यह आध्यात्मिक डायरी गृहस्थ की सहायता है जब कागज़ दूसरे थैले में हो और फ़ोन पहले से हाथ में। इसे दैनिक साधना याद रखने के लिए उपयोग करें: जप, कथा, व्रत, छोटी सेवा। जो रहस्य किसी डिजिटल उपकरण में नहीं रखना, वह यहाँ न डालें। भक्ति वॉइस यात्रा का साथी है, सावधानी की जगह लेने वाला तिजोरी नहीं।",
+        },
+        {
+          question: "भक्ति डायरी जप, संकल्प और बाकी साधना से कैसे जुड़ती है?",
+          answer:
+            "माला गिनने के बाद डायरी खोलें और पदचिह्न छोड़ें। संकल्प निभाया या टूटा तो एक पंक्ति लिखें ताकि व्रत मानवीय रहे। त्योहार या तिथि के बाद वही लिखें जो आपने किया, जो पूर्ण भक्त करता वह नहीं। फिर नाम जप, आरती चेंट, या भजन और कीर्तन पर लौटें यदि कण्ठ अभी गुनगुना हो। डायरी पथ पूरा नहीं करती; यह भूलने से बचाती है कि आप चले थे। केवल पूर्णिमा पर नहीं, साधारण मंगलवार को भी आइए।",
         },
       ],
     },

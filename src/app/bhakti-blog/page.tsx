@@ -3,6 +3,7 @@ import { BlogListing } from "@/components/blog/BlogListing";
 import { BlogPromiseBar } from "@/components/blog/BlogPromiseBar";
 import { EmptyListing } from "@/components/content/EmptyListing";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
+import { FaqList } from "@/components/seo/FaqList";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { ListingPager } from "@/components/content/ListingPager";
 import { listBlog } from "@/lib/content";
@@ -56,7 +57,8 @@ export default async function BlogIndexPage() {
           pageOf={t.common.pageOf}
         />
         <BlogPromiseBar items={t.common.blogPromises} />
-        <HubSeoBlock id="blog" />
+        <HubSeoBlock id="blog" hideFaqs />
+        <FaqList faqs={[...t.listingFaqs.blog]} title={t.common.faqTitle} />
       </div>
     </div>
   );

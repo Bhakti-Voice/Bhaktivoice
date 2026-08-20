@@ -5,6 +5,7 @@ import { BlogPromiseBar } from "@/components/blog/BlogPromiseBar";
 import { ListingPager } from "@/components/content/ListingPager";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
+import { FaqList } from "@/components/seo/FaqList";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { listBlog } from "@/lib/content";
 import { getBlogPage, getBlogPageCount } from "@/lib/content/blog-pagination";
@@ -71,7 +72,8 @@ export default async function BlogPagedPage({ params }: Props) {
         />
       </div>
       <BlogPromiseBar items={t.common.blogPromises} />
-      <HubSeoBlock id="blog" />
+      <HubSeoBlock id="blog" hideFaqs />
+      <FaqList faqs={[...t.listingFaqs.blog]} title={t.common.faqTitle} />
     </div>
   );
 }

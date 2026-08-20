@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { hubMetadata } from "@/lib/i18n/hub";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
+import { FaqList } from "@/components/seo/FaqList";
 import { PageHero } from "@/components/layout/PageHero";
 import { EmptyListing } from "@/components/content/EmptyListing";
 import { ListingCard } from "@/components/content/ListingCard";
@@ -65,7 +66,8 @@ export default async function AartiPage({ searchParams }: Props) {
           nextLabel={t.common.next}
           pageOf={t.common.pageOf}
         />
-        <HubSeoBlock id="aarti" />
+        <HubSeoBlock id="aarti" hideFaqs />
+        <FaqList faqs={[...t.listingFaqs.aarti]} title={t.common.faqTitle} />
       </div>
     </div>
   );

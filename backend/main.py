@@ -27,13 +27,14 @@ from kinds import (
     dump_field,
     form_to_data,
     has_hero_image,
+    has_youtube_url,
     public_page,
     public_simple,
     today,
 )
 from json_import import coerce_entry, kind_placeholders, parse_json_text
 from store import save_entry
-from media import load_media, replace_hero_image, safe_image_src
+from media import load_media, replace_hero_image, safe_image_src, safe_youtube_src
 from firebase_auth import optional_user_id, require_user_id
 from community import (
     MAX_ABOUT,
@@ -297,6 +298,8 @@ def form_image_kwargs(kind, values: dict | None = None) -> dict:
     return {
         "hero_src": safe_image_src(str(values.get("heroImage") or "")),
         "show_image": has_hero_image(kind),
+        "youtube_src": str(values.get("youtubeUrl") or "").strip(),
+        "show_youtube": has_youtube_url(kind),
     }
 
 
@@ -1264,14 +1267,17 @@ def admin_list(request: Request, kind: str):
         [kind],
     )
     show_images = has_hero_image(spec)
+    show_youtube = has_youtube_url(spec)
     rows = []
     for row in raw_rows:
         item = dict(row)
-        item["heroImage"] = safe_image_src(str(parse_data(item.pop("data", None)).get("heroImage") or "")) if show_images else ""
+        data = parse_data(item.pop("data", None))
+        item["heroImage"] = safe_image_src(str(data.get("heroImage") or "")) if show_images else ""
+        item["youtubeUrl"] = str(data.get("youtubeUrl") or "").strip() if show_youtube else ""
         rows.append(item)
     return templates.TemplateResponse(
         "list.html",
-        admin_context(request, kind=spec, rows=rows, show_images=show_images),
+        admin_context(request, kind=spec, rows=rows, show_images=show_images, show_youtube=show_youtube),
     )
 
 
@@ -1487,6 +1493,53 @@ async def admin_save_image_url(
     except Exception as error:
         return bounce(str(error), failed=True)
     return bounce("Image URL saved")
+
+
+@app.post("/admin/{kind}/{item_id}/youtube")
+async def admin_save_youtube_url(
+    request: Request,
+    kind: str,
+    item_id: int,
+    youtubeUrl: str = Form(""),
+    next: str = Form(""),
+):
+    require_admin(request)
+    if kind not in KINDS:
+        raise HTTPException(status_code=404)
+    spec = KINDS[kind]
+    if not has_youtube_url(spec):
+        raise HTTPException(status_code=400, detail="This entry type has no YouTube field.")
+    row = db().fetchone("SELECT * FROM cms_entries WHERE id = ? AND kind = ?", [item_id, kind])
+    if not row:
+        raise HTTPException(status_code=404)
+    nxt = (next or "").strip()
+    if nxt == "edit":
+        base = f"/admin/{kind}/{item_id}/edit"
+    elif nxt == "json":
+        base = f"/admin/{kind}/{item_id}/json"
+    else:
+        base = f"/admin/{kind}"
+
+    def bounce(message: str, *, failed: bool = False) -> RedirectResponse:
+        key = "error" if failed else "notice"
+        return RedirectResponse(f"{base}?{key}={quote(message)}", status_code=302)
+
+    url = (youtubeUrl or "").strip()
+    if url and not safe_youtube_src(url):
+        return bounce("Paste the full YouTube embed iframe from YouTube → Share → Embed.", failed=True)
+    try:
+        data = parse_data(row.get("data"))
+        data["youtubeUrl"] = safe_youtube_src(url)
+        save_entry(
+            kind,
+            data,
+            slug=row.get("slug") or "",
+            status=row.get("status") or "published",
+            item_id=item_id,
+        )
+    except Exception as error:
+        return bounce(str(error), failed=True)
+    return bounce("YouTube embed saved")
 
 
 @app.post("/admin/{kind}/{item_id}/delete")

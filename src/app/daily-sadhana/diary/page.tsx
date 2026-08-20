@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
+import { FaqList } from "@/components/seo/FaqList";
 import { pageCrumbs } from "@/lib/seo/crumbs";
 import { hubMetadata } from "@/lib/i18n/hub";
 import { getMessages } from "@/lib/i18n/server";
@@ -26,7 +27,8 @@ export default async function DiaryPage() {
       <div className="mt-10">
         <DiaryClient />
       </div>
-      <HubSeoBlock id="diary" />
+      <HubSeoBlock id="diary" hideFaqs />
+      <FaqList faqs={[...t.listingFaqs.diary]} title={t.common.faqTitle} />
     </div>
   );
 }

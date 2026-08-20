@@ -34,6 +34,7 @@ export type SeoPage = {
   introduction: string;
   heroImage: string;
   heroImageAlt: string;
+  youtubeUrl?: string;
   category: string;
   author: string;
   publishedAt: string;

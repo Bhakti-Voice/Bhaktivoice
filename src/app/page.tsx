@@ -113,21 +113,30 @@ export default async function HomePage() {
                   {t.home.exploreKatha}
                 </LocaleLink>
               </div>
-              <div className="mt-5 flex items-center gap-3">
-                <div className="flex -space-x-2">
-                  {AVATARS.slice(0, 4).map((color) => (
-                    <span
-                      key={color}
-                      className="inline-flex h-7 w-7 rounded-full border-2 border-ivory sm:h-8 sm:w-8"
-                      style={{ backgroundColor: color }}
-                    />
-                  ))}
-                </div>
-                <Suspense fallback={<p className="text-sm font-medium text-ink/70">{t.home.devoteesJoined}</p>}>
-                  <DevoteeCount locale={locale} label={t.home.devoteesJoined} />
-                </Suspense>
+              <div className="mt-5">
+                <LocaleLink href={PATHS.community} className="inline-flex items-center gap-2.5">
+                  <span className="flex -space-x-2">
+                    {AVATARS.slice(0, 4).map((color) => (
+                      <span
+                        key={color}
+                        className="inline-flex h-7 w-7 items-center justify-center rounded-full border-2 border-[#fff9f2] sm:h-8 sm:w-8"
+                        style={{ backgroundColor: color }}
+                        aria-hidden
+                      >
+                        <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 text-white sm:h-4 sm:w-4" fill="currentColor">
+                          <circle cx="12" cy="8" r="3.4" />
+                          <path d="M5 20c1.1-4.4 3.8-6.6 7-6.6s5.9 2.2 7 6.6Z" />
+                        </svg>
+                      </span>
+                    ))}
+                  </span>
+                  <span className="text-sm font-medium text-[#4a4038] sm:text-[15px]">{t.home.joinJourney}</span>
+                </LocaleLink>
+                <p className="mt-2 flex items-center gap-1.5 font-serif text-[15px] italic text-[#7a2e10] sm:text-base">
+                  {t.home.heroQuote}
+                  <LotusIcon className="h-4 w-4 shrink-0 fill-saffron stroke-saffron" aria-hidden />
+                </p>
               </div>
-              <p className="mt-3 hidden font-display text-base italic text-maroon/80 lg:block">{t.home.heroQuote}</p>
             </div>
           </div>
         </div>
@@ -171,15 +180,6 @@ export default async function HomePage() {
         <HubSeoBlock id="home" collapsible />
       </div>
     </div>
-  );
-}
-
-async function DevoteeCount({ locale, label }: { locale: string; label: string }) {
-  const stats = await getStats();
-  return (
-    <p className="text-sm font-medium text-ink/70">
-      {formatCount(stats.users, locale)} {label}
-    </p>
   );
 }
 

@@ -33,6 +33,13 @@ SEO_FIELDS = (
     Field("introduction", "Introduction", "textarea", rows=5),
     Field("heroImage", "Hero image URL", hint="Paste a cloud image URL, e.g. https://...jpg"),
     Field("heroImageAlt", "Hero image alt"),
+    Field(
+        "youtubeUrl",
+        "YouTube embed",
+        "textarea",
+        "Paste the full YouTube embed iframe. Leave empty to hide the video.",
+        rows=4,
+    ),
     Field("category", "Category"),
     Field("author", "Author", hint="Shown on the article"),
     Field("publishedAt", "Published (YYYY-MM-DD)"),
@@ -274,6 +281,7 @@ HINDI_FIELD_TYPES = {
 }
 SKIP_HINDI_NAMES = {
     "heroImage",
+    "youtubeUrl",
     "publishedAt",
     "updatedAt",
     "rating",
@@ -380,6 +388,10 @@ def strip_hi_keys(data: dict[str, Any]) -> dict[str, Any]:
 
 def has_hero_image(kind: Kind) -> bool:
     return any(item.name == "heroImage" for item in kind.fields)
+
+
+def has_youtube_url(kind: Kind) -> bool:
+    return any(item.name == "youtubeUrl" for item in kind.fields)
 
 
 def kind_crumb_name(kind: Kind, locale: str) -> str:
@@ -756,6 +768,7 @@ def public_page(
         "introduction": data.get("introduction") or "",
         "heroImage": data.get("heroImage") or "",
         "heroImageAlt": data.get("heroImageAlt") or title,
+        "youtubeUrl": str(data.get("youtubeUrl") or "").strip(),
         "category": data.get("category") or kind_crumb_name(kind, locale),
         "author": data.get("author") or "Bhakti Voice",
         "publishedAt": data.get("publishedAt") or today(),

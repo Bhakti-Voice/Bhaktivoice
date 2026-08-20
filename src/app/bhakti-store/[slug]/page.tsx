@@ -6,13 +6,14 @@ import { ContextualCta } from "@/components/seo/ContextualCta";
 import { ExpandableSection } from "@/components/seo/ExpandableSection";
 import { FaqList } from "@/components/seo/FaqList";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { ProseText } from "@/components/content/ProseText";
 import { AddToCartButton } from "@/components/store/AddToCartButton";
 import { getProduct } from "@/lib/content";
 import { getMessages } from "@/lib/i18n/server";
 import { productSchema } from "@/lib/seo/schema";
 import { localizedMetadata } from "@/lib/seo/metadata";
 import { PATHS } from "@/lib/seo/paths";
-import { ProseText } from "@/components/content/SectionBody";
+import { YouTubeEmbed } from "@/components/content/YouTubeEmbed";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -75,13 +76,14 @@ export default async function ProductDetailPage({ params }: Props) {
           </ExpandableSection>
           <FaqList faqs={page.faqs} />
         </div>
-        <aside className="h-fit lg:sticky lg:top-24">
+        <aside className="h-fit space-y-4 lg:sticky lg:top-24">
           <ContextualCta
             title={page.cta.title}
             body={page.cta.body}
             href={page.cta.href}
             label={page.cta.label}
           />
+          <YouTubeEmbed url={page.youtubeUrl} title={page.h1} compact />
         </aside>
       </div>
     </article>

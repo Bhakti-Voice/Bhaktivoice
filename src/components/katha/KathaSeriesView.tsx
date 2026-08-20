@@ -5,8 +5,9 @@ import { ExpandableSection } from "@/components/seo/ExpandableSection";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { ContextualCta } from "@/components/seo/ContextualCta";
 import { FaqList } from "@/components/seo/FaqList";
+import { ProseText } from "@/components/content/ProseText";
+import { YouTubeEmbed } from "@/components/content/YouTubeEmbed";
 import type { KathaSeries } from "@/lib/content/types";
-import { ProseText } from "@/components/content/SectionBody";
 
 export function KathaSeriesView({
   series,
@@ -90,6 +91,7 @@ export function KathaSeriesView({
             label={series.cta.label}
             tone="navy"
           />
+          <YouTubeEmbed url={series.youtubeUrl} title={series.h1} compact />
         </aside>
       </div>
     </div>

@@ -106,6 +106,19 @@
         padding: 0.45rem 0.65rem;
         font-size: 0.8rem;
       }
+      .image-url.youtube-embed {
+        align-items: flex-start;
+        min-width: 16rem;
+      }
+      .image-url textarea[name="youtubeUrl"] {
+        width: 16rem;
+        min-height: 4.6rem;
+        margin: 0;
+        padding: 0.45rem 0.65rem;
+        font-size: 0.72rem;
+        font-family: ui-monospace, Consolas, monospace;
+        line-height: 1.35;
+      }
       .image-url .btn { padding: 0.4rem 0.85rem; font-size: 0.85rem; }
       .notice { background: #eef6ea; color: #215c2a; padding: 0.7rem 1rem; border-radius: 12px; }
       .error { background: #fdecec; color: #8f2d2d; padding: 0.7rem 1rem; border-radius: 12px; }
@@ -146,5 +159,37 @@
       {% if notice %}<p class="notice">{{ notice }}</p>{% endif %}
       {% block content %}{% endblock %}
     </main>
+    <script>
+      function youtubeVideoId(text) {
+        const value = String(text || "").trim();
+        if (!value) return "";
+        const path = value.match(/(?:youtube(?:-nocookie)?\.com\/(?:embed|shorts|live)\/|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+        if (path && path[1]) return path[1];
+        const query = value.match(/[?&]v=([A-Za-z0-9_-]{11})/);
+        if (query && query[1]) return query[1];
+        if (/^[A-Za-z0-9_-]{11}$/.test(value)) return value;
+        return "";
+      }
+      function syncYoutubePreview(field) {
+        const id = youtubeVideoId(field.value);
+        let thumb = field.parentElement.querySelector("[data-youtube-thumb]");
+        if (!id) {
+          if (thumb) thumb.remove();
+          return;
+        }
+        if (!thumb) {
+          thumb = document.createElement("img");
+          thumb.className = field.closest("form.image-url") ? "thumb" : "thumb-lg";
+          thumb.setAttribute("data-youtube-thumb", "");
+          thumb.alt = "YouTube preview";
+          field.insertAdjacentElement("beforebegin", thumb);
+        }
+        thumb.src = "https://img.youtube.com/vi/" + id + "/mqdefault.jpg";
+      }
+      document.querySelectorAll('textarea[name="youtubeUrl"], input[name="youtubeUrl"]').forEach((field) => {
+        syncYoutubePreview(field);
+        field.addEventListener("input", () => syncYoutubePreview(field));
+      });
+    </script>
   </body>
 </html>
