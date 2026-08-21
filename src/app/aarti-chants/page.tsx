@@ -51,7 +51,7 @@ export default async function AartiPage() {
           }))}
           emptyKind="aartis"
           placeholder={t.common.listingSearch(t.nav.aarti)}
-          className="mt-2 grid grid-cols-2 gap-4 lg:grid-cols-3"
+          className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-3"
         />
         <HubSeoBlock id="aarti" hideFaqs />
         <FaqList faqs={[...t.listingFaqs.aarti]} title={t.common.faqTitle} />

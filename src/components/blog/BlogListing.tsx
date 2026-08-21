@@ -51,24 +51,37 @@ export function BlogListing({
       ),
     [posts, query],
   );
+  const suggestions = useMemo(() => {
+    const seen = new Set<string>();
+    const next: string[] = [];
+    for (const post of posts) {
+      const title = post.title?.trim();
+      if (!title) continue;
+      const key = title.toLowerCase();
+      if (seen.has(key)) continue;
+      seen.add(key);
+      next.push(title);
+      if (next.length >= 5) break;
+    }
+    return next;
+  }, [posts]);
   const searching = Boolean(query.trim());
 
   return (
     <>
-      <PageHero title={title} subtitle={subtitle} hub={hub} ornament crumbs={crumbs}>
-        <div className="mt-4">
-          <ListingSearch
-            value={query}
-            onChange={setQuery}
-            placeholder={t.common.listingSearch(t.nav.blog)}
-            label={t.search}
-          />
-        </div>
-      </PageHero>
+      <PageHero title={title} subtitle={subtitle} hub={hub} ornament crumbs={crumbs} />
 
-      <div className="mx-auto max-w-7xl px-4 pt-3 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 pt-1 sm:pt-2 lg:px-8">
+        <ListingSearch
+          value={query}
+          onChange={setQuery}
+          placeholder={t.common.listingSearch(t.nav.blog)}
+          label={t.search}
+          suggestions={suggestions}
+        />
+
         {visible.length ? (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {visible.map((post) => (
               <BlogPostCard
                 key={post.slug}
@@ -81,7 +94,7 @@ export function BlogListing({
             ))}
           </div>
         ) : searching ? (
-          <p className="rounded-[28px] bg-white px-6 py-12 text-center text-muted ring-1 ring-line">
+          <p className="mt-6 rounded-[28px] bg-white px-6 py-12 text-center text-muted ring-1 ring-line">
             {t.common.listingSearchNone}
           </p>
         ) : null}

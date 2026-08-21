@@ -22,7 +22,7 @@ export type ListingCardItem = {
 
 export function ListingCardGrid({
   items,
-  className = "mt-10 grid grid-cols-2 gap-4 lg:grid-cols-3",
+  className = "mt-6 grid grid-cols-2 gap-4 lg:grid-cols-3",
 }: {
   items: ListingCardItem[];
   className?: string;

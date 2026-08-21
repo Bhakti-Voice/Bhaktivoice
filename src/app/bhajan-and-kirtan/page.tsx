@@ -50,8 +50,8 @@ export default async function BhajanPage() {
             imageAlt: item.heroImageAlt,
           }))}
           emptyKind="bhajans"
-          placeholder={t.common.listingSearch(t.nav.bhajan)}
-          className="mt-2 grid grid-cols-2 gap-4 lg:grid-cols-3"
+          placeholder={t.common.bhajanSearchPlaceholder}
+          className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-3"
         />
         <HubSeoBlock id="bhajan" hideFaqs />
         <FaqList faqs={[...t.listingFaqs.bhajan]} title={t.common.faqTitle} />

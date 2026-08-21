@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Search } from "lucide-react";
+import { ListingSearch } from "@/components/content/ListingSearch";
 import { useLocale, useMessages } from "@/lib/i18n/client";
 
 const PAGE_SIZE = 30;
@@ -103,16 +103,14 @@ export function QuotesExplorer({ initial }: { initial: QuotesList }) {
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 lg:px-8">
       <h1 className="font-serif text-2xl text-ink">{t.hubs.quotes.h1}</h1>
-      <label className="mt-5 flex h-11 items-center gap-2 rounded-full bg-white px-4 ring-1 ring-line">
-        <Search className="h-4 w-4 shrink-0 text-muted" />
-        <span className="sr-only">{t.common.quoteSearch}</span>
-        <input
+      <div className="mt-5">
+        <ListingSearch
           value={query}
-          onChange={(event) => setQuery(event.target.value)}
+          onChange={setQuery}
           placeholder={t.common.quoteSearch}
-          className="h-11 min-w-0 flex-1 border-0 bg-transparent text-sm text-ink outline-none placeholder:text-muted"
+          label={t.search}
         />
-      </label>
+      </div>
 
       {shown.length ? (
         <div className="mt-6 grid grid-cols-2 gap-3">
