@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { ListingSearch } from "@/components/content/ListingSearch";
-import { ServerCardGrid, type ListingCardItem } from "@/components/content/ServerCardGrid";
+import { ListingCardGrid, type ListingCardItem } from "@/components/content/ListingCardGrid";
 import { matchesListingQuery } from "@/lib/content/listing-search";
 import { useMessages } from "@/lib/i18n/client";
 import type { Messages } from "@/lib/i18n/messages";
@@ -33,18 +33,22 @@ export function SearchableCardGrid({
     [items, query],
   );
   const searching = Boolean(query.trim());
+  const emptyMessage = searching && items.length
+    ? t.common.listingSearchNone
+    : emptyText || (emptyKind ? t.empty(t.emptyLabels[emptyKind]) : t.common.listingSearchNone);
 
   return (
     <div>
       <div className="mt-6">
         <ListingSearch value={query} onChange={setQuery} placeholder={placeholder} label={t.search} />
       </div>
-      <ServerCardGrid
-        items={shown}
-        emptyKind={emptyKind}
-        emptyText={searching && items.length ? t.common.listingSearchNone : emptyText}
-        className={className}
-      />
+      {shown.length ? (
+        <ListingCardGrid items={shown} className={className} />
+      ) : (
+        <p className="mt-10 rounded-[28px] bg-white px-6 py-12 text-center text-muted ring-1 ring-line">
+          {emptyMessage}
+        </p>
+      )}
     </div>
   );
 }

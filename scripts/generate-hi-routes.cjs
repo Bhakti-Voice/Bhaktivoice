@@ -26,8 +26,8 @@ for (const file of walk(appDir)) {
   if (!importPath.startsWith(".")) importPath = `./${importPath}`;
   const source = fs.readFileSync(file, "utf8");
   const hasMeta = /export async function generateMetadata|export function generateMetadata/.test(source);
-  const hasRevalidate = /export const revalidate/.test(source);
-  const hasDynamic = /export const dynamic/.test(source);
+  const revalidate = source.match(/export const revalidate\s*=\s*(\d+)/);
+  const dynamic = source.match(/export const dynamic\s*=\s*(["'][^"']+["'])/);
   const lines = [
     `import { withHindi } from "@/lib/i18n/hi-route";`,
     hasMeta
@@ -35,8 +35,9 @@ for (const file of walk(appDir)) {
       : `import EnDefault from "${importPath}";`,
     "",
   ];
-  if (hasRevalidate) lines.push(`export { revalidate } from "${importPath}";`);
-  if (hasDynamic) lines.push(`export { dynamic } from "${importPath}";`);
+  // Next.js only reads segment config from a literal in this file — re-exports are ignored.
+  if (revalidate) lines.push(`export const revalidate = ${revalidate[1]};`);
+  if (dynamic) lines.push(`export const dynamic = ${dynamic[1]};`);
   if (hasMeta) {
     lines.push("", `export const generateMetadata = withHindi(enMeta);`);
   }
