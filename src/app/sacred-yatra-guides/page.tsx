@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
-import { YatraListing } from "@/components/yatra/YatraListing";
+import { SearchableCardGrid } from "@/components/content/SearchableCardGrid";
 import { listYatra } from "@/lib/content";
 import { hubMetadata } from "@/lib/i18n/hub";
 import { getMessages } from "@/lib/i18n/server";
@@ -18,7 +18,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function YatraIndexPage() {
   const [yatraPages, t] = await Promise.all([listYatra(), getMessages()]);
-  const filters = Array.from(new Set(yatraPages.flatMap((page) => page.filters ?? [])));
   const cards = yatraPages.map((item) => ({
     slug: item.slug,
     href: `${PATHS.yatra}/${item.slug}`,
@@ -41,7 +40,11 @@ export default async function YatraIndexPage() {
             yatraPages.map((item) => ({ name: item.title, url: `${PATHS.yatra}/${item.slug}` })),
           )}
         />
-        <YatraListing items={cards} filters={filters} />
+        <SearchableCardGrid
+          items={cards}
+          emptyKind="trips"
+          placeholder={t.common.listingSearch(t.nav.yatra)}
+        />
         <HubSeoBlock id="yatra" />
       </div>
     </div>

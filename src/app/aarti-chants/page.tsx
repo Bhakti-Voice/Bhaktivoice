@@ -4,7 +4,7 @@ import { hubMetadata } from "@/lib/i18n/hub";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
 import { FaqList } from "@/components/seo/FaqList";
 import { PageHero } from "@/components/layout/PageHero";
-import { ServerCardGrid } from "@/components/content/ServerCardGrid";
+import { SearchableCardGrid } from "@/components/content/SearchableCardGrid";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getMessages } from "@/lib/i18n/server";
 import { pageCrumbs } from "@/lib/seo/crumbs";
@@ -40,7 +40,7 @@ export default async function AartiPage() {
             allItems.map((item) => ({ name: item.title, url: `${PATHS.aarti}/${item.slug}` })),
           )}
         />
-        <ServerCardGrid
+        <SearchableCardGrid
           items={allItems.map((item) => ({
             slug: item.slug,
             href: `${PATHS.aarti}/${item.slug}`,
@@ -50,6 +50,7 @@ export default async function AartiPage() {
             imageAlt: item.heroImageAlt,
           }))}
           emptyKind="aartis"
+          placeholder={t.common.listingSearch(t.nav.aarti)}
           className="mt-2 grid grid-cols-2 gap-4 lg:grid-cols-3"
         />
         <HubSeoBlock id="aarti" hideFaqs />

@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { PageHero } from "@/components/layout/PageHero";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
-import { ServerCardGrid } from "@/components/content/ServerCardGrid";
-import { LocaleLink } from "@/components/i18n/LocaleLink";
+import { SearchableCardGrid } from "@/components/content/SearchableCardGrid";
 import { listKatha } from "@/lib/content";
 import { localizedCrumbs } from "@/lib/seo/crumbs";
 import { localizedItemListSchema } from "@/lib/seo/localized-schema";
@@ -16,15 +15,6 @@ export const revalidate = 1800;
 export async function generateMetadata(): Promise<Metadata> {
   return hubMetadata("katha");
 }
-
-const TONES = [
-  "bg-[#fce7f3] text-[#be185d]",
-  "bg-[#ffedd5] text-[#c2410c]",
-  "bg-[#dbeafe] text-[#1d4ed8]",
-  "bg-[#ffedd5] text-[#9a3412]",
-  "bg-[#fef3c7] text-[#b45309]",
-  "bg-[#fee2e2] text-[#b91c1c]",
-];
 
 export default async function KathaIndexPage() {
   const [kathaSeries, t] = await Promise.all([listKatha(), getMessages()]);
@@ -40,28 +30,9 @@ export default async function KathaIndexPage() {
           )}
         />
 
-        {kathaSeries.length ? (
-          <div className="mt-10 flex flex-wrap gap-4">
-            {kathaSeries.map((series, index) => (
-              <LocaleLink
-                key={series.slug}
-                href={`${PATHS.katha}/${series.slug}`}
-                className="flex w-24 flex-col items-center gap-2"
-              >
-                <span
-                  className={`inline-flex h-16 w-16 items-center justify-center rounded-full text-sm font-medium ${TONES[index % TONES.length]}`}
-                >
-                  {(series.category || series.title).slice(0, 1)}
-                </span>
-                <span className="text-sm text-ink">{series.category || series.title}</span>
-              </LocaleLink>
-            ))}
-          </div>
-        ) : null}
-
-        <section className="mt-12">
+        <section className="mt-8">
           <h2 className="font-serif text-2xl text-ink">{t.common.popularKatha}</h2>
-          <ServerCardGrid
+          <SearchableCardGrid
             items={kathaSeries.map((series) => ({
               slug: series.slug,
               href: `${PATHS.katha}/${series.slug}`,
@@ -74,6 +45,7 @@ export default async function KathaIndexPage() {
               listenLabel: t.common.listen,
             }))}
             emptyKind="katha"
+            placeholder={t.common.listingSearch(t.nav.katha)}
             className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
           />
         </section>

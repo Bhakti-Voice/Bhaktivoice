@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ServerCardGrid } from "@/components/content/ServerCardGrid";
+import { SearchableCardGrid } from "@/components/content/SearchableCardGrid";
 import { PageHero } from "@/components/layout/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
@@ -42,7 +42,7 @@ export default async function FestivalsIndexPage() {
             festivals.map((item) => ({ name: item.title, url: `${PATHS.festivals}/${item.slug}` })),
           )}
         />
-        <ServerCardGrid
+        <SearchableCardGrid
           items={festivals.map((item) => ({
             slug: item.slug,
             href: `${PATHS.festivals}/${item.slug}`,
@@ -53,6 +53,7 @@ export default async function FestivalsIndexPage() {
             meta: item.monthHint,
           }))}
           emptyKind="festivals"
+          placeholder={t.common.listingSearch(t.nav.festivals)}
         />
         <HubSeoBlock id="festivals" />
       </div>

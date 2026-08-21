@@ -5,9 +5,7 @@ import { EmptyListing } from "@/components/content/EmptyListing";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
 import { FaqList } from "@/components/seo/FaqList";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { ListingPager } from "@/components/content/ListingPager";
 import { listBlog } from "@/lib/content";
-import { getBlogPage, getBlogPageCount } from "@/lib/content/blog-pagination";
 import { hubMetadata } from "@/lib/i18n/hub";
 import { getMessages } from "@/lib/i18n/server";
 import { localizedCrumbs } from "@/lib/seo/crumbs";
@@ -21,9 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function BlogIndexPage() {
-  const [blogPosts, t] = await Promise.all([listBlog(), getMessages()]);
-  const posts = getBlogPage(blogPosts, 1);
-  const pages = getBlogPageCount(blogPosts.length);
+  const [posts, t] = await Promise.all([listBlog(), getMessages()]);
 
   return (
     <div>
@@ -33,7 +29,6 @@ export default async function BlogIndexPage() {
         subtitle={t.common.blogLead}
         hub="blog"
         crumbs={localizedCrumbs(t.homeName, [t.nav.blog, PATHS.blog])}
-        allLabel={t.common.all}
         readMore={t.common.blogReadMore}
         saveLabel={t.common.blogSave}
         savedLabel={t.common.blogSaved}
@@ -47,15 +42,6 @@ export default async function BlogIndexPage() {
           )}
         />
         {!posts.length ? <EmptyListing kind="blog" /> : null}
-        <ListingPager
-          page={1}
-          pages={pages}
-          basePath={PATHS.blog}
-          variant="path"
-          previousLabel={t.common.previous}
-          nextLabel={t.common.next}
-          pageOf={t.common.pageOf}
-        />
         <BlogPromiseBar items={t.common.blogPromises} />
         <HubSeoBlock id="blog" hideFaqs />
         <FaqList faqs={[...t.listingFaqs.blog]} title={t.common.faqTitle} />

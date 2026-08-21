@@ -1,8 +1,4 @@
 import { withHindi } from "@/lib/i18n/hi-route";
-import EnDefault, { generateMetadata as enMeta } from "../../../../bhakti-blog/page/[page]/page";
-
-export { revalidate } from "../../../../bhakti-blog/page/[page]/page";
-
-export const generateMetadata = withHindi(enMeta);
+import EnDefault from "../../../../bhakti-blog/page/[page]/page";
 
 export default withHindi(EnDefault);

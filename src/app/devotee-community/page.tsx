@@ -36,9 +36,6 @@ export default async function CommunityPage() {
             <h2 className="mt-2 font-serif text-3xl">{t.common.globalSankalp}</h2>
             <p className="mt-4 font-serif text-4xl">{formatCount(stats.total)}</p>
             <p className="mt-1 text-sm text-white/75">{t.common.naamChanted}</p>
-            <p className="mt-3 text-sm text-white/75">
-              {formatCount(stats.todayDevotees)} {t.common.chantingToday}
-            </p>
             <LocaleLink
               href={PATHS.sankalp}
               className="mt-6 inline-flex rounded-full bg-saffron px-5 py-2.5 text-sm font-medium text-white"

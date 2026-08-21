@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ServerCardGrid } from "@/components/content/ServerCardGrid";
+import { SearchableCardGrid } from "@/components/content/SearchableCardGrid";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { getStoreCategory, listProducts } from "@/lib/content";
 import { getMessages } from "@/lib/i18n/server";
@@ -35,7 +35,7 @@ export default async function StoreCategoryPage({ params }: Props) {
     <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
       <Breadcrumbs items={pageCrumbs(["Store", PATHS.store], [category.name, category.href])} />
       <h1 className="mt-4 font-serif text-4xl text-ink">{category.name}</h1>
-      <ServerCardGrid
+      <SearchableCardGrid
         items={filtered.map((product) => ({
           slug: product.slug,
           href: `${PATHS.store}/${product.slug}`,
@@ -48,6 +48,7 @@ export default async function StoreCategoryPage({ params }: Props) {
           outOfStock: product.outOfStock,
         }))}
         emptyKind="products"
+        placeholder={t.common.listingSearch(category.name)}
       />
     </div>
   );

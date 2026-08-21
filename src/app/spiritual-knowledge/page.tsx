@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ServerCardGrid } from "@/components/content/ServerCardGrid";
+import { SearchableCardGrid } from "@/components/content/SearchableCardGrid";
 import { PageHero } from "@/components/layout/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
@@ -36,7 +36,7 @@ export default async function SpiritualityIndexPage() {
             })),
           )}
         />
-        <ServerCardGrid
+        <SearchableCardGrid
           items={spiritualityPages.map((item) => ({
             slug: item.slug,
             href: `${PATHS.spirituality}/${item.slug}`,
@@ -47,6 +47,7 @@ export default async function SpiritualityIndexPage() {
             meta: item.category,
           }))}
           emptyKind="articles"
+          placeholder={t.common.listingSearch(t.nav.spirituality)}
         />
         <HubSeoBlock id="spirituality" />
       </div>

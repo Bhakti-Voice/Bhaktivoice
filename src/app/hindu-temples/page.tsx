@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ServerCardGrid } from "@/components/content/ServerCardGrid";
+import { SearchableCardGrid } from "@/components/content/SearchableCardGrid";
 import { PageHero } from "@/components/layout/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
@@ -29,7 +29,7 @@ export default async function TemplesIndexPage() {
             temples.map((item) => ({ name: item.title, url: `${PATHS.temples}/${item.slug}` })),
           )}
         />
-        <ServerCardGrid
+        <SearchableCardGrid
           items={temples.map((item) => ({
             slug: item.slug,
             href: `${PATHS.temples}/${item.slug}`,
@@ -40,6 +40,7 @@ export default async function TemplesIndexPage() {
             meta: `${item.deity} · ${item.location}`,
           }))}
           emptyKind="temples"
+          placeholder={t.common.listingSearch(t.nav.temples)}
         />
         <HubSeoBlock id="temples" />
       </div>

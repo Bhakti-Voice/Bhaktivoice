@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ServerCardGrid } from "@/components/content/ServerCardGrid";
+import { SearchableCardGrid } from "@/components/content/SearchableCardGrid";
 import { PageHero } from "@/components/layout/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
@@ -41,7 +41,7 @@ export default async function MantrasIndexPage() {
             mantras.map((item) => ({ name: item.title, url: `${PATHS.mantras}/${item.slug}` })),
           )}
         />
-        <ServerCardGrid
+        <SearchableCardGrid
           items={mantras.map((item) => ({
             slug: item.slug,
             href: `${PATHS.mantras}/${item.slug}`,
@@ -52,6 +52,7 @@ export default async function MantrasIndexPage() {
             meta: item.deity,
           }))}
           emptyKind="mantras"
+          placeholder={t.common.listingSearch(t.nav.mantras)}
         />
         <HubSeoBlock id="mantras" />
       </div>
