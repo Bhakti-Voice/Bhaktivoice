@@ -36,6 +36,7 @@ from json_import import coerce_entry, kind_placeholders, parse_json_text
 from store import save_entry
 from media import load_media, replace_hero_image, safe_image_src, safe_youtube_src
 from firebase_auth import optional_user_id, require_user_id
+from protect import ProtectMiddleware
 from community import (
     MAX_ABOUT,
     MAX_MEMBERS,
@@ -100,12 +101,13 @@ class StripBackendPrefixMiddleware:
 
 
 app = FastAPI(title="Bhakti Voice CMS", docs_url=None, redoc_url=None)
+# Last added = outermost. Strip prefix first, then protect, then session/CORS.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["GET", "POST", "OPTIONS"],
-    allow_headers=["Authorization", "Content-Type"],
+    allow_headers=["Authorization", "Content-Type", "X-Vercel-Protection-Bypass", "X-Bhakti-Internal"],
     expose_headers=[],
     max_age=600,
 )
@@ -115,6 +117,7 @@ app.add_middleware(
     same_site="lax",
     https_only=bool(os.environ.get("VERCEL")),
 )
+app.add_middleware(ProtectMiddleware, site_origins=CORS_ORIGINS)
 app.add_middleware(StripBackendPrefixMiddleware)
 templates = Jinja2Templates(directory=str(ROOT / "templates"))
 templates.env.filters["tojson"] = lambda value: Markup(json.dumps(value, ensure_ascii=False))

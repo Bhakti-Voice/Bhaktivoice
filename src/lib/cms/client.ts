@@ -61,8 +61,13 @@ function resolveCmsUrl() {
 const CMS_API_URL = resolveCmsUrl();
 
 export function cmsFetchHeaders(): HeadersInit {
+  const headers: Record<string, string> = {};
   const bypass = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
-  return bypass ? { "x-vercel-protection-bypass": bypass } : {};
+  if (bypass) headers["x-vercel-protection-bypass"] = bypass;
+  const internal =
+    process.env.CMS_INTERNAL_SECRET?.trim() || process.env.SESSION_SECRET?.trim() || "";
+  if (internal) headers["x-bhakti-internal"] = internal;
+  return headers;
 }
 
 export type JaapStats = {

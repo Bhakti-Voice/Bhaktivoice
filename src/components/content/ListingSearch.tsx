@@ -9,17 +9,14 @@ export function ListingSearch({
   onChange,
   placeholder,
   label,
-  suggestions = [],
 }: {
   value: string;
   onChange: (value: string) => void;
   placeholder: string;
   label?: string;
-  suggestions?: string[];
 }) {
   const t = useMessages();
   const searchLabel = label ?? t.search;
-  const chips = suggestions.filter(Boolean).slice(0, 6);
 
   return (
     <div className="w-full rounded-[28px] bg-white px-4 py-4 shadow-[0_8px_28px_rgba(230,126,34,0.08)] ring-1 ring-saffron/15 sm:px-5 sm:py-5">
@@ -58,31 +55,6 @@ export function ListingSearch({
           </button>
         </label>
       </form>
-
-      {chips.length ? (
-        <div className="mt-3.5 flex flex-wrap items-center gap-2 sm:mt-4">
-          <span className="text-sm font-semibold text-ink/80">{t.common.popularSearches}</span>
-          <div className="flex min-w-0 flex-wrap gap-2">
-            {chips.map((chip) => {
-              const active = value.trim().toLowerCase() === chip.toLowerCase();
-              return (
-                <button
-                  key={chip}
-                  type="button"
-                  onClick={() => onChange(active ? "" : chip)}
-                  className={`rounded-full px-3 py-1.5 text-xs transition sm:text-sm ${
-                    active
-                      ? "bg-saffron text-white"
-                      : "bg-white text-ink/75 ring-1 ring-line hover:ring-saffron/40 hover:text-ink"
-                  }`}
-                >
-                  {chip}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      ) : null}
     </div>
   );
 }

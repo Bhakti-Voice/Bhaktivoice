@@ -51,20 +51,6 @@ export function BlogListing({
       ),
     [posts, query],
   );
-  const suggestions = useMemo(() => {
-    const seen = new Set<string>();
-    const next: string[] = [];
-    for (const post of posts) {
-      const title = post.title?.trim();
-      if (!title) continue;
-      const key = title.toLowerCase();
-      if (seen.has(key)) continue;
-      seen.add(key);
-      next.push(title);
-      if (next.length >= 5) break;
-    }
-    return next;
-  }, [posts]);
   const searching = Boolean(query.trim());
 
   return (
@@ -77,7 +63,6 @@ export function BlogListing({
           onChange={setQuery}
           placeholder={t.common.listingSearch(t.nav.blog)}
           label={t.search}
-          suggestions={suggestions}
         />
 
         {visible.length ? (

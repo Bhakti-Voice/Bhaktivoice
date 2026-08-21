@@ -13,14 +13,12 @@ export function SearchableCardGrid({
   emptyText,
   className,
   placeholder,
-  suggestions,
 }: {
   items: ListingCardItem[];
   emptyKind?: keyof Messages["emptyLabels"];
   emptyText?: string;
   className?: string;
   placeholder: string;
-  suggestions?: string[];
 }) {
   const t = useMessages();
   const [query, setQuery] = useState("");
@@ -34,21 +32,6 @@ export function SearchableCardGrid({
       ),
     [items, query],
   );
-  const chips = useMemo(() => {
-    if (suggestions?.length) return suggestions.slice(0, 6);
-    const seen = new Set<string>();
-    const next: string[] = [];
-    for (const item of items) {
-      const title = item.title?.trim();
-      if (!title) continue;
-      const key = title.toLowerCase();
-      if (seen.has(key)) continue;
-      seen.add(key);
-      next.push(title);
-      if (next.length >= 5) break;
-    }
-    return next;
-  }, [items, suggestions]);
   const searching = Boolean(query.trim());
   const emptyMessage =
     searching && items.length
@@ -63,7 +46,6 @@ export function SearchableCardGrid({
           onChange={setQuery}
           placeholder={placeholder}
           label={t.search}
-          suggestions={chips}
         />
       </div>
       {shown.length ? (
