@@ -29,6 +29,10 @@ const HUBS: { path: string; changeFrequency: MetadataRoute.Sitemap[0]["changeFre
   { path: PATHS.sankalp, changeFrequency: "weekly", priority: 0.5 },
   { path: PATHS.diary, changeFrequency: "weekly", priority: 0.5 },
   { path: PATHS.mala, changeFrequency: "monthly", priority: 0.5 },
+  { path: PATHS.spiritualTools, changeFrequency: "weekly", priority: 0.85 },
+  { path: PATHS.panchang, changeFrequency: "daily", priority: 0.85 },
+  { path: PATHS.kundli, changeFrequency: "weekly", priority: 0.8 },
+  { path: PATHS.kundliMilan, changeFrequency: "weekly", priority: 0.8 },
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

@@ -8,6 +8,7 @@ import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import { useLocale, useMessages } from "@/lib/i18n/client";
 import { stripLocale, withLocale } from "@/lib/i18n/config";
+import { SpiritualToolsMenu } from "@/components/spiritual-tools/SpiritualToolsMenu";
 import { PATHS } from "@/lib/seo/paths";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -106,6 +107,7 @@ export function Header() {
               {item.label}
             </LocaleLink>
           ))}
+          <SpiritualToolsMenu />
           <div className="relative" ref={moreRef}>
             <button
               type="button"
@@ -206,6 +208,7 @@ export function Header() {
             </button>
           </form>
           <div className="grid gap-1">
+            <SpiritualToolsMenu mobile onNavigate={() => setOpen(false)} />
             {[...nav, ...moreLinks].map((item) => (
               <LocaleLink
                 key={item.href}

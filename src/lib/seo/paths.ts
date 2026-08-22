@@ -19,4 +19,8 @@ export const PATHS = {
   tithi: "/aaj-ki-tithi",
   quotes: "/daily-quotes",
   more: "/more",
+  spiritualTools: "/spiritual-tools",
+  panchang: "/panchang",
+  kundli: "/kundli",
+  kundliMilan: "/kundli-milan",
 } as const;
