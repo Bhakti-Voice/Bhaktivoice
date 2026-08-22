@@ -23,6 +23,10 @@ const nextConfig: NextConfig = {
         destination: "https://www.bhaktivoice.com/:path*",
         permanent: true,
       },
+      { source: "/index", destination: "/", permanent: true },
+      { source: "/index.html", destination: "/", permanent: true },
+      { source: "/hi/index", destination: "/hi", permanent: true },
+      { source: "/hi/index.html", destination: "/hi", permanent: true },
     ];
   },
   async headers() {

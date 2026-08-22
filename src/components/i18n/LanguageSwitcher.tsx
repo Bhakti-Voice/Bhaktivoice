@@ -4,8 +4,15 @@ import { withLocale } from "@/lib/i18n/config";
 import { useLocale } from "@/lib/i18n/client";
 import { usePathname } from "next/navigation";
 
+/** Vercel/Next can report the homepage as `/index`; that must not become `/hi/index`. */
+function switcherPath(pathname: string): string {
+  if (pathname === "/index" || pathname === "/index.html") return "/";
+  if (pathname === "/hi/index" || pathname === "/hi/index.html") return "/hi";
+  return pathname || "/";
+}
+
 export function LanguageSwitcher() {
-  const pathname = usePathname() || "/";
+  const pathname = switcherPath(usePathname() || "/");
   const locale = useLocale();
   const next = locale === "en" ? "hi" : "en";
   const href = withLocale(pathname, next);
