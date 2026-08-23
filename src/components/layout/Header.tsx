@@ -30,10 +30,10 @@ export function Header() {
     { href: PATHS.katha, label: t.nav.katha },
     { href: PATHS.yatra, label: t.nav.yatra },
     { href: PATHS.sadhana, label: t.nav.sadhana },
-    { href: PATHS.community, label: t.nav.community },
-    { href: PATHS.store, label: t.nav.store },
   ];
   const moreLinks = [
+    { href: PATHS.community, label: t.nav.community },
+    { href: PATHS.store, label: t.nav.store },
     { href: PATHS.blog, label: t.nav.blog },
     { href: PATHS.temples, label: t.nav.temples },
     { href: PATHS.festivals, label: t.nav.festivals },
