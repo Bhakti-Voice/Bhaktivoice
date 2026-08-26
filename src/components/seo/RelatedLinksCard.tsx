@@ -14,13 +14,11 @@ export function RelatedLinksCard({
   title = "Related Reading",
 }: {
   relatedPosts?: RelatedPost[] | null;
-  /** @deprecated Prefer relatedPosts; maps text→title, href→url */
-  items?: { text: string; href: string }[] | null;
   title?: string;
 }) {
-  const posts =
-    relatedPosts?.filter((post) => post.title?.trim() && post.url?.trim()) ??
-    itemsToPosts(items);
+  const posts = (relatedPosts ?? []).filter(
+    (post) => post.title?.trim() && post.url?.trim(),
+  );
 
   if (!posts.length) return null;
 
@@ -46,10 +44,4 @@ export function RelatedLinksCard({
       </nav>
     </aside>
   );
-}
-
-function itemsToPosts(items?: { text: string; href: string }[] | null): RelatedPost[] {
-  return (items ?? [])
-    .filter((item) => item.text?.trim() && item.href?.trim())
-    .map((item) => ({ title: item.text, url: item.href }));
 }
