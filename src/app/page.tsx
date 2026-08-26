@@ -267,7 +267,7 @@ async function HomeContentSections({ t }: { t: Messages }) {
       {popular.length > 0 ? (
         <section className="mx-auto max-w-7xl px-4 pb-14 lg:px-8">
           <SectionHeading>{t.home.popularTitle}</SectionHeading>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {popular.map((item) => (
               <LocaleLink key={item.href} href={item.href} className="group min-w-0">
                 <CoverMedia
@@ -285,14 +285,14 @@ async function HomeContentSections({ t }: { t: Messages }) {
                 <ProseText text={item.text} className="mt-1 line-clamp-2 text-sm text-muted" />
               </LocaleLink>
             ))}
+          </div>
+          <div className="mt-5">
             <LocaleLink
               href={PATHS.katha}
-              className="group flex min-h-[12rem] flex-col items-center justify-center rounded-2xl border border-dashed border-saffron/50 bg-[#fff7ef] p-6 text-center"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-saffron hover:text-saffron-deep"
             >
-              <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-saffron text-white">
-                <ArrowRight className="h-5 w-5" />
-              </span>
-              <span className="mt-3 font-serif text-lg text-saffron-deep">{t.home.moreKatha}</span>
+              {t.home.moreKatha}
+              <ArrowRight className="h-4 w-4" />
             </LocaleLink>
           </div>
         </section>
@@ -326,7 +326,7 @@ async function HomeContentSections({ t }: { t: Messages }) {
       {latest.length > 0 ? (
         <section className="mx-auto max-w-7xl px-4 pb-14 lg:px-8">
           <SectionHeading>{t.home.latestTitle}</SectionHeading>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {latest.map((item) => (
               <article key={item.slug} className="min-w-0">
                 <LocaleLink href={`${PATHS.blog}/${item.slug}`} className="group block">
@@ -355,14 +355,14 @@ async function HomeContentSections({ t }: { t: Messages }) {
                 </LocaleLink>
               </article>
             ))}
+          </div>
+          <div className="mt-5">
             <LocaleLink
               href={PATHS.blog}
-              className="group flex min-h-[12rem] flex-col items-center justify-center rounded-2xl border border-dashed border-saffron/50 bg-[#fff7ef] p-6 text-center"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-saffron hover:text-saffron-deep"
             >
-              <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-saffron text-white">
-                <ArrowRight className="h-5 w-5" />
-              </span>
-              <span className="mt-3 font-serif text-lg text-saffron-deep">{t.home.moreBlogs}</span>
+              {t.home.moreBlogs}
+              <ArrowRight className="h-4 w-4" />
             </LocaleLink>
           </div>
         </section>
