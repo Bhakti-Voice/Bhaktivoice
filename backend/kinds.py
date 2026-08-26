@@ -47,10 +47,17 @@ SEO_FIELDS = (
     Field("updatedAt", "Updated (YYYY-MM-DD)"),
     Field("faqs", "FAQs", "faqs", "One per line: Question || Answer"),
     Field(
+        "related_link",
+        "Show related links card",
+        "select",
+        "yes = show Related Reading sidebar on the detail page; no = hide it (default)",
+        options=("no", "yes"),
+    ),
+    Field(
         "related",
         "Related content",
         "related",
-        'Paste JSON: [{"text":"Hanuman Chalisa","url":"/chalisa/slug"},{"text":"More blogs","url":"/bhakti-blog"}]',
+        'Only used when “Show related links card” is yes. Paste JSON: [{"text":"Hanuman Chalisa","url":"/chalisa/slug"}]',
         rows=6,
     ),
     Field("cta_title", "CTA title"),
@@ -309,6 +316,7 @@ SKIP_HINDI_NAMES = {
     "suggestedCount",
     "yatraCategory",
     "outOfStock",
+    "related_link",
 }
 
 
@@ -619,7 +627,7 @@ def form_to_data(kind: Kind, form: dict[str, str]) -> dict[str, Any]:
                 data[item.name] = int(raw or "0")
             except ValueError:
                 data[item.name] = 0
-        elif item.name == "outOfStock":
+        elif item.name in {"outOfStock", "related_link"}:
             data[item.name] = as_yes_no(raw)
         else:
             data[item.name] = raw
@@ -766,7 +774,7 @@ def dump_field(item: Field, data: dict[str, Any]) -> str:
             return "\n".join(chunks).strip()
         if item.type == "paragraphs":
             return "\n\n".join(_str_list(value))
-        if item.name == "outOfStock":
+        if item.name in {"outOfStock", "related_link"}:
             return as_yes_no(value)
         return _safe_text(value)
     except Exception:
@@ -801,13 +809,14 @@ def public_page(
     data = strip_hi_keys(apply_locale(data, locale))
     title = data.get("title") or data.get("h1") or data.get("name") or slug
     h1 = data.get("h1") or title
-    related_links = parse_related(data.get("related") or [])
+    related_link = as_yes_no(data.get("related_link"), default="no") == "yes"
+    related_links = parse_related(data.get("related") or []) if related_link else []
     related = bucket_related(related_links)
     related_content = [
         {"text": link["label"], "href": link["href"]}
         for link in related_links
         if link.get("label") and link.get("href")
-    ]
+    ] if related_link else []
     if kind.key == "yatra" and data.get("temples"):
         related["relatedTemples"] = data["temples"] if isinstance(data.get("temples"), list) else []
         if related["relatedTemples"] and isinstance(related["relatedTemples"][0], dict) and "label" not in related["relatedTemples"][0]:
@@ -835,6 +844,7 @@ def public_page(
         "publishedAt": data.get("publishedAt") or today(),
         "updatedAt": data.get("updatedAt") or today(),
         "faqs": data.get("faqs") or [],
+        "relatedLink": related_link,
         "relatedContent": related_content,
         "breadcrumbs": [
             {"name": home_name, "href": "/"},

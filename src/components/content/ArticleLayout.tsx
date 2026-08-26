@@ -76,6 +76,7 @@ export async function ArticleLayout({
           />
           <YouTubeEmbed url={page.youtubeUrl} title={page.h1} compact />
           <RelatedLinksCard
+            relatedLink={page.relatedLink}
             relatedPosts={(page.relatedContent ?? []).map((item) => ({
               title: item.text,
               url: item.href,

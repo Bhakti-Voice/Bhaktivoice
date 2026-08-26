@@ -7,15 +7,20 @@ export type RelatedPost = {
 
 /**
  * SEO-friendly related content sidebar: aside → nav → h2 → ul/li → descriptive anchors.
+ * Renders only when relatedLink is true and there is at least one post.
  * Internal locale links only (no target="_blank", no noopener/noreferrer).
  */
 export function RelatedLinksCard({
+  relatedLink = false,
   relatedPosts,
   title = "Related Reading",
 }: {
+  relatedLink?: boolean;
   relatedPosts?: RelatedPost[] | null;
   title?: string;
 }) {
+  if (!relatedLink) return null;
+
   const posts = (relatedPosts ?? []).filter(
     (post) => post.title?.trim() && post.url?.trim(),
   );

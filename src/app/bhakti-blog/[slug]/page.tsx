@@ -115,6 +115,7 @@ export default async function BlogPostPage({ params }: Props) {
           />
           <YouTubeEmbed url={page.youtubeUrl} title={page.h1} compact />
           <RelatedLinksCard
+            relatedLink={page.relatedLink}
             relatedPosts={(page.relatedContent ?? []).map((item) => ({
               title: item.text,
               url: item.href,

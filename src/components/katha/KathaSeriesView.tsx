@@ -98,6 +98,7 @@ export function KathaSeriesView({
           />
           <YouTubeEmbed url={series.youtubeUrl} title={series.h1} compact />
           <RelatedLinksCard
+            relatedLink={series.relatedLink}
             relatedPosts={(series.relatedContent ?? []).map((item) => ({
               title: item.text,
               url: item.href,
