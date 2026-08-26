@@ -621,6 +621,7 @@ def sitemap():
         {"url": "/sacred-yatra-guides/planner", "lastModified": today_iso, "changeFrequency": "weekly", "priority": 0.6},
         {"url": "/bhajan-and-kirtan", "lastModified": today_iso, "changeFrequency": "monthly", "priority": 0.4},
         {"url": "/aarti-chants", "lastModified": today_iso, "changeFrequency": "monthly", "priority": 0.4},
+        {"url": "/chalisa", "lastModified": today_iso, "changeFrequency": "monthly", "priority": 0.4},
         {"url": "/aaj-ki-tithi", "lastModified": today_iso, "changeFrequency": "daily", "priority": 0.7},
     ]
     rows = db().fetchall(

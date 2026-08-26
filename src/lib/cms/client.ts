@@ -13,7 +13,8 @@ export type ContentKind =
   | "katha"
   | "product"
   | "bhajan"
-  | "aarti";
+  | "aarti"
+  | "chalisa";
 
 const PRODUCTION_ORIGIN = "https://www.bhaktivoice.com";
 

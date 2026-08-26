@@ -241,7 +241,7 @@ async function HomeContentSections({ t }: { t: Messages }) {
     getDailyQuote(),
   ]);
   const popular = [
-    ...katha.slice(0, 4).map((item) => ({
+    ...katha.slice(0, 3).map((item) => ({
       href: `${PATHS.katha}/${item.slug}`,
       title: item.title,
       text: item.subtitle || item.introduction,
@@ -249,9 +249,9 @@ async function HomeContentSections({ t }: { t: Messages }) {
       imageAlt: item.heroImageAlt || item.title,
     })),
   ];
-  if (popular.length < 4) {
+  if (popular.length < 3) {
     popular.push(
-      ...yatra.slice(0, 4 - popular.length).map((item) => ({
+      ...yatra.slice(0, 3 - popular.length).map((item) => ({
         href: `${PATHS.yatra}/${item.slug}`,
         title: item.title,
         text: item.introduction,
@@ -285,6 +285,15 @@ async function HomeContentSections({ t }: { t: Messages }) {
                 <ProseText text={item.text} className="mt-1 line-clamp-2 text-sm text-muted" />
               </LocaleLink>
             ))}
+            <LocaleLink
+              href={PATHS.katha}
+              className="group flex min-h-[12rem] flex-col items-center justify-center rounded-2xl border border-dashed border-saffron/50 bg-[#fff7ef] p-6 text-center"
+            >
+              <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-saffron text-white">
+                <ArrowRight className="h-5 w-5" />
+              </span>
+              <span className="mt-3 font-serif text-lg text-saffron-deep">{t.home.moreKatha}</span>
+            </LocaleLink>
           </div>
         </section>
       ) : null}
@@ -317,7 +326,7 @@ async function HomeContentSections({ t }: { t: Messages }) {
       {latest.length > 0 ? (
         <section className="mx-auto max-w-7xl px-4 pb-14 lg:px-8">
           <SectionHeading>{t.home.latestTitle}</SectionHeading>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {latest.map((item) => (
               <article key={item.slug} className="min-w-0">
                 <LocaleLink href={`${PATHS.blog}/${item.slug}`} className="group block">
@@ -346,6 +355,15 @@ async function HomeContentSections({ t }: { t: Messages }) {
                 </LocaleLink>
               </article>
             ))}
+            <LocaleLink
+              href={PATHS.blog}
+              className="group flex min-h-[12rem] flex-col items-center justify-center rounded-2xl border border-dashed border-saffron/50 bg-[#fff7ef] p-6 text-center"
+            >
+              <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-saffron text-white">
+                <ArrowRight className="h-5 w-5" />
+              </span>
+              <span className="mt-3 font-serif text-lg text-saffron-deep">{t.home.moreBlogs}</span>
+            </LocaleLink>
           </div>
         </section>
       ) : null}

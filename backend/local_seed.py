@@ -343,6 +343,24 @@ DUMMY_ENTRIES: list[dict] = [
             "cta_label": "More aartis",
         },
     },
+    {
+        "kind": "chalisa",
+        "slug": "local-dev-hanuman-chalisa-lyrics-meaning-and-daily-path",
+        "data": {
+            "title": "Hanuman Chalisa (local sample)",
+            "titleHi": "हनुमान चालीसा (स्थानीय नमूना)",
+            "h1": "Hanuman Chalisa",
+            "seoTitle": "Hanuman Chalisa",
+            "metaDescription": "Local sample chalisa page.",
+            "introduction": "Dummy chalisa listing for local preview.",
+            "heroImage": "/images/hanuman-thumb.png",
+            "heroImageAlt": "Hanuman",
+            "category": "Hanuman",
+            "sections": [{"heading": "Chalisa", "body": "Sample lines only. Add authentic chalisa text before publishing."}],
+            "cta_href": "/chalisa",
+            "cta_label": "More chalisas",
+        },
+    },
 ]
 
 

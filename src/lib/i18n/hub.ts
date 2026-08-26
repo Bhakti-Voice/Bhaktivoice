@@ -23,6 +23,7 @@ export const HUB_PATHS = {
   quotes: PATHS.quotes,
   bhajan: PATHS.bhajan,
   aarti: PATHS.aarti,
+  chalisa: PATHS.chalisa,
   more: PATHS.more,
 } as const;
 

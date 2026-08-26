@@ -254,6 +254,14 @@ KINDS: dict[str, Kind] = {
         fields=SEO_FIELDS
         + (Field("sections", "Sections", "sections", "## Heading then body"),),
     ),
+    "chalisa": Kind(
+        "chalisa",
+        "Chalisa",
+        "Chalisas",
+        "/chalisa",
+        fields=SEO_FIELDS
+        + (Field("sections", "Sections", "sections", "## Heading then body"),),
+    ),
     "quotes": Kind(
         "quotes",
         "Quote",
@@ -331,6 +339,7 @@ KIND_LABEL_HI = {
     "product": "भंडार",
     "bhajan": "भजन",
     "aarti": "आरती",
+    "chalisa": "चालीसा",
     "quotes": "उद्धरण",
 }
 CTA_DEFAULTS = {
@@ -412,6 +421,7 @@ PAGE_KINDS = (
     "product",
     "bhajan",
     "aarti",
+    "chalisa",
 )
 
 SEARCH_KINDS = PAGE_KINDS
@@ -838,7 +848,7 @@ def public_page(
         extras["dateNote"] = data.get("dateNote") or ""
         extras["story"] = data.get("story") or ""
         extras["puja"] = data.get("puja") or ""
-    if kind.key in {"spirituality", "bhajan", "aarti"}:
+    if kind.key in {"spirituality", "bhajan", "aarti", "chalisa"}:
         extras["sections"] = data.get("sections") or []
     if kind.key == "product":
         extras["name"] = data.get("name") or title

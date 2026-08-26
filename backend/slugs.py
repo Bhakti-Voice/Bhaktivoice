@@ -13,6 +13,7 @@ KIND_SLUG_TAIL = {
     "product": "sacred item for daily sadhana and puja",
     "bhajan": "bhajan and kirtan lyrics with meaning",
     "aarti": "aarti lyrics meaning and evening prayer",
+    "chalisa": "chalisa lyrics meaning and daily path",
     "store_category": "bhakti store category for sadhana",
     "community_group": "devotee community group for naam jaap",
     "sankalp_offer": "sankalp vow for daily sadhana",

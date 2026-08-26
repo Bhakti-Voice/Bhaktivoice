@@ -104,6 +104,13 @@ export async function getAarti(slug: string) {
   return getContent<SpiritualityPage>("aarti", slug);
 }
 
+export async function listChalisa() {
+  return listContent<SpiritualityPage>("chalisa");
+}
+export async function getChalisa(slug: string) {
+  return getContent<SpiritualityPage>("chalisa", slug);
+}
+
 export async function getHubSeo(id: string) {
   return getContent<HubSeo>("hub_seo", id);
 }

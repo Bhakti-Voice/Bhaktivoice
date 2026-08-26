@@ -59,6 +59,11 @@ export const HUB_HEROES = {
     imageAlt: "Lit diyas glowing in the dark",
     object: "object-[75%_50%]",
   },
+  chalisa: {
+    image: "/images/hanuman-thumb.png",
+    imageAlt: "Hanuman in devotion",
+    object: "object-[70%_20%]",
+  },
   tithi: {
     image: "/images/varanasi-ghats.png",
     imageAlt: "Ghats of Varanasi at dusk",

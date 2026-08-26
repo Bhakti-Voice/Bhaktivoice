@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { BlogShare } from "@/components/blog/BlogShare";
 import { ARTICLE_COVER_CLASS, CoverMedia } from "@/components/media/CoverMedia";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { ContextualCta } from "@/components/seo/ContextualCta";
@@ -65,6 +66,7 @@ export async function ArticleLayout({
           <FaqList faqs={page.faqs ?? []} />
         </div>
         <aside className="h-fit space-y-4 lg:sticky lg:top-24">
+          <BlogShare title={page.title} path={path} />
           <ContextualCta
             title={page.cta.title}
             body={page.cta.body}

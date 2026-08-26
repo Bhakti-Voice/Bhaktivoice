@@ -1,5 +1,6 @@
 import { ARTICLE_COVER_CLASS, CoverMedia } from "@/components/media/CoverMedia";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
+import { BlogShare } from "@/components/blog/BlogShare";
 import { KathaNarrator } from "@/components/katha/KathaNarrator";
 import { ExpandableSection } from "@/components/seo/ExpandableSection";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
@@ -8,6 +9,7 @@ import { FaqList } from "@/components/seo/FaqList";
 import { ProseText } from "@/components/content/SectionBody";
 import { YouTubeEmbed } from "@/components/content/YouTubeEmbed";
 import type { KathaSeries } from "@/lib/content/types";
+import { PATHS } from "@/lib/seo/paths";
 import { Suspense } from "react";
 
 export function KathaSeriesView({
@@ -72,6 +74,7 @@ export function KathaSeriesView({
         </div>
 
         <aside className="h-fit space-y-4 lg:sticky lg:top-24">
+          <BlogShare title={series.title} path={`${PATHS.katha}/${series.slug}`} />
           <div className="rounded-[28px] bg-[#f8efe4] p-6">
             <p className="text-xs uppercase tracking-[0.2em] text-saffron-deep">Inspired</p>
             <h2 className="mt-2 font-serif text-2xl text-ink">Carry the katha into a mala</h2>

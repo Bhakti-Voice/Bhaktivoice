@@ -36,6 +36,7 @@ export const messages = {
       mantras: "Mantras",
       bhajan: "Bhajan",
       aarti: "Aarti",
+      chalisa: "Chalisa",
       spirituality: "Spiritual Knowledge",
       yatraPlanner: "Yatra Planner",
       sankalp: "Sankalp",
@@ -71,6 +72,8 @@ export const messages = {
       popularTitle: "Popular Bhakti Content",
       latestTitle: "Latest from Bhakti Voice",
       readMore: "Read More",
+      moreBlogs: "More blogs",
+      moreKatha: "More katha",
       krishnaQuote: "Bhakti is the purest form of love — a path that turns every breath into prayer.",
       krishnaQuoteBy: "— Lord Krishna",
       features: [
@@ -186,6 +189,11 @@ export const messages = {
         title: "Aarti — Evening Light and Devotional Recitation",
         description: "A dedicated home for aarti texts. Confirm local temple aarti times on the destination page.",
         h1: "Aarti",
+      },
+      chalisa: {
+        title: "Chalisa — Devotional Hymns for Daily Recitation",
+        description: "Hanuman Chalisa and other chalisa texts with meaning for daily path and devotion.",
+        h1: "Chalisa",
       },
       more: {
         title: "More from Bhakti Voice",
@@ -556,6 +564,23 @@ export const messages = {
             "Let the room stay dim for a breath. If a name is left on the tongue, count it — eleven names or a mala of 108 on the jaap counter. If a story is calling, open katha. If you want a record of the evening, write one line in the bhakti diary. Evening aarti is the lamp; the leftover warmth is the practice. You can move from this aarti chants page into bhajan and kirtan, naam jaap, or daily sadhana without turning devotion into a scoreboard. Return when the next dusk arrives.",
         },
       ],
+      chalisa: [
+        {
+          question: "What is a chalisa, and how should I use these pages?",
+          answer:
+            "A chalisa is a forty-verse hymn offered to a deity — Hanuman Chalisa is the best known. Open a card, read slowly, and recite at a pace you can keep. These pages are companions for householders, not a replacement for a teacher’s guidance.",
+        },
+        {
+          question: "Can I recite chalisa at home without a priest?",
+          answer:
+            "Yes. Wash your hands, sit quietly, and recite with sincerity. Keep the sitting short enough that you will return tomorrow. After the chalisa, sit for a few counts of naam jaap if you wish.",
+        },
+        {
+          question: "Are these official temple versions of every chalisa?",
+          answer:
+            "No. Sampradayas keep their own wording. Use these pages as a study companion. For a specific temple’s version, follow that mandir.",
+        },
+      ],
       bhajan: [
         {
           question: "What is bhajan and kirtan, and why keep them on one listing?",
@@ -704,6 +729,7 @@ export const messages = {
       groups: "groups",
       bhajans: "bhajans",
       aartis: "aartis",
+      chalisas: "chalisas",
       sankalps: "sankalps",
     },
     planner: {
@@ -758,6 +784,7 @@ export const messages = {
       mantras: "मंत्र",
       bhajan: "भजन",
       aarti: "आरती",
+      chalisa: "चालीसा",
       spirituality: "आध्यात्मिक ज्ञान",
       yatraPlanner: "यात्रा योजना",
       sankalp: "संकल्प",
@@ -793,6 +820,8 @@ export const messages = {
       popularTitle: "लोकप्रिय भक्ति सामग्री",
       latestTitle: "भक्ति वॉइस से नया",
       readMore: "और पढ़ें",
+      moreBlogs: "और ब्लॉग",
+      moreKatha: "और कथा",
       krishnaQuote: "भक्ति प्रेम का सबसे शुद्ध रूप है — हर श्वास को प्रार्थना बनाने वाला मार्ग।",
       krishnaQuoteBy: "— भगवान कृष्ण",
       features: [
@@ -903,6 +932,11 @@ export const messages = {
         title: "आरती — संध्या का प्रकाश और स्तुति",
         description: "आरती पाठों का घर। मंदिर की आरती का समय गंतव्य पृष्ठ पर स्थानीय रूप से पूछें।",
         h1: "आरती",
+      },
+      chalisa: {
+        title: "चालीसा — दैनिक पाठ के भक्ति स्तोत्र",
+        description: "हनुमान चालीसा और अन्य चालीसा पाठ अर्थ सहित — दैनिक पथ और भक्ति के लिए।",
+        h1: "चालीसा",
       },
       more: {
         title: "भक्ति वॉइस से और",
@@ -1270,6 +1304,23 @@ export const messages = {
             "एक श्वास तक कमरा मंद रहने दें। जीभ पर नाम बचा हो तो गिनें — ग्यारह नाम, या जप काउंटर पर १०८ की माला। कथा बुला रही हो तो खोलें। शाम का निशान चाहिए तो भक्ति डायरी में एक पंक्ति लिखें। संध्या आरती दीपक है; बचा हुआ ताप अभ्यास है। इस आरती चेंट पृष्ठ से भजन और कीर्तन, नाम जप, या दैनिक साधना में जा सकते हैं, बिना भक्ति को स्कोरबोर्ड बनाए। अगली संध्या पर लौट आइए।",
         },
       ],
+      chalisa: [
+        {
+          question: "चालीसा क्या है, और ये पृष्ठ कैसे उपयोग करें?",
+          answer:
+            "चालीसा देवता को अर्पित चालीस पदों वाला स्तोत्र है — हनुमान चालीसा सबसे जानी-मानी है। कार्ड खोलें, धीरे पढ़ें, और ऐसी गति से पाठ करें जो टिक सके। ये पृष्ठ गृहस्थों के साथी हैं, गुरु की जगह नहीं।",
+        },
+        {
+          question: "क्या पुजारी के बिना घर पर चालीसा पढ़ सकते हैं?",
+          answer:
+            "हाँ। हाथ धोएँ, शांत बैठें, और श्रद्धा से पाठ करें। बैठक इतनी छोटी रखें कि कल लौट सकें। चालीसा के बाद चाहें तो कुछ नाम जप भी बैठें।",
+        },
+        {
+          question: "क्या ये हर चालीसा के आधिकारिक मंदिर संस्करण हैं?",
+          answer:
+            "नहीं। सम्प्रदाय अपने शब्द रखते हैं। इन्हें अध्ययन का साथी मानें। किसी खास मंदिर के संस्करण के लिए उसी मंदिर का अनुसरण करें।",
+        },
+      ],
       bhajan: [
         {
           question: "भजन और कीर्तन क्या हैं, और एक सूची में क्यों?",
@@ -1418,6 +1469,7 @@ export const messages = {
       groups: "समूह",
       bhajans: "भजन",
       aartis: "आरतियाँ",
+      chalisas: "चालीसाएँ",
       sankalps: "संकल्प",
     },
     planner: {

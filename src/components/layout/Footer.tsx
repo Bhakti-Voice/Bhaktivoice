@@ -52,6 +52,7 @@ export function Footer() {
         { href: PATHS.quotes, label: t.nav.quotes },
         { href: PATHS.mantras, label: t.nav.mantras },
         { href: PATHS.aarti, label: t.nav.aarti },
+        { href: PATHS.chalisa, label: t.nav.chalisa },
         { href: PATHS.bhajan, label: t.nav.bhajan },
       ],
     },

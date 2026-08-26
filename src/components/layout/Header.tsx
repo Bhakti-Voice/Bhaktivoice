@@ -42,6 +42,7 @@ export function Header() {
     { href: PATHS.mantras, label: t.nav.mantras },
     { href: PATHS.bhajan, label: t.nav.bhajan },
     { href: PATHS.aarti, label: t.nav.aarti },
+    { href: PATHS.chalisa, label: t.nav.chalisa },
     { href: PATHS.spirituality, label: t.nav.spirituality },
     { href: PATHS.yatraPlanner, label: t.nav.yatraPlanner },
     { href: PATHS.sankalp, label: t.nav.sankalp },

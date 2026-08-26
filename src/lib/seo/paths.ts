@@ -16,6 +16,7 @@ export const PATHS = {
   store: "/bhakti-store",
   bhajan: "/bhajan-and-kirtan",
   aarti: "/aarti-chants",
+  chalisa: "/chalisa",
   tithi: "/aaj-ki-tithi",
   quotes: "/daily-quotes",
   more: "/more",

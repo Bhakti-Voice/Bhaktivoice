@@ -18,6 +18,7 @@ export type HubSeoId =
   | "community"
   | "store"
   | "aarti"
+  | "chalisa"
   | "bhajan"
   | "more"
   | "tithi";
