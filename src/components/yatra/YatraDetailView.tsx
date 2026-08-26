@@ -1,6 +1,7 @@
 import { CoverMedia } from "@/components/media/CoverMedia";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { ContextualCta } from "@/components/seo/ContextualCta";
+import { RelatedLinksCard } from "@/components/seo/RelatedLinksCard";
 import { ExpandableSection } from "@/components/seo/ExpandableSection";
 import { FaqList } from "@/components/seo/FaqList";
 import { ProseText } from "@/components/content/SectionBody";
@@ -130,6 +131,12 @@ export function YatraDetailView({ page }: { page: YatraPage }) {
             tone="navy"
           />
           <YouTubeEmbed url={page.youtubeUrl} title={page.h1} compact />
+          <RelatedLinksCard
+            relatedPosts={(page.relatedContent ?? []).map((item) => ({
+              title: item.text,
+              url: item.href,
+            }))}
+          />
         </div>
       </div>
     </article>

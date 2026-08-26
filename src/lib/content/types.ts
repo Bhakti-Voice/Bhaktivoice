@@ -46,6 +46,7 @@ export type SeoPage = {
   relatedMantras: RelatedLink[];
   relatedFestivals: RelatedLink[];
   relatedKatha: RelatedLink[];
+  relatedContent?: { text: string; href: string }[];
   faqs: Faq[];
   breadcrumbs: BreadcrumbItem[];
   schemaType:

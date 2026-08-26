@@ -102,6 +102,11 @@ DUMMY_ENTRIES: list[dict] = [
                     "paragraphs": ["यह अनुच्छेद केवल लोकल विकास के लिए है।"],
                 }
             ],
+            "related": [
+                {"text": "Hanuman Chalisa", "url": "/chalisa/local-dev-hanuman-chalisa-lyrics-meaning-and-daily-path"},
+                {"text": "Explore Katha", "url": "/katha-stories"},
+                {"text": "Start Naam Jaap", "url": "/naam-jaap"},
+            ],
             "cta_href": "/naam-jaap",
             "cta_label": "Start Jaap",
         },

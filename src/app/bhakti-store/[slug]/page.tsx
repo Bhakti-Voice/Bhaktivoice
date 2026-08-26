@@ -14,6 +14,7 @@ import { productSchema } from "@/lib/seo/schema";
 import { localizedMetadata } from "@/lib/seo/metadata";
 import { PATHS } from "@/lib/seo/paths";
 import { YouTubeEmbed } from "@/components/content/YouTubeEmbed";
+import { RelatedLinksCard } from "@/components/seo/RelatedLinksCard";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -84,6 +85,12 @@ export default async function ProductDetailPage({ params }: Props) {
             label={page.cta.label}
           />
           <YouTubeEmbed url={page.youtubeUrl} title={page.h1} compact />
+          <RelatedLinksCard
+            relatedPosts={(page.relatedContent ?? []).map((item) => ({
+              title: item.text,
+              url: item.href,
+            }))}
+          />
         </aside>
       </div>
     </article>

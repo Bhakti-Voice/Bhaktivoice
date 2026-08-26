@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass, field
 from datetime import date
 from typing import Any
@@ -45,7 +46,13 @@ SEO_FIELDS = (
     Field("publishedAt", "Published (YYYY-MM-DD)"),
     Field("updatedAt", "Updated (YYYY-MM-DD)"),
     Field("faqs", "FAQs", "faqs", "One per line: Question || Answer"),
-    Field("related", "Related links", "related", "kind | /path | Label"),
+    Field(
+        "related",
+        "Related content",
+        "related",
+        'Paste JSON: [{"text":"Hanuman Chalisa","url":"/chalisa/slug"},{"text":"More blogs","url":"/bhakti-blog"}]',
+        rows=6,
+    ),
     Field("cta_title", "CTA title"),
     Field("cta_body", "CTA body", "textarea", rows=2),
     Field("cta_href", "CTA link", hint="e.g. /naam-jaap"),
@@ -459,15 +466,50 @@ def parse_faqs(value: str) -> list[dict[str, str]]:
     return faqs
 
 
-def parse_related(value: str) -> list[dict[str, str]]:
+def parse_related(value: str | list | Any) -> list[dict[str, str]]:
+    """Accept JSON array of {text,url} / {label,href}, or lines: kind | /path | Label."""
+    if isinstance(value, list):
+        return [_normalize_related_item(item) for item in value if _normalize_related_item(item)]
+    raw = (value or "").strip() if isinstance(value, str) else ""
+    if not raw:
+        return []
+    if raw.startswith("[") or raw.startswith("{"):
+        try:
+            parsed = json.loads(raw)
+        except json.JSONDecodeError:
+            parsed = None
+        if isinstance(parsed, dict):
+            parsed = [parsed]
+        if isinstance(parsed, list):
+            return [_normalize_related_item(item) for item in parsed if _normalize_related_item(item)]
     links = []
-    for line in lines(value):
+    for line in lines(raw):
         parts = [part.strip() for part in line.split("|")]
         if len(parts) >= 3:
-            links.append({"kind": parts[0], "href": parts[1], "label": parts[2]})
+            item = _normalize_related_item({"kind": parts[0], "href": parts[1], "label": parts[2]})
         elif len(parts) == 2:
-            links.append({"kind": "page", "href": parts[0], "label": parts[1]})
+            item = _normalize_related_item({"href": parts[0], "label": parts[1]})
+        else:
+            item = None
+        if item:
+            links.append(item)
     return links
+
+
+def _normalize_related_item(item: Any) -> dict[str, str] | None:
+    if isinstance(item, (list, tuple)) and len(item) >= 2:
+        text, href = str(item[0]).strip(), str(item[1]).strip()
+        if text and href:
+            return {"kind": "page", "href": href, "label": text}
+        return None
+    if not isinstance(item, dict):
+        return None
+    href = str(item.get("href") or item.get("url") or item.get("link") or "").strip()
+    label = str(item.get("label") or item.get("text") or item.get("title") or "").strip()
+    kind = str(item.get("kind") or "page").strip() or "page"
+    if not href or not label:
+        return None
+    return {"kind": kind, "href": href, "label": label}
 
 
 def parse_places(value: str) -> list[dict[str, str]]:
@@ -684,10 +726,13 @@ def dump_field(item: Field, data: dict[str, Any]) -> str:
                 if _plain(faq.get("question")) or _plain(faq.get("answer"))
             )
         if item.type == "related":
-            return "\n".join(
-                f"{_plain(link.get('kind')) or 'page'} | {_plain(link.get('href'))} | {_plain(link.get('label'))}"
-                for link in _dict_list(value)
-            )
+            items = []
+            for link in _dict_list(value):
+                text = _plain(link.get("label") or link.get("text"))
+                href = _plain(link.get("href") or link.get("url") or link.get("link"))
+                if text and href:
+                    items.append({"text": text, "url": href})
+            return json.dumps(items, ensure_ascii=False, indent=2) if items else ""
         if item.type == "places":
             rows = []
             for place in _dict_list(value):
@@ -756,7 +801,13 @@ def public_page(
     data = strip_hi_keys(apply_locale(data, locale))
     title = data.get("title") or data.get("h1") or data.get("name") or slug
     h1 = data.get("h1") or title
-    related = bucket_related(data.get("related") or [])
+    related_links = parse_related(data.get("related") or [])
+    related = bucket_related(related_links)
+    related_content = [
+        {"text": link["label"], "href": link["href"]}
+        for link in related_links
+        if link.get("label") and link.get("href")
+    ]
     if kind.key == "yatra" and data.get("temples"):
         related["relatedTemples"] = data["temples"] if isinstance(data.get("temples"), list) else []
         if related["relatedTemples"] and isinstance(related["relatedTemples"][0], dict) and "label" not in related["relatedTemples"][0]:
@@ -784,6 +835,7 @@ def public_page(
         "publishedAt": data.get("publishedAt") or today(),
         "updatedAt": data.get("updatedAt") or today(),
         "faqs": data.get("faqs") or [],
+        "relatedContent": related_content,
         "breadcrumbs": [
             {"name": home_name, "href": "/"},
             {"name": kind_crumb_name(kind, locale), "href": kind.path},

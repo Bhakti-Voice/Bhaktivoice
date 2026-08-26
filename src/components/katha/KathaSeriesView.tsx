@@ -8,6 +8,7 @@ import { ContextualCta } from "@/components/seo/ContextualCta";
 import { FaqList } from "@/components/seo/FaqList";
 import { ProseText } from "@/components/content/SectionBody";
 import { YouTubeEmbed } from "@/components/content/YouTubeEmbed";
+import { RelatedLinksCard } from "@/components/seo/RelatedLinksCard";
 import type { KathaSeries } from "@/lib/content/types";
 import { PATHS } from "@/lib/seo/paths";
 import { Suspense } from "react";
@@ -96,6 +97,12 @@ export function KathaSeriesView({
             tone="navy"
           />
           <YouTubeEmbed url={series.youtubeUrl} title={series.h1} compact />
+          <RelatedLinksCard
+            relatedPosts={(series.relatedContent ?? []).map((item) => ({
+              title: item.text,
+              url: item.href,
+            }))}
+          />
         </aside>
       </div>
     </div>

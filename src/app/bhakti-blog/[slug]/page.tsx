@@ -12,6 +12,7 @@ import { localizedArticleSchema } from "@/lib/seo/localized-schema";
 import { localizedMetadata } from "@/lib/seo/metadata";
 import { PATHS } from "@/lib/seo/paths";
 import { YouTubeEmbed } from "@/components/content/YouTubeEmbed";
+import { RelatedLinksCard } from "@/components/seo/RelatedLinksCard";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -113,6 +114,12 @@ export default async function BlogPostPage({ params }: Props) {
             label="Start 108 Naam Jaap"
           />
           <YouTubeEmbed url={page.youtubeUrl} title={page.h1} compact />
+          <RelatedLinksCard
+            relatedPosts={(page.relatedContent ?? []).map((item) => ({
+              title: item.text,
+              url: item.href,
+            }))}
+          />
         </aside>
       </div>
     </article>

@@ -6,6 +6,7 @@ import { ContextualCta } from "@/components/seo/ContextualCta";
 import { ExpandableSection } from "@/components/seo/ExpandableSection";
 import { FaqList } from "@/components/seo/FaqList";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { RelatedLinksCard } from "@/components/seo/RelatedLinksCard";
 import { ProseText } from "@/components/content/SectionBody";
 import { YouTubeEmbed } from "@/components/content/YouTubeEmbed";
 import type { SeoPage } from "@/lib/content/types";
@@ -74,6 +75,12 @@ export async function ArticleLayout({
             label={page.cta.label}
           />
           <YouTubeEmbed url={page.youtubeUrl} title={page.h1} compact />
+          <RelatedLinksCard
+            relatedPosts={(page.relatedContent ?? []).map((item) => ({
+              title: item.text,
+              url: item.href,
+            }))}
+          />
         </aside>
       </div>
     </article>
