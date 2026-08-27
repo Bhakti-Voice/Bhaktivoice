@@ -101,7 +101,7 @@ export function Header() {
             <LocaleLink
               key={item.href}
               href={item.href}
-              className={`text-[13px] tracking-wide ${
+              className={`inline-flex items-center gap-1.5 text-[13px] tracking-wide ${
                 isActive(item.href)
                   ? "font-semibold text-maroon underline decoration-saffron decoration-2 underline-offset-[10px]"
                   : "font-medium text-ink/70 hover:text-saffron"
