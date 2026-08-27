@@ -79,3 +79,64 @@ export function FestivalCalendarIcon(props: IconProps) {
     </svg>
   );
 }
+
+export function ChalisaIcon(props: IconProps) {
+  return (
+    <svg {...iconProps(props)}>
+      <path d="M8 4h8v16H8z" />
+      <path d="M10 8h4M10 11h4M10 14h3" />
+      <path d="M6 6v12M18 6v12" />
+    </svg>
+  );
+}
+
+export function BlogIcon(props: IconProps) {
+  return (
+    <svg {...iconProps(props)}>
+      <path d="M6 4h12v16H6z" />
+      <path d="M9 8h6M9 11h6M9 14h4" />
+      <path d="M8 4v16" />
+    </svg>
+  );
+}
+
+export function MantraIcon(props: IconProps) {
+  return (
+    <svg {...iconProps(props)}>
+      <circle cx="12" cy="12" r="7" />
+      <circle cx="12" cy="12" r="2.2" fill="currentColor" stroke="none" />
+      <path d="M12 5v2M12 17v2M5 12h2M17 12h2" />
+    </svg>
+  );
+}
+
+export function ShrineIcon(props: IconProps) {
+  return (
+    <svg {...iconProps(props)}>
+      <path d="M4 20h16" />
+      <path d="M6 20V11l6-5 6 5v9" />
+      <path d="M10 20v-5h4v5" />
+      <path d="M12 6V3" />
+    </svg>
+  );
+}
+
+export function AartiIcon(props: IconProps) {
+  return (
+    <svg {...iconProps(props)}>
+      <path d="M12 3c1.5 2 2.5 4.2 2.5 6.8 0 2.2-1.1 4.2-2.5 5.2-1.4-1-2.5-3-2.5-5.2C9.5 7.2 10.5 5 12 3Z" />
+      <path d="M8.5 18c1-1.5 2.3-2.2 3.5-2.2s2.5.7 3.5 2.2" />
+      <path d="M7 20h10" />
+    </svg>
+  );
+}
+
+export function BhajanIcon(props: IconProps) {
+  return (
+    <svg {...iconProps(props)}>
+      <path d="M9 18V5l12-2v13" />
+      <circle cx="6" cy="18" r="3" />
+      <circle cx="18" cy="16" r="3" />
+    </svg>
+  );
+}

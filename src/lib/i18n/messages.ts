@@ -84,6 +84,14 @@ export const messages = {
         { title: "Devotee Community", text: "Share. Connect. Inspire." },
         { title: "Festivals & Calendar", text: "Never miss a sacred day." },
       ],
+      featuresMore: [
+        { title: "Chalisa", text: "Read. Recite. Remember." },
+        { title: "Bhakti Blogs", text: "Guides. Stories. Wisdom." },
+        { title: "Mantras", text: "Chant. Learn. Repeat." },
+        { title: "Temples", text: "History. Darshan. Faith." },
+        { title: "Aarti", text: "Light. Song. Devotion." },
+        { title: "Bhajan", text: "Sing. Listen. Feel." },
+      ],
     },
     hubs: {
       naamJaap: {
@@ -831,6 +839,14 @@ export const messages = {
         { title: "पवित्र वस्तुएँ", text: "शुद्ध, विश्वसनीय, चुनी हुई।" },
         { title: "भक्त समुदाय", text: "बाँटें। जुड़ें। प्रेरित करें।" },
         { title: "त्योहार और पंचांग", text: "कोई पवित्र दिन न छूटे।" },
+      ],
+      featuresMore: [
+        { title: "चालीसा", text: "पढ़ें। पाठ करें। याद रखें।" },
+        { title: "भक्ति ब्लॉग", text: "मार्गदर्शन। कथाएँ। ज्ञान।" },
+        { title: "मंत्र", text: "जपें। सीखें। दोहराएँ।" },
+        { title: "मंदिर", text: "इतिहास। दर्शन। श्रद्धा।" },
+        { title: "आरती", text: "ज्योति। भजन। भक्ति।" },
+        { title: "भजन", text: "गाएँ। सुनें। अनुभव करें।" },
       ],
     },
     hubs: {

@@ -7,17 +7,16 @@ import { useMessages } from "@/lib/i18n/client";
 import { PATHS } from "@/lib/seo/paths";
 
 function SocialMark({ path, label, href }: { path: string; label: string; href?: string }) {
-  const mark = (
-    <span
-      aria-label={href ? undefined : label}
-      className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white/80"
-    >
+  const icon = (
+    <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white/80">
       <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden>
         <path d={path} />
       </svg>
     </span>
   );
-  if (!href) return mark;
+  if (!href) {
+    return <span aria-hidden="true">{icon}</span>;
+  }
   return (
     <a
       href={href}
@@ -26,7 +25,7 @@ function SocialMark({ path, label, href }: { path: string; label: string; href?:
       aria-label={label}
       className="hover:text-saffron"
     >
-      {mark}
+      {icon}
     </a>
   );
 }
@@ -70,6 +69,7 @@ export function Footer() {
   const social = [
     {
       label: "YouTube",
+      href: "https://www.youtube.com/@BhaktiVoiceOfficial-q2r",
       path: "M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8zM9.6 15.6V8.4L15.8 12z",
     },
     {

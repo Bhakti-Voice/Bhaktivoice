@@ -170,6 +170,25 @@ button:disabled,
     0 0 34px rgba(230, 126, 34, 0.22);
 }
 
+.home-feature-scroll {
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(230, 126, 34, 0.45) transparent;
+}
+
+.home-feature-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.home-feature-scroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(230, 126, 34, 0.45);
+}
+
+.home-feature-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 .hero-krishna-blur-bottom {
   position: absolute;
   inset: auto 0 0 0;
