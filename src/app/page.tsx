@@ -20,6 +20,8 @@ import {
   PrayerHandsIcon,
   ShrineIcon,
   TempleIcon,
+  HinduCalendarIcon,
+  PanchangIcon,
 } from "@/components/home/FeatureIcons";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
@@ -54,7 +56,20 @@ const AVATARS = ["#c05621", "#d97706", "#7c3aed", "#be185d", "#1d4ed8", "#0f766e
 
 export default async function HomePage() {
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
+  const isHi = locale === "hi";
   const features = [
+    {
+      href: PATHS.calendar,
+      icon: HinduCalendarIcon,
+      title: isHi ? "हिन्दू कैलेंडर" : "Hindu Calendar",
+      text: isHi ? "तिथि, व्रत और पर्व" : "Tithi, Vrat & Festivals",
+    },
+    {
+      href: PATHS.panchangToday,
+      icon: PanchangIcon,
+      title: isHi ? "आज का पंचांग" : "Today's Panchang",
+      text: isHi ? "शुभ मुहूर्त एवं चौघड़िया" : "Shubh Muhurat & Timings",
+    },
     { href: PATHS.naamJaap, icon: PrayerHandsIcon, ...t.home.features[0] },
     { href: PATHS.katha, icon: OpenBookIcon, ...t.home.features[1] },
     { href: PATHS.yatra, icon: TempleIcon, ...t.home.features[2] },

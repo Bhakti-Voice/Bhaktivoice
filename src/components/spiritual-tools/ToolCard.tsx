@@ -1,9 +1,10 @@
 import { LocaleLink } from "@/components/i18n/LocaleLink";
-import { CalendarDays, Heart, ScrollText } from "lucide-react";
+import { Calendar, CalendarDays, Heart, ScrollText, Sun } from "lucide-react";
 import type { ReactNode } from "react";
 
 const ICONS: Record<string, ReactNode> = {
-  panchang: <CalendarDays className="h-7 w-7 text-saffron" aria-hidden />,
+  panchang: <Sun className="h-7 w-7 text-saffron" aria-hidden />,
+  calendar: <Calendar className="h-7 w-7 text-saffron" aria-hidden />,
   kundli: <ScrollText className="h-7 w-7 text-saffron" aria-hidden />,
   milan: <Heart className="h-7 w-7 text-saffron" aria-hidden />,
 };
@@ -29,7 +30,7 @@ export function ToolCard({
       <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#fff7f0] ring-1 ring-saffron/15">
         {ICONS[icon]}
       </div>
-      <h2 className="font-serif text-xl text-ink group-hover:text-saffron-deep">{title}</h2>
+      <h2 className="font-serif text-xl font-bold text-ink group-hover:text-saffron-deep">{title}</h2>
       <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{description}</p>
       <span className="mt-4 text-sm font-medium text-saffron">{openLabel} →</span>
     </LocaleLink>
@@ -44,7 +45,7 @@ export function ToolCardGrid({
   openLabel?: string;
 }) {
   return (
-    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
       {tools.map((tool) => (
         <ToolCard key={tool.href} {...tool} openLabel={openLabel} />
       ))}

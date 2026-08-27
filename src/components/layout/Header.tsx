@@ -32,6 +32,8 @@ export function Header() {
     { href: PATHS.sadhana, label: t.nav.sadhana },
   ];
   const moreLinks = [
+    { href: PATHS.calendar, label: locale === "hi" ? "हिन्दू कैलेंडर" : "Hindu Calendar" },
+    { href: PATHS.panchangToday, label: locale === "hi" ? "आज का पंचांग" : "Today's Panchang" },
     { href: PATHS.community, label: t.nav.community },
     { href: PATHS.store, label: t.nav.store },
     { href: PATHS.blog, label: t.nav.blog },

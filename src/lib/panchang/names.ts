@@ -1,10 +1,4 @@
-export const DELHI = {
-  name: "Delhi",
-  latitude: 28.6139,
-  longitude: 77.209,
-  heightMeters: 216,
-  timeZone: "Asia/Kolkata",
-} as const;
+export { DELHI } from "./cities";
 
 export const TITHI_NAMES = [
   "Pratipada",
@@ -21,6 +15,7 @@ export const TITHI_NAMES = [
   "Dwadashi",
   "Trayodashi",
   "Chaturdashi",
+  "Purnima / Amavasya",
 ] as const;
 
 export const TITHI_NAMES_HI = [
@@ -38,6 +33,7 @@ export const TITHI_NAMES_HI = [
   "द्वादशी",
   "त्रयोदशी",
   "चतुर्दशी",
+  "पूर्णिमा / अमावस्या",
 ] as const;
 
 export const MASA_NAMES = [
@@ -71,18 +67,33 @@ export const MASA_NAMES_HI = [
 ] as const;
 
 export const RASI_NAMES = [
-  "Mesha",
-  "Vrishabha",
-  "Mithuna",
-  "Karka",
-  "Simha",
-  "Kanya",
-  "Tula",
-  "Vrischika",
-  "Dhanu",
-  "Makara",
-  "Kumbha",
-  "Meena",
+  "Mesha (Aries)",
+  "Vrishabha (Taurus)",
+  "Mithuna (Gemini)",
+  "Karka (Cancer)",
+  "Simha (Leo)",
+  "Kanya (Virgo)",
+  "Tula (Libra)",
+  "Vrischika (Scorpio)",
+  "Dhanu (Sagittarius)",
+  "Makara (Capricorn)",
+  "Kumbha (Aquarius)",
+  "Meena (Pisces)",
+] as const;
+
+export const RASI_NAMES_HI = [
+  "मेष",
+  "वृषभ",
+  "मिथुन",
+  "कर्क",
+  "सिंह",
+  "कन्या",
+  "तुला",
+  "वृश्चिक",
+  "धनु",
+  "मकर",
+  "कुंभ",
+  "मीन",
 ] as const;
 
 export const NAKSHATRA_NAMES = [
@@ -145,6 +156,36 @@ export const NAKSHATRA_NAMES_HI = [
   "रेवती",
 ] as const;
 
+export const NAKSHATRA_DEITIES = [
+  "Ashwini Kumaras",
+  "Yama",
+  "Agni",
+  "Brahma / Prajapati",
+  "Soma (Chandra)",
+  "Rudra (Shiva)",
+  "Aditi",
+  "Brihaspati",
+  "Sarpa (Nagas)",
+  "Pitris (Ancestors)",
+  "Bhaga",
+  "Aryaman",
+  "Savitr (Surya)",
+  "Vishwakarma",
+  "Vayu",
+  "Indragni",
+  "Mitra",
+  "Indra",
+  "Nirriti",
+  "Apas (Water)",
+  "Vishwadevas",
+  "Vishnu",
+  "Vasus",
+  "Varuna",
+  "Aja Ekapada",
+  "Ahirbudhnya",
+  "Pushan",
+] as const;
+
 export const YOGA_NAMES = [
   "Vishkambha",
   "Priti",
@@ -175,6 +216,36 @@ export const YOGA_NAMES = [
   "Vaidhriti",
 ] as const;
 
+export const YOGA_NAMES_HI = [
+  "विष्कुम्भ",
+  "प्रीति",
+  "आयुष्मान",
+  "सौभाग्य",
+  "शोभन",
+  "अतिगण्ड",
+  "सुकर्मा",
+  "धृति",
+  "शूल",
+  "गण्ड",
+  "वृद्धि",
+  "ध्रुव",
+  "व्याघात",
+  "हर्षण",
+  "वज्र",
+  "सिद्धि",
+  "व्यतीपात",
+  "वरीयान्",
+  "परिघ",
+  "शिव",
+  "सिद्ध",
+  "साध्य",
+  "शुभ",
+  "शुक्ल",
+  "ब्रह्म",
+  "इन्द्र",
+  "वैधृति",
+] as const;
+
 export const KARANA_NAMES = [
   "Bava",
   "Balava",
@@ -182,32 +253,53 @@ export const KARANA_NAMES = [
   "Taitila",
   "Gara",
   "Vanija",
-  "Vishti",
+  "Vishti (Bhadra)",
   "Shakuni",
   "Chatushpada",
   "Naga",
   "Kimstughna",
 ] as const;
 
-export const RITU_NAMES = [
-  "Vasanta",
-  "Grishma",
-  "Varsha",
-  "Sharad",
-  "Hemanta",
-  "Shishira",
+export const KARANA_NAMES_HI = [
+  "बव",
+  "बालव",
+  "कौलव",
+  "तैतिल",
+  "गर",
+  "वणिज",
+  "विष्टि (भद्रा)",
+  "शकुनि",
+  "चतुष्पद",
+  "नाग",
+  "किंस्तुघ्न",
 ] as const;
 
-export const RITU_NAMES_HI = ["वसन्त", "ग्रीष्म", "वर्षा", "शरद्", "हेमन्त", "शिशिर"] as const;
+export const RITU_NAMES = [
+  "Vasanta (Spring)",
+  "Grishma (Summer)",
+  "Varsha (Monsoon)",
+  "Sharad (Autumn)",
+  "Hemanta (Pre-winter)",
+  "Shishira (Winter)",
+] as const;
+
+export const RITU_NAMES_HI = [
+  "वसन्त (Spring)",
+  "ग्रीष्म (Summer)",
+  "वर्षा (Monsoon)",
+  "शरद् (Autumn)",
+  "हेमन्त (Pre-winter)",
+  "शिशिर (Winter)",
+] as const;
 
 export const VARA_NAMES = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
+  "Sunday (Ravivara)",
+  "Monday (Somavara)",
+  "Tuesday (Mangalavara)",
+  "Wednesday (Budhavara)",
+  "Thursday (Guruvara)",
+  "Friday (Shukravara)",
+  "Saturday (Shanivara)",
 ] as const;
 
 export const VARA_NAMES_HI = [
@@ -222,3 +314,37 @@ export const VARA_NAMES_HI = [
 
 /** 1-indexed eighth of the day (sunrise→sunset) that is Rahu Kaal. Sunday=0. */
 export const RAHU_KAAL_PERIOD = [8, 2, 7, 5, 6, 4, 3] as const;
+/** 1-indexed eighth of the day that is Yamaganda. Sunday=0. */
+export const YAMAGANDA_PERIOD = [5, 4, 3, 2, 1, 7, 6] as const;
+/** 1-indexed eighth of the day that is Gulika Kaal. Sunday=0. */
+export const GULIKA_PERIOD = [7, 6, 5, 4, 3, 2, 1] as const;
+
+export const MONTH_NAMES_EN = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+export const MONTH_NAMES_HI = [
+  "जनवरी",
+  "फरवरी",
+  "मार्च",
+  "अप्रैल",
+  "मई",
+  "जून",
+  "जुलाई",
+  "अगस्त",
+  "सितंबर",
+  "अक्टूबर",
+  "नवंबर",
+  "दिसंबर",
+];

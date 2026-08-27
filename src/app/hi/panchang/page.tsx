@@ -1,6 +1,9 @@
-import { withHindi } from "@/lib/i18n/hi-route";
-import EnDefault, { generateMetadata as enMeta } from "../../panchang/page";
+import { redirect } from "next/navigation";
+import { withLocale } from "@/lib/i18n/config";
+import { PATHS } from "@/lib/seo/paths";
 
 export const revalidate = 86400;
-export const generateMetadata = withHindi(enMeta);
-export default withHindi(EnDefault);
+
+export default function HiPanchangPage() {
+  redirect(withLocale(PATHS.panchangToday, "hi"));
+}

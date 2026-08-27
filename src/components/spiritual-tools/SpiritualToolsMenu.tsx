@@ -8,7 +8,7 @@ import { PATHS } from "@/lib/seo/paths";
 import { usePathname } from "next/navigation";
 import { stripLocale } from "@/lib/i18n/config";
 
-const TOOL_PATHS = [PATHS.spiritualTools, PATHS.panchang, PATHS.kundli, PATHS.kundliMilan] as const;
+const TOOL_PATHS = [PATHS.spiritualTools, PATHS.kundli, PATHS.kundliMilan] as const;
 
 export function SpiritualToolsMenu({ mobile = false, onNavigate }: { mobile?: boolean; onNavigate?: () => void }) {
   const t = useMessages();
@@ -35,7 +35,6 @@ export function SpiritualToolsMenu({ mobile = false, onNavigate }: { mobile?: bo
 
   const links = [
     { href: PATHS.spiritualTools, label: t.spiritualTools.allTools },
-    { href: PATHS.panchang, label: t.spiritualTools.tools.panchang.title },
     { href: PATHS.kundli, label: t.spiritualTools.tools.kundli.title },
     { href: PATHS.kundliMilan, label: t.spiritualTools.tools.milan.title },
   ];

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Loader2, MapPin } from "lucide-react";
 import { defaultCity, formatTime, INDIAN_CITIES, readDeviceLocation } from "@/lib/spiritual-tools/geo";
 import { loadClientPanchang } from "@/lib/spiritual-tools/engine-loader";
-import type { ClientPanchangResult } from "@/lib/spiritual-tools/types";
+import type { BirthPlace, ClientPanchangResult } from "@/lib/spiritual-tools/types";
 import { useLocale, useMessages } from "@/lib/i18n/client";
 import { PrivacyNotice, ResultGrid, ToolSection, primaryButtonClassName } from "./ToolUi";
 
@@ -15,7 +15,7 @@ export function PanchangTool() {
   const hi = locale === "hi";
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<ClientPanchangResult | null>(null);
-  const [place, setPlace] = useState(defaultCity());
+  const [place, setPlace] = useState<BirthPlace>(() => defaultCity());
 
   const calculate = useCallback(async (lat: number, lon: number, tz: string, label: string) => {
     setLoading(true);

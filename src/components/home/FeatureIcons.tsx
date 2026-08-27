@@ -14,6 +14,33 @@ function iconProps(props: IconProps) {
   };
 }
 
+export function HinduCalendarIcon(props: IconProps) {
+  return (
+    <svg {...iconProps(props)}>
+      <rect x="3.5" y="4" width="17" height="16.5" rx="2.5" />
+      <path d="M3.5 9h17" />
+      <path d="M8 2.5v3" />
+      <path d="M16 2.5v3" />
+      <circle cx="8" cy="13" r="1" fill="currentColor" />
+      <circle cx="12" cy="13" r="1" fill="currentColor" />
+      <circle cx="16" cy="13" r="1" fill="currentColor" />
+      <circle cx="8" cy="16.5" r="1" fill="currentColor" />
+      <circle cx="12" cy="16.5" r="1" fill="currentColor" />
+      <circle cx="16" cy="16.5" r="1" fill="currentColor" />
+    </svg>
+  );
+}
+
+export function PanchangIcon(props: IconProps) {
+  return (
+    <svg {...iconProps(props)}>
+      <circle cx="12" cy="12" r="4.5" />
+      <path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M4.93 19.07l1.77-1.77M17.3 6.7l1.77-1.77" />
+      <path d="M14 9.5a3.5 3.5 0 0 1 0 5" strokeWidth={1.2} />
+    </svg>
+  );
+}
+
 export function PrayerHandsIcon(props: IconProps) {
   return (
     <svg {...iconProps(props)}>

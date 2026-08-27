@@ -37,6 +37,7 @@ export default function robots(): MetadataRoute.Robots {
       },
       {
         userAgent: "Googlebot-Image",
+        allow: "/",
         disallow: ["/admin", "/api", "/api/", "/api/backend"],
       },
       {

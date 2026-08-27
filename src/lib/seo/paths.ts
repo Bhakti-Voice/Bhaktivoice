@@ -22,6 +22,10 @@ export const PATHS = {
   more: "/more",
   spiritualTools: "/spiritual-tools",
   panchang: "/panchang",
+  panchangToday: "/panchang/today",
+  panchangTomorrow: "/panchang/tomorrow",
+  panchangYesterday: "/panchang/yesterday",
+  calendar: "/hindu-calendar",
   kundli: "/kundli",
   kundliMilan: "/kundli-milan",
 } as const;
