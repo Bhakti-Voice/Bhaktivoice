@@ -23,9 +23,15 @@ export function MobileNav() {
       <ul className="grid grid-cols-5">
         {items.map((item) => (
           <li key={item.href}>
-            <LocaleLink href={item.href} className="flex flex-col items-center gap-1 py-1 text-[11px] text-muted">
-              <item.icon className="h-5 w-5 shrink-0" />
-              <span className="max-w-full truncate px-0.5">{item.label}</span>
+            <LocaleLink
+              href={item.href}
+              aria-label={item.href === PATHS.more ? t.nav.moreTitle : undefined}
+              className="flex flex-col items-center gap-1 py-1 text-[11px] text-muted"
+            >
+              <item.icon className="h-5 w-5 shrink-0" aria-hidden />
+              <span className="max-w-full truncate px-0.5" aria-hidden={item.href === PATHS.more}>
+                {item.label}
+              </span>
             </LocaleLink>
           </li>
         ))}

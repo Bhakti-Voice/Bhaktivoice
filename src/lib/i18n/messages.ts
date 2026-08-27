@@ -43,7 +43,7 @@ export const messages = {
       diary: "Bhakti Diary",
       jaap: "Jaap",
       myJourney: "My Journey",
-      moreTitle: "More",
+      moreTitle: "More from Bhakti Voice",
       spiritualTools: "Spiritual Tools",
     },
     footerCols: {
@@ -799,7 +799,7 @@ export const messages = {
       diary: "भक्ति डायरी",
       jaap: "जप",
       myJourney: "मेरी यात्रा",
-      moreTitle: "और",
+      moreTitle: "भक्ति वॉइस से और",
       spiritualTools: "आध्यात्मिक उपकरण",
     },
     footerCols: {
