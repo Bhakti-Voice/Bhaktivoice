@@ -99,23 +99,6 @@ export function Footer() {
               <SocialMark key={item.label} label={item.label} path={item.path} href={item.href} />
             ))}
           </div>
-          <div className="mt-6">
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://startupvessel.com/product/bhaktivoice"
-              className="inline-block transition-transform duration-200 hover:scale-105"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="https://startupvessel.com/assets/images/badge.png"
-                alt="Startup Vessel"
-                height={54}
-                className="h-[54px] w-auto rounded-lg"
-                loading="lazy"
-              />
-            </a>
-          </div>
         </div>
         {columns.map((column) => (
           <div key={column.title}>
