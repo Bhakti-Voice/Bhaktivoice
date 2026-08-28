@@ -23,13 +23,24 @@ export default async function AartiPage() {
 
   return (
     <div>
-      <PageHero title={t.hubs.aarti.h1} hub="aarti" crumbs={pageCrumbs(["Aarti", PATHS.aarti])}>
-        <div className="mt-5 flex flex-wrap gap-3">
-          <LocaleLink href={PATHS.yatra} className="rounded-full bg-navy px-5 py-2.5 text-sm text-white">
-            Explore Yatra
+      <PageHero
+        title={t.hubs.aarti.h1}
+        hub="aarti"
+        ornament
+        crumbs={pageCrumbs(["Aarti", PATHS.aarti])}
+      >
+        <div className="mt-4 flex flex-wrap gap-2.5">
+          <LocaleLink
+            href={PATHS.chalisa}
+            className="rounded-full bg-navy px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-xs hover:bg-neutral-800 transition-colors"
+          >
+            Explore Chalisa Chants
           </LocaleLink>
-          <LocaleLink href={PATHS.store} className="rounded-full border border-line bg-white px-5 py-2.5 text-sm">
-            Diyas &amp; puja sets
+          <LocaleLink
+            href={PATHS.mantras}
+            className="rounded-full border border-line bg-white/90 px-4 py-2 text-xs sm:text-sm font-semibold text-ink shadow-xs hover:bg-cream transition-colors"
+          >
+            Sacred Mantras
           </LocaleLink>
         </div>
       </PageHero>
@@ -48,10 +59,11 @@ export default async function AartiPage() {
             text: item.introduction,
             image: item.heroImage,
             imageAlt: item.heroImageAlt,
+            badge: "Aarti",
           }))}
           emptyKind="aartis"
           placeholder={t.common.listingSearch(t.nav.aarti)}
-          className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-3"
+          className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
         />
         <HubSeoBlock id="aarti" hideFaqs />
         <FaqList faqs={[...t.listingFaqs.aarti]} title={t.common.faqTitle} />
@@ -59,3 +71,4 @@ export default async function AartiPage() {
     </div>
   );
 }
+

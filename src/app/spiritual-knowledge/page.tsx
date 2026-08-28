@@ -24,6 +24,7 @@ export default async function SpiritualityIndexPage() {
       <PageHero
         title={t.hubs.spirituality.h1}
         hub="spirituality"
+        ornament
         crumbs={localizedCrumbs(t.homeName, [t.hubs.spirituality.h1, PATHS.spirituality])}
       />
       <div className="mx-auto max-w-7xl px-4 pb-8 lg:px-8 lg:pb-12">
@@ -45,12 +46,15 @@ export default async function SpiritualityIndexPage() {
             image: item.heroImage,
             imageAlt: item.heroImageAlt,
             meta: item.category,
+            badge: "Knowledge",
           }))}
           emptyKind="articles"
           placeholder={t.common.listingSearch(t.nav.spirituality)}
+          className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
         />
         <HubSeoBlock id="spirituality" />
       </div>
     </div>
   );
 }
+

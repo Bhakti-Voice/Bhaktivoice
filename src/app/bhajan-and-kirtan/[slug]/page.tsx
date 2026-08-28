@@ -33,12 +33,23 @@ export default async function BhajanDetailPage({ params }: Props) {
   if (!page) notFound();
   return (
     <ArticleLayout page={page} path={`${PATHS.bhajan}/${page.slug}`}>
-      {(page.sections ?? []).map((section) => (
-        <section key={section.heading} className="mt-8">
-          <h2 className="font-serif text-2xl text-ink">{section.heading}</h2>
-          <SectionBody body={section.body} />
-        </section>
-      ))}
+      <div className="space-y-6">
+        {(page.sections ?? []).map((section) => (
+          <section
+            key={section.heading}
+            className="verse-sacred-card p-6 sm:p-8 ring-1 ring-[#eedec9] shadow-2xs hover:shadow-xs transition-shadow"
+          >
+            {section.heading ? (
+              <div className="mb-4 text-center sm:text-left">
+                <h2 className="font-serif text-xl sm:text-2xl font-bold text-ink">{section.heading}</h2>
+                <div className="mt-2 h-0.5 w-10 bg-saffron/40 rounded-full mx-auto sm:mx-0" />
+              </div>
+            ) : null}
+            <SectionBody body={section.body} />
+          </section>
+        ))}
+      </div>
     </ArticleLayout>
   );
 }
+

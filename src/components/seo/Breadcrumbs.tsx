@@ -1,5 +1,6 @@
 "use client";
 
+import { ChevronRight, Home } from "lucide-react";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { useLocale } from "@/lib/i18n/client";
 import { withLocale } from "@/lib/i18n/config";
@@ -14,16 +15,24 @@ export function Breadcrumbs({ items, jsonLd = true }: { items: BreadcrumbItem[];
   return (
     <>
       {jsonLd ? <JsonLd data={breadcrumbSchema(localized)} /> : null}
-      <nav aria-label="Breadcrumb" className="text-sm text-muted">
-        <ol className="flex flex-wrap items-center gap-1">
+      <nav aria-label="Breadcrumb" className="text-xs sm:text-sm text-muted">
+        <ol className="flex flex-wrap items-center gap-1.5 sm:gap-2">
           {localized.map((item, index) => (
-            <li key={item.href} className="flex items-center gap-1">
-              {index > 0 && <span aria-hidden="true">›</span>}
+            <li key={item.href} className="flex items-center gap-1.5 sm:gap-2">
+              {index > 0 ? (
+                <ChevronRight className="h-3 w-3 text-muted/60" aria-hidden="true" />
+              ) : null}
               {index === items.length - 1 ? (
-                <span className="text-ink">{item.name}</span>
-              ) : (
-                <LocaleLink href={item.href} className="hover:text-saffron">
+                <span className="font-semibold text-ink line-clamp-1 max-w-[240px] sm:max-w-none">
                   {item.name}
+                </span>
+              ) : (
+                <LocaleLink
+                  href={item.href}
+                  className="flex items-center gap-1 transition-colors hover:text-saffron-deep font-medium"
+                >
+                  {index === 0 ? <Home className="h-3.5 w-3.5 text-saffron/80" /> : null}
+                  <span>{item.name}</span>
                 </LocaleLink>
               )}
             </li>
@@ -33,3 +42,4 @@ export function Breadcrumbs({ items, jsonLd = true }: { items: BreadcrumbItem[];
     </>
   );
 }
+

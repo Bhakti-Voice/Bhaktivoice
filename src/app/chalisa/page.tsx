@@ -23,13 +23,24 @@ export default async function ChalisaPage() {
 
   return (
     <div>
-      <PageHero title={t.hubs.chalisa.h1} hub="chalisa" crumbs={pageCrumbs(["Chalisa", PATHS.chalisa])}>
-        <div className="mt-5 flex flex-wrap gap-3">
-          <LocaleLink href={PATHS.aarti} className="rounded-full bg-navy px-5 py-2.5 text-sm text-white">
-            Explore Aarti
+      <PageHero
+        title={t.hubs.chalisa.h1}
+        hub="chalisa"
+        ornament
+        crumbs={pageCrumbs(["Chalisa", PATHS.chalisa])}
+      >
+        <div className="mt-4 flex flex-wrap gap-2.5">
+          <LocaleLink
+            href={PATHS.aarti}
+            className="rounded-full bg-navy px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-xs hover:bg-neutral-800 transition-colors"
+          >
+            Explore Aarti Chants
           </LocaleLink>
-          <LocaleLink href={PATHS.mantras} className="rounded-full border border-line bg-white px-5 py-2.5 text-sm">
-            Mantras
+          <LocaleLink
+            href={PATHS.mantras}
+            className="rounded-full border border-line bg-white/90 px-4 py-2 text-xs sm:text-sm font-semibold text-ink shadow-xs hover:bg-cream transition-colors"
+          >
+            Sacred Mantras
           </LocaleLink>
         </div>
       </PageHero>
@@ -48,10 +59,11 @@ export default async function ChalisaPage() {
             text: item.introduction,
             image: item.heroImage,
             imageAlt: item.heroImageAlt,
+            badge: "Chalisa",
           }))}
           emptyKind="chalisas"
           placeholder={t.common.listingSearch(t.nav.chalisa)}
-          className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-3"
+          className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
         />
         <HubSeoBlock id="chalisa" hideFaqs />
         <FaqList faqs={[...t.listingFaqs.chalisa]} title={t.common.faqTitle} />
@@ -59,3 +71,4 @@ export default async function ChalisaPage() {
     </div>
   );
 }
+

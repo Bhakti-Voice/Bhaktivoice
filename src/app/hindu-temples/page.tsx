@@ -21,7 +21,12 @@ export default async function TemplesIndexPage() {
 
   return (
     <div>
-      <PageHero title={t.hubs.temples.h1} hub="temples" crumbs={localizedCrumbs(t.homeName, [t.hubs.temples.h1, PATHS.temples])} />
+      <PageHero
+        title={t.hubs.temples.h1}
+        hub="temples"
+        ornament
+        crumbs={localizedCrumbs(t.homeName, [t.hubs.temples.h1, PATHS.temples])}
+      />
       <div className="mx-auto max-w-7xl px-4 pb-8 lg:px-8 lg:pb-12">
         <JsonLd
           data={await localizedItemListSchema(
@@ -38,12 +43,15 @@ export default async function TemplesIndexPage() {
             image: item.heroImage,
             imageAlt: item.heroImageAlt,
             meta: `${item.deity} · ${item.location}`,
+            badge: "Mandir",
           }))}
           emptyKind="temples"
           placeholder={t.common.listingSearch(t.nav.temples)}
+          className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
         />
         <HubSeoBlock id="temples" />
       </div>
     </div>
   );
 }
+

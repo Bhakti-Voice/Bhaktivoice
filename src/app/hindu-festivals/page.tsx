@@ -25,11 +25,12 @@ export default async function FestivalsIndexPage() {
       <PageHero
         title={t.hubs.festivals.h1}
         hub="festivals"
+        ornament
         crumbs={localizedCrumbs(t.homeName, [t.hubs.festivals.h1, PATHS.festivals])}
       >
-        <p className="mt-3 text-sm text-muted">
+        <p className="mt-3 text-xs sm:text-sm text-ink/75">
           {t.common.festivalTithiLead}{" "}
-          <LocaleLink href={PATHS.tithi} className="text-saffron">
+          <LocaleLink href={PATHS.tithi} className="font-semibold text-saffron-deep hover:underline">
             {t.nav.tithi}
           </LocaleLink>
           .
@@ -51,12 +52,15 @@ export default async function FestivalsIndexPage() {
             image: item.heroImage,
             imageAlt: item.heroImageAlt,
             meta: item.monthHint,
+            badge: "Utsav",
           }))}
           emptyKind="festivals"
           placeholder={t.common.listingSearch(t.nav.festivals)}
+          className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
         />
         <HubSeoBlock id="festivals" />
       </div>
     </div>
   );
 }
+

@@ -23,12 +23,23 @@ export default async function BhajanPage() {
 
   return (
     <div>
-      <PageHero title={t.hubs.bhajan.h1} hub="bhajan" crumbs={pageCrumbs(["Bhajan", PATHS.bhajan])}>
-        <div className="mt-5 flex flex-wrap gap-3">
-          <LocaleLink href={PATHS.katha} className="rounded-full bg-navy px-5 py-2.5 text-sm text-white">
-            Explore Katha
+      <PageHero
+        title={t.hubs.bhajan.h1}
+        hub="bhajan"
+        ornament
+        crumbs={pageCrumbs(["Bhajan", PATHS.bhajan])}
+      >
+        <div className="mt-4 flex flex-wrap gap-2.5">
+          <LocaleLink
+            href={PATHS.katha}
+            className="rounded-full bg-navy px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-xs hover:bg-neutral-800 transition-colors"
+          >
+            Explore Sacred Katha
           </LocaleLink>
-          <LocaleLink href="/naam-jaap" className="rounded-full bg-saffron px-5 py-2.5 text-sm text-white">
+          <LocaleLink
+            href="/naam-jaap"
+            className="rounded-full bg-saffron px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-xs hover:bg-saffron-deep transition-colors"
+          >
             Start Naam Jaap
           </LocaleLink>
         </div>
@@ -48,10 +59,11 @@ export default async function BhajanPage() {
             text: item.introduction,
             image: item.heroImage,
             imageAlt: item.heroImageAlt,
+            badge: "Bhajan",
           }))}
           emptyKind="bhajans"
           placeholder={t.common.bhajanSearchPlaceholder}
-          className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-3"
+          className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
         />
         <HubSeoBlock id="bhajan" hideFaqs />
         <FaqList faqs={[...t.listingFaqs.bhajan]} title={t.common.faqTitle} />
@@ -59,3 +71,4 @@ export default async function BhajanPage() {
     </div>
   );
 }
+
