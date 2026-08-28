@@ -28,4 +28,6 @@ export const PATHS = {
   calendar: "/hindu-calendar",
   kundli: "/kundli",
   kundliMilan: "/kundli-milan",
+  suvicharMaker: "/suvichar-card-maker",
 } as const;
+

@@ -16,6 +16,7 @@ export const INDIAN_CITIES: CityEntry[] = [
   { name: "New Delhi", nameHi: "नई दिल्ली", state: "Delhi", stateHi: "दिल्ली", latitude: 28.6139, longitude: 77.209, timeZone: "Asia/Kolkata", aliases: ["Delhi", "NCR", "Dilli"] },
   { name: "Noida", nameHi: "नोएडा", state: "Uttar Pradesh", stateHi: "उत्तर प्रदेश", latitude: 28.5355, longitude: 77.391, timeZone: "Asia/Kolkata", aliases: ["Gautam Buddha Nagar"] },
   { name: "Greater Noida", nameHi: "ग्रेटर नोएडा", state: "Uttar Pradesh", stateHi: "उत्तर प्रदेश", latitude: 28.4744, longitude: 77.504, timeZone: "Asia/Kolkata" },
+
   { name: "Ghaziabad", nameHi: "गाजियाबाद", state: "Uttar Pradesh", stateHi: "उत्तर प्रदेश", latitude: 28.6692, longitude: 77.4538, timeZone: "Asia/Kolkata" },
   { name: "Gurugram", nameHi: "गुरुग्राम", state: "Haryana", stateHi: "हरियाणा", latitude: 28.4595, longitude: 77.0266, timeZone: "Asia/Kolkata", aliases: ["Gurgaon"] },
   { name: "Faridabad", nameHi: "फरीदाबाद", state: "Haryana", stateHi: "हरियाणा", latitude: 28.4089, longitude: 77.3178, timeZone: "Asia/Kolkata" },
@@ -387,3 +388,6 @@ export async function readDeviceLocation(): Promise<BirthPlace | null> {
     );
   });
 }
+
+export const DEFAULT_GEO = INDIAN_CITIES[0];
+

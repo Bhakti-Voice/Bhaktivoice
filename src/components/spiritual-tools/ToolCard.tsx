@@ -1,13 +1,15 @@
 import { LocaleLink } from "@/components/i18n/LocaleLink";
-import { Calendar, CalendarDays, Heart, ScrollText, Sun } from "lucide-react";
+import { Calendar, CalendarDays, Heart, ScrollText, Sparkles, Sun } from "lucide-react";
 import type { ReactNode } from "react";
 
 const ICONS: Record<string, ReactNode> = {
+  suvichar: <Sparkles className="h-7 w-7 text-saffron" aria-hidden />,
   panchang: <Sun className="h-7 w-7 text-saffron" aria-hidden />,
   calendar: <Calendar className="h-7 w-7 text-saffron" aria-hidden />,
   kundli: <ScrollText className="h-7 w-7 text-saffron" aria-hidden />,
   milan: <Heart className="h-7 w-7 text-saffron" aria-hidden />,
 };
+
 
 export function ToolCard({
   href,

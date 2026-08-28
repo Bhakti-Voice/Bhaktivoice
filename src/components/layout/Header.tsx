@@ -40,6 +40,7 @@ export function Header() {
     { href: PATHS.temples, label: t.nav.temples },
     { href: PATHS.festivals, label: t.nav.festivals },
     { href: PATHS.tithi, label: t.nav.tithi },
+    { href: PATHS.suvicharMaker, label: locale === "hi" ? "सुविचार स्टेटस मेकर" : "Suvichar Status Maker" },
     { href: PATHS.quotes, label: t.nav.quotes },
     { href: PATHS.mantras, label: t.nav.mantras },
     { href: PATHS.bhajan, label: t.nav.bhajan },

@@ -39,6 +39,14 @@ export default async function SpiritualToolsPage() {
 
   const tools = [
     {
+      href: PATHS.suvicharMaker,
+      title: isHi ? "सुविचार एवं व्हाट्सएप स्टेटस मेकर" : "Daily Suvichar & Status Studio",
+      description: isHi
+        ? "जैन वाणी, गीता श्लोक, शिव, हनुमान, राम एवं पर्व सुविचार के साथ अपना नाम व फोटो जोड़कर HD स्टेटस कार्ड बनाएं।"
+        : "Create personalized HD WhatsApp Status & Story cards with Jain wisdom, Gita shlokas, and daily Vedic Panchang.",
+      icon: "suvichar" as const,
+    },
+    {
       href: PATHS.panchangToday,
       title: isHi ? "आज का पंचांग" : "Today's Panchang",
       description: isHi
@@ -71,6 +79,7 @@ export default async function SpiritualToolsPage() {
       icon: "milan" as const,
     },
   ];
+
 
   return (
     <div>

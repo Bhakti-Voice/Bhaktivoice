@@ -3,6 +3,7 @@ import { MediaImage } from "@/components/media/MediaImage";
 import { CoverMedia } from "@/components/media/CoverMedia";
 import { SectionHeading } from "@/components/brand/SectionHeading";
 import { OmFlourish } from "@/components/brand/OmFlourish";
+import { HomeQuickLinksCard } from "@/components/home/HomeQuickLinksCard";
 import {
   ArrowRight,
   Bell,
@@ -41,7 +42,9 @@ import type { Metadata } from "next";
 export const revalidate = 1800;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const t = await getMessages();
+  const [t, locale] = await Promise.all([getMessages(), getLocale()]);
+  const isHi = locale === "hi";
+
   return localizedMetadata({
     title: t.home.title,
     description: t.home.description,
@@ -49,8 +52,34 @@ export async function generateMetadata(): Promise<Metadata> {
     image: "/assets/bhakti-voice-og-home.jpg",
     imageAlt: "Bhakti Voice - Online Naam Jaap, Katha, and Spiritual Sadhana",
     absoluteTitle: true,
+    keywords: isHi
+      ? [
+          "भक्ति वॉइस",
+          "ऑनलाइन नाम जप",
+          "आज का पंचांग",
+          "हिन्दू कैलेंडर 2026",
+          "दैनिक सुविचार कार्ड",
+          "मुफ्त जन्म कुंडली",
+          "पौराणिक कथाएं",
+          "हिन्दू मंदिर",
+          "दैनिक साधना",
+          "आरती एवं चालीसा संग्रह",
+        ]
+      : [
+          "Bhakti Voice",
+          "Online Naam Jaap",
+          "Today Panchang",
+          "Hindu Calendar 2026",
+          "Daily Suvichar Status Maker",
+          "Free Kundli",
+          "Sacred Katha Stories",
+          "Hindu Temples",
+          "Daily Sadhana",
+          "Aarti and Chalisa Sangrah",
+        ],
   });
 }
+
 
 const AVATARS = ["#c05621", "#d97706", "#7c3aed", "#be185d", "#1d4ed8", "#0f766e", "#b45309"];
 
@@ -204,9 +233,12 @@ export default async function HomePage() {
         <HomeChantBanner locale={locale} t={t} />
       </Suspense>
 
+      <HomeQuickLinksCard locale={locale} />
+
       <Suspense fallback={null}>
         <HomeContentSections t={t} />
       </Suspense>
+
 
       <div className="mx-auto max-w-7xl px-4 pb-16 lg:px-8">
         <HubSeoBlock id="home" collapsible />
