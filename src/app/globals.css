@@ -170,23 +170,33 @@ button:disabled,
     0 0 34px rgba(230, 126, 34, 0.22);
 }
 
-.home-feature-scroll {
+.home-feature-scroll,
+.home-feature-scroll-v2 {
   scroll-snap-type: x mandatory;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(230, 126, 34, 0.45) transparent;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Hide default scrollbar for app-like elegance */
 }
 
-.home-feature-scroll::-webkit-scrollbar {
-  height: 6px;
+.home-feature-scroll-v2::-webkit-scrollbar {
+  display: none;
 }
 
-.home-feature-scroll::-webkit-scrollbar-thumb {
-  border-radius: 999px;
-  background: rgba(230, 126, 34, 0.45);
-}
-
-.home-feature-scroll::-webkit-scrollbar-track {
-  background: transparent;
+@media (min-width: 1024px) {
+  .home-feature-scroll-v2 {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(230, 126, 34, 0.25) transparent;
+  }
+  .home-feature-scroll-v2::-webkit-scrollbar {
+    display: block;
+    height: 4px;
+  }
+  .home-feature-scroll-v2::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgba(230, 126, 34, 0.35);
+  }
+  .home-feature-scroll-v2::-webkit-scrollbar-track {
+    background: transparent;
+  }
 }
 
 .hero-krishna-blur-bottom {
@@ -302,23 +312,33 @@ button:disabled,
   contain: layout style paint;
 }
 
+@keyframes jaapChakraSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .jaap-chakra-spin,
 .jaap-chakra-spin-rev {
   transform-origin: 50% 50%;
   will-change: transform;
   backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .jaap-chakra-spin {
-  animation: jaapChakraSpin 22s linear infinite;
+  animation: jaapChakraSpin 28s linear infinite;
 }
 
 .jaap-chakra-spin-rev {
-  animation: jaapChakraSpin 34s linear infinite reverse;
+  animation: jaapChakraSpin 40s linear infinite reverse;
 }
 
 .jaap-chakra-glow {
-  background: radial-gradient(circle, transparent 58%, rgba(255, 224, 130, 0.22) 78%, transparent 88%);
+  background: radial-gradient(circle, transparent 58%, rgba(254, 240, 138, 0.18) 78%, transparent 92%);
 }
 
 .jaap-volume {

@@ -39,6 +39,7 @@ export function BlogListing({
   const t = useMessages();
   const [query, setQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [expandedTags, setExpandedTags] = useState(false);
 
   const categories = useMemo(() => {
     const set = new Set<string>();
@@ -72,12 +73,16 @@ export function BlogListing({
   const featuredPost = !isFiltering && visible.length > 0 ? visible[0] : null;
   const gridPosts = featuredPost ? visible.slice(1) : visible;
 
+  const INITIAL_TAGS_LIMIT = 3;
+  const displayCategories = expandedTags ? categories : categories.slice(0, INITIAL_TAGS_LIMIT);
+  const hasExtraTags = categories.length > INITIAL_TAGS_LIMIT;
+
   return (
     <>
       <PageHero title={title} subtitle={subtitle} hub={hub} ornament crumbs={crumbs} />
 
       <div className="mx-auto max-w-7xl px-4 pt-2 sm:pt-4 lg:px-8">
-        <div className="space-y-4">
+        <div className="space-y-3.5">
           <ListingSearch
             value={query}
             onChange={setQuery}
@@ -86,32 +91,42 @@ export function BlogListing({
           />
 
           {categories.length > 1 ? (
-            <div className="flex flex-wrap items-center gap-2 pt-1 pb-2">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 pt-1 pb-1">
               <button
                 type="button"
                 onClick={() => setActiveCategory(null)}
-                className={`rounded-full px-4 py-1.5 text-xs font-semibold tracking-wide transition-all ${
+                className={`rounded-full px-3.5 py-1 text-xs font-semibold tracking-wide transition-all ${
                   activeCategory === null
-                    ? "bg-saffron text-white shadow-sm ring-1 ring-saffron-deep/30"
-                    : "bg-white text-ink/75 ring-1 ring-line hover:bg-cream hover:text-ink"
+                    ? "bg-gradient-to-r from-saffron to-saffron-deep text-white shadow-xs ring-1 ring-saffron/30"
+                    : "bg-white text-stone-700 ring-1 ring-stone-200/80 hover:bg-amber-50 hover:text-saffron-deep"
                 }`}
               >
                 All
               </button>
-              {categories.map((cat) => (
+              {displayCategories.map((cat) => (
                 <button
                   key={cat}
                   type="button"
                   onClick={() => setActiveCategory(activeCategory === cat ? null : cat)}
-                  className={`rounded-full px-4 py-1.5 text-xs font-semibold tracking-wide transition-all ${
+                  className={`rounded-full px-3.5 py-1 text-xs font-semibold tracking-wide transition-all ${
                     activeCategory === cat
-                      ? "bg-saffron text-white shadow-sm ring-1 ring-saffron-deep/30"
-                      : "bg-white text-ink/75 ring-1 ring-line hover:bg-cream hover:text-ink"
+                      ? "bg-gradient-to-r from-saffron to-saffron-deep text-white shadow-xs ring-1 ring-saffron/30"
+                      : "bg-white text-stone-700 ring-1 ring-stone-200/80 hover:bg-amber-50 hover:text-saffron-deep"
                   }`}
                 >
                   {cat}
                 </button>
               ))}
+
+              {hasExtraTags && (
+                <button
+                  type="button"
+                  onClick={() => setExpandedTags(!expandedTags)}
+                  className="inline-flex items-center gap-1 rounded-full px-3.5 py-1 text-xs font-semibold text-saffron-deep bg-amber-50 hover:bg-amber-100 ring-1 ring-amber-200/80 transition-colors shadow-2xs"
+                >
+                  <span>{expandedTags ? "Show Less" : `+${categories.length - INITIAL_TAGS_LIMIT} More`}</span>
+                </button>
+              )}
             </div>
           ) : null}
         </div>
@@ -119,9 +134,9 @@ export function BlogListing({
         {/* Featured Post Spotlight */}
         {featuredPost ? (
           <section aria-label="Featured Guide" className="mt-6 mb-8">
-            <div className="group card-spiritual relative overflow-hidden rounded-3xl bg-white ring-1 ring-[#e8dfd2] hover:border-saffron/40 hover:shadow-[0_16px_36px_rgba(211,84,0,0.12)]">
-              <div className="grid lg:grid-cols-[1.2fr_1fr] items-center">
-                <div className="relative overflow-hidden aspect-[16/10] lg:aspect-auto lg:h-full min-h-[260px] sm:min-h-[320px]">
+            <div className="group relative overflow-hidden rounded-[28px] bg-gradient-to-b from-[#fffefc] to-[#fff9f1] border border-[#ecd9be] hover:border-amber-400/90 shadow-[0_6px_24px_rgba(217,119,6,0.08)] hover:shadow-[0_20px_48px_rgba(217,119,6,0.18)] transition-all duration-300">
+              <div className="grid lg:grid-cols-[1.2fr_1fr] items-stretch">
+                <div className="relative overflow-hidden aspect-[16/10] lg:aspect-auto lg:h-full min-h-[260px] sm:min-h-[320px] bg-amber-50/50">
                   <CoverMedia
                     src={featuredPost.heroImage}
                     alt={featuredPost.heroImageAlt || featuredPost.title}
@@ -129,8 +144,10 @@ export function BlogListing({
                     sizes="(max-width: 1024px) 100vw, 700px"
                     priority
                   />
-                  <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full bg-navy/85 px-3.5 py-1 text-xs font-semibold tracking-wider uppercase text-gold backdrop-blur-md ring-1 ring-gold/30">
-                    <Sparkles className="h-3.5 w-3.5 text-gold" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-300" />
+                  
+                  <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full bg-stone-900/85 px-3.5 py-1 text-xs font-bold tracking-wider uppercase text-amber-300 backdrop-blur-md border border-amber-300/30 shadow-xs">
+                    <Sparkles className="h-3.5 w-3.5 text-amber-300" />
                     <span>Featured</span>
                   </div>
                 </div>
@@ -139,19 +156,19 @@ export function BlogListing({
                   <div>
                     <div className="flex items-center gap-3">
                       {featuredPost.category ? (
-                        <span className="rounded-full bg-saffron/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-saffron-deep border border-saffron/20">
+                        <span className="rounded-full bg-amber-100/90 px-3 py-0.5 text-xs font-bold uppercase tracking-wider text-amber-900 border border-amber-200/80">
                           {featuredPost.category}
                         </span>
                       ) : null}
                       {featuredPost.readingTime ? (
-                        <span className="flex items-center gap-1 text-xs font-medium text-muted">
-                          <Clock className="h-3.5 w-3.5 text-saffron" />
+                        <span className="flex items-center gap-1 text-xs font-medium text-stone-500">
+                          <Clock className="h-3.5 w-3.5 text-amber-600" />
                           {featuredPost.readingTime}
                         </span>
                       ) : null}
                     </div>
 
-                    <h2 className="mt-3 font-serif text-2xl font-bold leading-snug text-ink group-hover:text-saffron-deep transition-colors sm:text-3xl">
+                    <h2 className="mt-3 font-serif text-2xl font-bold leading-snug text-[#2c1810] group-hover:text-saffron-deep transition-colors sm:text-3xl">
                       <LocaleLink href={`${PATHS.blog}/${featuredPost.slug}`}>
                         {featuredPost.title}
                       </LocaleLink>
@@ -159,20 +176,20 @@ export function BlogListing({
 
                     <ProseText
                       text={featuredPost.excerpt || featuredPost.introduction}
-                      className="mt-3 text-sm sm:text-base leading-relaxed text-muted line-clamp-3"
+                      className="mt-3 text-sm sm:text-base leading-relaxed text-stone-600 line-clamp-3"
                     />
                   </div>
 
-                  <div className="mt-6 pt-5 border-t border-[#f0e6d9] flex items-center justify-between gap-4">
+                  <div className="mt-6 pt-5 border-t border-amber-100/80 flex items-center justify-between gap-4">
                     <div className="flex items-center gap-2.5">
-                      <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#fff2e4] text-xs font-bold text-saffron-deep ring-1 ring-[#f3d2b3]">
+                      <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-amber-100 text-xs font-bold text-amber-900 ring-1 ring-amber-200">
                         {(featuredPost.author || authorFallback).slice(0, 1).toUpperCase()}
                       </span>
                       <div>
-                        <p className="text-xs font-semibold text-ink leading-tight">
+                        <p className="text-xs font-semibold text-[#2c1810] leading-tight">
                           {featuredPost.author || authorFallback}
                         </p>
-                        <p className="text-[11px] text-muted">{featuredPost.updatedAt ? `Updated ${featuredPost.updatedAt}` : "Spiritual Guide"}</p>
+                        <p className="text-[11px] text-stone-500">{featuredPost.updatedAt ? `Updated ${featuredPost.updatedAt}` : "Spiritual Guide"}</p>
                       </div>
                     </div>
 
@@ -180,7 +197,7 @@ export function BlogListing({
                       <BlogSaveButton slug={featuredPost.slug} saveLabel={saveLabel} savedLabel={savedLabel} />
                       <LocaleLink
                         href={`${PATHS.blog}/${featuredPost.slug}`}
-                        className="inline-flex items-center gap-1.5 rounded-full bg-saffron px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-sm transition-all hover:bg-saffron-deep hover:shadow"
+                        className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-saffron to-saffron-deep px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-xs hover:shadow-md hover:brightness-105 active:scale-95 transition-all"
                       >
                         <span>{readMore}</span>
                         <ChevronRight className="h-4 w-4" />

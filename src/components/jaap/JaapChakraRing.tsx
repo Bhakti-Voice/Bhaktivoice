@@ -35,6 +35,7 @@ function omCount(radius: number, size: number) {
 }
 
 function fontFamily() {
+  if (typeof document === "undefined") return `"Noto Serif Devanagari", serif`;
   const token = getComputedStyle(document.documentElement).getPropertyValue("--font-devanagari").trim();
   return token ? `${token}, "Noto Serif Devanagari", serif` : `"Noto Serif Devanagari", serif`;
 }
@@ -127,7 +128,10 @@ const ChakraBitmap = memo(function ChakraBitmap({ reverse }: { reverse: boolean 
     if (!canvas) return;
     const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
-    paintLayer(ctx, reverse);
+    const frameId = requestAnimationFrame(() => {
+      paintLayer(ctx, reverse);
+    });
+    return () => cancelAnimationFrame(frameId);
   }, [reverse]);
 
   return (
@@ -142,7 +146,7 @@ const ChakraBitmap = memo(function ChakraBitmap({ reverse }: { reverse: boolean 
 
 function ProgressRing({ malaProgress }: { malaProgress: number }) {
   const innerCirc = 2 * Math.PI * INNER_R;
-  const innerOffset = innerCirc * (1 - malaProgress / 108);
+  const innerOffset = innerCirc * (1 - Math.min(108, Math.max(0, malaProgress)) / 108);
   return (
     <svg viewBox="0 0 320 320" className="absolute inset-0 h-full w-full">
       <circle cx={CX} cy={CY} r={INNER_R} fill="none" stroke="#f4e0a8" strokeWidth="2.2" />
@@ -157,6 +161,7 @@ function ProgressRing({ malaProgress }: { malaProgress: number }) {
         strokeDasharray={innerCirc}
         strokeDashoffset={innerOffset}
         transform={`rotate(-90 ${CX} ${CY})`}
+        className="transition-all duration-300 ease-out"
       />
     </svg>
   );

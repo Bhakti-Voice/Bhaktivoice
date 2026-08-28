@@ -4,6 +4,7 @@ import { CoverMedia } from "@/components/media/CoverMedia";
 import { SectionHeading } from "@/components/brand/SectionHeading";
 import { OmFlourish } from "@/components/brand/OmFlourish";
 import { HomeQuickLinksCard } from "@/components/home/HomeQuickLinksCard";
+import { HomeFeatureCards } from "@/components/home/HomeFeatureCards";
 import {
   ArrowRight,
   Bell,
@@ -197,30 +198,7 @@ export default async function HomePage() {
           </div>
         </div>
 
-        <section className="relative z-20 mx-auto -mt-[4.75rem] max-w-7xl px-4 pb-6 sm:-mt-[5.25rem] lg:-mt-[5.25rem] lg:px-8">
-          <div
-            className="home-feature-scroll -mx-1 overflow-x-auto overscroll-x-contain px-1 pb-1"
-            aria-label="Explore Bhakti Voice"
-          >
-            <div className="flex w-max gap-3 sm:gap-4">
-              {features.map((feature) => (
-                <LocaleLink
-                  key={feature.href}
-                  href={feature.href}
-                  className="home-feature-card flex aspect-square w-[9.25rem] shrink-0 snap-start flex-col items-center justify-center rounded-[18px] px-2.5 py-4 text-center sm:w-[10.5rem] sm:px-3 lg:w-[11rem]"
-                >
-                  <feature.icon className="h-8 w-8 text-saffron sm:h-9 sm:w-9" />
-                  <h2 className="mt-3 font-display text-[15px] font-bold leading-tight text-[#6b2a16] sm:text-[17px]">
-                    {feature.title}
-                  </h2>
-                  <p className="mt-1.5 text-[11px] font-medium tracking-[0.04em] text-[#7a3b22] sm:text-xs">
-                    {feature.text}
-                  </p>
-                </LocaleLink>
-              ))}
-            </div>
-          </div>
-        </section>
+        <HomeFeatureCards locale={locale} />
       </section>
 
       <Suspense

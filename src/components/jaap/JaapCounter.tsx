@@ -30,9 +30,18 @@ const JaapChakraRing = dynamic(
   () => import("@/components/jaap/JaapChakraRing").then((mod) => mod.JaapChakraRing),
   { ssr: false },
 );
+
+const JaapShareModal = dynamic(
+  () => import("@/components/jaap/JaapShareModal").then((mod) => mod.JaapShareModal),
+  { ssr: false },
+);
+
+const JaapZenMode = dynamic(
+  () => import("@/components/jaap/JaapZenMode").then((mod) => mod.JaapZenMode),
+  { ssr: false },
+);
+
 import { JaapMantraSelect } from "@/components/jaap/JaapMantraSelect";
-import { JaapShareModal } from "@/components/jaap/JaapShareModal";
-import { JaapZenMode } from "@/components/jaap/JaapZenMode";
 import {
   emptyJaapCounts,
   isJaapMantraSlug,
@@ -404,10 +413,16 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
     }
     setPending(emptyJaapCounts());
     setHydrated(true);
-    void loadGlobals();
-    if (stored) void flushQueue();
+    
+    // Defer network sync slightly so initial paint & interaction is instantaneous
+    const idleTimer = window.setTimeout(() => {
+      void loadGlobals();
+      if (stored) void flushQueue();
+    }, 50);
+
     const onHide = () => {
       window.clearTimeout(postTimer.current);
+      window.clearTimeout(idleTimer);
       sendKeepalive();
     };
     const onVisibility = () => {

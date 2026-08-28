@@ -13,10 +13,7 @@ import { localizedItemListSchema } from "@/lib/seo/localized-schema";
 import { PATHS } from "@/lib/seo/paths";
 import { SITE, absoluteUrl } from "@/lib/seo/site";
 
-const JaapCounter = dynamic(
-  () => import("@/components/jaap/JaapCounter").then((mod) => mod.JaapCounter),
-  { loading: () => <div className="min-h-[420px] animate-pulse rounded-[32px] bg-sand" /> },
-);
+import { JaapCounter } from "@/components/jaap/JaapCounter";
 
 export const revalidate = 3600;
 
