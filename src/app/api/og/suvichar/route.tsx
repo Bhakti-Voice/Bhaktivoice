@@ -2,7 +2,6 @@ import { ImageResponse } from "next/og";
 import { NextRequest } from "next/server";
 import { SUVICHAR_DATABASE, CARD_THEMES } from "@/lib/spiritual-tools/suvichar-data";
 
-export const runtime = "edge";
 
 export async function GET(request: NextRequest) {
   try {
