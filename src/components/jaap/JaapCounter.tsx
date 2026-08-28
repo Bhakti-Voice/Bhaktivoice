@@ -1,18 +1,24 @@
 "use client";
 
-import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import { useLocale, useMessages } from "@/lib/i18n/client";
 import { withLocale } from "@/lib/i18n/config";
 import {
+  Bell,
+  CheckCircle2,
   CircleDot,
   Flame,
   Hand,
+  Maximize2,
   Minus,
   Mountain,
   Plus,
   RotateCcw,
+  Share2,
+  Sparkles,
+  Target,
   UserRound,
+  Vibrate,
   Volume2,
   VolumeX,
 } from "lucide-react";
@@ -25,6 +31,8 @@ const JaapChakraRing = dynamic(
   { ssr: false },
 );
 import { JaapMantraSelect } from "@/components/jaap/JaapMantraSelect";
+import { JaapShareModal } from "@/components/jaap/JaapShareModal";
+import { JaapZenMode } from "@/components/jaap/JaapZenMode";
 import {
   emptyJaapCounts,
   isJaapMantraSlug,
@@ -133,20 +141,14 @@ function clearUnsent() {
   window.localStorage.removeItem(UNSENT_KEY);
 }
 
-const QUICK = [
-  { slug: "ram-naam", label: "Ram Naam", href: `${PATHS.mantras}/ram-naam`, tone: "bg-[#ffedd5] text-[#c2410c]" },
-  { slug: "hare-krishna", label: "Hare Krishna", href: `${PATHS.mantras}/hare-krishna`, tone: "bg-[#dcfce7] text-[#15803d]" },
-  { slug: "om-namah-shivaya", label: "Om Namah Shivaya", href: `${PATHS.mantras}/om-namah-shivaya`, tone: "bg-[#dbeafe] text-[#1d4ed8]" },
-  { slug: "namokar", label: "Namokar", href: `${PATHS.mantras}/namokar-mantra`, tone: "bg-[#fef3c7] text-[#b45309]" },
-  { slug: "hanuman", label: "Hanuman", href: `${PATHS.mantras}/hanuman-mantra`, tone: "bg-[#ffedd5] text-[#9a3412]" },
-];
-
 export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" }) {
   const { user, loading: authLoading } = useAuth();
   const t = useMessages();
   const locale = useLocale();
   const router = useRouter();
-  const countLocale = locale === "hi" ? "hi-IN" : "en-IN";
+  const isHi = locale === "hi";
+  const countLocale = isHi ? "hi-IN" : "en-IN";
+
   const [hydrated, setHydrated] = useState(false);
   const [mantra, setMantra] = useState<JaapMantraSlug>("radhe-radhe");
   const [globalTotals, setGlobalTotals] = useState<JaapCounts>(emptyJaapCounts);
@@ -156,6 +158,13 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
   const [streak, setStreak] = useState(0);
   const [step, setStep] = useState(108);
   const [floats, setFloats] = useState<FloatNaam[]>([]);
+  const [targetMalas, setTargetMalas] = useState(1);
+  const [isShareOpen, setIsShareOpen] = useState(false);
+  const [isZenOpen, setIsZenOpen] = useState(false);
+  const [chimeEnabled, setChimeEnabled] = useState(true);
+  const [hapticsEnabled, setHapticsEnabled] = useState(true);
+  const [milestoneNotice, setMilestoneNotice] = useState<string | null>(null);
+
   const queueRef = useRef<Partial<JaapCounts>>({});
   const postTimer = useRef<number | undefined>(undefined);
   const flushStartedAt = useRef(0);
@@ -164,17 +173,60 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
   const tokenRef = useRef("");
   const floatId = useRef(0);
   const voiceRef = useRef<HTMLAudioElement>(null);
+  const bellAudioRef = useRef<HTMLAudioElement | null>(null);
   const voiceOnRef = useRef(false);
   const userRef = useRef(user);
   const pendingRef = useRef(pending);
   const syncedUser = useRef<string | null>(null);
   const [voiceOn, setVoiceOn] = useState(false);
   const [volume, setVolume] = useState(0.7);
+
+  const selected = JAAP_MANTRAS.find((item) => item.slug === mantra) ?? JAAP_MANTRAS[0];
   const voiceSrc = JAAP_VOICE[mantra];
   const hasVoice = Boolean(voiceSrc);
   voiceOnRef.current = voiceOn;
   userRef.current = user;
   pendingRef.current = pending;
+
+  // Web Audio synthetic peaceful temple chime synthesizer
+  const playSacredChime = useCallback(() => {
+    if (!chimeEnabled || typeof window === "undefined") return;
+    try {
+      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      // Fundamental and gentle harmonic frequencies of Indian Bell (Ghantha)
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(528, now); // 528Hz Solfeggio / Love frequency
+      osc.frequency.exponentialRampToValueAtTime(1056, now + 0.15);
+      osc.frequency.exponentialRampToValueAtTime(528, now + 1.2);
+
+      gain.gain.setValueAtTime(0.35, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 2.4);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 2.5);
+    } catch {
+      // AudioContext unavailable or blocked
+    }
+  }, [chimeEnabled]);
+
+  const triggerHaptic = useCallback(() => {
+    if (hapticsEnabled && typeof navigator !== "undefined" && navigator.vibrate) {
+      try {
+        navigator.vibrate(30);
+      } catch {
+        // Ignored
+      }
+    }
+  }, [hapticsEnabled]);
 
   const applyGlobalRows = useCallback((rows: { slug: string; total: number }[] | undefined) => {
     if (!rows?.length) return;
@@ -434,13 +486,27 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
   const malasToday = Math.floor(displayCount / 108);
   const worldwideTotal = Object.values(globalTotals).reduce((sum, value) => sum + value, 0);
   const personalAll = Object.values(personalTotals).reduce((sum, value) => sum + value, 0);
-  const selected = JAAP_MANTRAS.find((item) => item.slug === mantra) ?? JAAP_MANTRAS[0];
 
   const add = useCallback(
     (rawDelta: number) => {
       const delta = Math.min(MAX_DELTA, Math.max(0, Math.floor(rawDelta)));
       if (!delta) return;
       const currentUser = userRef.current;
+      const prevCount = pendingRef.current[mantra] ?? 0;
+      const nextCount = prevCount + delta;
+
+      triggerHaptic();
+
+      // Check if a 108 mala milestone is crossed
+      if (Math.floor(nextCount / 108) > Math.floor(prevCount / 108)) {
+        playSacredChime();
+        const newMalaNum = Math.floor(nextCount / 108);
+        setMilestoneNotice(
+          isHi ? `🎉 बधाई! ${newMalaNum} माला पूर्ण हुई। जय श्री राम!` : `🎉 Blessed! Completed Mala #${newMalaNum}!`,
+        );
+        setTimeout(() => setMilestoneNotice(null), 4000);
+      }
+
       setGlobalTotals((current) => ({ ...current, [mantra]: (current[mantra] ?? 0) + delta }));
       setPending((current) => ({ ...current, [mantra]: (current[mantra] ?? 0) + delta }));
       if (currentUser) {
@@ -451,11 +517,13 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
       persistQueue();
       scheduleFlush();
     },
-    [mantra, persistQueue, scheduleFlush],
+    [isHi, mantra, persistQueue, playSacredChime, scheduleFlush, triggerHaptic],
   );
 
   const spawnNaam = useCallback(
-    (x: number, y: number) => {
+    (x?: number, y?: number) => {
+      const posX = x && x > 0 ? x : typeof window !== "undefined" ? window.innerWidth / 2 : 200;
+      const posY = y && y > 0 ? y : typeof window !== "undefined" ? window.innerHeight / 2 : 300;
       const id = floatId.current + 1;
       floatId.current = id;
       setFloats((current) => [
@@ -464,8 +532,8 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
           id,
           text: selected.balloon,
           color: selected.color,
-          x,
-          y,
+          x: posX,
+          y: posY,
           drift: 200 * (Math.random() - 0.5),
           delay: 80 * Math.random(),
         },
@@ -503,8 +571,8 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
     router.push(withLocale(`/login?next=${encodeURIComponent(next)}`, locale));
   }
 
-  async function toggleVoice(event: MouseEvent<HTMLButtonElement>) {
-    event.stopPropagation();
+  async function toggleVoice(event?: MouseEvent<HTMLButtonElement>) {
+    event?.stopPropagation();
     const audio = voiceRef.current;
     if (!audio) return;
     if (voiceOn) {
@@ -546,6 +614,7 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
   }
 
   const beads = useMemo(() => Array.from({ length: 108 }, (_, index) => index), []);
+  
   const progressCards = user
     ? [
         {
@@ -604,6 +673,7 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
 
   return (
     <div className="relative">
+      {/* Floating Devanagari Name Blossoms */}
       <div className="jaap-flow-layer" aria-hidden="true">
         {floats.map((item) => (
           <span
@@ -626,10 +696,20 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
         ))}
       </div>
 
+      {/* Milestone Toast Celebration */}
+      {milestoneNotice && (
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[90] animate-bounce px-6 py-3 rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-500 text-white font-serif font-bold shadow-xl border border-amber-200 text-sm sm:text-base flex items-center gap-2">
+          <Sparkles className="w-5 h-5 text-yellow-200 fill-current animate-spin" />
+          <span>{milestoneNotice}</span>
+        </div>
+      )}
+
+      {/* Main Devotional Sanctuary Card */}
       <div
-        className="relative cursor-pointer overflow-hidden rounded-[32px] bg-[#fff8f1] px-3 py-8 shadow-sm ring-1 ring-line select-none sm:overflow-visible sm:px-10 sm:py-10"
+        className="relative cursor-pointer overflow-hidden rounded-[36px] bg-gradient-to-b from-[#fffbf5] via-[#fff6ec] to-[#ffeed9] px-4 py-6 sm:px-10 sm:py-8 shadow-md ring-1 ring-[#e8cca8] select-none transition-all duration-300"
         onClick={onCardClick}
       >
+        {/* Audio Elements */}
         {voiceSrc ? (
           <audio
             key={voiceSrc}
@@ -640,116 +720,190 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
             onEnded={restartVoice}
           />
         ) : null}
-        {hasVoice ? (
-          <div
-            data-jaap-ignore
-            onClick={(event) => event.stopPropagation()}
-            className="absolute top-3 left-3 z-20 flex items-center gap-2 rounded-full bg-[#fff4ea] py-1 pr-1.5 pl-1.5 shadow-sm ring-1 ring-[#f3d2b3] sm:top-4 sm:left-4 sm:py-1.5 md:pr-3"
-          >
+
+        {/* Top Control Bar — Clean, Single-Line, Uncluttered */}
+        <div
+          data-jaap-ignore
+          onClick={(event) => event.stopPropagation()}
+          className="relative z-20 flex items-center justify-between gap-2 mb-3"
+        >
+          {/* Left Audio & Haptic Controls Pill */}
+          <div className="flex items-center gap-1 p-1 rounded-full bg-white/95 ring-1 ring-[#ecd9be] shadow-xs">
+            {hasVoice ? (
+              <button
+                type="button"
+                onClick={() => void toggleVoice()}
+                className="inline-flex h-8 w-8 items-center justify-center rounded-full text-saffron hover:bg-orange-50 transition"
+                aria-label={voiceOn ? t.jaap.mute : t.jaap.play}
+                title={voiceOn ? t.jaap.mute : "Bhakti Dhun"}
+              >
+                {voiceOn ? (
+                  <VolumeX className="h-4 w-4 text-saffron-deep animate-pulse" />
+                ) : (
+                  <Volume2 className="h-4 w-4" />
+                )}
+              </button>
+            ) : null}
+
+            {/* Chime Toggle */}
             <button
               type="button"
-              onClick={toggleVoice}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full text-saffron sm:h-8 sm:w-8"
-              aria-label={voiceOn ? t.jaap.mute : t.jaap.play}
-              title={voiceOn ? t.jaap.mute : "Bhakti Voice"}
+              onClick={() => setChimeEnabled((v) => !v)}
+              className={`inline-flex h-8 w-8 items-center justify-center rounded-full transition ${
+                chimeEnabled ? "bg-amber-100 text-amber-900 font-semibold" : "text-stone-400 hover:text-stone-600"
+              }`}
+              title={t.jaap.bellChime}
+              aria-label={t.jaap.bellChime}
             >
-              {voiceOn ? <VolumeX className="h-5 w-5 text-saffron-deep sm:h-4 sm:w-4" /> : <Volume2 className="h-5 w-5 sm:h-4 sm:w-4" />}
+              <Bell className="w-3.5 h-3.5" />
             </button>
-            <input
-              type="range"
-              min={0}
-              max={1}
-              step={0.05}
-              value={volume}
-              onChange={onVolumeChange}
-              aria-label="Voice volume"
-              className="jaap-volume hidden w-20 cursor-pointer md:block md:w-28"
-              style={{
-                background: `linear-gradient(to right, #e67e22 ${volume * 100}%, #f7e4d2 ${volume * 100}%)`,
-              }}
-            />
+
+            {/* Haptics Toggle */}
+            <button
+              type="button"
+              onClick={() => setHapticsEnabled((v) => !v)}
+              className={`inline-flex h-8 w-8 items-center justify-center rounded-full transition ${
+                hapticsEnabled ? "bg-amber-100 text-amber-900 font-semibold" : "text-stone-400 hover:text-stone-600"
+              }`}
+              title={t.jaap.hapticFeedback}
+              aria-label={t.jaap.hapticFeedback}
+            >
+              <Vibrate className="w-3.5 h-3.5" />
+            </button>
           </div>
-        ) : null}
-        {!user && !authLoading ? (
-          <button
-            type="button"
-            data-jaap-ignore
-            onClick={onSync}
-            title={t.jaap.syncHint}
-            className="absolute top-3 right-3 z-20 text-sm font-medium text-saffron-deep underline decoration-saffron/40 underline-offset-4 sm:top-4 sm:right-4"
-          >
-            {t.jaap.sync}
-          </button>
-        ) : null}
-        <div className="relative z-10 mx-auto flex max-w-xl flex-col items-center pt-10 sm:pt-2">
+
+          {/* Right Zen Mode & Sync Controls */}
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setIsZenOpen(true)}
+              className="inline-flex h-8 items-center gap-1.5 px-3 rounded-full bg-white/95 ring-1 ring-[#ecd9be] text-xs font-semibold text-stone-700 hover:text-saffron hover:bg-orange-50 transition shadow-xs"
+              title={t.jaap.zenMode}
+            >
+              <Maximize2 className="w-3.5 h-3.5 text-saffron" />
+              <span className="text-[11px] font-medium hidden sm:inline">{t.jaap.zenMode}</span>
+            </button>
+
+            {!user && !authLoading ? (
+              <button
+                type="button"
+                onClick={onSync}
+                title={t.jaap.syncHint}
+                className="text-xs font-semibold text-saffron-deep underline decoration-saffron/40 underline-offset-2 px-1 hover:text-orange-800 transition"
+              >
+                {t.jaap.sync}
+              </button>
+            ) : null}
+          </div>
+        </div>
+
+        {/* Center Sanctuary Content */}
+        <div className="relative z-10 mx-auto flex max-w-xl flex-col items-center pt-1">
           <JaapMantraSelect value={mantra} onChange={setMantra} />
 
-          <div className="relative mt-6 flex aspect-square w-full max-w-[320px] items-center justify-center">
+          {/* Main Glowing Chakra Ring */}
+          <div className="relative mt-5 flex aspect-square w-full max-w-[310px] items-center justify-center">
             <JaapChakraRing malaProgress={malaProgress} />
             <span className="relative z-10 flex flex-col items-center">
-              <span className="font-serif text-5xl font-semibold tracking-tight text-ink sm:text-6xl">
+              <span className="font-serif text-5xl font-bold tracking-tight text-ink sm:text-6xl drop-shadow-xs">
                 {displayCount.toLocaleString(countLocale)}
               </span>
-              <span className="mt-1 text-sm text-muted">{t.jaap.thisSitting}</span>
-              <span className="mt-4 text-base font-semibold text-ink">{t.jaap.malaCount(malasToday)}</span>
+              <span className="mt-1 text-xs font-semibold uppercase tracking-wider text-muted">
+                {t.jaap.thisSitting}
+              </span>
+              <span className="mt-3 text-sm font-bold text-amber-900 flex items-center gap-1.5 bg-amber-100/90 px-3.5 py-0.5 rounded-full border border-amber-200 shadow-2xs">
+                <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                {t.jaap.malaCount(malasToday)} ({malaProgress}/108)
+              </span>
               {user ? (
-                <span className="mt-1 inline-flex items-center gap-1 text-sm text-saffron-deep">
-                  <Flame className="h-4 w-4 fill-saffron text-saffron" />
+                <span className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-saffron-deep bg-orange-100/70 px-2.5 py-0.5 rounded-full">
+                  <Flame className="h-3.5 w-3.5 fill-saffron text-saffron" />
                   {t.jaap.dayStreak(streak)}
                 </span>
               ) : null}
             </span>
           </div>
 
-          <div className="mt-8 flex items-center gap-3" data-jaap-ignore onClick={(event) => event.stopPropagation()}>
+          {/* Stepper increment */}
+          <div
+            className="mt-6 flex items-center gap-3"
+            data-jaap-ignore
+            onClick={(event) => event.stopPropagation()}
+          >
             <button
               type="button"
               onClick={() => setStep((value) => Math.max(1, value - 1))}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#fff4ea] text-saffron"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-saffron ring-1 ring-orange-200 hover:bg-orange-50 transition active:scale-95 shadow-2xs"
               aria-label="Decrease step"
             >
-              <Minus className="h-4 w-4" />
+              <Minus className="h-3.5 w-3.5" />
             </button>
-            <input
-              value={step}
-              onChange={(event) => setStep(Math.max(1, Math.min(MAX_DELTA, Number(event.target.value) || 1)))}
-              className="h-11 w-24 rounded-2xl bg-[#fff4ea] text-center text-lg font-medium text-saffron-deep outline-none"
-              aria-label="Jaap increment"
-            />
+            <div className="relative">
+              <input
+                value={step}
+                onChange={(event) => setStep(Math.max(1, Math.min(MAX_DELTA, Number(event.target.value) || 1)))}
+                className="h-9 w-20 rounded-2xl bg-white text-center text-sm font-bold text-saffron-deep ring-1 ring-orange-200 outline-none focus:ring-2 focus:ring-saffron shadow-2xs"
+                aria-label="Jaap increment"
+              />
+            </div>
             <button
               type="button"
               onClick={() => setStep((value) => Math.min(MAX_DELTA, value + 1))}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#fff4ea] text-saffron"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-saffron ring-1 ring-orange-200 hover:bg-orange-50 transition active:scale-95 shadow-2xs"
               aria-label="Increase step"
             >
-              <Plus className="h-4 w-4" />
+              <Plus className="h-3.5 w-3.5" />
             </button>
           </div>
 
+          {/* Primary CTA */}
           <button
             type="button"
             data-jaap-ignore
             onClick={onContinueClick}
-            className="mt-5 w-full max-w-sm rounded-full bg-saffron px-8 py-3.5 text-base font-medium text-white shadow-sm"
+            className="mt-4 w-full max-w-sm rounded-full bg-gradient-to-r from-saffron to-saffron-deep px-8 py-3 text-base font-semibold text-white shadow-md hover:brightness-105 active:scale-[0.98] transition flex items-center justify-center gap-2"
           >
-            {t.jaap.continueJaap}
+            <span>{t.jaap.continueJaap} (+{step})</span>
           </button>
-          <button
-            type="button"
+
+          {/* Secondary Action Row: Share Sadhana & Clear */}
+          <div
+            className="mt-3 flex items-center gap-2.5 w-full max-w-sm"
             data-jaap-ignore
-            onClick={onClear}
-            className="mt-3 inline-flex w-full max-w-sm items-center justify-center gap-2 rounded-full border border-line bg-white/80 px-8 py-3 text-sm font-medium text-muted"
+            onClick={(e) => e.stopPropagation()}
           >
-            <RotateCcw className="h-4 w-4" />
-            {t.jaap.clear}
-          </button>
+            <button
+              type="button"
+              onClick={() => setIsShareOpen(true)}
+              className="flex-1 inline-flex items-center justify-center gap-2 rounded-full border border-orange-200/80 bg-white/95 py-2 px-4 text-xs font-semibold text-saffron-deep hover:bg-orange-50 transition shadow-2xs"
+            >
+              <Share2 className="h-3.5 w-3.5 text-saffron" />
+              <span>{t.jaap.shareSadhana}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={onClear}
+              className="inline-flex items-center justify-center gap-1.5 rounded-full border border-stone-200 bg-white/80 py-2 px-3.5 text-xs font-medium text-stone-500 hover:bg-stone-50 transition"
+              title={t.jaap.clear}
+            >
+              <RotateCcw className="h-3.5 w-3.5" />
+              <span>{t.jaap.clear}</span>
+            </button>
+          </div>
         </div>
       </div>
 
+      {/* Mala Mode Grid Display */}
       {mode === "mala" ? (
-        <div className="mt-8 rounded-[28px] bg-white p-6 shadow-sm ring-1 ring-line">
-          <h2 className="font-serif text-xl text-ink">{t.jaap.malaBeads}</h2>
-          <div className="mt-4 grid grid-cols-12 gap-1.5">
+        <div className="mt-8 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-line">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-serif text-xl font-bold text-ink">{t.jaap.malaBeads} (108)</h2>
+            <span className="text-xs font-semibold text-saffron bg-orange-50 px-3 py-1 rounded-full border border-orange-200">
+              {malaProgress} / 108 {isHi ? "मनके पूर्ण" : "Beads Done"}
+            </span>
+          </div>
+          <div className="grid grid-cols-12 gap-2 sm:gap-2.5">
             {beads.map((index) => {
               const filled = index < malaProgress || (malaProgress === 0 && displayCount > 0 && index === 107);
               const active = malaProgress > 0 && index < malaProgress;
@@ -758,10 +912,13 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
                   key={index}
                   type="button"
                   onClick={() => add(1)}
-                  className={`h-4 w-4 rounded-full ${
-                    active || (displayCount > 0 && filled && malaProgress === 0) ? "bg-saffron" : "bg-sand"
+                  className={`h-4 sm:h-5 w-full rounded-full transition-all duration-200 ${
+                    active || (displayCount > 0 && filled && malaProgress === 0)
+                      ? "bg-gradient-to-tr from-amber-500 to-orange-500 shadow-xs scale-105"
+                      : "bg-[#f3ede4] hover:bg-[#e8decb]"
                   }`}
                   aria-label={`Bead ${index + 1}`}
+                  title={`Bead ${index + 1}`}
                 />
               );
             })}
@@ -769,36 +926,60 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
         </div>
       ) : null}
 
-      <section className="mt-6 rounded-[28px] bg-white p-5 shadow-sm ring-1 ring-line sm:p-6">
-        <h2 className="font-serif text-xl text-ink">{t.jaap.progress}</h2>
+      {/* Today's Progress Cards */}
+      <section className="mt-8 rounded-3xl bg-white p-5 shadow-sm ring-1 ring-line sm:p-6" id="progress-section">
+        <div className="flex items-center justify-between">
+          <h2 className="font-serif text-xl font-bold text-ink">{t.jaap.progress}</h2>
+          {streak > 0 && (
+            <span className="flex items-center gap-1 text-xs font-bold text-orange-600 bg-orange-50 px-3 py-1 rounded-full border border-orange-200">
+              <Flame className="w-3.5 h-3.5 fill-orange-500" />
+              {t.jaap.dayStreak(streak)}
+            </span>
+          )}
+        </div>
+
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {progressCards.map((card) => (
-            <div key={card.label} className="flex items-center gap-3 rounded-2xl bg-[#fff7ef] p-4">
-              <span className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${card.tone}`}>
-                <card.icon className="h-4 w-4" />
+            <div
+              key={card.label}
+              className="flex items-center gap-3.5 rounded-2xl bg-gradient-to-br from-[#fffbf5] to-[#fff5ea] p-4 border border-[#f0dfcc]"
+            >
+              <span className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl ${card.tone} shadow-xs`}>
+                <card.icon className="h-5 w-5" />
               </span>
               <div>
-                <p className="text-xs uppercase tracking-wide text-muted">{card.label}</p>
-                <p className="mt-0.5 text-lg font-semibold text-ink">{card.value}</p>
+                <p className="text-[11px] uppercase tracking-wider text-muted font-bold">{card.label}</p>
+                <p className="mt-0.5 text-xl font-serif font-bold text-ink">{card.value}</p>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      <section className="mt-6 rounded-[28px] bg-white p-5 shadow-sm ring-1 ring-line sm:p-6" id="history">
-        <h2 className="font-serif text-xl text-ink">{t.jaap.quickActions}</h2>
-        <div className="mt-5 flex flex-wrap gap-5" id="statistics">
-          {QUICK.map((item) => (
-            <LocaleLink key={item.slug} href={item.href} className="flex w-20 flex-col items-center gap-2">
-              <span className={`inline-flex h-14 w-14 items-center justify-center rounded-full text-xs font-medium ${item.tone}`}>
-                {item.label.slice(0, 1)}
-              </span>
-              <span className="text-center text-xs text-ink">{item.label}</span>
-            </LocaleLink>
-          ))}
-        </div>
-      </section>
+      {/* Share Modal Dialog */}
+      <JaapShareModal
+        isOpen={isShareOpen}
+        onClose={() => setIsShareOpen(false)}
+        count={displayCount}
+        malas={malasToday}
+        streak={streak}
+        mantraSlug={mantra}
+      />
+
+      {/* Fullscreen Zen Dhyan Mode */}
+      <JaapZenMode
+        isOpen={isZenOpen}
+        onClose={() => setIsZenOpen(false)}
+        count={displayCount}
+        mantra={mantra}
+        onTap={(x, y) => {
+          add(1);
+          spawnNaam(x, y);
+        }}
+        voiceOn={voiceOn}
+        onToggleVoice={() => void toggleVoice()}
+        streak={streak}
+      />
     </div>
   );
 }

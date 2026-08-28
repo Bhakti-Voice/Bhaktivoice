@@ -505,6 +505,12 @@ export const messages = {
       quickActions: "Quick Actions",
       mute: "Mute Bhakti Voice",
       play: "Play Bhakti Voice",
+      shareSadhana: "Share Sadhana",
+      zenMode: "Zen / Dhyan Mode",
+      bellChime: "Chime on 108",
+      hapticFeedback: "Haptic Tap",
+      completedMalaCelebration: "Mala Completed!",
+      malaGoal: (target: number, current: number) => `${current} of ${target} Malas Goal`,
       faqTitle: "Frequently asked questions",
       faqs: [
         {
@@ -513,34 +519,39 @@ export const messages = {
             "Naam Jaap is the quiet repetition of a divine name — Ram, Radhe, Krishna, Shiva, or another mantra you hold. The count is only a support. The sitting is the practice.",
         },
         {
+          question: "Why chant 108 times (1 Mala)?",
+          answer:
+            "108 is a sacred cosmic number connecting the 27 Nakshatras with their 4 Padas (27 x 4 = 108) and the distance ratios between Earth, Sun, and Moon. One mala completes a full spiritual circuit.",
+        },
+        {
           question: "How do I use this jaap counter?",
           answer:
-            "Choose a naam, then tap the circle once for each name. A mala is 108. Guests add to that naam's worldwide count. Sign in to keep your own count and streak across devices.",
+            "Choose a naam, then tap the circle or press Space for each name. A mala is 108. Guests add to that naam's worldwide count. Sign in to keep your own count and streak across devices.",
         },
         {
           question: "Do I need a physical mala?",
           answer:
-            "No. A tulsi or rudraksha mala is a beautiful companion, but the name does not wait for beads. This counter is for days when the mala is in another room, or the hands are full.",
+            "No. A tulsi or rudraksha mala is a beautiful companion, but the name does not wait for beads. This digital counter is for days when the mala is in another room, during office commute, or when hands are occupied.",
         },
         {
           question: "Which mantra should I chant?",
           answer:
-            "The one your heart already knows. Radhe Radhe, Ram Naam, Hare Krishna, Om Namah Shivaya, and others are here as a start. If a guru has given you a mantra, use that — this page will still keep the count.",
+            "The one your heart already knows. Radhe Radhe, Ram Naam, Hare Krishna Mahamantra, Om Namah Shivaya, and Namokar Mantra are here. If a guru has initiated you, use that mantra — this counter faithfully tracks your sitting.",
         },
         {
-          question: "Do I need to sign in?",
+          question: "How does the Sadhana Share work?",
           answer:
-            "You can sit as a guest — each tap still joins the worldwide count for that naam. Tap Sync and sign in with Google to add this sitting to your own jaap counter.",
+            "After completing your jaap sitting or reaching a 108 milestone, click 'Share Sadhana' to generate a beautiful WhatsApp & Instagram message card with your count, streak, and a blessed quote to inspire friends.",
         },
         {
           question: "What if I miss a day?",
           answer:
-            "Begin again. A missed day is not a broken vow unless you made it one. Sit for eleven names if a mala feels far. The door stays open.",
+            "Begin again with love. A missed day is not a broken vow unless you make it one. Sit for even eleven names if a full mala feels far. The door of grace remains forever open.",
         },
         {
-          question: "Can I chant aloud or only in silence?",
+          question: "Can I chant aloud or in silence?",
           answer:
-            "Both are naam jaap. Whisper, speak, or keep the name in the mind. On a computer you may also play a soft voice while you count; phones keep the sitting quiet so the tap stays easy.",
+            "Both are sacred naam jaap. Whisper (Upanshu), speak (Vaikhari), or chant silently in the mind (Manasik). You can also turn on the ambient Bhakti Voice dhun to aid rhythmic focus.",
         },
       ],
     },
@@ -1253,6 +1264,12 @@ export const messages = {
       quickActions: "त्वरित क्रियाएँ",
       mute: "भक्ति वॉइस मौन करें",
       play: "भक्ति वॉइस चलाएँ",
+      shareSadhana: "साधना साझा करें",
+      zenMode: "ध्यान कक्ष (Zen Mode)",
+      bellChime: "१०८ पर घंटी ध्वनि",
+      hapticFeedback: "स्पर्श कंपन (Haptic)",
+      completedMalaCelebration: "माला पूर्ण हुई!",
+      malaGoal: (target: number, current: number) => `${target} में से ${current} माला लक्ष्य`,
       faqTitle: "अक्सर पूछे जाने वाले प्रश्न",
       faqs: [
         {
@@ -1261,34 +1278,39 @@ export const messages = {
             "नाम जप ईश्वर के नाम का शांत दोहराव है — राम, राधे, कृष्ण, शिव, या जो मंत्र आप धारण करते हैं। गिनती केवल सहारा है। बैठना ही साधना है।",
         },
         {
+          question: "१०८ बार (१ माला) का क्या रहस्य है?",
+          answer:
+            "१०८ एक दिव्य ब्रह्मांडीय संख्या है जो २७ नक्षत्रों के ४ चरणों (२७ x ४ = १०८) और सूर्य, चंद्र तथा पृथ्वी के दूरी अनुपात को दर्शाती है। एक माला पूर्ण आध्यात्मिक चक्र बनाती है।",
+        },
+        {
           question: "इस जप काउंटर का उपयोग कैसे करें?",
           answer:
-            "नाम चुनें, फिर प्रत्येक नाम पर वृत्त को एक बार स्पर्श करें। एक माला १०८ है। अतिथि उस नाम की विश्वभर गिनती बढ़ाते हैं। अपना जप और श्रृंखला रखने के लिए साइन इन करें।",
+            "नाम चुनें, फिर प्रत्येक नाम पर वृत्त को स्पर्श करें या स्पेसबार दबाएँ। एक माला १०८ है। अतिथि उस नाम की विश्वभर गिनती बढ़ाते हैं। अपना जप और श्रृंखला रखने के लिए साइन इन करें।",
         },
         {
           question: "क्या भौतिक माला आवश्यक है?",
           answer:
-            "नहीं। तुलसी या रुद्राक्ष माला सुंदर साथी है, पर नाम मनकों की प्रतीक्षा नहीं करता। यह काउंटर उन दिनों के लिए है जब माला दूसरे कमरे में हो, या हाथ भरे हों।",
+            "नहीं। तुलसी या रुद्राक्ष माला सुंदर साथी है, पर नाम मनकों की प्रतीक्षा नहीं करता। यह डिजिटल काउंटर उन दिनों के लिए है जब माला उपलब्ध न हो या आप यात्रा में हों।",
         },
         {
           question: "कौन सा मंत्र जपूँ?",
           answer:
-            "जो हृदय पहले से जानता है। राधे राधे, राम नाम, हरे कृष्ण, ॐ नमः शिवाय यहाँ आरंभ के लिए हैं। यदि गुरु ने मंत्र दिया है, वही जपें — यह पृष्ठ गिनती रखेगा।",
+            "जो हृदय पहले से जानता है। राधे राधे, राम नाम, हरे कृष्ण महामंत्र, ॐ नमः शिवाय यहाँ आरंभ के लिए हैं। यदि गुरु ने मंत्र दिया है, वही जपें — यह पृष्ठ गिनती रखेगा।",
         },
         {
-          question: "क्या साइन इन ज़रूरी है?",
+          question: "साधना शेयर करने की क्या विधि है?",
           answer:
-            "अतिथि की तरह बैठ सकते हैं — प्रत्येक स्पर्श उस नाम की विश्वभर गिनती में जुड़ता है। सिंक दबाकर Google से साइन इन करें, तो यह बैठक आपके अपने जप काउंटर में जुड़ जाएगी।",
+            "'साधना साझा करें' पर क्लिक कर आप आज का जप, माला संख्या व श्रृंखला का सुंदर व्हाट्सएप कार्ड बना सकते हैं और परिजनों को सत्संग के लिए प्रेरित कर सकते हैं।",
         },
         {
           question: "यदि एक दिन छूट जाए तो?",
           answer:
-            "फिर बैठ जाएँ। छूटा दिन टूटा व्रत नहीं, जब तक आप उसे ऐसा न बनाएँ। माला दूर लगे तो ग्यारह नाम पर्याप्त हैं। द्वार खुला रहता है।",
+            "फिर बैठ जाएँ। छूटा दिन टूटा व्रत नहीं, जब तक आप उसे ऐसा न बनाएँ। माला दूर लगे तो ग्यारह नाम पर्याप्त हैं। प्रभु का द्वार सदैव खुला रहता है।",
         },
         {
           question: "क्या ज़ोर से जप करें या मौन?",
           answer:
-            "दोनों नाम जप हैं। फुसफुसाहट, वाणी, या मन में नाम। कंप्यूटर पर गिनती के साथ धीमी आवाज़ भी चल सकती है; फ़ोन पर बैठक शांत रहती है ताकि स्पर्श सरल रहे।",
+            "दोनों नाम जप हैं। फुसफुसाहट (उपांशु), वाणी (वैखरी), या मन में नाम (मानसिक)। पृष्ठभूमि में भक्ति धुन भी चला सकते हैं।",
         },
       ],
     },
