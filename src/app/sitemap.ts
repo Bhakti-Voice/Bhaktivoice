@@ -33,8 +33,10 @@ const HUBS: { path: string; changeFrequency: MetadataRoute.Sitemap[0]["changeFre
   { path: PATHS.panchangTomorrow, changeFrequency: "daily", priority: 0.9 },
   { path: PATHS.panchangYesterday, changeFrequency: "daily", priority: 0.7 },
   { path: PATHS.spiritualTools, changeFrequency: "weekly", priority: 0.9 },
-  { path: PATHS.suvicharMaker, changeFrequency: "daily", priority: 0.9 },
+  { path: PATHS.suvicharMaker, changeFrequency: "daily", priority: 0.85 },
   { path: PATHS.kundli, changeFrequency: "weekly", priority: 0.85 },
+
+
   { path: PATHS.kundliMilan, changeFrequency: "weekly", priority: 0.85 },
   { path: PATHS.naamJaap, changeFrequency: "weekly", priority: 0.9 },
   { path: PATHS.katha, changeFrequency: "weekly", priority: 0.8 },
