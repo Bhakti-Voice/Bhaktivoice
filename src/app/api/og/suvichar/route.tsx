@@ -126,14 +126,14 @@ export async function GET(request: NextRequest) {
               style={{
                 display: "flex",
                 color: theme.textColor || "#FFFFFF",
-                fontSize: "30px",
+                fontSize: displayQuote.length > 100 ? "26px" : "32px",
                 fontWeight: 700,
                 lineHeight: 1.45,
                 marginTop: "4px",
                 textAlign: "center",
               }}
             >
-              "{displayQuote}"
+              {`"${displayQuote}"`}
             </div>
 
             <div
@@ -208,7 +208,7 @@ export async function GET(request: NextRequest) {
         height: 630,
       }
     );
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.error("OG Image generation failed:", e);
     return new Response(`Failed to generate OG image`, { status: 500 });
   }

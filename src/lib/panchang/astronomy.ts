@@ -1,7 +1,6 @@
 import {
   Body,
   EclipticGeoMoon,
-  MakeTime,
   MoonPhase,
   Observer,
   SearchMoonPhase,
@@ -9,6 +8,7 @@ import {
   SunPosition,
   Illumination,
 } from "astronomy-engine";
+
 import {
   GULIKA_PERIOD,
   KARANA_NAMES,
@@ -335,7 +335,8 @@ export function getMoonData(date: Date, city: CityConfig): MoonData {
 }
 
 /** Calculate all auspicious & inauspicious Muhurats for a given day. */
-export function calculateMuhurats(sunrise: Date, sunset: Date, weekday: number, nakshatra: NakshatraSnapshot): {
+export function calculateMuhurats(sunrise: Date, sunset: Date, weekday: number, _nakshatra?: NakshatraSnapshot): {
+
   brahma: MuhuratWindow;
   abhijit: MuhuratWindow | null;
   amritKaal: MuhuratWindow | null;

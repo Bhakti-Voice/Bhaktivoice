@@ -1,11 +1,12 @@
-import { DELHI, type CityConfig } from "./cities";
+import { DELHI } from "./cities";
 import { getPanchang as getPanchangEngine } from "./engine";
 import { istCalendarDate } from "./astronomy";
 import type { DayPanchang, Paksha } from "./types";
 
-export function getPanchang(now: Date = new Date(), upcomingDays: number = 7): DayPanchang {
+export function getPanchang(now: Date = new Date(), _upcomingDays?: number): DayPanchang {
   return getPanchangEngine(now, DELHI);
 }
+
 
 export function formatIstTime(date: Date, locale: string = "en"): string {
   return new Intl.DateTimeFormat(locale === "hi" ? "hi-IN" : "en-IN", {

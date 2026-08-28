@@ -10,16 +10,11 @@ import {
   X,
   Copy,
   Check,
-  Calendar,
-  Layers,
-  Palette,
-  User,
-  Type,
-  Smartphone,
   Languages,
   RotateCcw,
   Link2,
 } from "lucide-react";
+
 
 import {
   ASPECT_RATIOS,
@@ -602,8 +597,9 @@ export function SuvicharStudio() {
                     </div>
 
                     <p className="mt-2 text-xs sm:text-sm text-ink/85 leading-relaxed">
-                      "{quoteSnippet}"
+                      {`"${quoteSnippet}"`}
                     </p>
+
 
                     <p className="mt-2 text-xs font-semibold text-amber-700">
                       — {sourceText}

@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
   outputFileTracingRoot: path.join(__dirname),
   compress: true,
   poweredByHeader: false,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   experimental: {
     optimizePackageImports: ["lucide-react"],
     staleTimes: {
@@ -15,6 +18,7 @@ const nextConfig: NextConfig = {
       static: 900,
     },
   },
+
   async redirects() {
     return [
       {

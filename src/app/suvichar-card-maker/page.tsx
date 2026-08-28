@@ -11,19 +11,6 @@ import { localizedMetadata } from "@/lib/seo/metadata";
 import { PATHS } from "@/lib/seo/paths";
 import { SITE } from "@/lib/seo/site";
 import { SUVICHAR_DATABASE } from "@/lib/spiritual-tools/suvichar-data";
-import {
-  Sparkles,
-  Share2,
-  Download,
-  Calendar,
-  Layers,
-  Heart,
-  ShieldCheck,
-  CheckCircle2,
-  ArrowRight,
-  Sun,
-  Flame,
-} from "lucide-react";
 
 export const revalidate = 86400;
 
@@ -39,13 +26,13 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const name = (params?.n || params?.name || "") as string;
   const salutation = (params?.s || params?.salutation || "") as string;
 
-  const [t, locale] = await Promise.all([getMessages(), getLocale()]);
+  const locale = await getLocale();
   const isHi = locale === "hi";
 
-  const quoteItem = SUVICHAR_DATABASE.find((q) => q.id === quoteId) || SUVICHAR_DATABASE[0];
   const ogImageUrl = `${SITE.url}/api/og/suvichar?q=${quoteId}&t=${themeId}&n=${encodeURIComponent(
     name
   )}&s=${encodeURIComponent(salutation)}&lang=${isHi ? "hi" : "en"}`;
+
 
   const customTitle = name
     ? isHi

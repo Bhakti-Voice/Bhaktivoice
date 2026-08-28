@@ -14,12 +14,11 @@ import {
   nextFullMoon,
   nextNewMoon,
   siderealLon,
-  startOfDayForZone,
   sunRasi,
   tropicalSunLon,
   weekdayForZone,
 } from "./astronomy";
-import { CITIES, DEFAULT_CITY, getCityById, type CityConfig } from "./cities";
+import { DEFAULT_CITY, type CityConfig } from "./cities";
 import { FESTIVAL_DETAILS, getObservancesForTithi } from "./festivals-data";
 import {
   MASA_NAMES,
@@ -31,7 +30,8 @@ import {
   VARA_NAMES,
   VARA_NAMES_HI,
 } from "./names";
-import type { CalendarDay, CalendarMonth, DayPanchang, FestivalDetail, Paksha, TithiSnapshot } from "./types";
+import type { CalendarDay, CalendarMonth, DayPanchang, FestivalDetail, Paksha } from "./types";
+
 
 function sunRasiIndex(date: Date): number {
   const sidereal = siderealLon(tropicalSunLon(date), date);
@@ -341,8 +341,8 @@ export function getMonthCalendar(year: number, month: number, cityConfig?: CityC
   const monthName = MONTH_NAMES_EN[month - 1] || "January";
   const monthNameHi = MONTH_NAMES_HI[month - 1] || "जनवरी";
 
-  const firstDayOfMonth = new Date(year, month - 1, 1, 12, 0, 0);
   const totalDaysInMonth = new Date(year, month, 0).getDate();
+
 
   // Find starting day of week for the 1st of month (0 = Sun, 1 = Mon, ..., 6 = Sat)
   const startingDayOfWeek = new Date(year, month - 1, 1).getDay();
@@ -464,9 +464,9 @@ export function getUpcomingFestivals(fromDate: Date = new Date(), limit: number 
 }[] {
   const allFestivals = Object.values(FESTIVAL_DETAILS);
   const now = fromDate.getTime();
-  const currentYear = fromDate.getFullYear();
 
   const candidates: { festival: FestivalDetail; date: Date; dateString: string; daysRemaining: number }[] = [];
+
 
   for (const fest of allFestivals) {
     // Check 2026, 2027, 2028 dates

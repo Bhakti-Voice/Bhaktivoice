@@ -1,7 +1,7 @@
-import type { FestivalCategory, FestivalDetail, Observance, Paksha } from "./types";
-import { PATHS } from "@/lib/seo/paths";
+import type { FestivalDetail, Observance, Paksha } from "./types";
 
 export const FESTIVAL_DETAILS: Record<string, FestivalDetail> = {
+
   "maha-shivratri": {
     slug: "maha-shivratri",
     name: "Maha Shivratri",
