@@ -127,11 +127,27 @@ export function Footer() {
         />
       </div>
       <div className="border-t border-white/10 px-4 py-4 lg:px-8">
-        <div className="mx-auto flex max-w-7xl flex-col gap-2 text-xs text-white/55 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mx-auto flex max-w-7xl flex-col gap-3 text-xs text-white/55 sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {new Date().getFullYear()} Bhakti Voice. {t.footerCredit}
           </p>
-          <p>{t.madeInIndia}</p>
+          <div className="flex items-center gap-3">
+            <a
+              href="https://www.showmysites.com"
+              target="_blank"
+              rel="noopener"
+              className="inline-flex items-center transition-opacity hover:opacity-80"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="https://www.showmysites.com/static/backlink/logo.webp"
+                alt="ShowMySites Badge"
+                width="40"
+                height="40"
+              />
+            </a>
+            <p>{t.madeInIndia}</p>
+          </div>
         </div>
       </div>
     </footer>
