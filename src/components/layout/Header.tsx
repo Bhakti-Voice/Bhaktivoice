@@ -26,12 +26,13 @@ export function Header() {
 
   const nav = [
     { href: "/", label: t.nav.home },
+    { href: PATHS.gita, label: t.nav.gita },
     { href: PATHS.naamJaap, label: t.nav.naamJaap },
     { href: PATHS.katha, label: t.nav.katha },
     { href: PATHS.yatra, label: t.nav.yatra },
-    { href: PATHS.sadhana, label: t.nav.sadhana },
   ];
   const moreLinks = [
+    { href: PATHS.sadhana, label: t.nav.sadhana },
     { href: PATHS.calendar, label: locale === "hi" ? "हिन्दू कैलेंडर" : "Hindu Calendar" },
     { href: PATHS.panchangToday, label: locale === "hi" ? "आज का पंचांग" : "Today's Panchang" },
     { href: PATHS.community, label: t.nav.community },

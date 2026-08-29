@@ -27,6 +27,7 @@ const DETAILED_MONTH_YEARS = ["2026", "2027", "2028"];
 
 const HUBS: { path: string; changeFrequency: MetadataRoute.Sitemap[0]["changeFrequency"]; priority: number }[] = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
+  { path: PATHS.gita, changeFrequency: "daily", priority: 0.95 },
   { path: PATHS.calendar, changeFrequency: "daily", priority: 0.95 },
   { path: PATHS.panchang, changeFrequency: "daily", priority: 0.95 },
   { path: PATHS.panchangToday, changeFrequency: "daily", priority: 0.95 },

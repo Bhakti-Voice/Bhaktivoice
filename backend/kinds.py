@@ -286,6 +286,27 @@ KINDS: dict[str, Kind] = {
             Field("attribution", "Attribution", hint="e.g. Lord Krishna"),
         ),
     ),
+    "gita": Kind(
+        "gita",
+        "Bhagavad Gita",
+        "Bhagavad Gita",
+        "/bhagavad-gita",
+        fields=SEO_FIELDS
+        + (
+            Field("chapter", "Chapter Number", "number"),
+            Field("nameHindi", "Chapter Name (Hindi)"),
+            Field("nameSanskrit", "Chapter Name (Sanskrit)"),
+            Field("nameTranslation", "English Translation Title"),
+            Field("summaryHindi", "Chapter Summary (Hindi)", "textarea", rows=4),
+            Field(
+                "verses",
+                "Verses JSON",
+                "textarea",
+                hint="Paste JSON array of verses: [{\"verse\":1,\"sanskrit\":\"...\",\"transliteration\":\"...\",\"hindi\":\"...\",\"english\":\"...\"}]",
+                rows=10,
+            ),
+        ),
+    ),
 }
 
 HINDI_FIELD_TYPES = {

@@ -22,6 +22,7 @@ export const messages = {
     empty: (label: string) => `No ${label} yet. They will appear here once they are published.`,
     nav: {
       home: "Home",
+      gita: "Bhagavad Gita",
       naamJaap: "Naam Jaap",
       katha: "Katha",
       yatra: "Yatra",
@@ -789,6 +790,7 @@ export const messages = {
     empty: (label: string) => `अभी ${label} नहीं हैं। प्रकाशित होते ही यहाँ दिखेंगे।`,
     nav: {
       home: "होम",
+      gita: "भगवद्गीता",
       naamJaap: "नाम जप",
       katha: "कथा",
       yatra: "यात्रा",

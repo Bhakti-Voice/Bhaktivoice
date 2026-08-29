@@ -29,5 +29,6 @@ export const PATHS = {
   kundli: "/kundli",
   kundliMilan: "/kundli-milan",
   suvicharMaker: "/suvichar-card-maker",
+  gita: "/bhagavad-gita",
 } as const;
 
