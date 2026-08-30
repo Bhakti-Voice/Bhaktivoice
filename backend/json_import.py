@@ -20,6 +20,7 @@ STRUCTURED_TYPES = {
     "episodes",
     "sections",
     "paragraphs",
+    "verses",
 }
 
 
@@ -44,6 +45,18 @@ def empty_field_value(item: Field, kind_key: str) -> Any:
         return [{"day": "", "plan": ""}]
     if item.type == "episodes":
         return [{"number": 0, "title": "", "duration": "", "summary": ""}]
+    if item.type == "verses" or item.name == "verses":
+        return [
+            {
+                "verse": 1,
+                "verseNumber": "1.1",
+                "speaker": "धृतराष्ट्र उवाच",
+                "sanskrit": "",
+                "transliteration": "",
+                "hindi": "",
+                "english": "",
+            }
+        ]
     if item.type == "sections":
         if kind_key == "blog" or item.name in {"body", "bodyHi"}:
             return [{"heading": "", "paragraphs": [""]}]
@@ -113,6 +126,10 @@ def flatten_payload(payload: Any) -> list[dict[str, Any]]:
         raise ValueError("JSON must be an object, an array of objects, or { \"entries\": [...] }.")
     if isinstance(payload.get("entries"), list):
         return [item for item in payload["entries"] if isinstance(item, dict)]
+    if isinstance(payload.get("chapters"), list):
+        return [item for item in payload["chapters"] if isinstance(item, dict)]
+    if isinstance(payload.get("data"), dict) and isinstance(payload["data"].get("chapters"), list):
+        return [item for item in payload["data"]["chapters"] if isinstance(item, dict)]
     return [payload]
 
 
@@ -146,13 +163,46 @@ def _keep_structured(item: Field, value: Any) -> bool:
         return False
     if item.type == "number":
         return isinstance(value, (int, float))
-    if item.type in STRUCTURED_TYPES:
+    if item.type in STRUCTURED_TYPES or item.name == "verses":
         return isinstance(value, list)
     return not isinstance(value, (str, int, float, bool))
 
 
+def _normalize_gita_verses(verses_raw: Any, chapter_num: int) -> list[dict[str, Any]]:
+    if not isinstance(verses_raw, list):
+        return []
+    cleaned: list[dict[str, Any]] = []
+    for idx, v in enumerate(verses_raw, start=1):
+        if not isinstance(v, dict):
+            continue
+        v_num = int(v.get("verse") or v.get("verseNumber") or idx)
+        sanskrit = str(v.get("sanskrit") or v.get("sloka") or v.get("shloka") or "").strip()
+        transliteration = str(v.get("transliteration") or v.get("translit") or "").strip()
+        hindi = str(v.get("hindi") or v.get("hindiTranslation") or v.get("bhavarth") or "").strip()
+        english = str(v.get("english") or v.get("englishTranslation") or v.get("translation") or "").strip()
+        speaker = str(v.get("speaker") or "").strip() or None
+        word_meanings = str(v.get("wordMeanings") or "").strip() or None
+        commentary = str(v.get("commentary") or "").strip() or None
+
+        cleaned.append({
+            "verse": v_num,
+            "chapter": chapter_num,
+            "verseNumber": f"{chapter_num}.{v_num}",
+            "speaker": speaker,
+            "sanskrit": sanskrit,
+            "transliteration": transliteration,
+            "hindi": hindi,
+            "english": english,
+            "wordMeanings": word_meanings,
+            "commentary": commentary,
+        })
+    return cleaned
+
+
 def coerce_entry(raw: dict[str, Any], default_kind: str | None = None) -> dict[str, Any]:
     kind = str(raw.get("kind") or default_kind or "").strip()
+    if not kind and ("chapter" in raw or "verses" in raw):
+        kind = "gita"
     if kind not in KINDS:
         raise ValueError(f"Unknown kind {kind!r}. Use one of: {', '.join(KINDS)}.")
     if isinstance(raw.get("data"), dict):
@@ -163,10 +213,40 @@ def coerce_entry(raw: dict[str, Any], default_kind: str | None = None) -> dict[s
         payload = {key: value for key, value in raw.items() if key not in META_KEYS}
         if "title" in raw:
             payload.setdefault("title", raw["title"])
+
+    if kind == "gita":
+        try:
+            ch_num = int(payload.get("chapter") or raw.get("chapter") or 1)
+        except (TypeError, ValueError):
+            ch_num = 1
+        payload["chapter"] = ch_num
+        ch_name = str(payload.get("name") or raw.get("name") or payload.get("title") or f"Chapter {ch_num}").strip()
+        payload.setdefault("name", ch_name)
+        payload.setdefault("title", f"Chapter {ch_num}: {ch_name}")
+        payload.setdefault("nameHindi", str(payload.get("nameHindi") or raw.get("nameHindi") or ch_name).strip())
+        payload.setdefault("nameSanskrit", str(payload.get("nameSanskrit") or raw.get("nameSanskrit") or ch_name).strip())
+        payload.setdefault("nameTranslation", str(payload.get("nameTranslation") or raw.get("nameTranslation") or ch_name).strip())
+        payload.setdefault("summary", str(payload.get("summary") or raw.get("summary") or "").strip())
+        payload.setdefault("summaryHindi", str(payload.get("summaryHindi") or raw.get("summaryHindi") or "").strip())
+
+        verses_input = payload.get("verses") or raw.get("verses") or []
+        if isinstance(verses_input, str) and (verses_input.startswith("[") or verses_input.startswith("{")):
+            try:
+                verses_input = json.loads(verses_input)
+            except Exception:
+                pass
+        normalized_verses = _normalize_gita_verses(verses_input, ch_num)
+        payload["verses"] = normalized_verses
+        payload["versesCount"] = len(normalized_verses)
+
+        slug = str(raw.get("slug") or f"chapter-{ch_num}").strip()
+    else:
+        slug = str(raw.get("slug") or "")
+
     data = json_to_data(kind, payload)
     return {
         "kind": kind,
-        "slug": str(raw.get("slug") or ""),
+        "slug": slug,
         "status": str(raw.get("status") or "published"),
         "data": data,
     }

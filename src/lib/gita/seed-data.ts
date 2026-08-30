@@ -1,17 +1,799 @@
 import { GitaChapter, GitaPayload } from "./types";
 
-export const GITA_ALL_18_CHAPTERS_METADATA: Omit<GitaChapter, "verses">[] = [];
+export const GITA_ALL_18_CHAPTERS_METADATA: Omit<GitaChapter, "verses">[] = [
+  {
+    chapter: 1,
+    name: "Arjuna Vishada Yoga",
+    nameHindi: "अर्जुनविषादयोग",
+    nameSanskrit: "अर्जुनविषादयोगः",
+    nameTranslation: "The Yoga of the Despondency of Arjuna",
+    versesCount: 47,
+    summary:
+      "On the battlefield of Kurukshetra, witnessing beloved relatives, teachers, and elders standing in opposing ranks, Arjuna is overwhelmed by profound grief, moral despair, and existential confusion, casting aside his Gandiva bow.",
+    summaryHindi:
+      "कुरुक्षेत्र के धर्मक्षेत्र में अपने स्वजनों, गुरुजनों और पूज्यों को युद्धभूमि में सामने देखकर अर्जुन अत्यंत शोक, मोह और विषाद से व्याकुल होकर अपना गाण्डीव धनुष त्याग देते हैं।",
+  },
+  {
+    chapter: 2,
+    name: "Sankhya Yoga",
+    nameHindi: "सांख्ययोग",
+    nameSanskrit: "सांख्ययोगः",
+    nameTranslation: "The Yoga of Eternal Knowledge & Self-Realization",
+    versesCount: 72,
+    summary:
+      "Lord Krishna reveals the eternal, indestructible nature of the Atman (Soul), instructs Arjuna in Nishkama Karma Yoga (selfless duty without attachment to fruits), and describes the attributes of a Sthitaprajna (person of steady wisdom).",
+    summaryHindi:
+      "भगवान श्रीकृष्ण आत्मा की अमरता और अविनाशी स्वरूप का उपदेश देते हैं, निष्काम कर्मयोग का मार्ग दिखाते हैं तथा स्थितप्रज्ञ पुरुष के लक्षणों और शांति के मार्ग का वर्णन करते हैं।",
+  },
+  {
+    chapter: 3,
+    name: "Karma Yoga",
+    nameHindi: "कर्मयोग",
+    nameSanskrit: "कर्मयोगः",
+    nameTranslation: "The Yoga of Selfless Action",
+    versesCount: 43,
+    summary:
+      "Lord Krishna explains why action is inevitable in cosmic order (Yajna) and guides Arjuna to perform rightful duties without selfish desire, leading to spiritual liberation and societal harmony (Lokasangraha).",
+    summaryHindi:
+      "श्रीकृष्ण निष्काम कर्मयोग का महत्व बताते हुए कहते हैं कि कर्तव्य कर्म का त्याग उचित नहीं है। अनासक्त भाव से ईश्वरार्पण बुद्धि द्वारा किया गया कर्म ही मनुष्य को मुक्ति दिलाता है।",
+  },
+  {
+    chapter: 4,
+    name: "Jnana Karma Sannyasa Yoga",
+    nameHindi: "ज्ञानकर्मसंन्यासयोग",
+    nameSanskrit: "ज्ञानकर्मसंन्यासयोगः",
+    nameTranslation: "The Yoga of Wisdom and Renunciation of Action",
+    versesCount: 42,
+    summary:
+      "Lord Krishna reveals the divine secret of His periodic descent (Avatara) to protect Dharma and destroy evil, explaining how the transcendental fire of spiritual knowledge burns all karmic reactions to ashes.",
+    summaryHindi:
+      "भगवान अपने अवतार के दिव्य रहस्य (यदा यदा हि धर्मस्य) को प्रकट करते हैं और समझाते हैं कि आत्मज्ञान की पवित्र अग्नि समस्त कर्म बंधनों और संशयों को भस्म कर देती है।",
+  },
+  {
+    chapter: 5,
+    name: "Karma Sannyasa Yoga",
+    nameHindi: "कर्मसंन्यासयोग",
+    nameSanskrit: "कर्मसंन्यासयोगः",
+    nameTranslation: "The Yoga of Renunciation & Detachment",
+    versesCount: 29,
+    summary:
+      "Krishna harmonizes renunciation (Sannyasa) with selfless service (Karma Yoga), demonstrating that a pure-hearted devotee who acts dedicating everything to God remains untouched by sin like a lotus leaf on water.",
+    summaryHindi:
+      "कर्म संन्यास और कर्मयोग का सुंदर समन्वय करते हुए भगवान बताते हैं कि जल में कमल के पत्ते की भांति जो निष्काम भाव से कर्म करता है, वह कभी पाप से लिप्त नहीं होता।",
+  },
+  {
+    chapter: 6,
+    name: "Dhyana Yoga",
+    nameHindi: "आत्मसंयमयोग / ध्यानयोग",
+    nameSanskrit: "आत्मसंयमयोगः",
+    nameTranslation: "The Yoga of Meditation & Self-Control",
+    versesCount: 47,
+    summary:
+      "The practice of meditation, mental discipline, posture, and steady control of the senses and mind through Abhyasa (regular practice) and Vairagya (dispassion), concluding with divine absorption.",
+    summaryHindi:
+      "मन के निग्रह, ध्यान की विधि, योगाभ्यास और वैराग्य द्वारा आत्मा में स्थित होने का मार्ग। भगवान आश्वस्त करते हैं कि योग पथ पर किया गया तनिक भी प्रयास कभी व्यर्थ नहीं जाता।",
+  },
+  {
+    chapter: 7,
+    name: "Jnana Vijnana Yoga",
+    nameHindi: "ज्ञानविज्ञानयोग",
+    nameSanskrit: "ज्ञानविज्ञानयोगः",
+    nameTranslation: "The Yoga of Knowledge & Realization",
+    versesCount: 30,
+    summary:
+      "Lord Krishna illuminates His dual energies — the material nature (Apara Prakriti) and spiritual consciousness (Para Prakriti) — teaching how to perceive Him as the underlying thread connecting all existence.",
+    summaryHindi:
+      "भगवान अपनी परा और अपरा प्रकृति का रहस्य बताते हैं और समझाते हैं कि समस्त सृष्टि में परमात्मा ही माला के मणियों की तरह सूत्र रूप में पिरोए हुए हैं।",
+  },
+  {
+    chapter: 8,
+    name: "Aksara Brahma Yoga",
+    nameHindi: "अक्षरब्रह्मयोग",
+    nameSanskrit: "अक्षरब्रह्मयोगः",
+    nameTranslation: "The Yoga of the Imperishable Supreme Brahman",
+    versesCount: 28,
+    summary:
+      "The secret of conscious remembrance of the Supreme Lord at the final moment of life, the cosmic cycles of creation and dissolution, and the supreme eternal destination beyond the mortal worlds.",
+    summaryHindi:
+      "मृत्यु काल में ईश्वर स्मरण का महत्व, सृष्टि की उत्पत्ति व प्रलय के चक्र और अविनाशी परम धाम की प्राप्ति का मार्ग भगवान समझाते हैं।",
+  },
+  {
+    chapter: 9,
+    name: "Raja Vidya Raja Guhya Yoga",
+    nameHindi: "राजविद्याराजगुह्ययोग",
+    nameSanskrit: "राजविद्याराजगुह्ययोगः",
+    nameTranslation: "The Yoga of Sovereign Knowledge & Sovereign Secret",
+    versesCount: 34,
+    summary:
+      "The most confidential royal wisdom of pure devotion: Lord Krishna assures that whatever is offered with heartfelt love — a leaf, a flower, a fruit, or water (Patram Pushpam Phalam Toyam) — He warmly accepts.",
+    summaryHindi:
+      "परम गोपनीय राजविद्या और अनन्य भक्ति का रहस्य। भगवान प्रतिज्ञा करते हैं कि जो अनन्य भाव से उनका चिंतन करते हैं, उनका योगक्षेम (कल्याण) वे स्वयं वहन करते हैं।",
+  },
+  {
+    chapter: 10,
+    name: "Vibhuti Yoga",
+    nameHindi: "विभूतियोग",
+    nameSanskrit: "विभूतियोगः",
+    nameTranslation: "The Yoga of Divine Opulences & Glories",
+    versesCount: 42,
+    summary:
+      "Krishna reveals His infinite divine manifestations throughout the universe — among luminaries He is the Sun, among rivers the Ganga, among mantras the sacred Om, and the seed of all beings.",
+    summaryHindi:
+      "भगवान अपने अनंत ऐश्वर्यों और दिव्य विभूतियों का वर्णन करते हैं — समस्त तेजों में सूर्य, नदियों में गंगा, मन्त्रों में ॐकार और सम्पूर्ण सृष्टि के आदि, मध्य व अंत वे ही हैं।",
+  },
+  {
+    chapter: 11,
+    name: "Vishwarupa Darshana Yoga",
+    nameHindi: "विश्वरूपदर्शनयोग",
+    nameSanskrit: "विश्वरूपदर्शनयोगः",
+    nameTranslation: "The Yoga of the Vision of the Universal Cosmic Form",
+    versesCount: 55,
+    summary:
+      "Bestowing divine vision upon Arjuna, Lord Krishna reveals His awe-inspiring, cosmic Vishwarupa — containing countless suns, celestial beings, time, universes, and destinies in one magnificent presence.",
+    summaryHindi:
+      "अर्जुन को दिव्य दृष्टि प्रदान कर भगवान अपना चराचर ब्रह्माण्डमय विश्वरूप प्रकट करते हैं, जिसमें कोटि-कोटि सूर्य, नक्षत्र, काल और समस्त सृष्टि प्रत्यक्ष दिखाई देती है।",
+  },
+  {
+    chapter: 12,
+    name: "Bhakti Yoga",
+    nameHindi: "भक्तियोग",
+    nameSanskrit: "भक्तियोगः",
+    nameTranslation: "The Yoga of Pure Loving Devotion",
+    versesCount: 20,
+    summary:
+      "The sweetness and direct path of personal loving devotion (Bhakti), outlining the 35 sublime qualities of a true devotee who is infinitely dear to the Supreme Lord.",
+    summaryHindi:
+      "सगुण-साकार और निर्गुण-निराकार उपासना का भेद स्पष्ट करते हुए भगवान प्रेममयी अनन्य भक्ति की महिमा और अपने प्रिय भक्त के पवित्र गुणों का सुंदर वर्णन करते हैं।",
+  },
+  {
+    chapter: 13,
+    name: "Kshetra Kshetrajna Vibhaga Yoga",
+    nameHindi: "क्षेत्रक्षेत्रज्ञविभागयोग",
+    nameSanskrit: "क्षेत्रक्षेत्रज्ञविभागयोगः",
+    nameTranslation: "The Yoga of the Distinction between Field & Knower",
+    versesCount: 34,
+    summary:
+      "The philosophical distinction between Kshetra (the physical body/field of matter) and Kshetrajna (the conscious knower/Supreme Soul who indwells every heart).",
+    summaryHindi:
+      "शरीर रूपी 'क्षेत्र' और उसमें विद्यमान चैतन्य आत्मा रूपी 'क्षेत्रज्ञ' का विवेकपूर्ण ज्ञान तथा प्रकृति व पुरुष के संबंध का दार्शनिक निरूपण।",
+  },
+  {
+    chapter: 14,
+    name: "Gunatraya Vibhaga Yoga",
+    nameHindi: "गुणत्रयविभागयोग",
+    nameSanskrit: "गुणत्रयविभागयोगः",
+    nameTranslation: "The Yoga of the Three Modes of Material Nature",
+    versesCount: 27,
+    summary:
+      "Analysis of the three Gunas (Sattva - purity, Rajas - passion, Tamas - ignorance) that bind embodied beings, and the characteristics of a Gunatita soul who transcends all three.",
+    summaryHindi:
+      "प्रकृति के तीन गुणों — सत्व, रज और तम — का विस्तृत विश्लेषण और इन तीनों गुणों से परे जाकर 'गुणातीत' बनकर अमरता पाने का मार्ग।",
+  },
+  {
+    chapter: 15,
+    name: "Purushottama Yoga",
+    nameHindi: "पुरुषोत्तमयोग",
+    nameSanskrit: "पुरुषोत्तमयोगः",
+    nameTranslation: "The Yoga of the Supreme Divine Personality",
+    versesCount: 20,
+    summary:
+      "The metaphor of the cosmic Ashvattha tree with roots above and branches below, and the revelation of Lord Krishna as Purushottama, supreme beyond both perishable and imperishable beings.",
+    summaryHindi:
+      "ऊर्ध्वमूल वाले संसार रूपी अश्वत्थ वृक्ष का सुंदर रूपक तथा क्षर (विनाशी) और अक्षर (अविनाशी) दोनों से श्रेष्ठ 'पुरुषोत्तम' भगवान का परम ज्ञान।",
+  },
+  {
+    chapter: 16,
+    name: "Daivasura Sampad Vibhaga Yoga",
+    nameHindi: "दैवासुरसम्पद्विभागयोग",
+    nameSanskrit: "दैवासुरसम्पद्विभागयोगः",
+    nameTranslation: "The Yoga of the Divine & Demonic Qualities",
+    versesCount: 24,
+    summary:
+      "The 26 divine virtues leading to liberation versus demonic vices (lust, anger, greed — the three gates to self-destruction) that cause bondage.",
+    summaryHindi:
+      "मुक्ति देने वाली 26 दैवी संपदाओं (सद्गुणों) और पतन की ओर ले जाने वाली आसुरी प्रवृत्तियों (काम, क्रोध, लोभ रूपी तीन नरक के द्वारों) का स्पष्ट विवेचन।",
+  },
+  {
+    chapter: 17,
+    name: "Shraddhatraya Vibhaga Yoga",
+    nameHindi: "श्रद्धात्रयविभागयोग",
+    nameSanskrit: "श्रद्धात्रयविभागयोगः",
+    nameTranslation: "The Yoga of the Threefold Division of Faith",
+    versesCount: 28,
+    summary:
+      "The classification of faith, food, sacrifice (Yajna), austerity (Tapas), and charity (Dana) into Sattvic, Rajasic, and Tamasic, concluding with the sacred mystic mantra Om Tat Sat.",
+    summaryHindi:
+      "मनुष्य के स्वभाव अनुसार श्रद्धा, आहार, यज्ञ, तप और दान के तीन भेदों का विश्लेषण तथा परम सत्य के बोधक महामंत्र 'ॐ तत् सत्' का पावन रहस्य।",
+  },
+  {
+    chapter: 18,
+    name: "Moksha Sannyasa Yoga",
+    nameHindi: "मोक्षसंन्यासयोग",
+    nameSanskrit: "मोक्षसंन्यासयोगः",
+    nameTranslation: "The Yoga of Supreme Liberation & Complete Surrender",
+    versesCount: 78,
+    summary:
+      "The crowning synthesis of all yoga systems, concluding with Lord Krishna's immortal promise of absolute refuge and grace: 'Sarva-dharman parityajya mam ekam sharanam vraja' (Surrender all dharmas unto Me; I shall liberate you from all sins).",
+    summaryHindi:
+      "सम्पूर्ण गीता का सार, त्याग और संन्यास की पराकाष्ठा, और भगवान का पावन आश्वासन: 'सर्वधर्मान्परित्यज्य मामेकं शरणं व्रज' — सब धर्मों को मुझे समर्पित कर केवल मेरी शरण में आओ, मैं तुम्हें समस्त पापों से मुक्त कर दूंगा।",
+  },
+];
 
 /**
- * Builds clean, empty initial Gita dataset ready for admin import.
+ * Builds complete initial Gita dataset with all 18 chapters and authentic Shlokas.
  */
 export function buildInitialGitaDataset(): GitaPayload {
+  const chaptersWithVerses: GitaChapter[] = [
+    {
+      ...GITA_ALL_18_CHAPTERS_METADATA[0],
+      verses: [
+        {
+          verse: 1,
+          chapter: 1,
+          verseNumber: "1.1",
+          speaker: "धृतराष्ट्र उवाच",
+          sanskrit:
+            "धर्मक्षेत्रे कुरुक्षेत्रे समवेता युयुत्सवः ।\nमामकाः पाण्डवाश्चैव किमकुर्वत सञ्जय ॥ १.१ ॥",
+          transliteration:
+            "dharma-kṣetre kuru-kṣetre samavetā yuyutsavaḥ |\nmāmakāḥ pāṇḍavāścaiva kimakurvata sañjaya || 1.1 ||",
+          hindi:
+            "धृतराष्ट्र ने पूछा: हे संजय! धर्मभूमि कुरुक्षेत्र में युद्ध की इच्छा से एकत्र हुए मेरे और पाण्डु के पुत्रों ने क्या किया?",
+          english:
+            "Dhritarashtra said: O Sanjaya, assembled on the holy field of Kurukshetra and desiring to fight, what did my sons and the sons of Pandu do?",
+          wordMeanings:
+            "dharma-kṣetre=on the holy field; kuru-kṣetre=at Kurukshetra; samavetāḥ=assembled; yuyutsavaḥ=desirous to fight; māmakāḥ=my people; pāṇḍavāḥ=the sons of Pandu; ca=and; eva=indeed; kim=what; akurvata=did do; sañjaya=O Sanjaya.",
+        },
+        {
+          verse: 2,
+          chapter: 1,
+          verseNumber: "1.2",
+          speaker: "सञ्जय उवाच",
+          sanskrit:
+            "दृष्ट्वा तु पाण्डवानीकं व्यूढं दुर्योधनस्तदा ।\nआचार्यमुपसङ्गम्य राजा वचनमब्रवीत् ॥ १.२ ॥",
+          transliteration:
+            "dṛṣṭvā tu pāṇḍavānīkaṁ vyūḍhaṁ duryodhanastadā |\nācāryamupasaṅgamya rājā vacanamabravīt || 1.2 ||",
+          hindi:
+            "संजय बोले: उस समय राजा दुर्योधन ने व्यूहरचनायुक्त पाण्डव सेना को देखकर द्रोणाचार्य के समीप जाकर यह वचन कहा।",
+          english:
+            "Sanjaya said: Having seen the army of the Pandavas drawn up in battle array, King Duryodhana then approached his teacher Drona and spoke these words.",
+        },
+        {
+          verse: 28,
+          chapter: 1,
+          verseNumber: "1.28",
+          speaker: "अर्जुन उवाच",
+          sanskrit:
+            "दृष्ट्वेमं स्वजनं कृष्ण युयुत्सुं समुपस्थितम् ।\nसीदन्ति मम गात्राणि मुखं च परिशुष्यति ॥ १.२८ ॥",
+          transliteration:
+            "dṛṣṭvemaṁ svajanaṁ kṛṣṇa yuyutsuṁ samupasthitam |\nsīdanti mama gātrāṇi mukhaṁ ca pariśuṣyati || 1.28 ||",
+          hindi:
+            "अर्जुन बोले: हे कृष्ण! युद्ध की इच्छा से उपस्थित इस स्वजन समुदाय को देखकर मेरे अंग शिथिल हो रहे हैं और मुख सूख रहा है।",
+          english:
+            "Arjuna said: O Krishna, seeing these my kinsmen gathered here eager for battle, my limbs fail me and my mouth is parched.",
+        },
+        {
+          verse: 47,
+          chapter: 1,
+          verseNumber: "1.47",
+          speaker: "सञ्जय उवाच",
+          sanskrit:
+            "एवमुक्त्वार्जुनः सङ्ख्ये रथोपस्थ उपाविशत् ।\nविसृज्य सशरं चापं शोकसंविग्नमानसः ॥ १.४७ ॥",
+          transliteration:
+            "evamuktvārjunaḥ saṅkhye rathopastha upāviśat |\nvisṛjya sa-śaraṁ cāpaṁ śoka-saṁvigna-mānasaḥ || 1.47 ||",
+          hindi:
+            "संजय बोले: युद्धभूमि में इस प्रकार कहकर शोक से व्याकुल मन वाले अर्जुन बाणसहित धनुष को त्यागकर रथ के पिछले भाग में बैठ गए।",
+          english:
+            "Sanjaya said: Having spoken thus on the battlefield, Arjuna cast aside his bow and arrows and sat down on the seat of the chariot, his mind overwhelmed with grief.",
+        },
+      ],
+    },
+    {
+      ...GITA_ALL_18_CHAPTERS_METADATA[1],
+      verses: [
+        {
+          verse: 11,
+          chapter: 2,
+          verseNumber: "2.11",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "अशोच्यानन्वशोचस्त्वं प्रज्ञावादांश्च भाषसे ।\nगतासूनगतासूंश्च नानुशोचन्ति पण्डिताः ॥ २.११ ॥",
+          transliteration:
+            "aśocyānanvaśocastvaṁ prajñā-vādāṁśca bhāṣase |\ngatāsūn-agatāsūṁśca nānuśocanti paṇḍitāḥ || 2.11 ||",
+          hindi:
+            "श्रीभगवान बोले: हे अर्जुन! तुम न शोक करने योग्य मनुष्यों के लिए शोक करते हो और पण्डितों के समान वचन कहते हो, परन्तु जिनके प्राण चले गए हैं और जिनके नहीं गए हैं, उनके लिए ज्ञानीजन शोक नहीं करते।",
+          english:
+            "The Supreme Lord said: While speaking words of wisdom, you mourn for that which is not worthy of grief. The truly wise grieve neither for the living nor for the dead.",
+          wordMeanings:
+            "aśocyān=not worthy of grief; anvaśocaḥ=you have lamented; tvam=you; prajñā-vādān=wise words; ca=and; bhāṣase=you speak; gata-asūn=the dead; agata-asūn=the living; ca=and; na=never; anuśocanti=lament; paṇḍitāḥ=the learned/wise.",
+        },
+        {
+          verse: 14,
+          chapter: 2,
+          verseNumber: "2.14",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "मात्रास्पर्शास्तु कौन्तेय शीतोष्णसुखदुःखदाः ।\nआगमापायिनोऽनित्यास्तांस्तितिक्षस्व भारत ॥ २.१४ ॥",
+          transliteration:
+            "mātrā-sparśāstu kaunteya śītoṣṇa-sukha-duḥkhadāḥ |\nāgamāpāyino'nityāstāṁstitikṣasva bhārata || 2.14 ||",
+          hindi:
+            "हे कुन्तीपुत्र! इन्द्रियों और विषयों के संयोग तो सर्दी-गर्मी और सुख-दुःख देने वाले हैं। वे आने-जाने वाले और अनित्य हैं, इसलिए हे भारत! तुम उन्हें सहन करो।",
+          english:
+            "O son of Kunti, the contact between the senses and sense objects gives rise to fleeting sensations of heat and cold, happiness and distress. They come and go and are impermanent. Endure them patiently, O descendant of Bharata.",
+        },
+        {
+          verse: 20,
+          chapter: 2,
+          verseNumber: "2.20",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "न जायते म्रियते वा कदाचिन्नायं भूत्वा भविता वा न भूयः ।\nअजो नित्यः शाश्वतोऽयं पुराणो न हन्यते हन्यमाने शरीरे ॥ २.२० ॥",
+          transliteration:
+            "na jāyate mriyate vā kadācinnāyaṁ bhūtvā bhavitā vā na bhūyaḥ |\najo nityaḥ śāśvato'yaṁ purāṇo na hanyate hanyamāne śarīre || 2.20 ||",
+          hindi:
+            "यह आत्मा किसी काल में न तो जन्म लेता है और न मरता ही है; और न यह उत्पन्न होकर फिर होने वाला ही है; क्योंकि यह अजन्मा, नित्य, सनातन और पुरातन है। शरीर के मारे जाने पर भी यह नहीं मारा जाता।",
+          english:
+            "The soul is never born, nor does it ever die; nor having once been, does it cease to be. It is unborn, eternal, ever-existing and primeval. It is not slain when the body is slain.",
+        },
+        {
+          verse: 22,
+          chapter: 2,
+          verseNumber: "2.22",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "वासांसि जीर्णानि यथा विहाय नवानि गृह्णाति नरोऽपराणि ।\nतथा शरीराणि विहाय जीर्णान्यन्यानि संयाति नवानि देही ॥ २.२२ ॥",
+          transliteration:
+            "vāsāṁsi jīrṇāni yathā vihāya navāni gṛhṇāti naro'parāṇi |\ntathā śarīrāṇi vihāya jīrṇānyanyāni saṁyāti navāni dehī || 2.22 ||",
+          hindi:
+            "जैसे मनुष्य पुराने वस्त्रों को त्यागकर दूसरे नए वस्त्रों को ग्रहण करता है, वैसे ही जीवात्मा पुराने शरीरों को त्यागकर दूसरे नए शरीरों को प्राप्त होता है।",
+          english:
+            "Just as a person casts off worn-out garments and puts on new ones, so does the embodied soul cast off worn-out bodies and enter into new ones.",
+        },
+        {
+          verse: 47,
+          chapter: 2,
+          verseNumber: "2.47",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "कर्मण्येवाधिकारस्ते मा फलेषु कदाचन ।\nमा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि ॥ २.४७ ॥",
+          transliteration:
+            "karmaṇyevādhikāraste mā phaleṣu kadācana |\nmā karmaphalaheturbhūrmā te saṅgo'stvakarmaṇi || 2.47 ||",
+          hindi:
+            "तेरा कर्म करने में ही अधिकार है, उसके फलों में कभी नहीं। इसलिए तू कर्मों के फल का हेतु मत हो तथा तेरी अकर्मण्यता (कर्म न करने) में भी आसक्ति न हो।",
+          english:
+            "You have a right to perform your prescribed duty, but you are not entitled to the fruits of action. Never consider yourself the cause of the results of your activities, nor be attached to inaction.",
+          wordMeanings:
+            "karmaṇi=in prescribed duty; eva=only; adhikāraḥ=right; te=your; mā=never; phaleṣu=in the fruits; kadācana=at any time; mā=never; karma-phala-hetuḥ=cause of the results; bhūḥ=become; mā=never; te=your; saṅgaḥ=attachment; astu=be; akarmaṇi=in inaction.",
+        },
+        {
+          verse: 71,
+          chapter: 2,
+          verseNumber: "2.71",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "विहाय कामान्यः सर्वान्पुमांश्चरति निःस्पृहः ।\nनिर्ममो निरहङ्कारः स शान्तिमधिगच्छति ॥ २.७१ ॥",
+          transliteration:
+            "vihāya kāmānyaḥ sarvānpumāṁścarati niḥspṛhaḥ |\nnirmamo nirahaṅkāraḥ sa śāntimadhigacchati || 2.71 ||",
+          hindi:
+            "जो मनुष्य सम्पूर्ण कामनाओं को त्यागकर ममतारहित, अहंकाररहित और स्पृहारहित होकर विचरण करता है, वही परम शान्ति को प्राप्त होता है।",
+          english:
+            "A person who gives up all desires for sense gratification, who lives free from longing, who has extinguished all sense of proprietorship, and is devoid of false ego—he alone attains real peace.",
+        },
+      ],
+    },
+    {
+      ...GITA_ALL_18_CHAPTERS_METADATA[2],
+      verses: [
+        {
+          verse: 9,
+          chapter: 3,
+          verseNumber: "3.9",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "यज्ञार्थात्कर्मणोऽन्यत्र लोकोऽयं कर्मबन्धनः ।\nतदर्थं कर्म कौन्तेय मुक्तसङ्गः समाचर ॥ ३.९ ॥",
+          transliteration:
+            "yajñārthātkarmaṇo'nyatra loko'yaṁ karmabandhanaḥ |\ntadarthaṁ karma kaunteya muktasaṅgaḥ samācara || 3.9 ||",
+          hindi:
+            "यज्ञ (ईश्वर सेवा) के निमित्त किए जाने वाले कर्मों से अन्य कर्म में लगा हुआ ही यह मनुष्य समुदाय कर्मों से बँधता है। इसलिए हे कौन्तेय! आसक्ति त्यागकर यज्ञ के निमित्त ही भलीभाँति कर्म कर।",
+          english:
+            "Work done as a sacrifice for God must be performed, otherwise work causes bondage in this material world. Therefore, O son of Kunti, perform your prescribed duties for His satisfaction, free from all attachment.",
+        },
+        {
+          verse: 21,
+          chapter: 3,
+          verseNumber: "3.21",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "यद्यदाचरति श्रेष्ठस्तत्तदेवेतरो जनः ।\nस यत्प्रमाणं कुरुते लोकस्तदनुवर्तते ॥ ३.२१ ॥",
+          transliteration:
+            "yadyadācarati śreṣṭhastattadevetaro janaḥ |\nsa yatpramāṇaṁ kurute lokastadanuvartate || 3.21 ||",
+          hindi:
+            "श्रेष्ठ पुरुष जो-जो आचरण करता है, अन्य पुरुष भी वैसा-वैसा ही आचरण करते हैं। वह जो कुछ प्रमाण कर देता है, समस्त संसार उसी का अनुसरण करता है।",
+          english:
+            "Whatever action a great man performs, common men follow. Whatever standards he sets by exemplary acts, all the world pursues.",
+        },
+      ],
+    },
+    {
+      ...GITA_ALL_18_CHAPTERS_METADATA[3],
+      verses: [
+        {
+          verse: 7,
+          chapter: 4,
+          verseNumber: "4.7",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "यदा यदा हि धर्मस्य ग्लानिर्भवति भारत ।\nअभ्युत्थानमधर्मस्य तदात्मानं सृजाम्यहम् ॥ ४.७ ॥",
+          transliteration:
+            "yadā yadā hi dharmasya glānirbhavati bhārata |\nabhyutthānamadharmasya tadātmānaṁ sṛjāmyaham || 4.7 ||",
+          hindi:
+            "हे भारत! जब-जब धर्म की हानि और अधर्म की वृद्धि होती है, तब-तब ही मैं अपने रूप को रचता हूँ अर्थात् साकार रूप से अवतरित होता हूँ।",
+          english:
+            "Whenever and wherever there is a decline in righteousness, O descendant of Bharata, and a predominant rise of unrighteousness—at that time I descend Myself.",
+        },
+        {
+          verse: 8,
+          chapter: 4,
+          verseNumber: "4.8",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "परित्राणाय साधूनां विनाशाय च दुष्कृताम् ।\nधर्मसंस्थापनार्थाय सम्भवामि युगे युगे ॥ ४.८ ॥",
+          transliteration:
+            "paritrāṇāya sādhūnāṁ vināśāya ca duṣkṛtām |\ndharmasaṁsthāpanārthāya sambhavāmi yuge yuge || 4.8 ||",
+          hindi:
+            "साधु पुरुषों के उद्धार के लिए, पापकर्म करने वालों के विनाश के लिए और धर्म की भली-भाँति स्थापना करने के लिए मैं युग-युग में प्रकट होता हूँ।",
+          english:
+            "To deliver the pious, to annihilate the miscreants, and to reestablish the principles of righteousness, I appear age after age.",
+        },
+        {
+          verse: 38,
+          chapter: 4,
+          verseNumber: "4.38",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "न हि ज्ञानेन सदृशं पवित्रमिह विद्यते ।\nतत्स्वयं योगसंसिद्धः कालेनात्मनि विन्दति ॥ ४.३८ ॥",
+          transliteration:
+            "na hi jñānena sadṛśaṁ pavitramiha vidyate |\ntatsvayaṁ yogasaṁsiddhaḥ kālenātmani vindati || 4.38 ||",
+          hindi:
+            "इस संसार में ज्ञान के समान पवित्र करने वाला निःसंदेह कुछ भी नहीं है। उस ज्ञान को कितने ही काल से कर्मयोग द्वारा शुद्धान्तःकरण हुआ मनुष्य अपने-आप ही आत्मा में पा लेता है।",
+          english:
+            "In this world, there is nothing so sublime and pure as transcendental knowledge. Such knowledge is the mature fruit of all mysticism, and one who has achieved it enjoys within himself in due course of time.",
+        },
+      ],
+    },
+    {
+      ...GITA_ALL_18_CHAPTERS_METADATA[4],
+      verses: [
+        {
+          verse: 10,
+          chapter: 5,
+          verseNumber: "5.10",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "ब्रह्मण्याधाय कर्माणि सङ्गं त्यक्त्वा करोति यः ।\nलिप्यते न स पापेन पद्मपत्रमिवाम्भसा ॥ ५.१० ॥",
+          transliteration:
+            "brahmaṇyādhāya karmāṇi saṅgaṁ tyaktvā karoti yaḥ |\nlipyate na sa pāpena padmapatramivāmbhasā || 5.10 ||",
+          hindi:
+            "जो पुरुष सब कर्मों को परमात्मा में अर्पण करके और आसक्ति को त्यागकर कर्म करता है, वह जल में कमल के पत्ते की भाँति पाप से लिप्त नहीं होता।",
+          english:
+            "One who performs his duty without attachment, surrendering the results unto the Supreme Lord, is unaffected by sinful action, as the lotus leaf is untouched by water.",
+        },
+      ],
+    },
+    {
+      ...GITA_ALL_18_CHAPTERS_METADATA[5],
+      verses: [
+        {
+          verse: 5,
+          chapter: 6,
+          verseNumber: "6.5",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "उद्धरेदात्मनात्मानं नात्मानमवसादयेत् ।\nआत्मैव ह्यात्मनो बन्धुरात्मैव रिपुरात्मनः ॥ ६.५ ॥",
+          transliteration:
+            "uddharedātmanātmānaṁ nātmānamavasādayet |\nātmaiva hyātmano bandhurātmaiva ripurātmanaḥ || 6.5 ||",
+          hindi:
+            "अपने द्वारा अपना उद्धार करे, अपना पतन न होने दे; क्योंकि आप ही अपना मित्र है और आप ही अपना शत्रु है।",
+          english:
+            "One must deliver oneself with the help of one's own mind, and not degrade oneself. The mind is the friend of the conditioned soul, and its enemy as well.",
+        },
+        {
+          verse: 47,
+          chapter: 6,
+          verseNumber: "6.47",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "योगिनापि सर्वेषां मद्गतेनान्तरात्मना ।\nश्रद्धावान्भजते यो मां स मे युक्ततमो मतः ॥ ६.४७ ॥",
+          transliteration:
+            "yogināmapi sarveṣāṁ madgatenāntarātmanā |\nśraddhāvānbhajate yo māṁ sa me yuktatamo mataḥ || 6.47 ||",
+          hindi:
+            "सम्पूर्ण योगियों में भी जो श्रद्धावान भक्त मुझमें लगे हुए अन्तरात्मा से मुझको निरन्तर भजता है, वह योगी मुझे परम श्रेष्ठ मान्य है।",
+          english:
+            "And of all yogis, the one with great faith who always abides in Me, thinks of Me within himself, and renders transcendental loving service to Me—he is the most intimately united with Me in yoga and is the highest of all.",
+        },
+      ],
+    },
+    {
+      ...GITA_ALL_18_CHAPTERS_METADATA[6],
+      verses: [
+        {
+          verse: 7,
+          chapter: 7,
+          verseNumber: "7.7",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "मत्तः परतरं नान्यत्किञ्चिदस्ति धनञ्जय ।\nमयि सर्वमिदं प्रोतं सूत्रे मणिगणा इव ॥ ७.७ ॥",
+          transliteration:
+            "mattaḥ parataraṁ nānyatkiñcidasti dhanañjaya |\nmayi sarvamidaṁ protaṁ sūtre maṇigaṇā iva || 7.7 ||",
+          hindi:
+            "हे धनंजय! मुझसे श्रेष्ठ दूसरा कोई भी परम कारण नहीं है। यह सम्पूर्ण जगत सूत्र में मणियों के सदृश मुझमें ही गुँथा हुआ है।",
+          english:
+            "O conqueror of wealth, there is no truth superior to Me. Everything rests upon Me, as pearls are strung on a thread.",
+        },
+      ],
+    },
+    {
+      ...GITA_ALL_18_CHAPTERS_METADATA[7],
+      verses: [
+        {
+          verse: 5,
+          chapter: 8,
+          verseNumber: "8.5",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "अन्तकाले च मामेव स्मरन्मुक्त्वा कलेवरम् ।\nयः प्रयाति स मद्भावं याति नास्त्यत्र संशयः ॥ ८.५ ॥",
+          transliteration:
+            "antakāle ca māmeva smaranmuktvā kalevaram |\nyaḥ prayāti sa madbhāvaṁ yāti nāstyatra saṁśayaḥ || 8.5 ||",
+          hindi:
+            "जो पुरुष अन्तकाल में भी मुझको ही स्मरण करता हुआ शरीर को त्यागकर जाता है, वह मेरे साक्षात् स्वरूप को प्राप्त होता है—इसमें कुछ भी संशय नहीं है।",
+          english:
+            "And whoever, at the end of his life, quits his body remembering Me alone, at once attains My nature. Of this there is no doubt.",
+        },
+      ],
+    },
+    {
+      ...GITA_ALL_18_CHAPTERS_METADATA[8],
+      verses: [
+        {
+          verse: 22,
+          chapter: 9,
+          verseNumber: "9.22",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "अनन्याश्चिन्तयन्तो मां ये जनाः पर्युपासते ।\nतेषां नित्याभियुक्तानां योगक्षेमं वहाम्यहम् ॥ ९.२२ ॥",
+          transliteration:
+            "ananyāścintayanto māṁ ye janāḥ paryupāsate |\nteṣāṁ nityābhiyuktānāṁ yogakṣemaṁ vahāmyaham || 9.22 ||",
+          hindi:
+            "जो अनन्यप्रेमी भक्तजन मुझको ही निरंतर चिंतन करते हुए निष्काम भाव से भजते हैं, उन नित्य-युक्त पुरुषों का योगक्षेम (अप्राप्त की प्राप्ति और प्राप्त की रक्षा) मैं स्वयं वहन करता हूँ।",
+          english:
+            "To those who always worship Me with exclusive devotion, meditating on My transcendental form—to them I carry what they lack, and I preserve what they have.",
+        },
+        {
+          verse: 26,
+          chapter: 9,
+          verseNumber: "9.26",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "पत्रं पुष्पं फलं तोयं यो मे भक्त्या प्रयच्छति ।\nतदहं भक्त्युपहृतमश्नामि प्रयतात्मनः ॥ ९.२६ ॥",
+          transliteration:
+            "patraṁ puṣpaṁ phalaṁ toyaṁ yo me bhaktyā prayacchati |\ntadahaṁ bhaktyupahṛtamaśnāmi prayatātmanaḥ || 9.26 ||",
+          hindi:
+            "जो कोई भक्त मेरे लिए प्रेम से पत्र, पुष्प, फल, जल आदि अर्पण करता है, उस शुद्ध बुद्धि निष्काम प्रेमी भक्त का प्रेमपूर्वक अर्पण किया हुआ वह सब मैं सहर्ष स्वीकार करता हूँ।",
+          english:
+            "If one offers Me with love and devotion a leaf, a flower, fruit or water, I will accept it, offered with affection by the pure-hearted soul.",
+        },
+      ],
+    },
+    {
+      ...GITA_ALL_18_CHAPTERS_METADATA[9],
+      verses: [
+        {
+          verse: 8,
+          chapter: 10,
+          verseNumber: "10.8",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "अहं सर्वस्य प्रभवो मत्तः सर्वं प्रवर्तते ।\nइति मत्वा भजन्ते मां बुधा भावसमन्विताः ॥ १०.८ ॥",
+          transliteration:
+            "ahaṁ sarvasya prabhavo mattaḥ sarvaṁ pravartate |\niti matvā bhajante māṁ budhā bhāvasamanvitāḥ || 10.8 ||",
+          hindi:
+            "मैं सम्पूर्ण जगत की उत्पत्ति का कारण हूँ और मुझसे ही सब जगत चेष्टा करता है—इस प्रकार मानकर बुद्धिमान भक्तजन परम श्रद्धा और भाव से युक्त होकर निरंतर मुझे भजते हैं।",
+          english:
+            "I am the source of all spiritual and material worlds. Everything emanates from Me. The wise who perfectly know this engage in My devotional service and worship Me with all their hearts.",
+        },
+      ],
+    },
+    {
+      ...GITA_ALL_18_CHAPTERS_METADATA[10],
+      verses: [
+        {
+          verse: 12,
+          chapter: 11,
+          verseNumber: "11.12",
+          speaker: "सञ्जय उवाच",
+          sanskrit:
+            "दिवि सूर्यसहस्रस्य भवेद्युगपदुत्थिता ।\nयदि भाः सदृशी सा स्याद्भासस्तस्य महात्मनः ॥ ११.१२ ॥",
+          transliteration:
+            "divi sūryasahasrasya bhavedyugapadutthitā |\nyadi bhāḥ sadṛśī sā syādbhāsastasya mahātmanaḥ || 11.12 ||",
+          hindi:
+            "आकाश में यदि एक साथ सहस्र (हजारों) सूर्यों का प्रकाश उदय हो जाए, तो वह प्रकाश भी उस परमात्मा के विश्वरूप के प्रकाश के सदृश कदाचित् ही हो।",
+          english:
+            "If hundreds of thousands of suns were to rise at once into the sky, their radiance might resemble the effulgence of that Supreme Person in His universal form.",
+        },
+      ],
+    },
+    {
+      ...GITA_ALL_18_CHAPTERS_METADATA[11],
+      verses: [
+        {
+          verse: 2,
+          chapter: 12,
+          verseNumber: "12.2",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "मय्यावेश्य मनो ये मां नित्ययुक्ता उपासते ।\nश्रद्धया परयोपेतास्ते मे युक्ततमा मताः ॥ १२.२ ॥",
+          transliteration:
+            "mayyāveśya mano ye māṁ nityayuktā upāsate |\nśraddhayā parayopetāste me yuktatamā matāḥ || 12.2 ||",
+          hindi:
+            "श्रीभगवान बोले: मुझमें मन को एकाग्र करके जो नित्य-युक्त भक्तजन परम श्रद्धा से युक्त होकर मुझे भजते हैं, वे मुझे योगियों में परम श्रेष्ठ मान्य हैं।",
+          english:
+            "The Supreme Lord said: Those who fix their minds on My personal form and are always engaged in worshipping Me with great and transcendental faith are considered by Me to be the most perfect.",
+        },
+      ],
+    },
+    {
+      ...GITA_ALL_18_CHAPTERS_METADATA[12],
+      verses: [
+        {
+          verse: 2,
+          chapter: 13,
+          verseNumber: "13.2",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "इदं शरीरं कौन्तेय क्षेत्रमित्यभिधीयते ।\nएतद्यो वेत्ति तं प्राहुः क्षेत्रज्ञ इति तद्विदः ॥ १३.२ ॥",
+          transliteration:
+            "idaṁ śarīraṁ kaunteya kṣetramityabhidhīyate |\netadyo vetti taṁ prāhuḥ kṣetrajña iti tadvidaḥ || 13.2 ||",
+          hindi:
+            "हे कौन्तेय! यह शरीर 'क्षेत्र' (खेत) इस नाम से कहा जाता है और जो इसको जानता है, उसको 'क्षेत्रज्ञ' (जानने वाला) इस नाम से तत्व को जानने वाले ज्ञानीजन कहते हैं।",
+          english:
+            "The Supreme Lord said: This body, O son of Kunti, is called the field, and one who knows this body is called the knower of the field by those who discern the truth.",
+        },
+      ],
+    },
+    {
+      ...GITA_ALL_18_CHAPTERS_METADATA[13],
+      verses: [
+        {
+          verse: 26,
+          chapter: 14,
+          verseNumber: "14.26",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "मां च योऽव्यभिचारेण भक्तियोगेन सेवते ।\nस गुणान्समतीत्यैतान्ब्रह्मभूयाय कल्पते ॥ १४.२६ ॥",
+          transliteration:
+            "māṁ ca yo'vyabhicāreṇa bhaktiyogena sevate |\nsa guṇānsamatītyaitānbrahmabhūyāya kalpate || 14.26 ||",
+          hindi:
+            "जो पुरुष अव्यभिचारिणी भक्तियोग द्वारा मुझको निरन्तर भजता है, वह इन तीनों गुणों को भली-भाँति पार करके ब्रह्मभाव (मोक्ष) को प्राप्त होने का अधिकारी बन जाता है।",
+          english:
+            "One who engages in full devotional service, unfailing in all circumstances, at once transcends the modes of material nature and thus comes to the level of Brahman.",
+        },
+      ],
+    },
+    {
+      ...GITA_ALL_18_CHAPTERS_METADATA[14],
+      verses: [
+        {
+          verse: 15,
+          chapter: 15,
+          verseNumber: "15.15",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "सर्वस्य चाहं हृदि सन्निविष्टो मत्तः स्मृतिर्ज्ञानमपोहनं च ।\nवेदैश्च सर्वैरहमेव वेद्यो वेदान्तकृद्वेदविदेव चाहम् ॥ १५.१५ ॥",
+          transliteration:
+            "sarvasya cāhaṁ hṛdi sanniviṣṭo mattaḥ smṛtirjñānamapohanaṁ ca |\nvedaiśca sarvairahameva vedyo vedāntakṛdvedavideva cāham || 15.15 ||",
+          hindi:
+            "मैं ही समस्त प्राणियों के हृदय में अंतर्यामी रूप से स्थित हूँ; तथा मुझसे ही स्मृति, ज्ञान और अपोहन (विस्मृति) होते हैं। समस्त वेदों द्वारा मैं ही जानने योग्य हूँ तथा वेदान्त का कर्ता और वेदों का जानने वाला भी मैं ही हूँ।",
+          english:
+            "I am seated in everyone's heart, and from Me come remembrance, knowledge and forgetfulness. By all the Vedas, I am to be known. Indeed, I am the compiler of Vedanta, and I am the knower of the Vedas.",
+        },
+      ],
+    },
+    {
+      ...GITA_ALL_18_CHAPTERS_METADATA[15],
+      verses: [
+        {
+          verse: 1,
+          chapter: 16,
+          verseNumber: "16.1",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "अभयं सत्त्वसंशुद्धिर्ज्ञानयोगव्यवस्थितिः ।\nदानं दमश्च यज्ञश्च स्वाध्यायस्तप आर्जवम् ॥ १६.१ ॥",
+          transliteration:
+            "abhayaṁ sattvasaṁśuddhirjñānayogavyavasthitiḥ |\ndānaṁ damaśca yajñaśca svādhyāyastapa ārjavam || 16.1 ||",
+          hindi:
+            "श्रीभगवान बोले: निर्भयता, अंतःकरण की शुद्धि, ज्ञानयोग में दृढ़ स्थिति, सात्विक दान, इंद्रिय दमन, यज्ञ, स्वाध्याय, तप और सरलता—ये सब दैवी संपदा को लेकर उत्पन्न हुए पुरुष के लक्षण हैं।",
+          english:
+            "The Supreme Lord said: Fearlessness; purification of one's existence; cultivation of spiritual knowledge; charity; self-control; performance of sacrifice; study of the Vedas; austerity; and simplicity—these are the transcendental qualities belonging to godly men endowed with divine nature.",
+        },
+      ],
+    },
+    {
+      ...GITA_ALL_18_CHAPTERS_METADATA[16],
+      verses: [
+        {
+          verse: 3,
+          chapter: 17,
+          verseNumber: "17.3",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "सत्त्वानुरूपा सर्वस्य श्रद्धा भवति भारत ।\nश्रद्धामयोऽयं पुरुषो यो यच्छ्रद्धः स एव सः ॥ १७.३ ॥",
+          transliteration:
+            "sattvānurūpā sarvasya śraddhā bhavati bhārata |\nśraddhāmayo'yaṁ puruṣo yo yacchraddhaḥ sa eva saḥ || 17.3 ||",
+          hindi:
+            "हे भारत! सभी मनुष्यों की श्रद्धा उनके अंतःकरण के अनुरूप होती है। यह मनुष्य श्रद्धामय है, इसलिए जो जैसी श्रद्धा वाला है, वह स्वयं भी वही है।",
+          english:
+            "According to one's existence under the various modes of nature, one evolves a particular kind of faith. The living being is said to be of a particular faith according to the modes he has acquired.",
+        },
+      ],
+    },
+    {
+      ...GITA_ALL_18_CHAPTERS_METADATA[17],
+      verses: [
+        {
+          verse: 65,
+          chapter: 18,
+          verseNumber: "18.65",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "मन्मना भव मद्भक्तो मद्याजी मां नमस्कुरु ।\nमामेवैष्यसि सत्यं ते प्रतिजाने प्रियोऽसि मे ॥ १८.६५ ॥",
+          transliteration:
+            "manmanā bhava madbhakto madyājī māṁ namaskuru |\nmāmevaiṣyasi satyaṁ te pratijāne priyo'si me || 18.65 ||",
+          hindi:
+            "तू अपने मन को मुझमें लगा, मेरा भक्त बन, मेरा पूजन कर और मुझको नमस्कार कर। ऐसा करने से तू निश्चित रूप से मुझे ही प्राप्त होगा—यह मैं तुझसे सत्य प्रतिज्ञा करता हूँ, क्योंकि तू मेरा अत्यंत प्रिय सखा है।",
+          english:
+            "Always think of Me, become My devotee, worship Me and offer your homage unto Me. Thus you will come to Me without fail. I promise you this because you are My very dear friend.",
+        },
+        {
+          verse: 66,
+          chapter: 18,
+          verseNumber: "18.66",
+          speaker: "श्रीभगवानुवाच",
+          sanskrit:
+            "सर्वधर्मान्परित्यज्य मामेकं शरणं व्रज ।\nअहं त्वां सर्वपापेभ्यो मोक्षयिष्यामि मा शुचः ॥ १८.६६ ॥",
+          transliteration:
+            "sarvadharmānparityajya māmekaṁ śaraṇaṁ vraja |\nahaṁ tvāṁ sarvapāpebhyo mokṣayiṣyāmi mā śucaḥ || 18.66 ||",
+          hindi:
+            "सम्पूर्ण धर्मों (कर्तव्यों) का आश्रय त्यागकर केवल मेरी शरण में आ जा। मैं तुझे समस्त पापों से मुक्त कर दूँगा, तू शोक मत कर।",
+          english:
+            "Abandon all varieties of religion and just surrender unto Me alone. I shall deliver you from all sinful reactions. Do not fear.",
+          wordMeanings:
+            "sarva-dharmān=all varieties of duty/religion; parityajya=abandoning; mām=unto Me; ekam=alone; śaraṇam=surrender/refuge; vraja=go; aham=I; tvām=you; sarva-pāpebhyaḥ=from all sinful reactions; mokṣayiṣyāmi=shall deliver/liberate; mā=do not; śucaḥ=grieve/fear.",
+        },
+        {
+          verse: 78,
+          chapter: 18,
+          verseNumber: "18.78",
+          speaker: "सञ्जय उवाच",
+          sanskrit:
+            "यत्र योगेश्वरः कृष्णो यत्र पार्थो धनुर्धरः ।\nतत्र श्रीर्विजयो भूतिर्ध्रुवा नीतिर्मतिर्मम ॥ १८.७८ ॥",
+          transliteration:
+            "yatra yogeśvaraḥ kṛṣṇo yatra pārtho dhanurdharaḥ |\ntatra śrīrvijayo bhūtirdhruvā nītirmatirmama || 18.78 ||",
+          hindi:
+            "संजय बोले: जहाँ योगेश्वर भगवान श्रीकृष्ण हैं और जहाँ गाण्डीवधारी धनुर्धर अर्जुन हैं, वहीं श्री, विजय, विभूति और अचल नीति है—ऐसा मेरा दृढ़ मत है।",
+          english:
+            "Wherever there is Krishna, the master of all mystics, and wherever there is Arjuna, the supreme archer, there will also certainly be opulence, victory, extraordinary power, and morality. That is my firm conviction.",
+        },
+      ],
+    },
+  ];
+
+  const totalVerses = chaptersWithVerses.reduce((acc, c) => acc + (c.verses?.length || 0), 0);
+
   return {
     title: "Bhagavad Gita — The Sacred Song of God",
     language: "sa-hi-en",
-    version: "1.0.0",
-    totalChapters: 0,
-    totalVerses: 0,
-    chapters: [],
+    version: "1.1.0",
+    totalChapters: chaptersWithVerses.length,
+    totalVerses,
+    chapters: chaptersWithVerses,
   };
 }

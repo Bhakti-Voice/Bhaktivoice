@@ -352,9 +352,10 @@ def row_public(row: dict, locale: str = "en") -> dict:
 
 def published(kind: str, slug: str | None = None, locale: str = "en") -> list[dict] | dict | None:
     if slug:
+        slug_alt = f"chapter-{slug}" if slug.isdigit() else slug.replace("chapter-", "")
         row = db().fetchone(
-            "SELECT * FROM cms_entries WHERE kind = ? AND slug = ? AND status = 'published'",
-            [kind, slug],
+            "SELECT * FROM cms_entries WHERE kind = ? AND (slug = ? OR slug = ?) AND status = 'published'",
+            [kind, slug, slug_alt],
         )
         try:
             return row_public(row, locale) if row else None
@@ -370,6 +371,8 @@ def published(kind: str, slug: str | None = None, locale: str = "en") -> list[di
             items.append(row_public(row, locale))
         except Exception:
             continue
+    if kind == "gita":
+        items.sort(key=lambda x: int(x.get("chapter") or 1))
     return items
 
 
@@ -549,6 +552,147 @@ def get_content(kind: str, slug: str, locale: str = "en"):
             return public_json({}, seconds=600)
         raise HTTPException(status_code=404, detail="Not found")
     return public_json(item, seconds=600)
+
+
+@app.get("/api/gita/chapters")
+def api_gita_chapters(locale: str = "en"):
+    items = published("gita", locale=normalize_locale(locale)) or []
+    overview = []
+    for ch in items:
+        verses = ch.get("verses") or []
+        overview.append({
+            "chapter": int(ch.get("chapter") or 1),
+            "name": ch.get("name") or ch.get("title") or f"Chapter {ch.get('chapter', 1)}",
+            "nameHindi": ch.get("nameHindi") or ch.get("name") or "",
+            "nameSanskrit": ch.get("nameSanskrit") or ch.get("name") or "",
+            "nameTranslation": ch.get("nameTranslation") or ch.get("name") or "",
+            "versesCount": len(verses),
+            "summary": ch.get("summary") or ch.get("introduction") or "",
+            "summaryHindi": ch.get("summaryHindi") or "",
+        })
+    return public_json({"ok": True, "chapters": overview, "total": len(overview)}, seconds=600)
+
+
+@app.get("/api/gita/chapters/{chapter}")
+def api_gita_chapter(chapter: int, locale: str = "en"):
+    item = published("gita", f"chapter-{chapter}", locale=normalize_locale(locale))
+    if not item:
+        raise HTTPException(status_code=404, detail=f"Chapter {chapter} not found")
+    verses = item.get("verses") or []
+    chapter_data = {
+        "chapter": int(item.get("chapter") or chapter),
+        "name": item.get("name") or item.get("title") or f"Chapter {chapter}",
+        "nameHindi": item.get("nameHindi") or item.get("name") or "",
+        "nameSanskrit": item.get("nameSanskrit") or item.get("name") or "",
+        "nameTranslation": item.get("nameTranslation") or item.get("name") or "",
+        "versesCount": len(verses),
+        "summary": item.get("summary") or item.get("introduction") or "",
+        "summaryHindi": item.get("summaryHindi") or "",
+        "verses": verses,
+    }
+    return public_json({"ok": True, "chapter": chapter_data}, seconds=600)
+
+
+@app.get("/api/gita/verses/{chapter}/{verse}")
+def api_gita_verse(chapter: int, verse: int, locale: str = "en"):
+    ch_item = published("gita", f"chapter-{chapter}", locale=normalize_locale(locale))
+    if not ch_item:
+        raise HTTPException(status_code=404, detail=f"Chapter {chapter} not found")
+    verses = ch_item.get("verses") or []
+    v_idx = next((i for i, v in enumerate(verses) if int(v.get("verse") or 0) == verse), -1)
+    if v_idx == -1:
+        raise HTTPException(status_code=404, detail=f"Verse {chapter}.{verse} not found")
+
+    current_verse = verses[v_idx]
+    prev_pointer = None
+    next_pointer = None
+    if v_idx > 0:
+        prev_pointer = {"chapter": chapter, "verse": int(verses[v_idx - 1].get("verse") or 1)}
+    elif chapter > 1:
+        prev_ch = published("gita", f"chapter-{chapter - 1}", locale=normalize_locale(locale))
+        if prev_ch and prev_ch.get("verses"):
+            prev_pointer = {"chapter": chapter - 1, "verse": int(prev_ch["verses"][-1].get("verse") or 1)}
+
+    if v_idx < len(verses) - 1:
+        next_pointer = {"chapter": chapter, "verse": int(verses[v_idx + 1].get("verse") or 1)}
+    elif chapter < 18:
+        next_ch = published("gita", f"chapter-{chapter + 1}", locale=normalize_locale(locale))
+        if next_ch and next_ch.get("verses"):
+            next_pointer = {"chapter": chapter + 1, "verse": int(next_ch["verses"][0].get("verse") or 1)}
+
+    ch_meta = {
+        "chapter": int(ch_item.get("chapter") or chapter),
+        "name": ch_item.get("name") or ch_item.get("title") or f"Chapter {chapter}",
+        "nameHindi": ch_item.get("nameHindi") or ch_item.get("name") or "",
+        "nameSanskrit": ch_item.get("nameSanskrit") or ch_item.get("name") or "",
+        "nameTranslation": ch_item.get("nameTranslation") or ch_item.get("name") or "",
+        "versesCount": len(verses),
+        "summary": ch_item.get("summary") or ch_item.get("introduction") or "",
+        "summaryHindi": ch_item.get("summaryHindi") or "",
+    }
+    return public_json({
+        "ok": True,
+        "verse": current_verse,
+        "chapter": ch_meta,
+        "previous": prev_pointer,
+        "next": next_pointer,
+    }, seconds=600)
+
+
+@app.get("/api/gita/stats")
+def api_gita_stats():
+    chapters = published("gita") or []
+    total_verses = 0
+    total_words = 0
+    languages = set()
+    for ch in chapters:
+        for v in ch.get("verses") or []:
+            total_verses += 1
+            if v.get("sanskrit"):
+                languages.add("Sanskrit")
+                total_words += len(v["sanskrit"].split())
+            if v.get("transliteration"):
+                total_words += len(v["transliteration"].split())
+            if v.get("hindi"):
+                languages.add("Hindi")
+                total_words += len(v["hindi"].split())
+            if v.get("english"):
+                languages.add("English")
+                total_words += len(v["english"].split())
+    return public_json({
+        "ok": True,
+        "stats": {
+            "totalChapters": len(chapters),
+            "totalVerses": total_verses,
+            "totalWords": total_words,
+            "languages": sorted(list(languages)) if languages else ["Sanskrit", "Hindi", "English"],
+        }
+    }, seconds=600)
+
+
+@app.get("/api/gita/random")
+def api_gita_random():
+    import random
+    chapters = published("gita") or []
+    all_verses = []
+    for ch in chapters:
+        for v in ch.get("verses") or []:
+            all_verses.append(v)
+    if not all_verses:
+        return public_json({
+            "ok": True,
+            "verse": {
+                "chapter": 2,
+                "verse": 47,
+                "verseNumber": "2.47",
+                "speaker": "श्रीभगवानुवाच",
+                "sanskrit": "कर्मण्येवाधिकारस्ते मा फलेषु कदाचन ।\nमा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि ॥ २.४७ ॥",
+                "transliteration": "karmaṇyevādhikāraste mā phaleṣu kadācana |\nmā karmaphalaheturbhūrmā te saṅgo'stvakarmaṇi || 2.47 ||",
+                "hindi": "तुम्हारा अधिकार केवल कर्म करने में है, उसके फलों में कभी नहीं।",
+                "english": "You have a right to perform your prescribed duty, but you are not entitled to the fruits of action.",
+            }
+        }, seconds=60)
+    return public_json({"ok": True, "verse": random.choice(all_verses)}, seconds=60)
 
 
 @app.get("/api/search")

@@ -377,6 +377,7 @@ KIND_LABEL_HI = {
     "aarti": "आरती",
     "chalisa": "चालीसा",
     "quotes": "उद्धरण",
+    "gita": "श्रीमद्भगवद्गीता",
 }
 CTA_DEFAULTS = {
     "en": {
@@ -458,6 +459,7 @@ PAGE_KINDS = (
     "bhajan",
     "aarti",
     "chalisa",
+    "gita",
 )
 
 SEARCH_KINDS = PAGE_KINDS
@@ -650,6 +652,17 @@ def form_to_data(kind: Kind, form: dict[str, str]) -> dict[str, Any]:
                 data[item.name] = 0
         elif item.name in {"outOfStock", "related_link"}:
             data[item.name] = as_yes_no(raw)
+        elif item.name == "verses":
+            if isinstance(value, list):
+                data[item.name] = value
+            elif raw.startswith("[") or raw.startswith("{"):
+                try:
+                    parsed = json.loads(raw)
+                    data[item.name] = parsed if isinstance(parsed, list) else [parsed]
+                except Exception:
+                    data[item.name] = raw
+            else:
+                data[item.name] = raw
         else:
             data[item.name] = raw
     if kind.key == "yatra":
@@ -795,6 +808,10 @@ def dump_field(item: Field, data: dict[str, Any]) -> str:
             return "\n".join(chunks).strip()
         if item.type == "paragraphs":
             return "\n\n".join(_str_list(value))
+        if item.name == "verses":
+            if isinstance(value, (list, dict)):
+                return json.dumps(value, ensure_ascii=False, indent=2)
+            return _safe_text(value)
         if item.name in {"outOfStock", "related_link"}:
             return as_yes_no(value)
         return _safe_text(value)
@@ -947,6 +964,30 @@ def public_page(
             {"name": home_name, "href": "/"},
             {"name": "भंडार" if locale == "hi" else "Store", "href": "/bhakti-store"},
             {"name": extras["name"], "href": f"/bhakti-store/{slug}"},
+        ]
+    if kind.key == "gita":
+        try:
+            extras["chapter"] = int(data.get("chapter") or 1)
+        except (TypeError, ValueError):
+            extras["chapter"] = 1
+        extras["name"] = data.get("name") or title
+        extras["nameHindi"] = data.get("nameHindi") or extras["name"]
+        extras["nameSanskrit"] = data.get("nameSanskrit") or extras["name"]
+        extras["nameTranslation"] = data.get("nameTranslation") or extras["name"]
+        extras["summary"] = data.get("summary") or data.get("introduction") or ""
+        extras["summaryHindi"] = data.get("summaryHindi") or ""
+        verses_raw = data.get("verses")
+        if isinstance(verses_raw, str) and (verses_raw.startswith("[") or verses_raw.startswith("{")):
+            try:
+                verses_raw = json.loads(verses_raw)
+            except Exception:
+                pass
+        extras["verses"] = verses_raw if isinstance(verses_raw, list) else []
+        extras["versesCount"] = len(extras["verses"])
+        page["breadcrumbs"] = [
+            {"name": home_name, "href": "/"},
+            {"name": "श्रीमद्भगवद्गीता" if locale == "hi" else "Bhagavad Gita", "href": "/bhagavad-gita"},
+            {"name": extras["name"], "href": f"/bhagavad-gita?chapter={extras['chapter']}"},
         ]
     page.update(extras)
     return page
