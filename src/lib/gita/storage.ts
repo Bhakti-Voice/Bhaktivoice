@@ -2,19 +2,15 @@ import fs from "fs";
 import path from "path";
 import { GitaChapter, GitaPayload, GitaStats, GitaVerse } from "./types";
 import { buildInitialGitaDataset, GITA_ALL_18_CHAPTERS_METADATA } from "./seed-data";
-import { validateGitaJson } from "./validator";
-import { cmsFetchHeaders, cmsUrl } from "@/lib/cms/client";
 
-// In-memory runtime cache
+// In-memory runtime cache (loaded only when Gita functions are called)
 let memoryGitaData: GitaPayload | null = null;
-let lastBackendFetchTime = 0;
-const CACHE_TTL_MS = 60_000; // 1 minute in-memory cache
 
 function getDataFilePath(): string {
   return path.join(process.cwd(), "data", "bhagavad_gita.json");
 }
 
-function loadLocalGitaData(): GitaPayload {
+function loadGitaData(): GitaPayload {
   if (memoryGitaData && memoryGitaData.chapters && memoryGitaData.chapters.length > 0) {
     return memoryGitaData;
   }
@@ -48,52 +44,13 @@ function loadLocalGitaData(): GitaPayload {
   return memoryGitaData;
 }
 
-function saveLocalGitaData(data: GitaPayload): void {
-  memoryGitaData = data;
-  const filePath = getDataFilePath();
-  try {
-    const dir = path.dirname(filePath);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
-  } catch (error) {
-    console.warn("Could not persist Gita JSON to filesystem:", error);
-  }
-}
-
 /**
  * Returns all 18 chapters overview metadata.
- * Fetches from backend CMS API with graceful fallback to local / bundled seed.
+ * Loaded on demand from the single JSON dataset.
  */
 export async function getGitaChapters(): Promise<Omit<GitaChapter, "verses">[]> {
-  try {
-    const res = await fetch(cmsUrl("/api/gita/chapters"), {
-      headers: cmsFetchHeaders(),
-      next: { revalidate: 300 },
-      signal: AbortSignal.timeout(5000),
-    });
-    if (res.ok) {
-      const data = await res.json();
-      if (data.ok && Array.isArray(data.chapters) && data.chapters.length > 0) {
-        return data.chapters.map((ch: any) => ({
-          chapter: Number(ch.chapter),
-          name: ch.name || ch.title || `Chapter ${ch.chapter}`,
-          nameHindi: ch.nameHindi || ch.name || "",
-          nameSanskrit: ch.nameSanskrit || ch.name || "",
-          nameTranslation: ch.nameTranslation || ch.name || "",
-          versesCount: Number(ch.versesCount || (ch.verses ? ch.verses.length : 0)),
-          summary: ch.summary || "",
-          summaryHindi: ch.summaryHindi || "",
-        }));
-      }
-    }
-  } catch {
-    // Fallback to local / bundled dataset
-  }
-
-  const local = loadLocalGitaData();
-  return local.chapters.map((ch) => ({
+  const data = loadGitaData();
+  return data.chapters.map((ch) => ({
     chapter: ch.chapter,
     name: ch.name,
     nameHindi: ch.nameHindi,
@@ -106,41 +63,12 @@ export async function getGitaChapters(): Promise<Omit<GitaChapter, "verses">[]> 
 }
 
 /**
- * Returns a specific chapter with its verses.
- * Fetches from backend CMS API with fallback to local storage.
+ * Returns a specific chapter with its verses from the single JSON.
  */
 export async function getGitaChapter(chapterNumber: number): Promise<GitaChapter | null> {
-  try {
-    const res = await fetch(cmsUrl(`/api/gita/chapters/${chapterNumber}`), {
-      headers: cmsFetchHeaders(),
-      next: { revalidate: 300 },
-      signal: AbortSignal.timeout(5000),
-    });
-    if (res.ok) {
-      const data = await res.json();
-      if (data.ok && data.chapter) {
-        const ch = data.chapter;
-        return {
-          chapter: Number(ch.chapter),
-          name: ch.name || ch.title || `Chapter ${ch.chapter}`,
-          nameHindi: ch.nameHindi || ch.name || "",
-          nameSanskrit: ch.nameSanskrit || ch.name || "",
-          nameTranslation: ch.nameTranslation || ch.name || "",
-          versesCount: Number(ch.versesCount || (ch.verses ? ch.verses.length : 0)),
-          summary: ch.summary || "",
-          summaryHindi: ch.summaryHindi || "",
-          verses: ch.verses || [],
-        };
-      }
-    }
-  } catch {
-    // Fallback
-  }
-
-  const local = loadLocalGitaData();
-  const found = local.chapters.find((c) => c.chapter === chapterNumber);
+  const data = loadGitaData();
+  const found = data.chapters.find((c) => c.chapter === chapterNumber);
   if (!found) {
-    // If chapter metadata exists in seed list, provide it
     const meta = GITA_ALL_18_CHAPTERS_METADATA.find((c) => c.chapter === chapterNumber);
     if (meta) {
       return {
@@ -169,27 +97,6 @@ export async function getGitaVerse(
   previous: { chapter: number; verse: number } | null;
   next: { chapter: number; verse: number } | null;
 }> {
-  try {
-    const res = await fetch(cmsUrl(`/api/gita/verses/${chapterNumber}/${verseNumber}`), {
-      headers: cmsFetchHeaders(),
-      next: { revalidate: 300 },
-      signal: AbortSignal.timeout(5000),
-    });
-    if (res.ok) {
-      const data = await res.json();
-      if (data.ok && data.verse) {
-        return {
-          verse: data.verse,
-          chapter: data.chapter,
-          previous: data.previous || null,
-          next: data.next || null,
-        };
-      }
-    }
-  } catch {
-    // Fallback
-  }
-
   const chapter = await getGitaChapter(chapterNumber);
   if (!chapter || !chapter.verses || chapter.verses.length === 0) {
     return { verse: null, chapter: null, previous: null, next: null };
@@ -253,23 +160,7 @@ export async function getGitaVerse(
  * Returns overall statistics for Gita scripture.
  */
 export async function getGitaStats(): Promise<GitaStats> {
-  try {
-    const res = await fetch(cmsUrl("/api/gita/stats"), {
-      headers: cmsFetchHeaders(),
-      next: { revalidate: 300 },
-      signal: AbortSignal.timeout(5000),
-    });
-    if (res.ok) {
-      const data = await res.json();
-      if (data.ok && data.stats) {
-        return data.stats;
-      }
-    }
-  } catch {
-    // Fallback
-  }
-
-  const data = loadLocalGitaData();
+  const data = loadGitaData();
   let totalVerses = 0;
   let totalWords = 0;
   const languages = new Set<string>();
@@ -307,23 +198,7 @@ export async function getGitaStats(): Promise<GitaStats> {
  * Returns a random uplifting shloka for daily reflection.
  */
 export async function getRandomGitaVerse(): Promise<GitaVerse> {
-  try {
-    const res = await fetch(cmsUrl("/api/gita/random"), {
-      headers: cmsFetchHeaders(),
-      cache: "no-store",
-      signal: AbortSignal.timeout(4000),
-    });
-    if (res.ok) {
-      const data = await res.json();
-      if (data.ok && data.verse) {
-        return data.verse;
-      }
-    }
-  } catch {
-    // Fallback
-  }
-
-  const data = loadLocalGitaData();
+  const data = loadGitaData();
   const allVerses: GitaVerse[] = [];
   for (const ch of data.chapters) {
     if (ch.verses) {
@@ -346,120 +221,4 @@ export async function getRandomGitaVerse(): Promise<GitaVerse> {
 
   const randomIndex = Math.floor(Math.random() * allVerses.length);
   return allVerses[randomIndex];
-}
-
-/**
- * Imports and merges validated Gita JSON into both backend CMS and local cache.
- */
-export async function importGitaJson(
-  input: unknown,
-  mode: "merge" | "replace" = "merge",
-): Promise<{
-  success: boolean;
-  importedChapters: number;
-  importedVerses: number;
-  message: string;
-}> {
-  const validation = validateGitaJson(input);
-  if (!validation.isValid) {
-    throw new Error(validation.errors.map((e) => e.message).join("; "));
-  }
-
-  const current = loadLocalGitaData();
-  let updatedChapters: GitaChapter[] = [];
-
-  if (mode === "replace") {
-    updatedChapters = validation.sampleChapters;
-  } else {
-    const importedMap = new Map<number, GitaChapter>();
-    validation.sampleChapters.forEach((ch) => importedMap.set(ch.chapter, ch));
-
-    const mergedList: GitaChapter[] = [];
-    const processedChapters = new Set<number>();
-
-    for (const existingCh of current.chapters) {
-      if (importedMap.has(existingCh.chapter)) {
-        const incoming = importedMap.get(existingCh.chapter)!;
-        const verseMap = new Map<number, GitaVerse>();
-        (existingCh.verses || []).forEach((v) => verseMap.set(v.verse, v));
-        (incoming.verses || []).forEach((v) => verseMap.set(v.verse, v));
-
-        const sortedVerses = Array.from(verseMap.values()).sort((a, b) => a.verse - b.verse);
-
-        mergedList.push({
-          ...existingCh,
-          ...incoming,
-          versesCount: sortedVerses.length,
-          verses: sortedVerses,
-        });
-        processedChapters.add(existingCh.chapter);
-      } else {
-        mergedList.push(existingCh);
-      }
-    }
-
-    for (const [chNum, incoming] of importedMap.entries()) {
-      if (!processedChapters.has(chNum)) {
-        mergedList.push(incoming);
-      }
-    }
-
-    mergedList.sort((a, b) => a.chapter - b.chapter);
-    updatedChapters = mergedList;
-  }
-
-  const totalVerses = updatedChapters.reduce((acc, ch) => acc + (ch.verses?.length || 0), 0);
-
-  const newPayload: GitaPayload = {
-    title: "Bhagavad Gita — The Sacred Song of God",
-    language: "sa-hi-en",
-    version: "1.1.0",
-    totalChapters: updatedChapters.length,
-    totalVerses,
-    chapters: updatedChapters,
-  };
-
-  saveLocalGitaData(newPayload);
-
-  // Synchronize to backend database if reachable
-  try {
-    const backendPayload = {
-      chapters: updatedChapters.map((ch) => ({
-        kind: "gita",
-        slug: `chapter-${ch.chapter}`,
-        title: `Chapter ${ch.chapter}: ${ch.name}`,
-        chapter: ch.chapter,
-        name: ch.name,
-        nameHindi: ch.nameHindi,
-        nameSanskrit: ch.nameSanskrit,
-        nameTranslation: ch.nameTranslation,
-        summary: ch.summary,
-        summaryHindi: ch.summaryHindi,
-        versesCount: ch.verses?.length || 0,
-        verses: ch.verses || [],
-      })),
-    };
-
-    await fetch(cmsUrl("/admin/json"), {
-      method: "POST",
-      headers: {
-        ...cmsFetchHeaders(),
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: new URLSearchParams({
-        kind: "gita",
-        json_text: JSON.stringify(backendPayload),
-      }).toString(),
-      signal: AbortSignal.timeout(6000),
-    });
-  } catch {
-    // Non-blocking if backend is currently offline
-  }
-
-  return {
-    success: true,
-    importedChapters: validation.sampleChapters.length,
-    importedVerses: validation.totalVerses,
-    message: `Successfully imported ${validation.sampleChapters.length} chapters with ${validation.totalVerses} verses into the system.`,
-  };
 }

@@ -286,27 +286,6 @@ KINDS: dict[str, Kind] = {
             Field("attribution", "Attribution", hint="e.g. Lord Krishna"),
         ),
     ),
-    "gita": Kind(
-        "gita",
-        "Bhagavad Gita",
-        "Bhagavad Gita",
-        "/bhagavad-gita",
-        fields=SEO_FIELDS
-        + (
-            Field("chapter", "Chapter Number", "number"),
-            Field("nameHindi", "Chapter Name (Hindi)"),
-            Field("nameSanskrit", "Chapter Name (Sanskrit)"),
-            Field("nameTranslation", "English Translation Title"),
-            Field("summaryHindi", "Chapter Summary (Hindi)", "textarea", rows=4),
-            Field(
-                "verses",
-                "Verses JSON",
-                "textarea",
-                hint="Paste JSON array of verses: [{\"verse\":1,\"sanskrit\":\"...\",\"transliteration\":\"...\",\"hindi\":\"...\",\"english\":\"...\"}]",
-                rows=10,
-            ),
-        ),
-    ),
 }
 
 HINDI_FIELD_TYPES = {
@@ -377,7 +356,6 @@ KIND_LABEL_HI = {
     "aarti": "आरती",
     "chalisa": "चालीसा",
     "quotes": "उद्धरण",
-    "gita": "श्रीमद्भगवद्गीता",
 }
 CTA_DEFAULTS = {
     "en": {
@@ -459,7 +437,6 @@ PAGE_KINDS = (
     "bhajan",
     "aarti",
     "chalisa",
-    "gita",
 )
 
 SEARCH_KINDS = PAGE_KINDS
@@ -964,30 +941,6 @@ def public_page(
             {"name": home_name, "href": "/"},
             {"name": "भंडार" if locale == "hi" else "Store", "href": "/bhakti-store"},
             {"name": extras["name"], "href": f"/bhakti-store/{slug}"},
-        ]
-    if kind.key == "gita":
-        try:
-            extras["chapter"] = int(data.get("chapter") or 1)
-        except (TypeError, ValueError):
-            extras["chapter"] = 1
-        extras["name"] = data.get("name") or title
-        extras["nameHindi"] = data.get("nameHindi") or extras["name"]
-        extras["nameSanskrit"] = data.get("nameSanskrit") or extras["name"]
-        extras["nameTranslation"] = data.get("nameTranslation") or extras["name"]
-        extras["summary"] = data.get("summary") or data.get("introduction") or ""
-        extras["summaryHindi"] = data.get("summaryHindi") or ""
-        verses_raw = data.get("verses")
-        if isinstance(verses_raw, str) and (verses_raw.startswith("[") or verses_raw.startswith("{")):
-            try:
-                verses_raw = json.loads(verses_raw)
-            except Exception:
-                pass
-        extras["verses"] = verses_raw if isinstance(verses_raw, list) else []
-        extras["versesCount"] = len(extras["verses"])
-        page["breadcrumbs"] = [
-            {"name": home_name, "href": "/"},
-            {"name": "श्रीमद्भगवद्गीता" if locale == "hi" else "Bhagavad Gita", "href": "/bhagavad-gita"},
-            {"name": extras["name"], "href": f"/bhagavad-gita?chapter={extras['chapter']}"},
         ]
     page.update(extras)
     return page
