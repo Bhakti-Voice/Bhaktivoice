@@ -102,3 +102,14 @@ Festival dates follow the lunar calendar and must be reviewed annually — pages
 ## Product loop
 
 Discover → Learn → Chant → Sankalp → Track (diary) → Community → Yatra → Share → Return.
+
+### 🌐 Our Other Products
+
+We’re also building **Wikawe** — a privacy-focused, all-in-one platform for working with documents and files.
+
+🔗 **[Wikawe](https://www.wikawe.online)** — https://www.wikawe.online
+
+Wikawe brings together powerful document tools, PDF utilities, OCR, AI-powered document features, **Wikawe Drive**, and **peer-to-peer (P2P) file transfers** in one simple platform.
+
+> **Wikawe — Your files. Your tools. Your privacy.**
+
