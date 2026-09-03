@@ -95,7 +95,7 @@ export type SearchHit = {
   title: string;
   introduction: string;
   href: string;
-  kind: ContentKind;
+  kind: ContentKind | string;
   category: string;
   slug: string;
 };
