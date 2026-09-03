@@ -1,45 +1,6 @@
 {
-  "services": {
-    "frontend": {
-      "root": ".",
-      "framework": "nextjs",
-      "bindings": [
-        {
-          "type": "service",
-          "service": "backend",
-          "format": "url",
-          "env": "CMS_API_URL"
-        }
-      ]
-    },
-    "backend": {
-      "root": "backend",
-      "framework": "fastapi",
-      "entrypoint": "main:app",
-      "routes": [
-        {
-          "src": "/api/backend",
-          "transforms": [
-            {
-              "type": "request.path",
-              "op": "set",
-              "args": "/"
-            }
-          ]
-        },
-        {
-          "src": "/api/backend/(.*)",
-          "transforms": [
-            {
-              "type": "request.path",
-              "op": "set",
-              "args": "/$1"
-            }
-          ]
-        }
-      ]
-    }
-  },
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
   "redirects": [
     {
       "source": "/:path*",
@@ -88,32 +49,16 @@
   ],
   "rewrites": [
     {
-      "source": "/favicon.ico",
-      "destination": {
-        "type": "service",
-        "service": "frontend"
-      }
+      "source": "/api/backend/:path*",
+      "destination": "https://bhaktivoice.onrender.com/api/backend/:path*"
     },
     {
-      "source": "/api/backend(/.*)?",
-      "destination": {
-        "type": "service",
-        "service": "backend"
-      }
+      "source": "/admin/:path*",
+      "destination": "https://bhaktivoice.onrender.com/admin/:path*"
     },
     {
-      "source": "/admin(/.*)?",
-      "destination": {
-        "type": "service",
-        "service": "backend"
-      }
-    },
-    {
-      "source": "/(.*)",
-      "destination": {
-        "type": "service",
-        "service": "frontend"
-      }
+      "source": "/admin",
+      "destination": "https://bhaktivoice.onrender.com/admin"
     }
   ]
 }
