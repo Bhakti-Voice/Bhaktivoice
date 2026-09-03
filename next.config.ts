@@ -54,6 +54,13 @@ const nextConfig: NextConfig = {
         headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }],
       },
       {
+        source: "/:file(llms.txt|llms-full.txt)",
+        headers: [
+          { key: "Content-Type", value: "text/plain; charset=utf-8" },
+          { key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" },
+        ],
+      },
+      {
         source: "/api/stats",
         headers: [{ key: "Cache-Control", value: "public, max-age=15, s-maxage=45, stale-while-revalidate=300" }],
       },

@@ -1,7 +1,7 @@
 "use client";
 
-import { FormEvent, useEffect, useRef, useState } from "react";
-import { ChevronDown, Menu, Search, UserRound, X } from "lucide-react";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import { ArrowRight, ChevronDown, Menu, Search, UserRound, X } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
@@ -21,7 +21,9 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [more, setMore] = useState(false);
   const [query, setQuery] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const moreRef = useRef<HTMLDivElement>(null);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
   const current = stripLocale(pathname);
 
   const nav = [
@@ -78,6 +80,14 @@ export function Header() {
     };
   }, [open]);
 
+  const quickSuggestions = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (q.length < 2) return [];
+    return [...nav, ...moreLinks]
+      .filter((item) => item.label.toLowerCase().includes(q) || item.href.toLowerCase().includes(q))
+      .slice(0, 5);
+  }, [query, nav, moreLinks]);
+
   useEffect(() => {
     if (!more) return;
     function onPointer(event: MouseEvent) {
@@ -93,6 +103,16 @@ export function Header() {
       document.removeEventListener("keydown", onKey);
     };
   }, [more]);
+
+  useEffect(() => {
+    function onPointer(event: MouseEvent) {
+      if (!searchContainerRef.current?.contains(event.target as Node)) {
+        setShowSuggestions(false);
+      }
+    }
+    document.addEventListener("mousedown", onPointer);
+    return () => document.removeEventListener("mousedown", onPointer);
+  }, []);
 
   return (
     <header className="sticky top-0 z-40 bg-[#fff9f2]/95 shadow-[0_1px_0_rgba(74,16,20,0.06)] backdrop-blur lg:bg-white/95">
@@ -142,31 +162,68 @@ export function Header() {
           </div>
         </nav>
         <div className="flex shrink-0 items-center gap-2 sm:gap-2.5">
-          <form
-            onSubmit={onSearch}
-            className="hidden h-10 overflow-hidden rounded-full bg-[#f4efe8] md:flex"
-          >
-            <label className="sr-only" htmlFor="site-search">
-              {t.search}
-            </label>
-            <div className="relative">
-              <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
-              <input
-                id="site-search"
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder={t.searchPlaceholder}
-                className="h-10 w-44 border-0 bg-transparent pl-10 pr-2 text-sm text-ink outline-none placeholder:text-muted/80"
-              />
-            </div>
-            <button
-              type="submit"
-              className="m-[3px] inline-flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-full bg-saffron text-white hover:bg-saffron-deep"
-              aria-label={t.search}
+          <div ref={searchContainerRef} className="relative hidden md:block">
+            <form
+              onSubmit={onSearch}
+              className="flex h-10 overflow-hidden rounded-full bg-[#f4efe8]"
             >
-              <Search className="h-4 w-4" />
-            </button>
-          </form>
+              <label className="sr-only" htmlFor="site-search">
+                {t.search}
+              </label>
+              <div className="relative">
+                <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
+                <input
+                  id="site-search"
+                  value={query}
+                  onChange={(event) => {
+                    setQuery(event.target.value);
+                    setShowSuggestions(true);
+                  }}
+                  onFocus={() => setShowSuggestions(true)}
+                  placeholder={t.searchPlaceholder}
+                  className="h-10 w-44 border-0 bg-transparent pl-10 pr-2 text-sm text-ink outline-none placeholder:text-muted/80"
+                />
+              </div>
+              <button
+                type="submit"
+                className="m-[3px] inline-flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-full bg-saffron text-white hover:bg-saffron-deep"
+                aria-label={t.search}
+              >
+                <Search className="h-4 w-4" />
+              </button>
+            </form>
+
+            {showSuggestions && quickSuggestions.length > 0 && (
+              <div className="absolute top-full right-0 mt-2 w-64 rounded-2xl border border-[#eedec9] bg-white p-2 shadow-xl z-50">
+                <div className="px-2.5 py-1 text-[11px] font-bold text-muted uppercase tracking-wider">
+                  {locale === "hi" ? "शीघ्र सुझाव" : "Quick Matches"}
+                </div>
+                <div className="mt-1 space-y-0.5">
+                  {quickSuggestions.map((item) => (
+                    <LocaleLink
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => {
+                        setShowSuggestions(false);
+                        setQuery("");
+                      }}
+                      className="flex items-center justify-between rounded-xl px-2.5 py-2 text-xs font-medium text-ink hover:bg-sand/60 hover:text-saffron-deep transition-colors"
+                    >
+                      <span className="truncate">{item.label}</span>
+                      <ArrowRight className="h-3 w-3 text-muted/80 shrink-0 ml-1" />
+                    </LocaleLink>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  onClick={onSearch}
+                  className="mt-1.5 w-full text-left border-t border-line/60 pt-1.5 px-2.5 text-xs text-saffron-deep font-semibold hover:underline cursor-pointer"
+                >
+                  {locale === "hi" ? `"${query}" खोजें →` : `Search all for "${query}" →`}
+                </button>
+              </div>
+            )}
+          </div>
           <LanguageSwitcher />
           {user ? (
             <LocaleLink
@@ -212,6 +269,23 @@ export function Header() {
               <Search className="h-4 w-4" />
             </button>
           </form>
+          {quickSuggestions.length > 0 && query.trim().length >= 2 && (
+            <div className="mb-3 flex flex-wrap gap-1.5">
+              {quickSuggestions.map((item) => (
+                <LocaleLink
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => {
+                    setOpen(false);
+                    setQuery("");
+                  }}
+                  className="rounded-full border border-[#eedec9] bg-white px-3 py-1 text-xs font-medium text-ink hover:border-saffron hover:text-saffron-deep"
+                >
+                  {item.label}
+                </LocaleLink>
+              ))}
+            </div>
+          )}
           <div className="grid gap-1">
             <SpiritualToolsMenu mobile onNavigate={() => setOpen(false)} />
             {[...nav, ...moreLinks].map((item) => (

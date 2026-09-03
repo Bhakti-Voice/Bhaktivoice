@@ -45,7 +45,44 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
         disallow: ["/admin", "/api", "/api/", "/api/backend"],
       },
+      // AI Search Engines & Generative Search Bots (GEO)
+      {
+        userAgent: "GPTBot",
+        allow: "/",
+        disallow: PRIVATE,
+      },
+      {
+        userAgent: "PerplexityBot",
+        allow: "/",
+        disallow: PRIVATE,
+      },
+      {
+        userAgent: "ClaudeBot",
+        allow: "/",
+        disallow: PRIVATE,
+      },
+      {
+        userAgent: "Applebot-Extended",
+        allow: "/",
+        disallow: PRIVATE,
+      },
+      {
+        userAgent: "Google-Extended",
+        allow: "/",
+        disallow: PRIVATE,
+      },
+      {
+        userAgent: "cohere-ai",
+        allow: "/",
+        disallow: PRIVATE,
+      },
+      {
+        userAgent: "Meta-ExternalAgent",
+        allow: "/",
+        disallow: PRIVATE,
+      },
     ],
     sitemap: `${SITE.url}/sitemap.xml`,
+    host: SITE.url,
   };
 }

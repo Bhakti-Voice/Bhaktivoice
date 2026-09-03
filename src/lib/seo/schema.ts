@@ -27,9 +27,13 @@ export function websiteSchema() {
     name: SITE.name,
     url: `${SITE.url}/`,
     description: SITE.description,
+    inLanguage: ["en-IN", "hi-IN"],
     potentialAction: {
       "@type": "SearchAction",
-      target: `${SITE.url}/search?q={search_term_string}`,
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${SITE.url}/search?q={search_term_string}`,
+      },
       "query-input": "required name=search_term_string",
     },
   };
@@ -81,6 +85,50 @@ export function articleSchema(input: {
     },
     inLanguage: (input.locale ?? DEFAULT_LOCALE) === "hi" ? "hi-IN" : "en-IN",
     mainEntityOfPage: pageUrl,
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["h1", ".prose-lead", "article header p"],
+    },
+  };
+}
+
+export function gitaChapterSchema(input: {
+  chapter: number;
+  name: string;
+  nameHindi: string;
+  nameSanskrit: string;
+  versesCount: number;
+  summary: string;
+  path: string;
+  locale?: Locale;
+}) {
+  const pageUrl = absoluteUrl(withLocale(input.path, input.locale ?? DEFAULT_LOCALE));
+  return {
+    "@context": "https://schema.org",
+    "@type": "Chapter",
+    "@id": `${pageUrl}#chapter`,
+    name: `Chapter ${input.chapter}: ${input.name} (${input.nameSanskrit})`,
+    headline: `Bhagavad Gita Chapter ${input.chapter} - ${input.name}`,
+    description: input.summary,
+    position: input.chapter,
+    numberOfPages: input.versesCount,
+    isPartOf: {
+      "@type": "Book",
+      "@id": `${absoluteUrl("/bhagavad-gita")}#book`,
+      name: "Bhagavad Gita",
+      alternateName: "The Song of God",
+      author: {
+        "@type": "Person",
+        name: "Maharshi Veda Vyasa",
+      },
+      url: absoluteUrl("/bhagavad-gita"),
+    },
+    inLanguage: (input.locale ?? DEFAULT_LOCALE) === "hi" ? "hi-IN" : "en-IN",
+    url: pageUrl,
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["h1", ".chapter-summary", "article header p"],
+    },
   };
 }
 

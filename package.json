@@ -8,7 +8,8 @@
     "seed:local": "python backend/local_seed.py",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seo:ping": "node scripts/ping-search-engines.mjs"
   },
   "dependencies": {
     "astronomy-engine": "^2.1.19",

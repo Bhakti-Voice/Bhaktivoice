@@ -76,7 +76,17 @@ export const metadata: Metadata = {
     description: SITE.description,
     images: [absoluteUrl(SITE.ogHome)],
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export const revalidate = 1800;
@@ -85,6 +95,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const gaId = getGaMeasurementId();
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="alternate" type="text/plain" href="/llms.txt" title="LLMs.txt" />
+      </head>
       <body className={`${playfair.variable} ${inter.variable} ${devanagari.variable} bg-ivory text-ink antialiased`}>
         <LocaleRoot>
         <GoogleAnalytics measurementId={gaId} />

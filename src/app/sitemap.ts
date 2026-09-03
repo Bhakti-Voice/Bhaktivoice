@@ -112,7 +112,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     add(`/panchang/festivals/${slug}`, today, "weekly", 0.85);
   }
 
-  // 5. CMS Dynamic Entries
+  // 5. Bhagavad Gita Individual Chapter pages (/bhagavad-gita/chapter-1 ... chapter-18)
+  for (let i = 1; i <= 18; i++) {
+    add(`/bhagavad-gita/chapter-${i}`, today, "monthly", 0.9);
+  }
+
+  // 6. CMS Dynamic Entries
   const cms = await sitemapEntries();
   for (const item of cms) {
     add(item.url, item.lastModified, item.changeFrequency, item.priority);
