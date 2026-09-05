@@ -47,10 +47,22 @@ const VRAT_COLUMNS: { items: VratMenuItem[] }[] = [
   },
 ];
 
-export function VratMenu({ mobile = false, onNavigate }: { mobile?: boolean; onNavigate?: () => void }) {
+export function VratMenu({
+  mobile = false,
+  onNavigate,
+  isOpen,
+  onToggle,
+}: {
+  mobile?: boolean;
+  onNavigate?: () => void;
+  isOpen?: boolean;
+  onToggle?: (open: boolean) => void;
+}) {
   const locale = useLocale();
   const pathname = stripLocale(usePathname() || "/");
-  const [open, setOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(false);
+  const open = isOpen !== undefined ? isOpen : internalOpen;
+  const setOpen = onToggle || setInternalOpen;
   const ref = useRef<HTMLDivElement>(null);
 
   const isVratActive = pathname === "/vrat-upavas" || pathname.startsWith("/vrat-upavas/");
@@ -106,10 +118,10 @@ export function VratMenu({ mobile = false, onNavigate }: { mobile?: boolean; onN
 
   // Desktop Dropdown matching user screenshot and site theme
   return (
-    <div className="relative" ref={ref}>
+    <div className="relative" ref={ref} onMouseLeave={() => setOpen(false)}>
       <button
         type="button"
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => setOpen(!open)}
         onMouseEnter={() => setOpen(true)}
         className={`inline-flex cursor-pointer items-center gap-1 text-[13px] tracking-wide transition-colors ${
           open || isVratActive
@@ -127,8 +139,7 @@ export function VratMenu({ mobile = false, onNavigate }: { mobile?: boolean; onN
 
       {open && (
         <div
-          onMouseLeave={() => setOpen(false)}
-          className="absolute left-1/2 -translate-x-1/2 top-full z-50 mt-2 w-[620px] animate-in fade-in zoom-in-95 duration-150 rounded-2xl border border-line bg-[#fffbf6] p-4 shadow-2xl ring-1 ring-black/5 backdrop-blur-md"
+          className="absolute left-1/2 -translate-x-1/2 top-full z-50 mt-1 w-[620px] animate-in fade-in zoom-in-95 duration-150 rounded-2xl border border-line bg-[#fffbf6] p-4 shadow-2xl ring-1 ring-black/5 backdrop-blur-md"
         >
           {/* Header Bar inside popup with Quick links */}
           <div className="mb-3 flex items-center justify-between border-b border-line pb-2.5 px-1 text-xs">

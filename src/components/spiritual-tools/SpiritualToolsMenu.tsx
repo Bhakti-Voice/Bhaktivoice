@@ -10,10 +10,22 @@ import { stripLocale } from "@/lib/i18n/config";
 
 const TOOL_PATHS = [PATHS.spiritualTools, PATHS.suvicharMaker, PATHS.kundli, PATHS.kundliMilan] as const;
 
-export function SpiritualToolsMenu({ mobile = false, onNavigate }: { mobile?: boolean; onNavigate?: () => void }) {
+export function SpiritualToolsMenu({
+  mobile = false,
+  onNavigate,
+  isOpen,
+  onToggle,
+}: {
+  mobile?: boolean;
+  onNavigate?: () => void;
+  isOpen?: boolean;
+  onToggle?: (open: boolean) => void;
+}) {
   const t = useMessages();
   const pathname = stripLocale(usePathname() || "/");
-  const [open, setOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(false);
+  const open = isOpen !== undefined ? isOpen : internalOpen;
+  const setOpen = onToggle || setInternalOpen;
   const ref = useRef<HTMLDivElement>(null);
   const active = TOOL_PATHS.some((href) => pathname === href || pathname.startsWith(`${href}/`));
 
@@ -60,10 +72,11 @@ export function SpiritualToolsMenu({ mobile = false, onNavigate }: { mobile?: bo
   }
 
   return (
-    <div className="relative" ref={ref}>
+    <div className="relative" ref={ref} onMouseLeave={() => setOpen(false)}>
       <button
         type="button"
-        onClick={() => setOpen((value) => !value)}
+        onClick={() => setOpen(!open)}
+        onMouseEnter={() => setOpen(true)}
         className={`inline-flex cursor-pointer items-center gap-0.5 text-[13px] tracking-wide ${
           active || open ? "font-semibold text-saffron" : "font-medium text-ink/70 hover:text-saffron"
         }`}

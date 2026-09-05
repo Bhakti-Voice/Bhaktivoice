@@ -22,6 +22,7 @@ export function Header() {
   const t = useMessages();
   const { user, signInWithGoogle, configured } = useAuth();
   const [open, setOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchContainerRef = useRef<HTMLDivElement>(null);
@@ -67,6 +68,7 @@ export function Header() {
 
   useEffect(() => {
     setOpen(false);
+    setActiveDropdown(null);
   }, [pathname]);
 
   useEffect(() => {
@@ -100,11 +102,16 @@ export function Header() {
     <header className="sticky top-0 z-40 bg-[#fff9f2]/95 shadow-[0_1px_0_rgba(74,16,20,0.06)] backdrop-blur lg:bg-white/95">
       <div className="mx-auto flex max-w-7xl min-w-0 items-center justify-between gap-3 px-4 py-3.5 sm:gap-5 lg:px-8">
         <Logo />
-        <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">
+        <nav
+          className="hidden items-center gap-7 lg:flex"
+          aria-label="Primary"
+          onMouseLeave={() => setActiveDropdown(null)}
+        >
           {nav.map((item) => (
             <LocaleLink
               key={item.href}
               href={item.href}
+              onMouseEnter={() => setActiveDropdown(null)}
               className={`inline-flex items-center gap-1.5 text-[13px] tracking-wide ${
                 isActive(item.href)
                   ? "font-semibold text-maroon underline decoration-saffron decoration-2 underline-offset-[10px]"
@@ -114,10 +121,22 @@ export function Header() {
               {item.label}
             </LocaleLink>
           ))}
-          <PanchangMenu />
-          <MuhuratMenu />
-          <VratMenu />
-          <SpiritualToolsMenu />
+          <PanchangMenu
+            isOpen={activeDropdown === "panchang"}
+            onToggle={(open) => setActiveDropdown(open ? "panchang" : null)}
+          />
+          <MuhuratMenu
+            isOpen={activeDropdown === "muhurat"}
+            onToggle={(open) => setActiveDropdown(open ? "muhurat" : null)}
+          />
+          <VratMenu
+            isOpen={activeDropdown === "vrat"}
+            onToggle={(open) => setActiveDropdown(open ? "vrat" : null)}
+          />
+          <SpiritualToolsMenu
+            isOpen={activeDropdown === "tools"}
+            onToggle={(open) => setActiveDropdown(open ? "tools" : null)}
+          />
         </nav>
         <div className="flex shrink-0 items-center gap-2 sm:gap-2.5">
           <div ref={searchContainerRef} className="relative hidden md:block">
