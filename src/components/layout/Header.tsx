@@ -10,6 +10,8 @@ import { useLocale, useMessages } from "@/lib/i18n/client";
 import { stripLocale, withLocale } from "@/lib/i18n/config";
 import { SpiritualToolsMenu } from "@/components/spiritual-tools/SpiritualToolsMenu";
 import { PanchangMenu } from "@/components/layout/PanchangMenu";
+import { MuhuratMenu } from "@/components/layout/MuhuratMenu";
+import { VratMenu } from "@/components/layout/VratMenu";
 import { PATHS } from "@/lib/seo/paths";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -113,6 +115,8 @@ export function Header() {
             </LocaleLink>
           ))}
           <PanchangMenu />
+          <MuhuratMenu />
+          <VratMenu />
           <SpiritualToolsMenu />
         </nav>
         <div className="flex shrink-0 items-center gap-2 sm:gap-2.5">
@@ -242,6 +246,8 @@ export function Header() {
           )}
           <div className="grid gap-1">
             <PanchangMenu mobile onNavigate={() => setOpen(false)} />
+            <MuhuratMenu mobile onNavigate={() => setOpen(false)} />
+            <VratMenu mobile onNavigate={() => setOpen(false)} />
             <SpiritualToolsMenu mobile onNavigate={() => setOpen(false)} />
             {[...nav, ...moreLinks.filter((item) => item.href !== PATHS.panchangToday)].map((item) => (
               <LocaleLink

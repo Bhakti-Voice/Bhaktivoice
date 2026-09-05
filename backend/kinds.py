@@ -286,6 +286,22 @@ KINDS: dict[str, Kind] = {
             Field("attribution", "Attribution", hint="e.g. Lord Krishna"),
         ),
     ),
+    "muhurat_bulletin": Kind(
+        "muhurat_bulletin",
+        "Muhurat & Vrat Bulletin",
+        "Muhurat Bulletins",
+        "/muhurat",
+        fields=SEO_FIELDS
+        + (
+            Field("muhuratType", "Type", "select", options=("vivah", "griha_pravesh", "property", "vehicle", "ekadashi", "pradosh", "grahan", "general")),
+            Field("auspiciousDate", "Auspicious Date (YYYY-MM-DD)"),
+            Field("startTime", "Start Time (e.g. 06:15 AM)"),
+            Field("endTime", "End Time (e.g. 11:30 AM)"),
+            Field("nakshatraTithi", "Nakshatra & Tithi Note"),
+            Field("guidelines", "Guidelines & Rules", "textarea", rows=4),
+            Field("doshaRemedy", "Dosha Shanti & Remedies", "textarea", rows=3),
+        ),
+    ),
 }
 
 HINDI_FIELD_TYPES = {

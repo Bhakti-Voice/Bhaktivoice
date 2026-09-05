@@ -31,5 +31,8 @@ export const PATHS = {
   kundliMilan: "/kundli-milan",
   suvicharMaker: "/suvichar-card-maker",
   gita: "/bhagavad-gita",
+  muhurat: "/muhurat",
+  vratUpavas: "/vrat-upavas",
+  grahan: "/grahan",
 } as const;
 
