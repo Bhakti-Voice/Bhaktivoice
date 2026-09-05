@@ -119,7 +119,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     add(`/panchang/${slug}`, today, "daily", 0.9);
   }
 
-  // 5. Bhagavad Gita Individual Chapter pages (/bhagavad-gita/chapter-1 ... chapter-18)
+  // 6. Dedicated Shubh Dates & Auspicious Calendar Pages (/shubh-dates/[slug])
+  const shubhSlugs = [
+    "vehicle-purchase",
+    "property-purchase",
+    "griha-pravesh",
+    "vivah-muhurat",
+    "naamkaran",
+    "mundan",
+  ];
+  for (const slug of shubhSlugs) {
+    add(`/shubh-dates/${slug}`, today, "daily", 0.95);
+  }
+
+  // 7. Bhagavad Gita Individual Chapter pages (/bhagavad-gita/chapter-1 ... chapter-18)
   for (let i = 1; i <= 18; i++) {
     add(`/bhagavad-gita/chapter-${i}`, today, "monthly", 0.9);
   }

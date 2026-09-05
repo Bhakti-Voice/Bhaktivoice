@@ -32,6 +32,7 @@ export const PATHS = {
   suvicharMaker: "/suvichar-card-maker",
   gita: "/bhagavad-gita",
   muhurat: "/muhurat",
+  shubhDates: (slug: string) => `/shubh-dates/${slug}`,
   vratUpavas: "/vrat-upavas",
   grahan: "/grahan",
 } as const;

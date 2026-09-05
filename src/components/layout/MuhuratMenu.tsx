@@ -20,19 +20,19 @@ const MUHURAT_COLUMNS: { items: MuhuratMenuItem[] }[] = [
     items: [
       { href: "/muhurat#choghadiya", labelEn: "Choghadiya", labelHi: "चौघड़िया (दिन-रात)" },
       { href: "/muhurat#shubha-hora", labelEn: "Shubha Hora", labelHi: "शुभ ग्रह होरा" },
-      { href: "/muhurat#vivah-muhurat", labelEn: "Vivah Muhurat", labelHi: "विवाह मुहूर्त 2026" },
-      { href: "/muhurat#griha-pravesh", labelEn: "Griha Pravesh", labelHi: "गृह प्रवेश मुहूर्त" },
-      { href: "/muhurat#property-purchase", labelEn: "Property Purchase", labelHi: "संपत्ति क्रय मुहूर्त" },
+      { href: "/shubh-dates/vivah-muhurat", labelEn: "Vivah Muhurat", labelHi: "विवाह मुहूर्त 2026 (कैलेंडर)" },
+      { href: "/shubh-dates/griha-pravesh", labelEn: "Griha Pravesh", labelHi: "गृह प्रवेश मुहूर्त (कैलेंडर)" },
+      { href: "/shubh-dates/property-purchase", labelEn: "Property Purchase", labelHi: "संपत्ति क्रय मुहूर्त (कैलेंडर)" },
     ],
   },
   // Column 2
   {
     items: [
-      { href: "/muhurat#vehicle-purchase", labelEn: "Vehicle Purchase", labelHi: "वाहन क्रय मुहूर्त" },
+      { href: "/shubh-dates/vehicle-purchase", labelEn: "Vehicle Purchase", labelHi: "वाहन क्रय मुहूर्त (कैलेंडर)" },
+      { href: "/shubh-dates/naamkaran", labelEn: "Naamkaran Muhurat", labelHi: "नामकरण संस्कार मुहूर्त" },
+      { href: "/shubh-dates/mundan", labelEn: "Mundan Muhurat", labelHi: "मुंडन संस्कार मुहूर्त" },
       { href: "/muhurat#lagna-table", labelEn: "Lagna Table", labelHi: "दैनिक लग्न तालिका" },
       { href: "/muhurat#gowri-panchangam", labelEn: "Gowri Panchangam", labelHi: "गौरी पंचांगम" },
-      { href: "/muhurat#jain-pachchakkhan", labelEn: "Jain Pachchakkhan", labelHi: "जैन पच्चक्खाण" },
-      { href: "/muhurat#rahu-kala", labelEn: "Rahu Kala", labelHi: "राहु काल एवं यमगण्ड" },
     ],
   },
   // Column 3
@@ -41,8 +41,8 @@ const MUHURAT_COLUMNS: { items: MuhuratMenuItem[] }[] = [
       { href: "/muhurat#auspicious-yoga", labelEn: "Auspicious Yoga", labelHi: "सर्वार्थ व अमृत सिद्धि योग" },
       { href: "/muhurat#panchaka-rahita", labelEn: "Panchaka Rahita", labelHi: "पंचक रहित मुहूर्त" },
       { href: "/muhurat#abhijit-muhurat", labelEn: "Abhijit Muhurat", labelHi: "अभिजित मुहूर्त" },
-      { href: "/muhurat#do-ghati-muhurat", labelEn: "Do Ghati Muhurat", labelHi: "द्वि-घटी मुहूर्त" },
-      { href: "/muhurat#shubha-dates", labelEn: "Shubha Dates", labelHi: "मासिक शुभ तिथियाँ" },
+      { href: "/muhurat#rahu-kala", labelEn: "Rahu Kala", labelHi: "राहु काल एवं यमगण्ड" },
+      { href: "/shubh-dates/vehicle-purchase", labelEn: "Shubha Dates Hub", labelHi: "मासिक शुभ तिथियाँ (कैलेंडर)" },
     ],
   },
 ];
