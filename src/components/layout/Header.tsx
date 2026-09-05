@@ -9,6 +9,7 @@ import { useAuth } from "@/lib/auth/AuthProvider";
 import { useLocale, useMessages } from "@/lib/i18n/client";
 import { stripLocale, withLocale } from "@/lib/i18n/config";
 import { SpiritualToolsMenu } from "@/components/spiritual-tools/SpiritualToolsMenu";
+import { PanchangMenu } from "@/components/layout/PanchangMenu";
 import { PATHS } from "@/lib/seo/paths";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -19,10 +20,8 @@ export function Header() {
   const t = useMessages();
   const { user, signInWithGoogle, configured } = useAuth();
   const [open, setOpen] = useState(false);
-  const [more, setMore] = useState(false);
   const [query, setQuery] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const moreRef = useRef<HTMLDivElement>(null);
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const current = stripLocale(pathname);
 
@@ -67,7 +66,6 @@ export function Header() {
   }
 
   useEffect(() => {
-    setMore(false);
     setOpen(false);
   }, [pathname]);
 
@@ -87,22 +85,6 @@ export function Header() {
       .filter((item) => item.label.toLowerCase().includes(q) || item.href.toLowerCase().includes(q))
       .slice(0, 5);
   }, [query, nav, moreLinks]);
-
-  useEffect(() => {
-    if (!more) return;
-    function onPointer(event: MouseEvent) {
-      if (!moreRef.current?.contains(event.target as Node)) setMore(false);
-    }
-    function onKey(event: KeyboardEvent) {
-      if (event.key === "Escape") setMore(false);
-    }
-    document.addEventListener("mousedown", onPointer);
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.removeEventListener("mousedown", onPointer);
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [more]);
 
   useEffect(() => {
     function onPointer(event: MouseEvent) {
@@ -132,34 +114,8 @@ export function Header() {
               {item.label}
             </LocaleLink>
           ))}
+          <PanchangMenu />
           <SpiritualToolsMenu />
-          <div className="relative" ref={moreRef}>
-            <button
-              type="button"
-              onClick={() => setMore((value) => !value)}
-              className={`inline-flex cursor-pointer items-center gap-0.5 text-[13px] tracking-wide ${
-                more ? "font-semibold text-saffron" : "font-medium text-ink/70 hover:text-saffron"
-              }`}
-              aria-expanded={more}
-            >
-              {t.more}
-              <ChevronDown className="h-3.5 w-3.5" />
-            </button>
-            {more && (
-              <div className="absolute right-0 z-50 mt-3 w-56 rounded-2xl bg-white p-2 shadow-lg ring-1 ring-line">
-                {moreLinks.map((item) => (
-                  <LocaleLink
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setMore(false)}
-                    className="block cursor-pointer rounded-xl px-3 py-2 text-sm text-ink hover:bg-cream"
-                  >
-                    {item.label}
-                  </LocaleLink>
-                ))}
-              </div>
-            )}
-          </div>
         </nav>
         <div className="flex shrink-0 items-center gap-2 sm:gap-2.5">
           <div ref={searchContainerRef} className="relative hidden md:block">
@@ -287,8 +243,9 @@ export function Header() {
             </div>
           )}
           <div className="grid gap-1">
+            <PanchangMenu mobile onNavigate={() => setOpen(false)} />
             <SpiritualToolsMenu mobile onNavigate={() => setOpen(false)} />
-            {[...nav, ...moreLinks].map((item) => (
+            {[...nav, ...moreLinks.filter((item) => item.href !== PATHS.panchangToday)].map((item) => (
               <LocaleLink
                 key={item.href}
                 href={item.href}

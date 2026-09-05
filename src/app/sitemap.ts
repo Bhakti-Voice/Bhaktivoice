@@ -4,6 +4,7 @@ import { hreflangForPath } from "@/lib/seo/hreflang";
 import { PATHS } from "@/lib/seo/paths";
 import { SITE } from "@/lib/seo/site";
 import { getAllFestivalSlugs } from "@/lib/panchang/engine";
+import { ALL_REGIONAL_SLUGS } from "@/lib/panchang/regional-systems";
 import type { MetadataRoute } from "next";
 
 export const revalidate = 3600;
@@ -110,6 +111,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const festivalSlugs = getAllFestivalSlugs();
   for (const slug of festivalSlugs) {
     add(`/panchang/festivals/${slug}`, today, "weekly", 0.85);
+  }
+
+  // 5. Regional & Specialized Panchang Pages (/panchang/[system])
+  for (const slug of ALL_REGIONAL_SLUGS) {
+    add(`/panchang/${slug}`, today, "daily", 0.9);
   }
 
   // 5. Bhagavad Gita Individual Chapter pages (/bhagavad-gita/chapter-1 ... chapter-18)

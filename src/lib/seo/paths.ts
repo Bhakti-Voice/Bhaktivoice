@@ -25,6 +25,7 @@ export const PATHS = {
   panchangToday: "/panchang/today",
   panchangTomorrow: "/panchang/tomorrow",
   panchangYesterday: "/panchang/yesterday",
+  regionalPanchang: (slug: string) => `/panchang/${slug}`,
   calendar: "/hindu-calendar",
   kundli: "/kundli",
   kundliMilan: "/kundli-milan",

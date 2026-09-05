@@ -140,6 +140,114 @@
         border: 1px solid var(--line);
         overflow: auto;
       }
+      /* Rich Editor Toolbar & Preview */
+      .editor-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+        align-items: center;
+        margin-top: 0.45rem;
+        margin-bottom: 0.25rem;
+        padding: 0.35rem 0.5rem;
+        background: #fbf7f0;
+        border: 1px solid var(--line);
+        border-bottom: none;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+      }
+      .editor-toolbar-btn {
+        background: white;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 0.25rem 0.55rem;
+        font-size: 0.76rem;
+        font-family: system-ui, -apple-system, sans-serif;
+        font-weight: 500;
+        color: var(--ink);
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        transition: all 0.15s ease;
+      }
+      .editor-toolbar-btn:hover {
+        background: #f3e9da;
+        border-color: #d1ba9e;
+        color: var(--saffron);
+      }
+      .editor-toolbar-btn.accent {
+        background: #fff5eb;
+        border-color: #f3c299;
+        color: var(--saffron);
+        font-weight: 600;
+      }
+      .editor-toolbar-btn.preview-toggle {
+        margin-left: auto;
+        background: #f4ede2;
+        font-weight: 600;
+      }
+      .editor-toolbar-btn.preview-toggle.active {
+        background: var(--saffron);
+        color: white;
+        border-color: var(--saffron);
+      }
+      .editor-preview-pane {
+        display: none;
+        width: 100%;
+        min-height: 180px;
+        margin-top: 0;
+        padding: 1rem 1.25rem;
+        border: 1px solid var(--line);
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+        background: white;
+        color: var(--ink);
+        font-family: Georgia, serif;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        overflow-x: auto;
+      }
+      .editor-preview-pane.active {
+        display: block;
+      }
+      .editor-preview-pane table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1rem 0;
+        font-size: 0.9rem;
+      }
+      .editor-preview-pane th {
+        background: #f8efe4;
+        color: #873812;
+        font-weight: bold;
+        padding: 0.6rem 0.8rem;
+        border: 1px solid var(--line);
+      }
+      .editor-preview-pane td {
+        padding: 0.55rem 0.8rem;
+        border: 1px solid var(--line);
+      }
+      .editor-preview-pane tbody tr:nth-child(even) {
+        background: #faf6ef;
+      }
+      .editor-preview-pane mark {
+        background: rgba(230, 126, 34, 0.15);
+        color: #923a0e;
+        padding: 0.1rem 0.3rem;
+        border-radius: 3px;
+      }
+      .editor-preview-pane blockquote {
+        margin: 1rem 0;
+        padding: 0.6rem 1rem;
+        background: #fcf9f2;
+        border-left: 4px solid var(--saffron);
+        font-style: italic;
+      }
+      .has-toolbar-textarea {
+        margin-top: 0 !important;
+        border-top-left-radius: 0 !important;
+        border-top-right-radius: 0 !important;
+      }
     </style>
   </head>
   <body>

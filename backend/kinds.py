@@ -563,9 +563,15 @@ def parse_blog_body(value: str) -> list[dict[str, Any]]:
     sections: list[dict[str, Any]] = []
     heading = ""
     paras: list[str] = []
+    in_html_block = False
+    html_buffer: list[str] = []
 
     def flush() -> None:
-        nonlocal heading, paras
+        nonlocal heading, paras, in_html_block, html_buffer
+        if in_html_block and html_buffer:
+            paras.append("\n".join(html_buffer).strip())
+            html_buffer = []
+            in_html_block = False
         cleaned = [p.strip() for p in paras if p.strip()]
         if heading or cleaned:
             item: dict[str, Any] = {"paragraphs": cleaned}
@@ -575,21 +581,47 @@ def parse_blog_body(value: str) -> list[dict[str, Any]]:
         heading = ""
         paras = []
 
-    for raw in (value or "").splitlines():
+    raw_lines = (value or "").splitlines()
+    for raw in raw_lines:
         line = raw.rstrip()
-        if line.startswith("## "):
+        stripped = line.strip()
+
+        # Check for section heading
+        if stripped.startswith("## ") and not in_html_block:
             flush()
-            heading = line[3:].strip()
-        elif line.strip() == "":
+            heading = stripped[3:].strip()
+            continue
+
+        # Check start of multi-line block elements (e.g. <table>, <ul, <ol, <blockquote, <div)
+        lower = stripped.lower()
+        if not in_html_block and any(lower.startswith(tag) for tag in ("<table", "<ul", "<ol", "<blockquote", "<div")):
+            in_html_block = True
+            html_buffer = [line]
+            if any(end in lower for end in ("</table>", "</ul>", "</ol>", "</blockquote>", "</div>")):
+                in_html_block = False
+                paras.append("\n".join(html_buffer).strip())
+                html_buffer = []
+            continue
+
+        if in_html_block:
+            html_buffer.append(line)
+            if any(end in lower for end in ("</table>", "</ul>", "</ol>", "</blockquote>", "</div>")):
+                in_html_block = False
+                paras.append("\n".join(html_buffer).strip())
+                html_buffer = []
+            continue
+
+        if stripped == "":
             paras.append("")
         else:
             if paras and paras[-1] not in ("", None):
-                paras[-1] = f"{paras[-1]} {line.strip()}".strip()
+                paras[-1] = f"{paras[-1]} {stripped}".strip()
             else:
                 if paras and paras[-1] == "":
-                    paras[-1] = line.strip()
+                    paras[-1] = stripped
                 else:
-                    paras.append(line.strip())
+                    paras.append(stripped)
+
     flush()
     return sections
 

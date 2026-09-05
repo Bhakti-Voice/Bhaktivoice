@@ -20,6 +20,20 @@
               <option value="{{ option }}" {% if values[field.name] == option or (not values[field.name] and loop.first) %}selected{% endif %}>{{ option|capitalize }}</option>
             {% endfor %}
           </select>
+        {% elif field.type in ["sections", "paragraphs"] or field.name in ["body", "bodyHi", "sections", "sectionsHi", "introduction", "introductionHi", "story", "storyHi", "history", "historyHi", "architecture", "architectureHi", "significance", "significanceHi", "puja", "pujaHi", "whyVisit", "whyVisitHi", "description", "descriptionHi"] %}
+          <div class="editor-toolbar" data-for="{{ field.name }}">
+            <button type="button" class="editor-toolbar-btn" data-action="bold" title="Bold text (<b>)"><b>B</b> Bold</button>
+            <button type="button" class="editor-toolbar-btn" data-action="italic" title="Italic text (<i>)"><i>I</i> Italic</button>
+            <button type="button" class="editor-toolbar-btn accent" data-action="table" title="Insert styled comparison table">📊 Table</button>
+            <button type="button" class="editor-toolbar-btn" data-action="ul" title="Bullet list (<ul>)">• Bullet</button>
+            <button type="button" class="editor-toolbar-btn" data-action="ol" title="Numbered list (<ol>)">1. Numbered</button>
+            <button type="button" class="editor-toolbar-btn" data-action="mark" title="Highlight badge (<mark>)">🏷️ Highlight</button>
+            <button type="button" class="editor-toolbar-btn" data-action="callout" title="Spiritual callout quote">📜 Callout</button>
+            <button type="button" class="editor-toolbar-btn" data-action="h2" title="Section heading (##)">## Heading</button>
+            <button type="button" class="editor-toolbar-btn preview-toggle" data-action="preview" title="Toggle live formatted preview">👁️ Live Preview</button>
+          </div>
+          <textarea class="has-toolbar-textarea" name="{{ field.name }}" id="field-{{ field.name }}" rows="{{ field.rows }}">{{ values.get(field.name, '') }}</textarea>
+          <div class="editor-preview-pane" id="preview-{{ field.name }}"></div>
         {% elif field.type in ["textarea", "lines", "faqs", "related", "places", "itinerary", "episodes", "sections", "paragraphs", "tags"] %}
           <textarea name="{{ field.name }}" rows="{{ field.rows }}">{{ values.get(field.name, '') }}</textarea>
         {% elif field.type == "number" %}
@@ -100,5 +114,96 @@
     }
     form.addEventListener("input", render);
     render();
+
+    // Rich Text Editor Toolbar Helpers
+    function wrapOrInsert(textarea, before, after, defaultText) {
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const value = textarea.value;
+      const selected = value.substring(start, end) || defaultText;
+      const replacement = before + selected + after;
+      textarea.value = value.substring(0, start) + replacement + value.substring(end);
+      textarea.focus();
+      textarea.selectionStart = start + before.length;
+      textarea.selectionEnd = start + before.length + selected.length;
+      textarea.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+
+    const tableTemplate = 
+`<table>
+  <thead>
+    <tr>
+      <th>Feature / Item</th>
+      <th>Details</th>
+      <th>Significance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><b>Point 1</b></td>
+      <td>Key detail goes here</td>
+      <td>Spiritual merit or note</td>
+    </tr>
+    <tr>
+      <td><b>Point 2</b></td>
+      <td>Another detail here</td>
+      <td>Benefit or tradition</td>
+    </tr>
+  </tbody>
+</table>`;
+
+    document.querySelectorAll(".editor-toolbar").forEach((toolbar) => {
+      const fieldName = toolbar.getAttribute("data-for");
+      const textarea = document.getElementById("field-" + fieldName);
+      const previewPane = document.getElementById("preview-" + fieldName);
+      if (!textarea) return;
+
+      toolbar.querySelectorAll(".editor-toolbar-btn").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          const action = btn.getAttribute("data-action");
+
+          if (action === "bold") {
+            wrapOrInsert(textarea, "<b>", "</b>", "Bold text");
+          } else if (action === "italic") {
+            wrapOrInsert(textarea, "<i>", "</i>", "Italic text");
+          } else if (action === "table") {
+            wrapOrInsert(textarea, "\n\n" + tableTemplate + "\n\n", "", "");
+          } else if (action === "ul") {
+            wrapOrInsert(textarea, "\n<ul>\n  <li>", "</li>\n  <li>Second item</li>\n</ul>\n", "First item");
+          } else if (action === "ol") {
+            wrapOrInsert(textarea, "\n<ol>\n  <li>", "</li>\n  <li>Second step</li>\n</ol>\n", "First step");
+          } else if (action === "mark") {
+            wrapOrInsert(textarea, '<mark class="highlight">', "</mark>", "Highlighted note");
+          } else if (action === "callout") {
+            wrapOrInsert(textarea, '\n<blockquote class="callout">\n  ', "\n</blockquote>\n", "Sacred teaching or quote to reflect upon");
+          } else if (action === "h2") {
+            wrapOrInsert(textarea, "\n## ", "\n", "Section Heading");
+          } else if (action === "preview") {
+            const isPreviewing = previewPane.classList.toggle("active");
+            btn.classList.toggle("active", isPreviewing);
+            if (isPreviewing) {
+              textarea.style.display = "none";
+              let content = textarea.value;
+              // Format ## headings for preview
+              content = content.replace(/^##\s+(.+)$/gm, '<h2 style="font-family:serif;font-size:1.4rem;color:#2b2118;margin:1.2rem 0 0.5rem;font-weight:bold;">$1</h2>');
+              // Format double newlines into paragraphs if not HTML tag
+              const blocks = content.split(/\n{2,}/);
+              const formattedBlocks = blocks.map(b => {
+                const trimmed = b.trim();
+                if (trimmed.startsWith("<") && (trimmed.startsWith("<table") || trimmed.startsWith("<ul") || trimmed.startsWith("<ol") || trimmed.startsWith("<div") || trimmed.startsWith("<blockquote") || trimmed.startsWith("<h2"))) {
+                  return trimmed;
+                }
+                return '<p style="margin:0.7rem 0;">' + trimmed.replace(/\n/g, '<br/>') + '</p>';
+              });
+              previewPane.innerHTML = formattedBlocks.join("");
+            } else {
+              textarea.style.display = "block";
+              textarea.focus();
+            }
+          }
+        });
+      });
+    });
   </script>
 {% endblock %}
