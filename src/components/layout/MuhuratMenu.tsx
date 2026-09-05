@@ -29,20 +29,20 @@ const MUHURAT_COLUMNS: { items: MuhuratMenuItem[] }[] = [
   {
     items: [
       { href: "/shubh-dates/vehicle-purchase", labelEn: "Vehicle Purchase", labelHi: "वाहन क्रय मुहूर्त (कैलेंडर)" },
+      { href: "/shubh-dates/business-opening", labelEn: "Business Opening", labelHi: "व्यापार/दुकान उद्घाटन (कैलेंडर)" },
+      { href: "/shubh-dates/gold-buying", labelEn: "Gold Buying Muhurat", labelHi: "सोना/चांदी क्रय मुहूर्त" },
       { href: "/shubh-dates/naamkaran", labelEn: "Naamkaran Muhurat", labelHi: "नामकरण संस्कार मुहूर्त" },
       { href: "/shubh-dates/mundan", labelEn: "Mundan Muhurat", labelHi: "मुंडन संस्कार मुहूर्त" },
-      { href: "/muhurat#lagna-table", labelEn: "Lagna Table", labelHi: "दैनिक लग्न तालिका" },
-      { href: "/muhurat#gowri-panchangam", labelEn: "Gowri Panchangam", labelHi: "गौरी पंचांगम" },
     ],
   },
   // Column 3
   {
     items: [
+      { href: "/shubh-dates/vidyarambha", labelEn: "Vidyarambha", labelHi: "विद्यारंभ संस्कार मुहूर्त" },
+      { href: "/shubh-dates/karnavedha", labelEn: "Karnavedha Muhurat", labelHi: "कर्णवेध संस्कार मुहूर्त" },
       { href: "/muhurat#auspicious-yoga", labelEn: "Auspicious Yoga", labelHi: "सर्वार्थ व अमृत सिद्धि योग" },
       { href: "/muhurat#panchaka-rahita", labelEn: "Panchaka Rahita", labelHi: "पंचक रहित मुहूर्त" },
       { href: "/muhurat#abhijit-muhurat", labelEn: "Abhijit Muhurat", labelHi: "अभिजित मुहूर्त" },
-      { href: "/muhurat#rahu-kala", labelEn: "Rahu Kala", labelHi: "राहु काल एवं यमगण्ड" },
-      { href: "/shubh-dates/vehicle-purchase", labelEn: "Shubha Dates Hub", labelHi: "मासिक शुभ तिथियाँ (कैलेंडर)" },
     ],
   },
 ];

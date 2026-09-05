@@ -38,6 +38,10 @@ const VALID_SLUGS: ShubhDatesCategory[] = [
   "vivah-muhurat",
   "naamkaran",
   "mundan",
+  "business-opening",
+  "gold-buying",
+  "vidyarambha",
+  "karnavedha",
 ];
 
 export async function generateStaticParams() {

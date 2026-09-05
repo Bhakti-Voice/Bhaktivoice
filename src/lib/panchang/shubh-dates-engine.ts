@@ -9,7 +9,11 @@ export type ShubhDatesCategory =
   | "griha-pravesh"
   | "vivah-muhurat"
   | "naamkaran"
-  | "mundan";
+  | "mundan"
+  | "business-opening"
+  | "gold-buying"
+  | "vidyarambha"
+  | "karnavedha";
 
 export interface ShubhDayDetail {
   date: Date;
@@ -561,6 +565,154 @@ export const SHUBH_CATEGORIES_CONFIG: Record<
       {
         q: "मुंडन विषम वर्षों में ही क्यों किया जाता है?",
         a: "शास्त्रों में १, ३, ५ वें विषम वर्षों को सौर ऊर्जा और शारीरिक विकास के लिए श्रेष्ठ बताया गया है।"
+      }
+    ]
+  },
+  "business-opening": {
+    slug: "business-opening",
+    titleEn: "Business Opening Muhurat 2026 (Shop & Office)",
+    titleHi: "नवीन व्यापार, दुकान एवं प्रतिष्ठान मुहूर्त 2026",
+    metaTitleEn: "Business Opening Muhurat 2026 — Auspicious Dates for New Shop & Office Opening",
+    metaTitleHi: "दुकान व व्यापार उद्घाटन शुभ मुहूर्त 2026 — शुभ लग्न एवं चौघड़िया",
+    metaDescEn: "Find most auspicious dates and lagna timings for opening a new shop, office, startup, factory, and commercial venture in 2026.",
+    metaDescHi: "वर्ष 2026 में नई दुकान, ऑफिस, फर्म या व्यवसाय के उद्घाटन हेतु श्रेष्ठ शुभ मुहूर्त। लाभ व अमृत चौघड़िया, कुबेर पूजा एवं बहीखाता पूजन।",
+    introEn: "Commencing a commercial venture under auspicious planetary alignments ensures uninterrupted cash flow, loyal patrons, and rapid enterprise expansion under the grace of Sri Mahalakshmi and Lord Kubera.",
+    introHi: "व्यापार और व्यवसाय का शुभारंभ महालक्ष्मी और कुबेर देव की अनुकंपा से स्थिर लाभ प्रदान करता है। शुभ चौघड़िया व स्थिर लग्न में उद्घाटन करने से प्रतिष्ठान में निरंतर उन्नति होती है।",
+    deityEn: "Goddess Lakshmi & Lord Kubera",
+    deityHi: "भगवती महालक्ष्मी एवं कुबेर देव",
+    mantraEn: "Om Shreem Hreem Kleem Shreem Kleem Vitte-shvaraaya Namah",
+    mantraHi: "ॐ श्रीं ह्रीं क्लीं श्रीं क्लीं वित्तेश्वराय नमः",
+    guidelinesEn: [
+      "Inaugurate during Labha or Amrita Choghadiya under Taurus, Leo, or Aquarius Ascendant.",
+      "Conduct Lakshmi-Ganesha and Navagraha Puja before welcoming first customer.",
+      "Perform first commercial sale with cash offerings to deities as auspicious omen."
+    ],
+    guidelinesHi: [
+      "वृषभ, सिंह अथवा कुंभ जैसे स्थिर लग्नों तथा लाभ-अमृत चौघड़िया में प्रतिष्ठान खोलें।",
+      "सर्वप्रथम श्री गणेश-लक्ष्मी एवं नवग्रह पूजन संपन्न करें।",
+      "प्रथम बिक्री का धन श्री चरणों में समर्पित कर आशीर्वाद प्राप्त करें।"
+    ],
+    faqsEn: [
+      {
+        q: "Which day is best to open a shop or business?",
+        a: "Wednesday (governed by Mercury, lord of commerce) and Thursday (Jupiter, lord of wealth) under Pushya, Hasta, or Chitra are most prosperous."
+      }
+    ],
+    faqsHi: [
+      {
+        q: "व्यापार या दुकान खोलने के लिए कौन-सा दिन श्रेष्ठ है?",
+        a: "बुधवार (व्यापार कारक बुध) और गुरुवार (धन कारक गुरु) को पुष्य, हस्त या चित्रा नक्षत्र में उद्घाटन सर्वोत्तम माना गया है।"
+      }
+    ]
+  },
+  "gold-buying": {
+    slug: "gold-buying",
+    titleEn: "Gold Buying Muhurat 2026 (Jewellery & Silver)",
+    titleHi: "स्वर्ण एवं आभूषण क्रय शुभ मुहूर्त 2026",
+    metaTitleEn: "Gold Buying Muhurat 2026 — Auspicious Dates to Purchase Gold & Silver",
+    metaTitleHi: "सोना खरीदने का शुभ मुहूर्त 2026 — गुरु पुष्य, रवि पुष्य व धनतेरस तिथियाँ",
+    metaDescEn: "Complete calendar for buying gold, silver, and precious metals in 2026. Discover Guru Pushya Yoga, Ravi Pushya, Dhanteras, and Akshaya Tritiya dates.",
+    metaDescHi: "वर्ष 2026 में सोना और चांदी खरीदने के सर्वश्रेष्ठ शुभ मुहूर्त। गुरु पुष्य योग, रवि पुष्य योग, अक्षय तृतीया एवं धनतेरस की शुद्ध तिथियाँ।",
+    introEn: "Gold represents the divine radiance of Lord Surya and the perennial wealth of Devi Lakshmi. Procuring precious metals on sacred Muhurats amplifies household abundance and sovereign fortune.",
+    introHi: "स्वर्ण भगवान सूर्य का साक्षात् तेज और भगवती लक्ष्मी का स्वरूप है। शुभ नक्षत्रों (जैसे पुष्य) में स्वर्ण क्रय करने से धन-धान्य और पारिवारिक ऐश्वर्य में अटूट वृद्धि होती है।",
+    deityEn: "Goddess Mahalakshmi & Surya Deva",
+    deityHi: "भगवती महालक्ष्मी एवं भगवान सूर्य देव",
+    mantraEn: "Om Hreem Shreem Kleem Mahalakshmyai Namah",
+    mantraHi: "ॐ ह्रीं श्रीं क्लीं महालक्ष्म्यै नमः",
+    guidelinesEn: [
+      "Guru Pushya Yoga and Ravi Pushya Yoga are the supreme windows for gold acquisition.",
+      "Akshaya Tritiya (Vaishakha Shukla Tritiya) guarantees imperishable prosperity.",
+      "Avoid buying precious ornaments during Rahu Kaal and Eclipse days."
+    ],
+    guidelinesHi: [
+      "गुरु पुष्य और रवि पुष्य योग स्वर्ण क्रय के लिए स्वयंसिद्ध महामुहूर्त हैं।",
+      "अक्षय तृतीया को खरीदा गया सोना अक्षय फल एवं स्थाई समृद्धि देता है।",
+      "राहुकाल और ग्रहण के सूतक काल में आभूषण क्रय करने से बचें।"
+    ],
+    faqsEn: [
+      {
+        q: "Why is Pushya Nakshatra supreme for buying gold?",
+        a: "Pushya is hailed as the King of Constellations (Nakshatraraja). Any investment or metal purchase made under Pushya nourishes perpetual prosperity."
+      }
+    ],
+    faqsHi: [
+      {
+        q: "सोना खरीदने के लिए पुष्य नक्षत्र को सर्वश्रेष्ठ क्यों माना जाता है?",
+        a: "पुष्य को नक्षत्रों का राजा कहा जाता है। इसमें खरीदा गया स्वर्ण कभी नष्ट नहीं होता और घर में निरंतर बरकत लाता है।"
+      }
+    ]
+  },
+  "vidyarambha": {
+    slug: "vidyarambha",
+    titleEn: "Vidyarambha Muhurat 2026 (Aksharabyasam)",
+    titleHi: "विद्यारंभ एवं अक्षराभ्यास शुभ मुहूर्त 2026",
+    metaTitleEn: "Vidyarambha Muhurat 2026 — Auspicious Dates for Child Education Initiation",
+    metaTitleHi: "विद्यारंभ मुहूर्त 2026 — बच्चों की शिक्षा व अक्षरारंभ की शुभ तिथियाँ",
+    metaDescEn: "Find auspicious dates and timings for Vidyarambha Samskara and Akshara Abhyasam in 2026 to initiate your child's formal learning with divine blessings.",
+    metaDescHi: "शिशु के विद्यारंभ एवं अक्षरारंभ संस्कार के लिए 2026 के शुभ मुहूर्त। माँ सरस्वती पूजन, शुभ नक्षत्र एवं पावन तिथियों की विस्तृत जानकारी।",
+    introEn: "Vidyarambha Samskara initiates a child into sacred alphabets, syllables, and wisdom. Conducted on Vijayadashami, Vasant Panchami, or Shubh Guru-Budha days to awaken intellectual clarity.",
+    introHi: "विद्यारंभ संस्कार बालक को ज्ञान, प्रज्ञा और अक्षरों की दिव्य चेतना से जोड़ता है। वसंत पंचमी, विजयादशमी अथवा शुभ नक्षत्रों में यह संस्कार कराने से बालक मेधावी और विद्यावान बनता है।",
+    deityEn: "Goddess Saraswati & Lord Hayagriva",
+    deityHi: "माँ सरस्वती एवं भगवान हयग्रीव",
+    mantraEn: "Saraswati Namastubhyam Varade Kaama-roopini • Vidyaarambham Karishyaami Siddhir-bhavatu Me Sadaa",
+    mantraHi: "सरस्वति नमस्तुभ्यं वरदे कामरूपिणि • विद्यारम्भं करिष्यामि सिद्धिर्भवतु मे सदा",
+    guidelinesEn: [
+      "Child writes sacred syllable 'OM' or 'HARI' on a plate of raw rice using a golden stylus or fingertip.",
+      "Offer yellow flowers and sweet saffron rice to Maa Saraswati.",
+      "Wednesday, Thursday, and Friday under Aswini, Rohini, Punarvasu, Hasta, or Swati are finest."
+    ],
+    guidelinesHi: [
+      "चावल से भरे पात्र में बालक की उंगली से 'ॐ' अथवा 'श्री' लिखवाकर अक्षरारंभ कराएं।",
+      "माँ सरस्वती को पीले पुष्प और खीर अर्पित करें।",
+      "बुधवार, गुरुवार व शुक्रवार को शुभ नक्षत्रों में यह संस्कार संपन्न करें।"
+    ],
+    faqsEn: [
+      {
+        q: "What is the best age for Vidyarambha Samskara?",
+        a: "Typically performed when the child turns 3 or 5 years old, aligning with cognitive language readiness."
+      }
+    ],
+    faqsHi: [
+      {
+        q: "विद्यारंभ संस्कार किस आयु में करना चाहिए?",
+        a: "सामान्यतः बालक के तीसरे अथवा पाँचवें वर्ष में जब वह बोलना और समझना प्रारंभ करे, यह संस्कार किया जाता है।"
+      }
+    ]
+  },
+  "karnavedha": {
+    slug: "karnavedha",
+    titleEn: "Karnavedha Muhurat 2026 (Ear Piercing)",
+    titleHi: "कर्णवेध संस्कार शुभ मुहूर्त 2026 (कान छेदन)",
+    metaTitleEn: "Karnavedha Muhurat 2026 — Auspicious Ear Piercing Ceremony Dates",
+    metaTitleHi: "कर्णवेध मुहूर्त 2026 — बच्चों के कान छिदवाने की शुभ तिथियाँ एवं नियम",
+    metaDescEn: "Complete Vedic guide and auspicious dates for Karnavedha (ear piercing) ceremony in 2026 for boys and girls with astrological safeguards.",
+    metaDescHi: "वर्ष 2026 में कर्णवेध (कान छेदन) संस्कार के श्रेष्ठ शुभ मुहूर्त। बालक-बालिकाओं के लिए शास्त्रीय नियम, तिथि, नक्षत्र व पूजन विधि।",
+    introEn: "Karnavedha is a crucial Vedic Samskara that pierces the earlobes, stimulating meridian acupuncture points for auditory health, intellect, and spiritual protection.",
+    introHi: "कर्णवेध संस्कार सनातन षोडश संस्कारों में अत्यंत पावन है। इससे कर्णपाली की नाड़ियों का शोधन होकर श्रवण शक्ति, स्मरण शक्ति और शारीरिक आरोग्य में वृद्धि होती है।",
+    deityEn: "Lord Surya & Lord Dhanvantari",
+    deityHi: "भगवान सूर्य देव एवं भगवान धन्वंतरि",
+    mantraEn: "Om Dhanvantaraye Namah • Om Suryaya Namah",
+    mantraHi: "ॐ धन्वन्तरये नमः • ॐ सूर्याय नमः",
+    guidelinesEn: [
+      "Piercing starts with the right ear for male children and the left ear for female children.",
+      "Prefer Shukla Paksha morning hours before midday for quick healing and minimum discomfort.",
+      "Gold, silver, or copper needles are recommended by Ayurveda for antiseptic energy."
+    ],
+    guidelinesHi: [
+      "बालक का पहले दाहिना कान और बालिका का पहले बायाँ कान छेदा जाता है।",
+      "शुक्ल पक्ष के प्रातःकाल सूर्योदय के पश्चात यह संस्कार कराना श्रेष्ठ है।",
+      "आयुर्वेद के अनुसार स्वर्ण, रजत या ताम्र तार का उपयोग उत्तम माना गया है।"
+    ],
+    faqsEn: [
+      {
+        q: "Which ear is pierced first for baby girls and boys?",
+        a: "As per Paraskara Grihya Sutra, the right ear is pierced first for boys, and the left ear is pierced first for girls."
+      }
+    ],
+    faqsHi: [
+      {
+        q: "बालक और बालिकाओं में पहले कौन-सा कान छेदा जाता है?",
+        a: "गृह्यसूत्रों के अनुसार बालक का पहले दायाँ कान और बालिका का पहले बायाँ कान छेदन करने का विधान है।"
       }
     ]
   }

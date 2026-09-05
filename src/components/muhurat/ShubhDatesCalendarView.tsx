@@ -16,6 +16,10 @@ import {
   Heart,
   Baby,
   Scissors,
+  Briefcase,
+  Coins,
+  GraduationCap,
+  Ear,
 } from "lucide-react";
 import type { ShubhMonthCalendar, ShubhDayDetail, ShubhDatesCategory } from "@/lib/panchang/shubh-dates-engine";
 
@@ -33,6 +37,10 @@ const CATEGORY_ICONS: Record<ShubhDatesCategory, any> = {
   "vivah-muhurat": Heart,
   naamkaran: Baby,
   mundan: Scissors,
+  "business-opening": Briefcase,
+  "gold-buying": Coins,
+  vidyarambha: GraduationCap,
+  karnavedha: Ear,
 };
 
 export function ShubhDatesCalendarView({

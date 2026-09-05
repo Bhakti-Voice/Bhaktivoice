@@ -127,6 +127,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "vivah-muhurat",
     "naamkaran",
     "mundan",
+    "business-opening",
+    "gold-buying",
+    "vidyarambha",
+    "karnavedha",
   ];
   for (const slug of shubhSlugs) {
     add(`/shubh-dates/${slug}`, today, "daily", 0.95);
