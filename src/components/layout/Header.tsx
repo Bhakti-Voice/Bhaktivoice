@@ -31,7 +31,6 @@ export function Header() {
   const nav = [
     { href: "/", label: t.nav.home },
     { href: PATHS.gita, label: t.nav.gita },
-    { href: PATHS.naamJaap, label: t.nav.naamJaap },
   ];
   const moreLinks = [
     { href: PATHS.sadhana, label: t.nav.sadhana },

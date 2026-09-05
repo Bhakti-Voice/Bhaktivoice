@@ -8,7 +8,14 @@ import { PATHS } from "@/lib/seo/paths";
 import { usePathname } from "next/navigation";
 import { stripLocale } from "@/lib/i18n/config";
 
-const TOOL_PATHS = [PATHS.spiritualTools, PATHS.suvicharMaker, PATHS.kundli, PATHS.kundliMilan] as const;
+const TOOL_PATHS = [
+  PATHS.spiritualTools,
+  PATHS.naamJaap,
+  PATHS.mala,
+  PATHS.suvicharMaker,
+  PATHS.kundli,
+  PATHS.kundliMilan,
+] as const;
 
 export function SpiritualToolsMenu({
   mobile = false,
@@ -47,6 +54,8 @@ export function SpiritualToolsMenu({
 
   const links = [
     { href: PATHS.spiritualTools, label: t.spiritualTools.allTools },
+    { href: PATHS.naamJaap, label: `${t.nav.naamJaap} (Digital Chanting)` },
+    { href: PATHS.mala, label: "१०८ जप माला (108 Jap Mala Counter)" },
     { href: PATHS.suvicharMaker, label: "सुविचार कार्ड मेकर (Status Studio)" },
     { href: PATHS.kundli, label: t.spiritualTools.tools.kundli.title },
     { href: PATHS.kundliMilan, label: t.spiritualTools.tools.milan.title },
@@ -86,7 +95,7 @@ export function SpiritualToolsMenu({
         <ChevronDown className="h-3.5 w-3.5" />
       </button>
       {open ? (
-        <div className="absolute left-0 z-50 mt-3 w-56 rounded-2xl bg-white p-2 shadow-lg ring-1 ring-line">
+        <div className="absolute left-0 z-50 mt-3 w-64 rounded-2xl bg-white p-2 shadow-lg ring-1 ring-line">
           {links.map((item) => (
             <LocaleLink
               key={item.href}
