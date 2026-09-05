@@ -29,8 +29,6 @@ export function Header() {
     { href: "/", label: t.nav.home },
     { href: PATHS.gita, label: t.nav.gita },
     { href: PATHS.naamJaap, label: t.nav.naamJaap },
-    { href: PATHS.katha, label: t.nav.katha },
-    { href: PATHS.yatra, label: t.nav.yatra },
   ];
   const moreLinks = [
     { href: PATHS.sadhana, label: t.nav.sadhana },

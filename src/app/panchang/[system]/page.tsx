@@ -14,6 +14,7 @@ import {
   computeRegionalSnapshot,
 } from "@/lib/panchang/regional-systems";
 import { getSystemTreatise } from "@/lib/panchang/regional-treatises";
+import { renderRichMarkdownHtml } from "@/lib/text/markdown-tables";
 import {
   Compass,
   Calendar,
@@ -361,16 +362,13 @@ export default async function RegionalPanchangPage({ params }: PageProps) {
 
           <div className="prose prose-stone max-w-none text-ink/90 prose-headings:text-maroon prose-strong:text-maroon prose-p:leading-relaxed prose-rich-content">
             <div
-              className="whitespace-pre-line text-sm sm:text-base leading-relaxed"
+              className="text-sm sm:text-base leading-relaxed"
               dangerouslySetInnerHTML={{
-                __html: (isHi ? sys.seoGuideHi : sys.seoGuideEn)
-                  .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-                  .replace(/### (.*?)\n/g, "<h3 class='text-lg font-bold text-maroon mt-4 mb-2'>$1</h3>\n")
-                  .replace(/## (.*?)\n/g, "<h2 class='text-xl font-bold text-maroon mt-6 mb-3'>$1</h2>\n"),
+                __html: renderRichMarkdownHtml(isHi ? sys.seoGuideHi : sys.seoGuideEn),
               }}
             />
 
-            {/* Encyclopedic 4000+ Word Treatise Sections */}
+            {/* Encyclopedic 4000+ Word Treatise Sections with Actual HTML Tables */}
             <div className="mt-10 space-y-10 border-t border-line/60 pt-8">
               {treatise.map((sec, idx) => (
                 <div key={idx} className="space-y-4">
@@ -378,20 +376,9 @@ export default async function RegionalPanchangPage({ params }: PageProps) {
                     {isHi ? sec.headingHi : sec.headingEn}
                   </h3>
                   <div
-                    className="whitespace-pre-line text-sm sm:text-base leading-relaxed"
+                    className="text-sm sm:text-base leading-relaxed"
                     dangerouslySetInnerHTML={{
-                      __html: (isHi ? sec.contentHi : sec.contentEn)
-                        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-                        .replace(/\*(.*?)\*/g, "<em>$1</em>")
-                        .replace(/### (.*?)\n/g, "<h4 class='text-base font-bold text-maroon mt-4 mb-2'>$1</h4>\n")
-                        .replace(/\\\[/g, "")
-                        .replace(/\\\]/g, "")
-                        .replace(/\\left/g, "")
-                        .replace(/\\right/g, "")
-                        .replace(/\\lfloor/g, "")
-                        .replace(/\\rfloor/g, "")
-                        .replace(/\\lambda/g, "λ")
-                        .replace(/\\Delta\\psi/g, "Δψ"),
+                      __html: renderRichMarkdownHtml(isHi ? sec.contentHi : sec.contentEn),
                     }}
                   />
                 </div>

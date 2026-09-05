@@ -149,16 +149,13 @@ export function PanchangMenu({ mobile = false, onNavigate }: { mobile?: boolean;
       {open && (
         <div
           onMouseLeave={() => setOpen(false)}
-          className="absolute left-1/2 -translate-x-1/4 top-full z-50 mt-2 w-[760px] animate-in fade-in zoom-in-95 duration-150 rounded-2xl border-2 border-[#b85d19] bg-[#5a1e12] p-3 shadow-2xl ring-1 ring-black/20"
-          style={{
-            backgroundImage: "linear-gradient(180deg, #6b2416 0%, #4a150c 100%)",
-          }}
+          className="absolute left-1/2 -translate-x-1/4 top-full z-50 mt-2 w-[760px] animate-in fade-in zoom-in-95 duration-150 rounded-2xl border border-line bg-[#fffbf6] p-4 shadow-2xl ring-1 ring-black/5 backdrop-blur-md"
         >
           {/* Header Bar inside popup with Quick links */}
-          <div className="mb-2.5 flex items-center justify-between border-b border-[#a2491a]/60 pb-2 px-1 text-xs">
+          <div className="mb-3 flex items-center justify-between border-b border-line pb-2.5 px-1 text-xs">
             <div className="flex items-center gap-2">
-              <span className="inline-block h-2 w-2 rounded-full bg-[#f6ad55] animate-pulse" />
-              <span className="font-bold tracking-wider text-[#fed7aa] uppercase text-[11px]">
+              <span className="inline-block h-2 w-2 rounded-full bg-saffron animate-pulse" />
+              <span className="font-bold tracking-wider text-maroon uppercase text-[11px]">
                 {locale === "hi" ? "सम्पूर्ण वैदिक एवं क्षेत्रीय पंचांग" : "Vedic & Regional Panchang Systems"}
               </span>
             </div>
@@ -166,14 +163,14 @@ export function PanchangMenu({ mobile = false, onNavigate }: { mobile?: boolean;
               <LocaleLink
                 href="/panchang/today"
                 onClick={() => setOpen(false)}
-                className="font-bold text-[#ffedd5] hover:text-[#fbbf24] underline decoration-[#f6ad55] underline-offset-2"
+                className="font-bold text-saffron-deep hover:text-maroon underline decoration-saffron decoration-2 underline-offset-4 transition-colors"
               >
                 {locale === "hi" ? "आज का पंचांग →" : "Today's Panchang →"}
               </LocaleLink>
               <LocaleLink
                 href="/hindu-calendar"
                 onClick={() => setOpen(false)}
-                className="font-medium text-[#fed7aa] hover:text-white"
+                className="font-medium text-muted hover:text-maroon transition-colors"
               >
                 {locale === "hi" ? "हिन्दू कैलेंडर" : "Hindu Calendar"}
               </LocaleLink>
@@ -191,10 +188,10 @@ export function PanchangMenu({ mobile = false, onNavigate }: { mobile?: boolean;
                       key={item.slug}
                       href={item.href}
                       onClick={() => setOpen(false)}
-                      className={`block rounded-lg px-3 py-2 text-center text-xs font-medium tracking-wide transition-all duration-150 border shadow-sm ${
+                      className={`block rounded-xl px-3 py-2 text-center text-xs font-semibold tracking-wide transition-all duration-150 border shadow-xs ${
                         active
-                          ? "border-[#f6ad55] bg-[#ea9b4a] text-[#42140b] font-bold shadow-inner"
-                          : "border-[#b85d19] bg-[#e6a256] text-[#42140b] hover:bg-[#f6b26b] hover:border-[#fcd34d] hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
+                          ? "border-saffron bg-saffron text-white shadow-sm"
+                          : "border-[#edd8c4] bg-[#fbf3e7] text-ink hover:bg-[#fae7cf] hover:border-saffron hover:text-saffron-deep hover:shadow-xs hover:-translate-y-0.5 active:translate-y-0"
                       }`}
                     >
                       <span className="block truncate">
@@ -208,13 +205,13 @@ export function PanchangMenu({ mobile = false, onNavigate }: { mobile?: boolean;
           </div>
 
           {/* Bottom subtle banner */}
-          <div className="mt-2.5 pt-2 border-t border-[#a2491a]/40 text-[11px] text-[#fed7aa]/80 flex items-center justify-between px-1">
+          <div className="mt-3 pt-2.5 border-t border-line text-[11px] text-muted flex items-center justify-between px-1">
             <span>
               {locale === "hi"
                 ? "प्रामाणिक दृक सिद्धांत एवं सटीक गृह-नक्षत्र काल गणना"
                 : "100% Accurate Drik Ganita, Sidereal Longitudes & Muhurat"}
             </span>
-            <span className="text-[#fed7aa]/60">Lahiri Ayanamsa</span>
+            <span className="font-medium text-saffron-deep">Lahiri Ayanamsa</span>
           </div>
         </div>
       )}
