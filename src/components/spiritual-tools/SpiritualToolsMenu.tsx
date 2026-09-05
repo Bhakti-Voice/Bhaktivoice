@@ -86,10 +86,11 @@ export function SpiritualToolsMenu({
         type="button"
         onClick={() => setOpen(!open)}
         onMouseEnter={() => setOpen(true)}
-        className={`inline-flex cursor-pointer items-center gap-0.5 text-[13px] tracking-wide ${
+        className={`inline-flex cursor-pointer items-center gap-0.5 whitespace-nowrap shrink-0 text-[13px] tracking-wide ${
           active || open ? "font-semibold text-saffron" : "font-medium text-ink/70 hover:text-saffron"
         }`}
         aria-expanded={open}
+        aria-haspopup="true"
       >
         {t.nav.spiritualTools}
         <ChevronDown className="h-3.5 w-3.5" />

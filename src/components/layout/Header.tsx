@@ -102,7 +102,7 @@ export function Header() {
       <div className="mx-auto flex max-w-7xl min-w-0 items-center justify-between gap-3 px-4 py-3.5 sm:gap-5 lg:px-8">
         <Logo />
         <nav
-          className="hidden items-center gap-7 lg:flex"
+          className="hidden items-center gap-4 lg:flex xl:gap-6 shrink-0 whitespace-nowrap"
           aria-label="Primary"
           onMouseLeave={() => setActiveDropdown(null)}
         >
@@ -111,7 +111,7 @@ export function Header() {
               key={item.href}
               href={item.href}
               onMouseEnter={() => setActiveDropdown(null)}
-              className={`inline-flex items-center gap-1.5 text-[13px] tracking-wide ${
+              className={`inline-flex items-center gap-1.5 text-[13px] tracking-wide whitespace-nowrap shrink-0 ${
                 isActive(item.href)
                   ? "font-semibold text-maroon underline decoration-saffron decoration-2 underline-offset-[10px]"
                   : "font-medium text-ink/70 hover:text-saffron"

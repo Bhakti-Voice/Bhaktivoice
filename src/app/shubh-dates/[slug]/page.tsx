@@ -107,11 +107,12 @@ export default async function ShubhDatesPage({ params }: PageProps) {
   }));
 
   return (
-    <div className="min-h-screen pb-20 bg-neutral-50/50 dark:bg-neutral-950">
+    <div className="min-h-screen pb-20 bg-[#fff9f2] text-ink">
       <PageHero
         title={isHi ? config.titleHi : config.titleEn}
         subtitle={isHi ? config.introHi : config.introEn}
         crumbs={crumbs}
+        waveColor="#fff9f2"
       >
         <div className="flex flex-wrap items-center gap-3 pt-2">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-900 dark:text-amber-200 text-xs font-semibold">
@@ -130,7 +131,7 @@ export default async function ShubhDatesPage({ params }: PageProps) {
         </div>
       </PageHero>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 space-y-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-12">
         {/* Core Calendar View with 12 Month Grid & Inspection */}
         <ShubhDatesCalendarView
           calendars={calendars}

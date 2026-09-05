@@ -123,7 +123,7 @@ export function MuhuratMenu({
         type="button"
         onClick={() => setOpen(!open)}
         onMouseEnter={() => setOpen(true)}
-        className={`inline-flex cursor-pointer items-center gap-1 text-[13px] tracking-wide transition-colors ${
+        className={`inline-flex cursor-pointer items-center gap-1 whitespace-nowrap shrink-0 text-[13px] tracking-wide transition-colors ${
           open || isMuhuratActive
             ? "font-semibold text-maroon underline decoration-saffron decoration-2 underline-offset-[10px]"
             : "font-medium text-ink/70 hover:text-saffron"

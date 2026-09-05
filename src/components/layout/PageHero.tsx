@@ -14,6 +14,8 @@ export function PageHero({
   children,
   breadcrumbJsonLd = true,
   ornament = false,
+  showWave = true,
+  waveColor = "#fff9f2",
 }: {
   title: string;
   subtitle?: string;
@@ -24,6 +26,8 @@ export function PageHero({
   children?: ReactNode;
   breadcrumbJsonLd?: boolean;
   ornament?: boolean;
+  showWave?: boolean;
+  waveColor?: string;
 }) {
   const preset = hub ? HUB_HEROES[hub] : HUB_HEROES.more;
   const src = image || preset.image;
@@ -64,17 +68,19 @@ export function PageHero({
         ) : null}
         {children}
       </div>
-      <svg
-        className="pointer-events-none absolute inset-x-0 bottom-[-1px] z-20 h-8 w-full sm:h-10 lg:h-11"
-        viewBox="0 0 1440 72"
-        preserveAspectRatio="none"
-        aria-hidden
-      >
-        <path
-          fill="#fff9f2"
-          d="M0 34c160 24 320-20 480-8 160 12 240 32 400 24s280-36 400-16c80 12 120 20 160 16v22H0V34z"
-        />
-      </svg>
+      {showWave ? (
+        <svg
+          className="pointer-events-none absolute inset-x-0 bottom-[-1px] z-20 h-8 w-full sm:h-10 lg:h-11"
+          viewBox="0 0 1440 72"
+          preserveAspectRatio="none"
+          aria-hidden
+        >
+          <path
+            fill={waveColor}
+            d="M0 34c160 24 320-20 480-8 160 12 240 32 400 24s280-36 400-16c80 12 120 20 160 16v22H0V34z"
+          />
+        </svg>
+      ) : null}
     </section>
   );
 }
