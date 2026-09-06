@@ -146,7 +146,7 @@ function cachedCmsGet<T>(path: string, fallback: T, revalidate: number) {
   return unstable_cache(
     async () => cmsGet<T>(path, fallback, revalidate),
     ["cms", path, String(revalidate)],
-    { revalidate },
+    { revalidate, tags: ["cms", path] },
   )();
 }
 
@@ -166,11 +166,11 @@ export async function listContent<T>(kind: string): Promise<T[]> {
 }
 
 export async function getContent<T>(kind: string, slug: string): Promise<T | null> {
-  return cachedCmsGet<T | null>(
-    await withLocaleQuery(`/api/content/${kind}/${encodeURIComponent(slug)}`),
-    null,
-    CONTENT_REVALIDATE,
-  );
+  const path = await withLocaleQuery(`/api/content/${kind}/${encodeURIComponent(slug)}`);
+  const cached = await cachedCmsGet<T | null>(path, null, CONTENT_REVALIDATE);
+  if (cached !== null) return cached;
+  // If cache returned null (e.g. 404 was cached prior to publishing), perform an uncached fetch
+  return cmsGet<T | null>(path, null, false);
 }
 
 export const getStats = cache(async (): Promise<JaapStats> => {

@@ -4,6 +4,8 @@ import hashlib
 import json
 import os
 import secrets
+import threading
+import urllib.request
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import quote
@@ -169,10 +171,22 @@ def _parse_jaap_day(raw: object) -> str:
         parsed = date.fromisoformat(text)
     except ValueError:
         return today()
-    today_d = date.fromisoformat(today())
     if abs((parsed - today_d).days) > 1:
         return today()
     return parsed.isoformat()
+
+
+def trigger_nextjs_revalidate(kind: str = "", slug: str = "") -> None:
+    def _fire():
+        try:
+            site = (os.environ.get("SITE_ORIGIN") or os.environ.get("NEXT_PUBLIC_SITE_URL") or "https://www.bhaktivoice.com").rstrip("/")
+            secret = os.environ.get("CMS_INTERNAL_SECRET") or os.environ.get("SESSION_SECRET") or ""
+            url = f"{site}/api/revalidate?secret={quote(secret)}&kind={quote(kind)}&slug={quote(slug)}"
+            req = urllib.request.Request(url, headers={"x-bhakti-internal": secret} if secret else {})
+            urllib.request.urlopen(req, timeout=4)
+        except Exception:
+            pass
+    threading.Thread(target=_fire, daemon=True).start()
 
 
 def _parse_jaap_delta(raw: object, *, cap: int = MAX_JAAP_DELTA) -> int:
@@ -1438,6 +1452,7 @@ async def admin_save(request: Request, kind: str):
         values = {field.name: form.get(field.name) or "" for field in spec.fields}
         data = form_to_data(spec, form)
         save_entry(kind, data, slug=slug, status=status, item_id=parsed_id)
+        trigger_nextjs_revalidate(kind, slug)
     except Exception as error:
         return templates.TemplateResponse(
             "form.html",
