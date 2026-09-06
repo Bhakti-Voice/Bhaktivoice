@@ -34,7 +34,15 @@
           </div>
           <textarea class="has-toolbar-textarea" name="{{ field.name }}" id="field-{{ field.name }}" rows="{{ field.rows }}">{{ values.get(field.name, '') }}</textarea>
           <div class="editor-preview-pane" id="preview-{{ field.name }}"></div>
-        {% elif field.type in ["textarea", "lines", "faqs", "related", "places", "itinerary", "episodes", "sections", "paragraphs", "tags"] %}
+        {% elif field.type == "related" %}
+          <div class="related-editor-widget" data-field-name="{{ field.name }}">
+            <div class="related-rows-container" id="related-rows-{{ field.name }}"></div>
+            <button type="button" class="btn ghost add-related-row-btn" data-field-name="{{ field.name }}" style="margin-top: 0.6rem; font-size: 0.85rem; padding: 0.45rem 0.9rem;">
+              ➕ Add Related Link
+            </button>
+            <textarea name="{{ field.name }}" id="field-{{ field.name }}" style="display: none;">{{ values.get(field.name, '') }}</textarea>
+          </div>
+        {% elif field.type in ["textarea", "lines", "faqs", "places", "itinerary", "episodes", "sections", "paragraphs", "tags"] %}
           <textarea name="{{ field.name }}" rows="{{ field.rows }}">{{ values.get(field.name, '') }}</textarea>
         {% elif field.type == "number" %}
           <input type="number" name="{{ field.name }}" value="{{ values.get(field.name, '') }}" />
@@ -204,6 +212,126 @@
           }
         });
       });
+    });
+
+    // Dynamic Related Links Multi-Row Editor
+    document.querySelectorAll(".related-editor-widget").forEach((widget) => {
+      const fieldName = widget.getAttribute("data-field-name");
+      const textarea = document.getElementById("field-" + fieldName);
+      const container = document.getElementById("related-rows-" + fieldName);
+      const addBtn = widget.querySelector(".add-related-row-btn");
+      if (!textarea || !container) return;
+
+      function parseInitialData(rawText) {
+        if (!rawText || !rawText.trim()) return [];
+        const text = rawText.trim();
+        if (text.startsWith("[") || text.startsWith("{")) {
+          try {
+            const parsed = JSON.parse(text);
+            const list = Array.isArray(parsed) ? parsed : [parsed];
+            return list.map(item => ({
+              text: item.text || item.label || item.title || "",
+              url: item.url || item.href || item.link || ""
+            })).filter(i => i.text || i.url);
+          } catch(e) {}
+        }
+        const rows = [];
+        text.split("\n").forEach(line => {
+          const l = line.trim();
+          if (!l) return;
+          if (l.includes("||")) {
+            const parts = l.split("||").map(p => p.trim());
+            if (parts.length >= 2) {
+              if (parts[0].startsWith("/") || parts[0].startsWith("http")) {
+                rows.push({ text: parts[1], url: parts[0] });
+              } else {
+                rows.push({ text: parts[0], url: parts[1] });
+              }
+            }
+          } else if (l.includes("|")) {
+            const parts = l.split("|").map(p => p.trim());
+            if (parts.length >= 3) {
+              rows.push({ text: parts[2], url: parts[1] });
+            } else if (parts.length === 2) {
+              rows.push({ text: parts[1], url: parts[0] });
+            }
+          }
+        });
+        return rows;
+      }
+
+      function syncToTextarea() {
+        const rows = [];
+        container.querySelectorAll(".related-link-row").forEach((row) => {
+          const textInput = row.querySelector(".related-link-text");
+          const urlInput = row.querySelector(".related-link-url");
+          const textVal = (textInput ? textInput.value : "").trim();
+          const urlVal = (urlInput ? urlInput.value : "").trim();
+          if (textVal || urlVal) {
+            rows.push({ text: textVal, url: urlVal });
+          }
+        });
+        textarea.value = rows.length ? JSON.stringify(rows, null, 2) : "";
+      }
+
+      function createRow(text = "", url = "") {
+        const row = document.createElement("div");
+        row.className = "related-link-row";
+        row.style.cssText = "display: flex; gap: 0.5rem; margin-top: 0.5rem; align-items: center;";
+
+        const textInput = document.createElement("input");
+        textInput.type = "text";
+        textInput.className = "related-link-text";
+        textInput.placeholder = "Anchor Text (e.g. Hanuman Chalisa Path)";
+        textInput.value = text;
+        textInput.style.cssText = "flex: 1; margin-top: 0;";
+
+        const urlInput = document.createElement("input");
+        urlInput.type = "text";
+        urlInput.className = "related-link-url";
+        urlInput.placeholder = "Full Link (e.g. https://bhaktivoice.com/chalisa/slug or /chalisa/slug)";
+        urlInput.value = url;
+        urlInput.style.cssText = "flex: 1.5; margin-top: 0;";
+
+        const removeBtn = document.createElement("button");
+        removeBtn.type = "button";
+        removeBtn.className = "btn-remove-related";
+        removeBtn.title = "Remove link";
+        removeBtn.innerHTML = "🗑️";
+        removeBtn.style.cssText = "background: #fdecec; border: 1px solid #f8b4b4; color: #8f2d2d; border-radius: 8px; padding: 0.45rem 0.65rem; cursor: pointer; font-size: 0.9rem; flex-shrink: 0;";
+
+        textInput.addEventListener("input", syncToTextarea);
+        urlInput.addEventListener("input", syncToTextarea);
+        removeBtn.addEventListener("click", () => {
+          row.remove();
+          syncToTextarea();
+        });
+
+        row.appendChild(textInput);
+        row.appendChild(urlInput);
+        row.appendChild(removeBtn);
+        container.appendChild(row);
+      }
+
+      const initialItems = parseInitialData(textarea.value);
+      if (initialItems.length > 0) {
+        initialItems.forEach(item => createRow(item.text, item.url));
+      } else {
+        createRow();
+      }
+      syncToTextarea();
+
+      if (addBtn) {
+        addBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          createRow();
+          const newRows = container.querySelectorAll(".related-link-row");
+          if (newRows.length > 0) {
+            const lastText = newRows[newRows.length - 1].querySelector(".related-link-text");
+            if (lastText) lastText.focus();
+          }
+        });
+      }
     });
   </script>
 {% endblock %}

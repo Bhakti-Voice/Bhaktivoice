@@ -16,6 +16,16 @@ export function stripLocale(pathname: string): string {
 }
 
 export function withLocale(path: string, locale: Locale): string {
+  if (!path) return locale === "hi" ? "/hi" : "/";
+  if (
+    path.startsWith("http://") ||
+    path.startsWith("https://") ||
+    path.startsWith("//") ||
+    path.startsWith("mailto:") ||
+    path.startsWith("tel:")
+  ) {
+    return path;
+  }
   const [withoutHash, hash] = path.split("#");
   const [rawPath, search] = (withoutHash || "/").split("?");
   const clean = stripLocale(rawPath || "/");

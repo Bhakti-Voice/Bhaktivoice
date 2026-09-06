@@ -55,9 +55,9 @@ SEO_FIELDS = (
     ),
     Field(
         "related",
-        "Related content",
+        "Related links for SEO interlinking",
         "related",
-        'Only used when “Show related links card” is yes. Paste JSON: [{"text":"Hanuman Chalisa","url":"/chalisa/slug"}]',
+        'Add text and full link (with domain or path) below. Enables dynamic interlinking across Katha, Yatra, Blog, and all pages for SEO.',
         rows=6,
     ),
     Field("cta_title", "CTA title"),
@@ -508,13 +508,24 @@ def parse_related(value: str | list | Any) -> list[dict[str, str]]:
             return [_normalize_related_item(item) for item in parsed if _normalize_related_item(item)]
     links = []
     for line in lines(raw):
-        parts = [part.strip() for part in line.split("|")]
-        if len(parts) >= 3:
-            item = _normalize_related_item({"kind": parts[0], "href": parts[1], "label": parts[2]})
-        elif len(parts) == 2:
-            item = _normalize_related_item({"href": parts[0], "label": parts[1]})
+        if "||" in line:
+            parts = [part.strip() for part in line.split("||") if part.strip()]
+            if len(parts) >= 2:
+                # Text || URL
+                if parts[0].startswith("/") or parts[0].startswith("http://") or parts[0].startswith("https://"):
+                    item = _normalize_related_item({"href": parts[0], "label": parts[1]})
+                else:
+                    item = _normalize_related_item({"label": parts[0], "href": parts[1]})
+            else:
+                item = None
         else:
-            item = None
+            parts = [part.strip() for part in line.split("|") if part.strip()]
+            if len(parts) >= 3:
+                item = _normalize_related_item({"kind": parts[0], "href": parts[1], "label": parts[2]})
+            elif len(parts) == 2:
+                item = _normalize_related_item({"href": parts[0], "label": parts[1]})
+            else:
+                item = None
         if item:
             links.append(item)
     return links
