@@ -5,6 +5,7 @@ import { SectionHeading } from "@/components/brand/SectionHeading";
 import { OmFlourish } from "@/components/brand/OmFlourish";
 import { HomeQuickLinksCard } from "@/components/home/HomeQuickLinksCard";
 import { HomeFeatureCards } from "@/components/home/HomeFeatureCards";
+import { HomeDailyVedicHub } from "@/components/home/HomeDailyVedicHub";
 import {
   ArrowRight,
   Bell,
@@ -29,7 +30,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
 import { getDailyQuote, getStats } from "@/lib/cms/client";
 import { formatCount } from "@/lib/format";
-import { listBlog, listKatha, listYatra } from "@/lib/content";
+import { listAarti, listBlog, listKatha, listYatra } from "@/lib/content";
 import { localizedItemListSchema } from "@/lib/seo/localized-schema";
 import { PATHS } from "@/lib/seo/paths";
 import { localizedMetadata } from "@/lib/seo/metadata";
@@ -214,7 +215,7 @@ export default async function HomePage() {
       <HomeQuickLinksCard locale={locale} />
 
       <Suspense fallback={null}>
-        <HomeContentSections t={t} />
+        <HomeContentSections t={t} locale={locale} />
       </Suspense>
 
 
@@ -275,11 +276,12 @@ async function HomeChantBanner({ locale, t }: { locale: string; t: Messages }) {
   );
 }
 
-async function HomeContentSections({ t }: { t: Messages }) {
-  const [katha, yatra, blogs, quote] = await Promise.all([
+async function HomeContentSections({ t, locale }: { t: Messages; locale: string }) {
+  const [katha, yatra, blogs, aartis, quote] = await Promise.all([
     listKatha(),
     listYatra(),
     listBlog(),
+    listAarti(),
     getDailyQuote(),
   ]);
   const popular = [
@@ -303,9 +305,12 @@ async function HomeContentSections({ t }: { t: Messages }) {
     );
   }
   const latest = blogs.slice(0, 3);
+  const latestAartis = aartis.slice(0, 3);
 
   return (
     <>
+      <HomeDailyVedicHub locale={locale} />
+
       {popular.length > 0 ? (
         <section className="mx-auto max-w-7xl px-4 pb-14 lg:px-8">
           <SectionHeading>{t.home.popularTitle}</SectionHeading>
@@ -404,6 +409,53 @@ async function HomeContentSections({ t }: { t: Messages }) {
               className="inline-flex items-center gap-1.5 text-sm font-medium text-saffron hover:text-saffron-deep"
             >
               {t.home.moreBlogs}
+              <ArrowRight className="h-4 w-4" />
+            </LocaleLink>
+          </div>
+        </section>
+      ) : null}
+
+      {latestAartis.length > 0 ? (
+        <section className="mx-auto max-w-7xl px-4 pb-14 lg:px-8">
+          <SectionHeading>{locale === "hi" ? t.home.aartisTitle : "Aartis Section"}</SectionHeading>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {latestAartis.map((item) => (
+              <article key={item.slug} className="min-w-0">
+                <LocaleLink href={`${PATHS.aarti}/${item.slug}`} className="group block">
+                  <div className="relative">
+                    <CoverMedia
+                      src={item.heroImage}
+                      alt={item.heroImageAlt || item.title}
+                      className="aspect-[16/10] w-full rounded-2xl"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px"
+                    />
+                    {item.category ? (
+                      <span className="absolute bottom-3 left-3 rounded-full bg-saffron px-3 py-1 text-xs font-medium text-white">
+                        {item.category}
+                      </span>
+                    ) : null}
+                  </div>
+                  <h3 className="mt-3 font-serif text-xl leading-snug text-ink">
+                    {locale === "hi" && item.titleHi ? item.titleHi : item.title}
+                  </h3>
+                  <ProseText
+                    text={item.introduction || item.metaDescription || ""}
+                    className="mt-2 line-clamp-2 text-sm text-muted"
+                  />
+                  <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-lotus">
+                    {locale === "hi" ? "आरती पढ़ें" : t.home.readMore}
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </span>
+                </LocaleLink>
+              </article>
+            ))}
+          </div>
+          <div className="mt-5">
+            <LocaleLink
+              href={PATHS.aarti}
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-saffron hover:text-saffron-deep"
+            >
+              {locale === "hi" ? t.home.moreAartis : "More Aartis"}
               <ArrowRight className="h-4 w-4" />
             </LocaleLink>
           </div>

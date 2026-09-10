@@ -75,6 +75,8 @@ export const messages = {
       readMore: "Read More",
       moreBlogs: "More blogs",
       moreKatha: "More katha",
+      aartisTitle: "Aartis Section",
+      moreAartis: "More Aartis",
       krishnaQuote: "Bhakti is the purest form of love — a path that turns every breath into prayer.",
       krishnaQuoteBy: "— Lord Krishna",
       features: [
@@ -843,6 +845,8 @@ export const messages = {
       readMore: "और पढ़ें",
       moreBlogs: "और ब्लॉग",
       moreKatha: "और कथा",
+      aartisTitle: "आरती अनुभाग",
+      moreAartis: "और आरतियां",
       krishnaQuote: "भक्ति प्रेम का सबसे शुद्ध रूप है — हर श्वास को प्रार्थना बनाने वाला मार्ग।",
       krishnaQuoteBy: "— भगवान कृष्ण",
       features: [

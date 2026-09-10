@@ -147,7 +147,7 @@ export function Header() {
                 {t.search}
               </label>
               <div className="relative">
-                <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted" />
                 <input
                   id="site-search"
                   value={query}
@@ -157,7 +157,7 @@ export function Header() {
                   }}
                   onFocus={() => setShowSuggestions(true)}
                   placeholder={t.searchPlaceholder}
-                  className="h-10 w-44 border-0 bg-transparent pl-10 pr-2 text-sm text-ink outline-none placeholder:text-muted/80"
+                  className="h-10 w-[132px] border-0 bg-transparent pl-8 pr-2 text-xs sm:text-sm text-ink outline-none placeholder:text-muted/80"
                 />
               </div>
               <button

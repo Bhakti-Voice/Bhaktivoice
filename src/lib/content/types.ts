@@ -28,6 +28,7 @@ export type BreadcrumbItem = {
 export type SeoPage = {
   slug: string;
   title: string;
+  titleHi?: string;
   seoTitle: string;
   metaDescription: string;
   h1: string;

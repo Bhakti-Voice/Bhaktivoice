@@ -1,21 +1,61 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { ChevronDown, Sparkles } from "lucide-react";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
-import { useMessages } from "@/lib/i18n/client";
-import { PATHS } from "@/lib/seo/paths";
+import { useLocale } from "@/lib/i18n/client";
 import { usePathname } from "next/navigation";
 import { stripLocale } from "@/lib/i18n/config";
 
-const TOOL_PATHS = [
-  PATHS.spiritualTools,
-  PATHS.naamJaap,
-  PATHS.mala,
-  PATHS.suvicharMaker,
-  PATHS.kundli,
-  PATHS.kundliMilan,
-] as const;
+interface ToolMenuItem {
+  href: string;
+  labelEn: string;
+  labelHi: string;
+}
+
+interface ToolColumn {
+  categoryEn: string;
+  categoryHi: string;
+  items: ToolMenuItem[];
+}
+
+const TOOL_COLUMNS: ToolColumn[] = [
+  // Column 1: Astrology & Kundli
+  {
+    categoryEn: "Astrology & Kundli",
+    categoryHi: "ज्योतिष व कुंडली",
+    items: [
+      { href: "/kundli", labelEn: "Free Janam Kundli", labelHi: "मुफ्त जन्म कुंडली" },
+      { href: "/kundli-milan", labelEn: "Kundli Milan (36 Guna)", labelHi: "३६ गुण कुंडली मिलान" },
+      { href: "/panchang/chandrabalam", labelEn: "Chandrabalam Finder", labelHi: "दैनिक चंद्रबलम" },
+      { href: "/panchang/nakshatra", labelEn: "Nakshatra Calculator", labelHi: "नक्षत्र एवं राशि फल" },
+    ],
+  },
+  // Column 2: Sadhana & Chanting
+  {
+    categoryEn: "Daily Sadhana & Jap",
+    categoryHi: "नित्य साधना व जप",
+    items: [
+      { href: "/naam-jaap", labelEn: "Digital Naam Jaap", labelHi: "डिजिटल नाम जप" },
+      { href: "/naam-jaap/mala", labelEn: "108 Jap Mala Counter", labelHi: "१०८ जप माला काउंटर" },
+      { href: "/daily-sadhana/sankalp", labelEn: "Daily Sankalp Vidhi", labelHi: "दैनिक संकल्प विधि" },
+      { href: "/daily-sadhana/diary", labelEn: "Bhakti Sadhana Diary", labelHi: "नित्य साधना डायरी" },
+    ],
+  },
+  // Column 3: Utilities & Media
+  {
+    categoryEn: "Creative & Utilities",
+    categoryHi: "उपयोगी टूल्स व मीडिया",
+    items: [
+      { href: "/suvichar-card-maker", labelEn: "Suvichar Status Maker", labelHi: "सुविचार स्टेटस मेकर" },
+      { href: "/sacred-yatra-guides/planner", labelEn: "Tirth Yatra Planner", labelHi: "तीर्थ यात्रा प्लानर" },
+      { href: "/panchang/panchang-utilities", labelEn: "Panchang Utilities", labelHi: "पंचांग टूल्स एवं गणना" },
+      { href: "/spiritual-tools", labelEn: "All Spiritual Tools (Hub)", labelHi: "सम्पूर्ण टूल्स हब" },
+    ],
+  },
+];
+
+const ALL_ITEMS = TOOL_COLUMNS.flatMap((c) => c.items);
 
 export function SpiritualToolsMenu({
   mobile = false,
@@ -28,13 +68,26 @@ export function SpiritualToolsMenu({
   isOpen?: boolean;
   onToggle?: (open: boolean) => void;
 }) {
-  const t = useMessages();
+  const locale = useLocale();
   const pathname = stripLocale(usePathname() || "/");
   const [internalOpen, setInternalOpen] = useState(false);
   const open = isOpen !== undefined ? isOpen : internalOpen;
   const setOpen = onToggle || setInternalOpen;
   const ref = useRef<HTMLDivElement>(null);
-  const active = TOOL_PATHS.some((href) => pathname === href || pathname.startsWith(`${href}/`));
+
+  const isToolsActive =
+    pathname === "/spiritual-tools" ||
+    pathname.startsWith("/spiritual-tools/") ||
+    pathname === "/suvichar-card-maker" ||
+    pathname.startsWith("/suvichar-card-maker/") ||
+    pathname === "/naam-jaap" ||
+    pathname.startsWith("/naam-jaap/") ||
+    pathname === "/kundli" ||
+    pathname.startsWith("/kundli/") ||
+    pathname === "/kundli-milan" ||
+    pathname.startsWith("/kundli-milan/") ||
+    pathname === "/daily-sadhana/sankalp" ||
+    pathname === "/daily-sadhana/diary";
 
   useEffect(() => {
     if (!open) return;
@@ -52,63 +105,133 @@ export function SpiritualToolsMenu({
     };
   }, [open]);
 
-  const links = [
-    { href: PATHS.spiritualTools, label: t.spiritualTools.allTools },
-    { href: PATHS.naamJaap, label: `${t.nav.naamJaap} (Digital Chanting)` },
-    { href: PATHS.mala, label: "१०८ जप माला (108 Jap Mala Counter)" },
-    { href: PATHS.suvicharMaker, label: "सुविचार कार्ड मेकर (Status Studio)" },
-    { href: PATHS.kundli, label: t.spiritualTools.tools.kundli.title },
-    { href: PATHS.kundliMilan, label: t.spiritualTools.tools.milan.title },
-  ];
-
-
+  // Mobile drawer rendering matching Panchang/Muhurat/Vrat drawers
   if (mobile) {
     return (
       <div className="space-y-1">
-        <p className="px-3 pt-2 text-xs font-semibold uppercase tracking-wide text-muted">{t.nav.spiritualTools}</p>
-        {links.map((item) => (
-          <LocaleLink
-            key={item.href}
-            href={item.href}
-            onClick={onNavigate}
-            className="block rounded-xl px-3 py-2.5 text-ink hover:bg-cream"
-          >
-            {item.label}
-          </LocaleLink>
-        ))}
+        <div className="flex items-center justify-between px-3 pt-2">
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted">
+            {locale === "hi" ? "आध्यात्मिक एवं वैदिक उपकरण" : "Spiritual Tools & Utilities"}
+          </p>
+        </div>
+        <LocaleLink
+          href="/spiritual-tools"
+          onClick={onNavigate}
+          className="flex items-center gap-2 rounded-xl bg-saffron/10 px-3 py-2 text-xs font-semibold text-saffron-deep"
+        >
+          <Sparkles className="h-3.5 w-3.5 text-saffron" />
+          <span>{locale === "hi" ? "सम्पूर्ण टूल्स हब देखें" : "Explore All Spiritual Tools"}</span>
+        </LocaleLink>
+        <div className="grid grid-cols-2 gap-1 px-1">
+          {ALL_ITEMS.map((item) => {
+            const active = pathname === item.href;
+            return (
+              <LocaleLink
+                key={item.href}
+                href={item.href}
+                onClick={onNavigate}
+                className={`truncate rounded-xl px-2.5 py-1.5 text-xs transition-colors ${
+                  active
+                    ? "bg-maroon font-semibold text-white"
+                    : "text-ink/80 hover:bg-cream hover:text-saffron-deep"
+                }`}
+              >
+                {locale === "hi" ? item.labelHi : item.labelEn}
+              </LocaleLink>
+            );
+          })}
+        </div>
       </div>
     );
   }
 
+  // Desktop Dropdown matching the header popup theme & styling
   return (
     <div className="relative" ref={ref} onMouseLeave={() => setOpen(false)}>
       <button
         type="button"
         onClick={() => setOpen(!open)}
         onMouseEnter={() => setOpen(true)}
-        className={`inline-flex cursor-pointer items-center gap-0.5 whitespace-nowrap shrink-0 text-[13px] tracking-wide ${
-          active || open ? "font-semibold text-saffron" : "font-medium text-ink/70 hover:text-saffron"
+        className={`inline-flex cursor-pointer items-center gap-1 whitespace-nowrap shrink-0 text-[13px] tracking-wide transition-colors ${
+          open || isToolsActive
+            ? "font-semibold text-maroon underline decoration-saffron decoration-2 underline-offset-[10px]"
+            : "font-medium text-ink/70 hover:text-saffron"
         }`}
         aria-expanded={open}
         aria-haspopup="true"
       >
-        {t.nav.spiritualTools}
-        <ChevronDown className="h-3.5 w-3.5" />
+        <span>{locale === "hi" ? "आध्यात्मिक उपकरण" : "Spiritual Tools"}</span>
+        <ChevronDown
+          className={`h-3.5 w-3.5 transition-transform duration-200 ${open ? "rotate-180 text-saffron" : ""}`}
+        />
       </button>
-      {open ? (
-        <div className="absolute left-0 z-50 mt-3 w-64 rounded-2xl bg-white p-2 shadow-lg ring-1 ring-line">
-          {links.map((item) => (
+
+      {open && (
+        <div
+          className="absolute right-0 sm:right-auto sm:left-1/2 sm:-translate-x-3/4 top-full z-50 mt-1 w-[620px] max-w-[calc(100vw-2rem)] animate-in fade-in zoom-in-95 duration-150 rounded-2xl border border-line bg-[#fffbf6] p-4 shadow-2xl ring-1 ring-black/5 backdrop-blur-md"
+        >
+          {/* Header Bar inside popup with Quick links */}
+          <div className="mb-3 flex items-center justify-between border-b border-line pb-2.5 px-1 text-xs">
+            <div className="flex items-center gap-2">
+              <span className="inline-block h-2 w-2 rounded-full bg-saffron animate-pulse" />
+              <span className="font-bold tracking-wider text-maroon uppercase text-[11px]">
+                {locale === "hi" ? "वैदिक एवं आध्यात्मिक साधन" : "Vedic & Spiritual Utility Tools"}
+              </span>
+            </div>
             <LocaleLink
-              key={item.href}
-              href={item.href}
+              href="/spiritual-tools"
               onClick={() => setOpen(false)}
-              className="block cursor-pointer rounded-xl px-3 py-2 text-sm text-ink hover:bg-cream"
+              className="font-bold text-saffron-deep hover:text-maroon underline decoration-saffron decoration-2 underline-offset-4 transition-colors"
             >
-              {item.label}
+              {locale === "hi" ? "सम्पूर्ण टूल्स हब →" : "All Spiritual Tools →"}
             </LocaleLink>
-          ))}
+          </div>
+
+          {/* 3-column Grid matching site theme & other popups */}
+          <div className="grid grid-cols-3 gap-2">
+            {TOOL_COLUMNS.map((col, colIdx) => (
+              <div key={colIdx} className="space-y-1.5">
+                <div className="text-[10px] font-bold text-maroon/75 uppercase tracking-wider px-1 pb-0.5 text-center">
+                  {locale === "hi" ? col.categoryHi : col.categoryEn}
+                </div>
+                {col.items.map((item) => {
+                  const active =
+                    pathname === item.href ||
+                    (item.href !== "/spiritual-tools" && pathname.startsWith(`${item.href}/`));
+                  return (
+                    <LocaleLink
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setOpen(false)}
+                      className={`block rounded-xl px-3 py-2 text-center text-xs font-semibold tracking-wide transition-all duration-150 border shadow-xs ${
+                        active
+                          ? "border-saffron bg-saffron text-white shadow-sm"
+                          : "border-[#edd8c4] bg-[#fbf3e7] text-ink hover:bg-[#fae7cf] hover:border-saffron hover:text-saffron-deep hover:shadow-xs hover:-translate-y-0.5 active:translate-y-0"
+                      }`}
+                    >
+                      <span className="block truncate">
+                        {locale === "hi" ? item.labelHi : item.labelEn}
+                      </span>
+                    </LocaleLink>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+
+          {/* Bottom subtle banner */}
+          <div className="mt-3 pt-2.5 border-t border-line text-[11px] text-muted flex items-center justify-between px-1">
+            <span>
+              {locale === "hi"
+                ? "100% निःशुल्क एवं सुरक्षित — डेटा सीधे आपके ब्राउज़र में सुरक्षित रहता है"
+                : "100% Free, Private & Secure — Client-side Vedic tools, zero server logs"}
+            </span>
+            <span className="font-medium text-saffron-deep flex items-center gap-1">
+              <Sparkles className="h-3 w-3" /> Vedic Tools
+            </span>
+          </div>
         </div>
-      ) : null}
+      )}
     </div>
   );
 }
