@@ -53,6 +53,36 @@
       .btn.secondary { background: var(--navy); }
       .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
       .btn.danger { background: #8f2d2d; }
+      .preview-btn-group {
+        display: inline-flex;
+        border-radius: 999px;
+        overflow: hidden;
+        border: 1px solid #d8c8b4;
+        background: #fff;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+      }
+      .preview-btn {
+        background: #fff !important;
+        color: var(--saffron) !important;
+        font-weight: 600;
+        font-size: 0.84rem;
+        padding: 0.45rem 0.85rem !important;
+        transition: background 0.15s, color 0.15s;
+        border: 1px solid #d8c8b4 !important;
+      }
+      .preview-btn-group .preview-btn {
+        border: 0 !important;
+        border-radius: 0 !important;
+      }
+      .preview-btn:hover {
+        background: #faede0 !important;
+        color: #9c3f10 !important;
+      }
+      .preview-btn-group .preview-hi-btn {
+        border-left: 1px solid #ebdccb !important;
+        padding: 0.45rem 0.7rem !important;
+        font-size: 0.78rem !important;
+      }
       label { display: block; margin-top: 0.9rem; font-size: 0.92rem; color: var(--muted); }
       input, textarea, select {
         width: 100%;

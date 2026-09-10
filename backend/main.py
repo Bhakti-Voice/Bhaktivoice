@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import hashlib
+import hmac
 import json
 import os
 import secrets
 import threading
+import time
 import urllib.request
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -364,21 +366,85 @@ def row_public(row: dict, locale: str = "en") -> dict:
     return public_simple(kind, row["slug"], data, locale)
 
 
-def published(kind: str, slug: str | None = None, locale: str = "en") -> list[dict] | dict | None:
+HUB_SEO_PATHS: dict[str, str] = {
+    "home": "/",
+    "katha": "/katha-stories",
+    "blog": "/bhakti-blog",
+    "yatra": "/sacred-yatra-guides",
+    "temple": "/hindu-temples",
+    "festival": "/hindu-festivals",
+    "spirituality": "/spiritual-knowledge",
+    "mantra": "/mantras-for-naam-jaap",
+    "store": "/bhakti-store",
+    "bhajan": "/bhajan-and-kirtan",
+    "aarti": "/aarti-chants",
+    "chalisa": "/chalisa",
+    "community": "/devotee-community",
+    "muhurat": "/muhurat",
+    "quotes": "/daily-quotes",
+}
+
+
+def preview_base_url(request: Request) -> str:
+    host = request.headers.get("host", "").lower()
+    if "bhaktivoice.com" in host or ":3000" in host:
+        return ""
+    if ":8000" in host:
+        return "http://localhost:3000"
+    if "onrender.com" in host:
+        return "https://www.bhaktivoice.com"
+    return SITE_ORIGIN or ""
+
+
+def generate_preview_token(kind: str, slug: str, locale: str, ts: int) -> str:
+    secret = (os.environ.get("CMS_INTERNAL_SECRET") or SESSION_SECRET or "dev-secret").strip()
+    msg = f"{kind}:{slug}:{locale}:{ts}".encode("utf-8")
+    return hmac.new(secret.encode("utf-8"), msg, hashlib.sha256).hexdigest()
+
+
+def is_preview_authorized(request: Request | None) -> bool:
+    if not request:
+        return False
+    if request.session.get("admin"):
+        return True
+    internal = (os.environ.get("CMS_INTERNAL_SECRET") or SESSION_SECRET or "").strip()
+    req_internal = request.headers.get("x-bhakti-internal", "").strip()
+    if internal and req_internal and secrets.compare_digest(internal, req_internal):
+        return True
+    return False
+
+
+def preview_url_for(kind: str, slug: str = "", locale: str = "en", base: str = "") -> str:
+    slug_str = (slug or "").strip()
+    return f"/admin/preview?kind={quote(kind)}&slug={quote(slug_str)}&locale={locale}"
+
+
+@app.get("/admin/preview")
+def admin_preview_gateway(request: Request, kind: str, slug: str = "", locale: str = "en"):
+    require_admin(request)
+    ts = int(time.time())
+    token = generate_preview_token(kind, slug, locale, ts)
+    preview_base = preview_base_url(request)
+    target = f"{preview_base}/api/preview?kind={quote(kind)}&slug={quote(slug)}&locale={quote(locale)}&ts={ts}&token={token}"
+    return RedirectResponse(target, status_code=302)
+
+
+def published(kind: str, slug: str | None = None, locale: str = "en", include_drafts: bool = False) -> list[dict] | dict | None:
     if slug:
         slug_alt = f"chapter-{slug}" if slug.isdigit() else slug.replace("chapter-", "")
+        status_filter = "" if include_drafts else "AND status = 'published'"
         row = db().fetchone(
-            "SELECT * FROM cms_entries WHERE kind = ? AND (slug = ? OR slug = ?) AND status = 'published'",
+            f"SELECT * FROM cms_entries WHERE kind = ? AND (slug = ? OR slug = ?) {status_filter}",
             [kind, slug, slug_alt],
         )
         try:
             return row_public(row, locale) if row else None
         except Exception:
             return None
-    rows = db().fetchall(
-        "SELECT * FROM cms_entries WHERE kind = ? AND status = 'published' ORDER BY updated_at DESC, id DESC",
-        [kind],
-    )
+    status_filter = "" if include_drafts else "WHERE status = 'published'"
+    order_filter = "ORDER BY updated_at DESC, id DESC"
+    sql = f"SELECT * FROM cms_entries WHERE kind = ? {order_filter}" if include_drafts else f"SELECT * FROM cms_entries WHERE kind = ? AND status = 'published' {order_filter}"
+    rows = db().fetchall(sql, [kind])
     items: list[dict] = []
     for row in rows:
         try:
@@ -547,22 +613,35 @@ def serve_media(media_id: str):
 
 
 @app.get("/api/content/{kind}")
-def list_content(kind: str, locale: str = "en"):
+def list_content(request: Request, kind: str, locale: str = "en", preview: bool = False):
     if kind not in KINDS:
         raise HTTPException(status_code=404)
-    return public_json(published(kind, locale=normalize_locale(locale)), seconds=600)
+    can_preview = preview and is_preview_authorized(request)
+    data = published(kind, locale=normalize_locale(locale), include_drafts=can_preview)
+    if can_preview:
+        return JSONResponse(
+            content=data,
+            headers={"Cache-Control": "private, no-store, no-cache, must-revalidate"},
+        )
+    return public_json(data, seconds=600)
 
 
 @app.get("/api/content/{kind}/{slug}")
-def get_content(kind: str, slug: str, locale: str = "en"):
+def get_content(request: Request, kind: str, slug: str, locale: str = "en", preview: bool = False):
     if kind not in KINDS:
         raise HTTPException(status_code=404)
-    item = published(kind, slug, locale=normalize_locale(locale))
+    can_preview = preview and is_preview_authorized(request)
+    item = published(kind, slug, locale=normalize_locale(locale), include_drafts=can_preview)
     if not item:
         # Hub SEO is optional per page; missing copy should not 404 the public UI.
         if kind == "hub_seo":
             return public_json({}, seconds=600)
         raise HTTPException(status_code=404, detail="Not found")
+    if can_preview:
+        return JSONResponse(
+            content=item,
+            headers={"Cache-Control": "private, no-store, no-cache, must-revalidate"},
+        )
     return public_json(item, seconds=600)
 
 
@@ -1183,6 +1262,7 @@ def admin_context(request: Request, **extra):
     except Exception as error:
         db_error = db_error or str(error)
         counts = [{"key": key, "label": kind.plural, "total": 0} for key, kind in KINDS.items()]
+    preview_base = preview_base_url(request)
     return {
         "request": request,
         "kinds": KINDS,
@@ -1191,6 +1271,8 @@ def admin_context(request: Request, **extra):
         "error": db_error or request.query_params.get("error"),
         "notice": request.query_params.get("notice"),
         "turso": turso_configured(),
+        "preview_base": preview_base,
+        "site_origin": preview_base or SITE_ORIGIN or "https://www.bhaktivoice.com",
         **extra,
     }
 
@@ -1359,12 +1441,15 @@ def admin_list(request: Request, kind: str):
     )
     show_images = has_hero_image(spec)
     show_youtube = has_youtube_url(spec)
+    preview_base = preview_base_url(request)
     rows = []
     for row in raw_rows:
         item = dict(row)
         data = parse_data(item.pop("data", None))
         item["heroImage"] = safe_image_src(str(data.get("heroImage") or "")) if show_images else ""
         item["youtubeUrl"] = str(data.get("youtubeUrl") or "").strip() if show_youtube else ""
+        item["preview_url"] = preview_url_for(kind, item.get("slug") or "", locale="en", base=preview_base)
+        item["preview_url_hi"] = preview_url_for(kind, item.get("slug") or "", locale="hi", base=preview_base)
         rows.append(item)
     return templates.TemplateResponse(
         "list.html",
@@ -1380,9 +1465,21 @@ def admin_new(request: Request, kind: str):
         raise HTTPException(status_code=404)
     spec = KINDS[kind]
     values = {field.name: "" for field in spec.fields}
+    preview_base = preview_base_url(request)
     return templates.TemplateResponse(
         "form.html",
-        admin_context(request, kind=spec, values=values, slug="", status="published", item_id=None, **form_image_kwargs(spec, values)),
+        admin_context(
+            request,
+            kind=spec,
+            values=values,
+            slug="",
+            status="published",
+            item_id=None,
+            preview_base=preview_base,
+            preview_url=preview_url_for(kind, "", locale="en", base=preview_base),
+            preview_url_hi=preview_url_for(kind, "", locale="hi", base=preview_base),
+            **form_image_kwargs(spec, values),
+        ),
     )
 
 
@@ -1412,6 +1509,8 @@ def admin_edit(request: Request, kind: str, item_id: int):
         except Exception as error:
             values[field.name] = ""
             form_error = form_error or f"Could not unpack {field.label}: {error}"
+    preview_base = preview_base_url(request)
+    slug_val = row.get("slug") or ""
     try:
         return templates.TemplateResponse(
             "form.html",
@@ -1419,10 +1518,13 @@ def admin_edit(request: Request, kind: str, item_id: int):
                 request,
                 kind=spec,
                 values=values,
-                slug=row.get("slug") or "",
+                slug=slug_val,
                 status=row.get("status") or "published",
                 item_id=item_id,
                 error=form_error,
+                preview_base=preview_base,
+                preview_url=preview_url_for(kind, slug_val, locale="en", base=preview_base),
+                preview_url_hi=preview_url_for(kind, slug_val, locale="hi", base=preview_base),
                 **form_image_kwargs(spec, values),
             ),
         )
@@ -1482,13 +1584,19 @@ def admin_edit_json(request: Request, kind: str, item_id: int):
     if not row:
         raise HTTPException(status_code=404)
     data = parse_data(row.get("data"))
+    preview_base = preview_base_url(request)
+    slug_val = row.get("slug") or ""
     return templates.TemplateResponse(
         "json_edit.html",
         admin_context(
             request,
             kind=spec,
             item_id=item_id,
+            slug=slug_val,
             json_text=dump_entry_json(row),
+            preview_base=preview_base,
+            preview_url=preview_url_for(kind, slug_val, locale="en", base=preview_base),
+            preview_url_hi=preview_url_for(kind, slug_val, locale="hi", base=preview_base),
             **form_image_kwargs(spec, data),
         ),
     )
@@ -1503,6 +1611,8 @@ async def admin_save_json(request: Request, kind: str, item_id: int, json_text: 
     row = db().fetchone("SELECT * FROM cms_entries WHERE id = ? AND kind = ?", [item_id, kind])
     if not row:
         raise HTTPException(status_code=404)
+    preview_base = preview_base_url(request)
+    slug_val = row.get("slug") or ""
 
     def render_json_error(message: str, text: str):
         return templates.TemplateResponse(
@@ -1511,8 +1621,12 @@ async def admin_save_json(request: Request, kind: str, item_id: int, json_text: 
                 request,
                 kind=spec,
                 item_id=item_id,
+                slug=slug_val,
                 json_text=text,
                 error=message,
+                preview_base=preview_base,
+                preview_url=preview_url_for(kind, slug_val, locale="en", base=preview_base),
+                preview_url_hi=preview_url_for(kind, slug_val, locale="hi", base=preview_base),
                 **form_image_kwargs(spec, parse_data(row.get("data"))),
             ),
             status_code=400,

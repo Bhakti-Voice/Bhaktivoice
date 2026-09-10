@@ -60,6 +60,12 @@
               <td>{{ row.slug }}</td>
               <td>{{ row.status }}</td>
               <td class="row">
+                <div class="preview-btn-group" title="Preview page (Excluded from Google Analytics &amp; Noindex)">
+                  <a class="btn ghost preview-btn" href="{{ row.preview_url }}" target="_blank" rel="noopener noreferrer nofollow" title="Preview English page (Untracked &amp; Noindex)">👁️ Preview</a>
+                  {% if row.preview_url_hi %}
+                    <a class="btn ghost preview-btn preview-hi-btn" href="{{ row.preview_url_hi }}" target="_blank" rel="noopener noreferrer nofollow" title="Preview Hindi page (Untracked &amp; Noindex)">HI</a>
+                  {% endif %}
+                </div>
                 <a class="btn ghost" href="/admin/{{ kind.key }}/{{ row.id }}/edit">Edit</a>
                 <a class="btn ghost" href="/admin/{{ kind.key }}/{{ row.id }}/json">Edit JSON</a>
                 <form method="post" action="/admin/{{ kind.key }}/{{ row.id }}/delete" onsubmit="return confirm('Delete this entry?');">

@@ -1,6 +1,22 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/seo/site";
 
+const PREVIEW_DISALLOW = [
+  "/*?*preview=*",
+  "/*?*admin_preview=*",
+  "/api/preview",
+  "/api/preview/*",
+  "/api/disable-preview",
+];
+
+const BOT_DISALLOW = [
+  "/admin",
+  "/api",
+  "/api/",
+  "/api/backend",
+  ...PREVIEW_DISALLOW,
+];
+
 const PRIVATE = [
   "/profile",
   "/account",
@@ -20,6 +36,7 @@ const PRIVATE = [
   "/hi/cart",
   "/hi/login",
   "/hi/search",
+  ...PREVIEW_DISALLOW,
 ];
 
 export default function robots(): MetadataRoute.Robots {
@@ -33,17 +50,17 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "Googlebot",
         allow: "/",
-        disallow: ["/admin", "/api", "/api/", "/api/backend"],
+        disallow: BOT_DISALLOW,
       },
       {
         userAgent: "Googlebot-Image",
         allow: "/",
-        disallow: ["/admin", "/api", "/api/", "/api/backend"],
+        disallow: BOT_DISALLOW,
       },
       {
         userAgent: "Bingbot",
         allow: "/",
-        disallow: ["/admin", "/api", "/api/", "/api/backend"],
+        disallow: BOT_DISALLOW,
       },
       // AI Search Engines & Generative Search Bots (GEO)
       {

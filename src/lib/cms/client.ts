@@ -157,15 +157,36 @@ async function withLocaleQuery(path: string) {
   return `${path}${join}locale=${locale}`;
 }
 
+async function isDraftModeActive(): Promise<boolean> {
+  try {
+    const { draftMode } = await import("next/headers");
+    const draft = await draftMode();
+    return draft.isEnabled;
+  } catch {
+    return false;
+  }
+}
+
 export function cmsUrl(path = "") {
   return `${CMS_API_URL}${path}`;
 }
 
 export async function listContent<T>(kind: string): Promise<T[]> {
+  const isDraft = await isDraftModeActive();
+  if (isDraft) {
+    const previewPath = await withLocaleQuery(`/api/content/${kind}?preview=true`);
+    return cmsGet<T[]>(previewPath, [], false);
+  }
   return cachedCmsGet<T[]>(await withLocaleQuery(`/api/content/${kind}`), [], CONTENT_REVALIDATE);
 }
 
 export async function getContent<T>(kind: string, slug: string): Promise<T | null> {
+  const isDraft = await isDraftModeActive();
+  if (isDraft) {
+    const previewPath = await withLocaleQuery(`/api/content/${kind}/${encodeURIComponent(slug)}?preview=true`);
+    return cmsGet<T | null>(previewPath, null, false);
+  }
+
   const path = await withLocaleQuery(`/api/content/${kind}/${encodeURIComponent(slug)}`);
   const cached = await cachedCmsGet<T | null>(path, null, CONTENT_REVALIDATE);
   if (cached !== null) return cached;

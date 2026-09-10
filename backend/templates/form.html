@@ -2,8 +2,16 @@
 {% block title %}{{ kind.label }}{% endblock %}
 {% block content %}
   <p><a href="/admin/{{ kind.key }}">← {{ kind.plural }}</a></p>
-    <h1>{% if item_id %}Edit{% else %}New{% endif %} {{ kind.label }}</h1>
-    <p class="hint">English is the default public page. Fill every “(Hindi)” field so <code>/hi</code> shows a full translation. Empty Hindi fields fall back to English. One Turso row, one slug, two languages.</p>
+  <div class="row" style="justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+    <div>
+      <h1>{% if item_id %}Edit{% else %}New{% endif %} {{ kind.label }}</h1>
+      <p class="hint">English is the default public page. Fill every “(Hindi)” field so <code>/hi</code> shows a full translation. Empty Hindi fields fall back to English. One Turso row, one slug, two languages.</p>
+    </div>
+    <div class="row" style="margin-top: 0.5rem;">
+      <a class="btn ghost preview-btn" id="preview-btn-top-en" href="{{ preview_url }}" target="_blank" rel="noopener noreferrer nofollow" title="Preview English page (Excluded from GA &amp; Noindex)">👁️ Preview (EN)</a>
+      <a class="btn ghost preview-btn" id="preview-btn-top-hi" href="{{ preview_url_hi }}" target="_blank" rel="noopener noreferrer nofollow" title="Preview Hindi page (Excluded from GA &amp; Noindex)">👁️ Preview (HI)</a>
+    </div>
+  </div>
   <form class="card" method="post" action="/admin/{{ kind.key }}/save" id="entry-form" accept-charset="UTF-8">
     {% if item_id %}<input type="hidden" name="item_id" value="{{ item_id }}" />{% endif %}
     <label>Status
@@ -64,12 +72,19 @@
     {% else %}
       <p class="hint">Leave blank and we build a long slug from the title — not a one-word URL.</p>
     {% endif %}
-    <p style="margin-top: 1.4rem;" class="row">
-      <button class="btn" type="submit">Save to Turso</button>
-      {% if item_id %}
-        <a class="btn ghost" href="/admin/{{ kind.key }}/{{ item_id }}/json">Edit JSON</a>
-      {% endif %}
-    </p>
+    <div style="margin-top: 1.6rem; padding-top: 1.2rem; border-top: 1px solid var(--line);">
+      <div class="row" style="justify-content: space-between; align-items: center;">
+        <div class="row">
+          <button class="btn" type="submit">Save to Turso</button>
+          <a class="btn ghost preview-btn" id="preview-btn-bottom-en" href="{{ preview_url }}" target="_blank" rel="noopener noreferrer nofollow" title="Preview English page (Excluded from GA &amp; Noindex)">👁️ Preview (EN)</a>
+          <a class="btn ghost preview-btn" id="preview-btn-bottom-hi" href="{{ preview_url_hi }}" target="_blank" rel="noopener noreferrer nofollow" title="Preview Hindi page (Excluded from GA &amp; Noindex)">👁️ Preview (HI)</a>
+          {% if item_id %}
+            <a class="btn ghost" href="/admin/{{ kind.key }}/{{ item_id }}/json">Edit JSON</a>
+          {% endif %}
+        </div>
+        <span class="hint" style="margin: 0;">🔒 Preview pages are excluded from Google Analytics &amp; blocked from search engines (noindex).</span>
+      </div>
+    </div>
   </form>
   <script>
     const form = document.getElementById("entry-form");
@@ -77,6 +92,7 @@
     const preview = document.getElementById("slug-preview");
     const prefix = "{{ kind.path }}";
     const kindKey = "{{ kind.key }}";
+    const previewBase = "{{ preview_base }}";
     const tails = {
       katha: "katha stories and leelas for daily listening",
       blog: "bhakti guide for devotees and sadhana",
@@ -115,10 +131,25 @@
       if (parts.length < 5 && tails[kindKey]) parts.push(...words(tails[kindKey]));
       return unique(parts).slice(0, 12).join("-");
     }
+    function updatePreviewButtons(currentSlug) {
+      const s = (currentSlug || "").trim();
+      const enUrl = "/admin/preview?kind=" + encodeURIComponent(kindKey) + "&slug=" + encodeURIComponent(s) + "&locale=en";
+      const hiUrl = "/admin/preview?kind=" + encodeURIComponent(kindKey) + "&slug=" + encodeURIComponent(s) + "&locale=hi";
+      ["preview-btn-top-en", "preview-btn-bottom-en"].forEach(function(id) {
+        const el = document.getElementById(id);
+        if (el) el.href = enUrl;
+      });
+      ["preview-btn-top-hi", "preview-btn-bottom-hi"].forEach(function(id) {
+        const el = document.getElementById(id);
+        if (el) el.href = hiUrl;
+      });
+    }
     function render() {
       if (kindKey !== "hub_seo" && !touched) slugInput.value = buildSlug();
-      preview.textContent = "English: " + prefix + "/" + (slugInput.value || "built-from-the-title")
-        + "  ·  Hindi: /hi" + prefix + "/" + (slugInput.value || "built-from-the-title");
+      const currentSlug = slugInput.value;
+      preview.textContent = "English: " + prefix + "/" + (currentSlug || "built-from-the-title")
+        + "  ·  Hindi: /hi" + prefix + "/" + (currentSlug || "built-from-the-title");
+      updatePreviewButtons(currentSlug);
     }
     form.addEventListener("input", render);
     render();

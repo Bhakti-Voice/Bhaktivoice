@@ -11,7 +11,9 @@ import { LocaleRoot } from "@/components/i18n/LocaleRoot";
 import { OpenDetailsOnHash } from "@/components/seo/OpenDetailsOnHash";
 import { organizationSchema, websiteSchema } from "@/lib/seo/schema";
 import { SITE, absoluteUrl } from "@/lib/seo/site";
+import { Suspense } from "react";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
+import { AdminPreviewBar } from "@/components/admin/AdminPreviewBar";
 import { getGaMeasurementId } from "@/lib/analytics/ga";
 
 const playfair = Playfair_Display({
@@ -100,6 +102,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className={`${playfair.variable} ${inter.variable} ${devanagari.variable} bg-ivory text-ink antialiased`}>
         <LocaleRoot>
+        <Suspense fallback={null}>
+          <AdminPreviewBar />
+        </Suspense>
         <GoogleAnalytics measurementId={gaId} />
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
         <OpenDetailsOnHash />
