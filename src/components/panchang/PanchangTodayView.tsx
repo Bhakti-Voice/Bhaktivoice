@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
   Bell,
@@ -23,8 +23,11 @@ import {
   Sunset,
 } from "lucide-react";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
-import { CITIES, DEFAULT_CITY, getCityById, type CityConfig } from "@/lib/panchang/cities";
+import { DEFAULT_CITY, getCityById, type CityConfig } from "@/lib/panchang/cities";
+import { CityPickerButton } from "./CityPickerButton";
 import { getPanchang } from "@/lib/panchang/engine";
+import { getDailyEphemeris } from "@/lib/panchang/ephemeris-engine";
+import { GrahaSthitiTable } from "./GrahaSthitiTable";
 import { MoonPhaseIcon } from "@/components/calendar/MoonPhaseIcon";
 import type { DayPanchang } from "@/lib/panchang/types";
 import { useLocale } from "@/lib/i18n/client";
@@ -44,9 +47,35 @@ export function PanchangTodayView({
   const locale = useLocale();
   const isHi = locale === "hi";
 
-  const [city, setCity] = useState<CityConfig>(getCityById(initialCityId));
+  const [city, setCity] = useState<CityConfig>(() => getCityById(initialCityId));
   const [choghadiyaTab, setChoghadiyaTab] = useState<"day" | "night">("day");
   const [copied, setCopied] = useState(false);
+
+  // Sync with localStorage on client mount if no explicit initialCityId
+  useEffect(() => {
+    if (initialCityId) return;
+    try {
+      const stored = localStorage.getItem("bhakti_selected_city_config");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed?.id && typeof parsed.latitude === "number" && typeof parsed.longitude === "number") {
+          setCity(parsed);
+        }
+      }
+    } catch {
+      // Ignore storage error
+    }
+  }, [initialCityId]);
+
+  const handleCityChange = (newCity: CityConfig) => {
+    setCity(newCity);
+    try {
+      localStorage.setItem("bhakti_selected_city_config", JSON.stringify(newCity));
+      localStorage.setItem("bhakti_selected_city", newCity.id);
+    } catch {
+      // Ignore storage error
+    }
+  };
 
   // Compute base date
   const targetDate = useMemo(() => {
@@ -66,6 +95,10 @@ export function PanchangTodayView({
 
   const panchang: DayPanchang = useMemo(() => {
     return getPanchang(targetDate, city);
+  }, [targetDate, city]);
+
+  const ephemeris = useMemo(() => {
+    return getDailyEphemeris(targetDate, city);
   }, [targetDate, city]);
 
   function formatTime(d: Date | null): string {
@@ -129,23 +162,7 @@ export function PanchangTodayView({
 
           {/* City Selector & Action buttons */}
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-            <div className="relative flex items-center">
-              <MapPin className="pointer-events-none absolute left-3 h-4 w-4 text-saffron" />
-              <select
-                value={city.id}
-                onChange={(e) => {
-                  const c = CITIES.find((item) => item.id === e.target.value) || CITIES[0];
-                  setCity(c);
-                }}
-                className="rounded-2xl border border-line bg-white py-2 pl-9 pr-8 text-xs font-medium text-ink shadow-xs focus:border-saffron focus:outline-hidden sm:text-sm"
-              >
-                {CITIES.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {isHi ? `${c.nameHi} (${c.name})` : `${c.name} (${c.nameHi})`}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <CityPickerButton city={city} onCityChange={handleCityChange} isHi={isHi} />
 
             <button
               onClick={handleCopy}
@@ -215,6 +232,65 @@ export function PanchangTodayView({
           </div>
         </div>
       )}
+
+      {/* Quick Panchang & Vedic Astrology Navigation */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+        <LocaleLink
+          href={PATHS.grahaSthiti}
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-2xl border border-sand bg-white px-3.5 py-2 text-xs font-bold text-ink shadow-2xs transition hover:border-saffron hover:bg-saffron hover:text-white"
+        >
+          <span>🪐</span>
+          <span>{isHi ? "दैनिक ग्रह स्थिति" : "Planetary Ephemeris"}</span>
+        </LocaleLink>
+
+        <LocaleLink
+          href={PATHS.gochar}
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-2xl border border-sand bg-white px-3.5 py-2 text-xs font-bold text-ink shadow-2xs transition hover:border-saffron hover:bg-saffron hover:text-white"
+        >
+          <span>🌌</span>
+          <span>{isHi ? "दैनिक ग्रह गोचर" : "Daily Gochar (Transits)"}</span>
+        </LocaleLink>
+
+        <LocaleLink
+          href={PATHS.sadeSati}
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-2xl border border-sand bg-white px-3.5 py-2 text-xs font-bold text-ink shadow-2xs transition hover:border-saffron hover:bg-saffron hover:text-white"
+        >
+          <span>⚖️</span>
+          <span>{isHi ? "शनि साढ़े साती कैलकुलेटर" : "Shani Sade Sati"}</span>
+        </LocaleLink>
+
+        <LocaleLink
+          href={PATHS.ekadashi}
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-2xl border border-sand bg-white px-3.5 py-2 text-xs font-bold text-ink shadow-2xs transition hover:border-saffron hover:bg-saffron hover:text-white"
+        >
+          <span>🪔</span>
+          <span>{isHi ? "एकादशी पारणा समय" : "Ekadashi Parana"}</span>
+        </LocaleLink>
+
+        <LocaleLink
+          href={PATHS.choghadiya}
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-2xl border border-sand bg-white px-3.5 py-2 text-xs font-bold text-ink shadow-2xs transition hover:border-saffron hover:bg-saffron hover:text-white"
+        >
+          <span>🕒</span>
+          <span>{isHi ? "चौघड़िया मुहूर्त" : "Choghadiya"}</span>
+        </LocaleLink>
+
+        <LocaleLink
+          href={PATHS.hora}
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-2xl border border-sand bg-white px-3.5 py-2 text-xs font-bold text-ink shadow-2xs transition hover:border-saffron hover:bg-saffron hover:text-white"
+        >
+          <span>⏳</span>
+          <span>{isHi ? "दैनिक होरा चक्र" : "Hora"}</span>
+        </LocaleLink>
+
+        <LocaleLink
+          href={PATHS.gowriPanchangam}
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-2xl border border-sand bg-white px-3.5 py-2 text-xs font-bold text-ink shadow-2xs transition hover:border-saffron hover:bg-saffron hover:text-white"
+        >
+          <span>🌿</span>
+          <span>{isHi ? "गौरी पंचांगम" : "Gowri Panchangam"}</span>
+        </LocaleLink>
+      </div>
 
       {/* The 5 Vedic Limbs (Pancha-Anga) */}
       <section className="space-y-4">
@@ -572,6 +648,11 @@ export function PanchangTodayView({
           </div>
         </section>
       )}
+
+      {/* Planetary Ephemeris (Graha Sthiti) */}
+      <section className="space-y-4">
+        <GrahaSthitiTable ephemeris={ephemeris} isHi={isHi} />
+      </section>
     </div>
   );
 }

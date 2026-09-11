@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { CITIES, DEFAULT_CITY, getCityById, type CityConfig } from "@/lib/panchang/cities";
+import { DEFAULT_CITY, getCityById, type CityConfig } from "@/lib/panchang/cities";
 import { getFestivalBySlug, getMonthCalendar, getPanchang, getUpcomingFestivals } from "@/lib/panchang/engine";
 import type { CalendarDay, FestivalCategory, FestivalDetail } from "@/lib/panchang/types";
 import { CalendarGrid } from "./CalendarGrid";
@@ -40,6 +40,32 @@ export function CalendarView({
   const [year, setYear] = useState<number>(defaultYear);
   const [month, setMonth] = useState<number>(defaultMonth);
   const [city, setCity] = useState<CityConfig>(defaultCity);
+
+  // Sync with localStorage on client mount if no explicit URL param
+  useEffect(() => {
+    if (initialCityId || searchParams.get("city")) return;
+    try {
+      const stored = localStorage.getItem("bhakti_selected_city_config");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed?.id && typeof parsed.latitude === "number" && typeof parsed.longitude === "number") {
+          setCity(parsed);
+        }
+      }
+    } catch {
+      // Ignore
+    }
+  }, [initialCityId, searchParams]);
+
+  const handleCityChange = (newCity: CityConfig) => {
+    setCity(newCity);
+    try {
+      localStorage.setItem("bhakti_selected_city_config", JSON.stringify(newCity));
+      localStorage.setItem("bhakti_selected_city", newCity.id);
+    } catch {
+      // Ignore
+    }
+  };
   const [activeCategory, setActiveCategory] = useState<FestivalCategory>("all");
   const [selectedDateString, setSelectedDateString] = useState<string>(defaultDateStr);
   const [modalFestival, setModalFestival] = useState<FestivalDetail | null>(null);
@@ -142,7 +168,7 @@ export function CalendarView({
         activeCategory={activeCategory}
         onYearChange={(newYear) => setYear(newYear)}
         onMonthChange={(newMonth) => setMonth(newMonth)}
-        onCityChange={(newCity) => setCity(newCity)}
+        onCityChange={handleCityChange}
         onCategoryChange={(cat) => setActiveCategory(cat)}
         onTodayClick={handleTodayClick}
         onPrintClick={handlePrint}

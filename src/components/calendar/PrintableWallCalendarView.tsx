@@ -9,6 +9,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { CITIES, getCityById, type CityConfig } from "@/lib/panchang/cities";
+import { CityPickerButton } from "@/components/panchang/CityPickerButton";
 import { getMonthCalendar } from "@/lib/panchang/engine";
 import { MONTH_NAMES_EN, MONTH_NAMES_HI } from "@/lib/panchang/names";
 import type { CalendarDay, Observance } from "@/lib/panchang/types";
@@ -184,20 +185,7 @@ export function PrintableWallCalendarView({
         {/* City Switcher & Print Button */}
         <div className="flex flex-wrap items-center gap-2.5">
           {/* City Selector */}
-          <div className="flex items-center gap-1.5 rounded-2xl border border-line bg-white px-3 py-1.5 shadow-xs">
-            <MapPin className="h-3.5 w-3.5 text-saffron" />
-            <select
-              value={city.id}
-              onChange={(e) => setCity(getCityById(e.target.value))}
-              className="bg-transparent text-xs font-semibold text-ink focus:outline-none cursor-pointer"
-            >
-              {CITIES.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {isHi ? c.nameHi : c.name} ({c.state})
-                </option>
-              ))}
-            </select>
-          </div>
+          <CityPickerButton city={city} onCityChange={setCity} isHi={isHi} variant="compact" />
 
           {/* Direct Print / Save as PDF Button */}
           <button

@@ -36,6 +36,7 @@ import type {
   YogaSnapshot,
 } from "./types";
 import type { CityConfig } from "./cities";
+export type { CityConfig };
 
 export const NAKSHATRA_SPAN = 360 / 27; // 13.333333°
 export const TITHI_SPAN = 360 / 30; // 12°
@@ -102,11 +103,52 @@ export function weekdayForZone(date: Date, timeZone: string): number {
   return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(weekday);
 }
 
-/** Midnight at the start of this civil day in city's time zone. */
+/**
+ * Calculates the exact millisecond offset between local civil time and UTC
+ * for a specific date in any IANA time zone.
+ * Automatically handles Daylight Saving Time (DST) across centuries.
+ */
+export function getTimezoneOffsetMs(date: Date, timeZone: string): number {
+  try {
+    const formatter = new Intl.DateTimeFormat("en-US", {
+      timeZone,
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      hourCycle: "h23",
+    });
+    const parts = formatter.formatToParts(date);
+    const p: Record<string, number> = {};
+    for (const part of parts) {
+      if (part.type !== "literal") {
+        p[part.type] = parseInt(part.value, 10);
+      }
+    }
+    const localAsUtc = Date.UTC(p.year, (p.month || 1) - 1, p.day, (p.hour || 0) % 24, p.minute || 0, p.second || 0);
+    return localAsUtc - date.getTime();
+  } catch {
+    // Fallback to IST (+05:30) if invalid timezone passed
+    return (5 * 60 + 30) * 60 * 1000;
+  }
+}
+
+/** 
+ * Midnight (00:00:00 local time) at the start of this civil day in city's time zone.
+ * Automatically handles Daylight Saving Time (DST) and historical timezone shifts.
+ */
 export function startOfDayForZone(date: Date, timeZone: string): Date {
   const { year, month, day } = calendarDateForZone(date, timeZone);
-  // IST offset is UTC + 5:30 = 330 mins
-  return new Date(Date.UTC(year, month - 1, day, 0, 0, 0) - (5 * 60 + 30) * 60 * 1000);
+  const approxUtc = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
+  const offsetMs = getTimezoneOffsetMs(approxUtc, timeZone);
+  let midnight = new Date(approxUtc.getTime() - offsetMs);
+  const actualOffsetMs = getTimezoneOffsetMs(midnight, timeZone);
+  if (actualOffsetMs !== offsetMs) {
+    midnight = new Date(approxUtc.getTime() - actualOffsetMs);
+  }
+  return midnight;
 }
 
 export function getSunrise(date: Date, city: CityConfig): Date {

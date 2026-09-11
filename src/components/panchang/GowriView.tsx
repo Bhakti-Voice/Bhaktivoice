@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Clock,
   Compass,
@@ -15,18 +15,11 @@ import {
   Sunrise,
   Sunset,
 } from "lucide-react";
-import { CITIES, DEFAULT_CITY, getCityById, type CityConfig } from "@/lib/panchang/cities";
+import { DEFAULT_CITY, getCityById, type CityConfig } from "@/lib/panchang/cities";
+import { CityPickerButton } from "./CityPickerButton";
 import { getPanchang } from "@/lib/panchang/engine";
 import type { GowriPeriod } from "@/lib/panchang/gowri";
 import { useLocale } from "@/lib/i18n/client";
-
-function formatTime(date: Date): string {
-  return date.toLocaleTimeString("en-IN", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  });
-}
 
 export function GowriView({ initialCityId }: { initialCityId?: string }) {
   const locale = useLocale();
@@ -35,6 +28,41 @@ export function GowriView({ initialCityId }: { initialCityId?: string }) {
   const [city, setCity] = useState<CityConfig>(() => getCityById(initialCityId) || DEFAULT_CITY);
   const [tab, setTab] = useState<"day" | "night">("day");
   const [copied, setCopied] = useState(false);
+
+  // Sync with localStorage on client mount if no explicit initialCityId
+  useEffect(() => {
+    if (initialCityId) return;
+    try {
+      const stored = localStorage.getItem("bhakti_selected_city_config");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed?.id && typeof parsed.latitude === "number" && typeof parsed.longitude === "number") {
+          setCity(parsed);
+        }
+      }
+    } catch {
+      // Ignore
+    }
+  }, [initialCityId]);
+
+  const handleCityChange = (newCity: CityConfig) => {
+    setCity(newCity);
+    try {
+      localStorage.setItem("bhakti_selected_city_config", JSON.stringify(newCity));
+      localStorage.setItem("bhakti_selected_city", newCity.id);
+    } catch {
+      // Ignore
+    }
+  };
+
+  function formatTime(date: Date): string {
+    return new Intl.DateTimeFormat(isHi ? "hi-IN" : "en-IN", {
+      timeZone: city.timeZone,
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    }).format(date);
+  }
 
   const now = useMemo(() => new Date(), []);
   const panchang = useMemo(() => getPanchang(now, city), [now, city]);
@@ -95,20 +123,7 @@ export function GowriView({ initialCityId }: { initialCityId?: string }) {
 
           <div className="flex items-center gap-2 self-start sm:self-auto">
             {/* City Selector */}
-            <div className="flex items-center gap-1.5 rounded-2xl border border-line bg-white px-3 py-2 shadow-xs">
-              <MapPin className="h-4 w-4 text-saffron" />
-              <select
-                value={city.id}
-                onChange={(e) => setCity(getCityById(e.target.value))}
-                className="bg-transparent text-xs sm:text-sm font-semibold text-ink focus:outline-none cursor-pointer"
-              >
-                {CITIES.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {isHi ? c.nameHi : c.name} ({c.state})
-                  </option>
-                ))}
-              </select>
-            </div>
+            <CityPickerButton city={city} onCityChange={handleCityChange} isHi={isHi} />
 
             <button
               type="button"

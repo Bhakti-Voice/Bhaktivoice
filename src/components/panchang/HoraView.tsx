@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Clock,
   Sun,
@@ -13,7 +13,8 @@ import {
   Copy,
   Check,
 } from "lucide-react";
-import { CITIES, DEFAULT_CITY, getCityById, type CityConfig } from "@/lib/panchang/cities";
+import { DEFAULT_CITY, getCityById, type CityConfig } from "@/lib/panchang/cities";
+import { CityPickerButton } from "./CityPickerButton";
 import { getSunrise, getSunset } from "@/lib/panchang/astronomy";
 import { calculateHoras, type HoraPeriod } from "@/lib/panchang/hora";
 import { useLocale } from "@/lib/i18n/client";
@@ -22,12 +23,36 @@ export function HoraView({ initialCityId }: { initialCityId?: string }) {
   const locale = useLocale();
   const isHi = locale === "hi";
 
-  const [selectedCityId, setSelectedCityId] = useState<string>(initialCityId || DEFAULT_CITY.id);
+  const [city, setCity] = useState<CityConfig>(() => getCityById(initialCityId));
   const [tab, setTab] = useState<"day" | "night">("day");
   const [copied, setCopied] = useState(false);
   const [dateOffset, setDateOffset] = useState<number>(0);
 
-  const city: CityConfig = useMemo(() => getCityById(selectedCityId), [selectedCityId]);
+  // Sync with localStorage on client mount if no explicit initialCityId
+  useEffect(() => {
+    if (initialCityId) return;
+    try {
+      const stored = localStorage.getItem("bhakti_selected_city_config");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed?.id && typeof parsed.latitude === "number" && typeof parsed.longitude === "number") {
+          setCity(parsed);
+        }
+      }
+    } catch {
+      // Ignore
+    }
+  }, [initialCityId]);
+
+  const handleCityChange = (newCity: CityConfig) => {
+    setCity(newCity);
+    try {
+      localStorage.setItem("bhakti_selected_city_config", JSON.stringify(newCity));
+      localStorage.setItem("bhakti_selected_city", newCity.id);
+    } catch {
+      // Ignore
+    }
+  };
 
   const targetDate = useMemo(() => {
     const d = new Date();
@@ -105,21 +130,7 @@ export function HoraView({ initialCityId }: { initialCityId?: string }) {
             </button>
           </div>
 
-          <div className="flex items-center gap-2">
-            <MapPin className="h-4 w-4 text-saffron" />
-            <span className="text-xs font-medium text-muted">{isHi ? "स्थान:" : "City:"}</span>
-            <select
-              value={selectedCityId}
-              onChange={(e) => setSelectedCityId(e.target.value)}
-              className="rounded-xl border border-line bg-white px-3 py-1.5 text-xs font-semibold text-ink shadow-2xs focus:border-saffron focus:outline-none"
-            >
-              {CITIES.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {isHi ? `${c.nameHi} (${c.stateHi})` : `${c.name}, ${c.state || c.country}`}
-                </option>
-              ))}
-            </select>
-          </div>
+          <CityPickerButton city={city} onCityChange={handleCityChange} isHi={isHi} variant="compact" />
         </div>
       </div>
 

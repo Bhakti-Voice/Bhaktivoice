@@ -12,6 +12,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { CITIES, type CityConfig } from "@/lib/panchang/cities";
+import { CityPickerButton } from "@/components/panchang/CityPickerButton";
 import { MONTH_NAMES_EN, MONTH_NAMES_HI } from "@/lib/panchang/names";
 import type { FestivalCategory } from "@/lib/panchang/types";
 import { useLocale } from "@/lib/i18n/client";
@@ -152,24 +153,7 @@ export function CalendarHeader({
         {/* City Selector & Action Utilities */}
         <div className="flex w-full min-w-0 items-center justify-between gap-2 border-t border-line/60 pt-2.5 sm:gap-3 md:w-auto md:border-t-0 md:pt-0">
           {/* Location Selector */}
-          <div className="relative min-w-0 flex-1 md:w-52">
-            <MapPin className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-saffron sm:left-3 sm:h-4 sm:w-4" />
-            <select
-              value={city.id}
-              onChange={(e) => {
-                const selected = CITIES.find((c) => c.id === e.target.value) || CITIES[0];
-                onCityChange(selected);
-              }}
-              aria-label={isHi ? "पंचांग गणना हेतु शहर चुनें" : "Select City for Panchang Calculations"}
-              className="w-full truncate rounded-xl border border-line bg-white py-1.5 pl-8 pr-6 text-xs font-medium text-ink shadow-2xs transition focus:border-saffron focus:outline-hidden sm:rounded-2xl sm:py-2 sm:pl-9 sm:pr-8 sm:text-sm"
-            >
-              {CITIES.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {isHi ? `${c.nameHi} (${c.name})` : `${c.name} (${c.nameHi})`}
-                </option>
-              ))}
-            </select>
-          </div>
+          <CityPickerButton city={city} onCityChange={onCityChange} isHi={isHi} variant="compact" />
 
           {/* Action Icons (Export, Print, Share) */}
           <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">

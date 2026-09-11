@@ -42,5 +42,9 @@ export const PATHS = {
   gowriPanchangam: "/gowri-panchangam",
   babyNames: "/baby-names",
   printableCalendar: "/printable-calendar",
+  grahaSthiti: "/panchang/graha-sthiti",
+  gochar: "/panchang/gochar",
+  sadeSati: "/kundli/sade-sati",
+  ekadashi: "/vrat-upavas/ekadashi",
 } as const;
 
