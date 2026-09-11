@@ -33,7 +33,7 @@ export default async function SpiritualityDetailPage({ params }: Props) {
   if (!page) notFound();
 
   return (
-    <ArticleLayout page={page} path={`${PATHS.spirituality}/${page.slug}`}>
+    <ArticleLayout page={page} path={`${PATHS.spirituality}/${page.slug}`} hideCta>
       <div className="space-y-6">
         {(page.sections ?? []).map((section) => (
           <section

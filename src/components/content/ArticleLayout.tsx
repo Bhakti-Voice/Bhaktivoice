@@ -11,6 +11,7 @@ import { ProseText } from "@/components/content/SectionBody";
 import { YouTubeEmbed } from "@/components/content/YouTubeEmbed";
 import type { SeoPage } from "@/lib/content/types";
 import { localizedArticleSchema } from "@/lib/seo/localized-schema";
+import { PATHS } from "@/lib/seo/paths";
 
 export async function ArticleLayout({
   page,
@@ -19,6 +20,7 @@ export async function ArticleLayout({
   lead,
   schema,
   coverClassName = ARTICLE_COVER_CLASS,
+  hideCta = false,
 }: {
   page: SeoPage;
   path: string;
@@ -26,6 +28,7 @@ export async function ArticleLayout({
   lead?: ReactNode;
   schema?: object | null;
   coverClassName?: string;
+  hideCta?: boolean;
 }) {
   return (
     <article className="mx-auto max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
@@ -121,7 +124,7 @@ export async function ArticleLayout({
         {/* Sticky Sidebar */}
         <aside className="h-fit space-y-5 lg:sticky lg:top-24">
           <BlogShare title={page.title} path={path} />
-          {page.cta ? (
+          {page.cta && !hideCta && !path.startsWith(PATHS.spirituality) ? (
             <ContextualCta
               title={page.cta.title}
               body={page.cta.body}
