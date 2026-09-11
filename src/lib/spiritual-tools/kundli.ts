@@ -315,3 +315,5 @@ export function chartSummary(chart: KundliChart, locale: "en" | "hi" = "en"): st
     ? `लग्न ${chart.lagna.rashiHi} · चंद्र राशि ${chart.moon.rashiHi} (${chart.moon.nakshatraHi}, पाद ${chart.moon.pada}) · सूर्य राशि ${chart.sun.rashiHi}`
     : `Lagna ${chart.lagna.rashi} · Moon Sign ${chart.moon.rashi} (${chart.moon.nakshatra}, Pada ${chart.moon.pada}) · Sun Sign ${chart.sun.rashi}`;
 }
+
+export const calculateKundli = generateKundli;

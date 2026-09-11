@@ -47,5 +47,7 @@ export const PATHS = {
   sadeSati: "/kundli/sade-sati",
   ekadashi: "/vrat-upavas/ekadashi",
   tarabalam: "/panchang/tarabalam",
+  manglikDosha: "/kundli/manglik-dosha",
+  kaalSarpDosha: "/kundli/kaal-sarp-dosha",
 } as const;
 

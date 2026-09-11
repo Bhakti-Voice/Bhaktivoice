@@ -87,6 +87,22 @@ export default async function SpiritualToolsPage() {
       icon: "sadeSati" as const,
     },
     {
+      href: PATHS.manglikDosha,
+      title: isHi ? "मांगलिक दोष कैलकुलेटर" : "Manglik Dosha Calculator",
+      description: isHi
+        ? "लग्न, चंद्र व शुक्र से सूक्ष्म त्रिपदा विचार, १६ शास्त्रीय परिहार (दोष भंग नियम) व प्रामाणिक सात्विक उपाय।"
+        : "Evaluate Kuja Dosha across Lagna, Moon, and Venus with 16 classical cancellations and authentic remedies.",
+      icon: "manglik" as const,
+    },
+    {
+      href: PATHS.kaalSarpDosha,
+      title: isHi ? "काल सर्प दोष कैलकुलेटर" : "Kaal Sarp Dosha Calculator",
+      description: isHi
+        ? "सभी १२ काल सर्प योग (अनंत से शेषनाग), उदित/अनुदित दिशा, ग्रह अक्षीय स्थिति और सात्विक शांति उपाय।"
+        : "Detect all 12 classical Kaal Sarp Yogas, Udit vs. Anudit Gola direction, and Shiva shanti remedies.",
+      icon: "kaalSarp" as const,
+    },
+    {
       href: PATHS.gochar,
       title: isHi ? "दैनिक ग्रह गोचर फल" : "Daily Planetary Transits (Gochar)",
       description: isHi

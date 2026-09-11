@@ -28,6 +28,8 @@ import { ManglikCard } from "./ManglikCard";
 import { KundliDashaTable } from "./KundliDashaTable";
 import { AshtakavargaTable } from "./AshtakavargaTable";
 import { PrintableKundliReport } from "./PrintableKundliReport";
+import { LocaleLink } from "@/components/i18n/LocaleLink";
+import { PATHS } from "@/lib/seo/paths";
 
 export function KundliTool() {
   const locale = useLocale();
@@ -235,6 +237,32 @@ export function KundliTool() {
               </p>
               <p className="text-xs font-medium text-saffron-deep">{isHi ? `पाद ${chart.moon.pada}` : `Pada ${chart.moon.pada}`}</p>
             </div>
+          </div>
+
+          {/* Quick Vedic Deep-Dive Links */}
+          <div className="flex flex-wrap items-center gap-2 text-xs">
+            <span className="text-muted font-medium">{isHi ? "विशिष्ट ज्योतिषीय विश्लेषण:" : "Specialized Astrological Tools:"}</span>
+            <LocaleLink
+              href={PATHS.manglikDosha}
+              className="inline-flex items-center gap-1.5 rounded-full border border-sand bg-white px-3 py-1 font-bold text-ink shadow-2xs hover:border-saffron hover:text-saffron-deep transition"
+            >
+              <Flame className="h-3.5 w-3.5 text-vermilion" />
+              {isHi ? "मांगलिक दोष (१६ परिहार)" : "Manglik Dosha (16 Apavadas)"}
+            </LocaleLink>
+            <LocaleLink
+              href={PATHS.kaalSarpDosha}
+              className="inline-flex items-center gap-1.5 rounded-full border border-sand bg-white px-3 py-1 font-bold text-ink shadow-2xs hover:border-saffron hover:text-saffron-deep transition"
+            >
+              <Compass className="h-3.5 w-3.5 text-purple-600" />
+              {isHi ? "काल सर्प योग (१२ प्रकार)" : "Kaal Sarp Yoga (12 Yogas)"}
+            </LocaleLink>
+            <LocaleLink
+              href={PATHS.sadeSati}
+              className="inline-flex items-center gap-1.5 rounded-full border border-sand bg-white px-3 py-1 font-bold text-ink shadow-2xs hover:border-saffron hover:text-saffron-deep transition"
+            >
+              <Clock className="h-3.5 w-3.5 text-saffron" />
+              {isHi ? "शनि साढ़े साती" : "Shani Sade Sati"}
+            </LocaleLink>
           </div>
 
           {/* Interactive Navigation Tabs */}
@@ -532,6 +560,16 @@ export function KundliTool() {
                         : "When both partners are Manglik, the dosha is mutually cancelled and harmonized."}
                     </p>
                   </div>
+                </div>
+
+                <div className="flex justify-end pt-2">
+                  <LocaleLink
+                    href={PATHS.manglikDosha}
+                    className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-saffron to-vermilion px-5 py-2.5 text-xs font-bold text-white shadow-sm hover:opacity-95 transition"
+                  >
+                    <Flame className="h-4 w-4" />
+                    {isHi ? "विस्तृत १६ शास्त्रीय परिहार कैलकुलेटर खोलें →" : "Open Full 16-Apavada Manglik Calculator →"}
+                  </LocaleLink>
                 </div>
               </div>
             </div>

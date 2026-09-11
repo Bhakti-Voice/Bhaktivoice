@@ -33,6 +33,8 @@ const ICONS: Record<string, ReactNode> = {
   hora: <Clock className="h-7 w-7 text-amber-600" aria-hidden />,
   printableCalendar: <Printer className="h-7 w-7 text-saffron" aria-hidden />,
   babyNames: <Heart className="h-7 w-7 text-rose-500" aria-hidden />,
+  manglik: <Shield className="h-7 w-7 text-vermilion" aria-hidden />,
+  kaalSarp: <Compass className="h-7 w-7 text-purple-600" aria-hidden />,
 };
 
 

@@ -51,6 +51,8 @@ const HUBS: { path: string; changeFrequency: MetadataRoute.Sitemap[0]["changeFre
   { path: PATHS.sadeSati, changeFrequency: "weekly", priority: 0.95 },
   { path: PATHS.ekadashi, changeFrequency: "daily", priority: 0.95 },
   { path: PATHS.tarabalam, changeFrequency: "daily", priority: 0.95 },
+  { path: PATHS.manglikDosha, changeFrequency: "weekly", priority: 0.95 },
+  { path: PATHS.kaalSarpDosha, changeFrequency: "weekly", priority: 0.95 },
   { path: PATHS.vratUpavas, changeFrequency: "daily", priority: 0.95 },
   { path: PATHS.grahan, changeFrequency: "weekly", priority: 0.85 },
   { path: PATHS.naamJaap, changeFrequency: "weekly", priority: 0.9 },
