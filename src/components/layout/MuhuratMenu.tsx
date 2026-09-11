@@ -18,16 +18,18 @@ const MUHURAT_COLUMNS: { items: MuhuratMenuItem[] }[] = [
   // Column 1
   {
     items: [
-      { href: "/muhurat#choghadiya", labelEn: "Choghadiya", labelHi: "चौघड़िया (दिन-रात)" },
-      { href: "/muhurat#shubha-hora", labelEn: "Shubha Hora", labelHi: "शुभ ग्रह होरा" },
+      { href: "/choghadiya", labelEn: "Choghadiya (Day & Night)", labelHi: "चौघड़िया (दिन-रात)" },
+      { href: "/hora", labelEn: "Planetary Hora", labelHi: "दैनिक ग्रह होरा" },
+      { href: "/bhadra", labelEn: "Bhadra Timings", labelHi: "भद्रा काल विचार" },
+      { href: "/panchak", labelEn: "Panchak 2026 Calendar", labelHi: "पंचक विचार एवं 2026 तारीखें" },
       { href: "/shubh-dates/vivah-muhurat", labelEn: "Vivah Muhurat", labelHi: "विवाह मुहूर्त 2026 (कैलेंडर)" },
       { href: "/shubh-dates/griha-pravesh", labelEn: "Griha Pravesh", labelHi: "गृह प्रवेश मुहूर्त (कैलेंडर)" },
-      { href: "/shubh-dates/property-purchase", labelEn: "Property Purchase", labelHi: "संपत्ति क्रय मुहूर्त (कैलेंडर)" },
     ],
   },
   // Column 2
   {
     items: [
+      { href: "/shubh-dates/property-purchase", labelEn: "Property Purchase", labelHi: "संपत्ति क्रय मुहूर्त (कैलेंडर)" },
       { href: "/shubh-dates/vehicle-purchase", labelEn: "Vehicle Purchase", labelHi: "वाहन क्रय मुहूर्त (कैलेंडर)" },
       { href: "/shubh-dates/business-opening", labelEn: "Business Opening", labelHi: "व्यापार/दुकान उद्घाटन (कैलेंडर)" },
       { href: "/shubh-dates/gold-buying", labelEn: "Gold Buying Muhurat", labelHi: "सोना/चांदी क्रय मुहूर्त" },

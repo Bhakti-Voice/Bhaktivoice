@@ -20,6 +20,12 @@ import {
 } from "./astronomy";
 import { DEFAULT_CITY, type CityConfig } from "./cities";
 import { FESTIVAL_DETAILS, getObservancesForTithi } from "./festivals-data";
+import { getBhadraInfo } from "./bhadra";
+import { getPanchakInfo, PANCHAK_CALENDAR_2026 } from "./panchak";
+import { calculateHoras } from "./hora";
+import { calculateGowriPanchangam } from "./gowri";
+
+export { getBhadraInfo, getPanchakInfo, PANCHAK_CALENDAR_2026, calculateHoras, calculateGowriPanchangam };
 import {
   MASA_NAMES,
   MASA_NAMES_HI,
@@ -218,6 +224,10 @@ export function getPanchang(targetDate: Date = new Date(), cityConfig?: CityConf
 
   const muhurats = calculateMuhurats(sunrise, sunset, weekday, nakshatra);
   const choghadiya = calculateChoghadiya(sunrise, sunset, nextSunrise, weekday);
+  const bhadra = getBhadraInfo(instant);
+  const panchak = getPanchakInfo(instant);
+  const horas = calculateHoras(sunrise, sunset, nextSunrise, weekday, instant);
+  const gowriPanchangam = calculateGowriPanchangam(sunrise, sunset, nextSunrise, weekday);
 
   const observances = getObservancesForTithi({
     masaIndex: purnimanta.index,
@@ -302,6 +312,10 @@ export function getPanchang(targetDate: Date = new Date(), cityConfig?: CityConf
     varjyam: muhurats.varjyam,
     dayChoghadiya: choghadiya.day,
     nightChoghadiya: choghadiya.night,
+    bhadra,
+    panchak,
+    horas,
+    gowriPanchangam,
     observances,
     nextTithi,
     dailyMantra,

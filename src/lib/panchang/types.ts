@@ -1,4 +1,10 @@
 import type { CityConfig } from "./cities";
+import type { BhadraInfo } from "./bhadra";
+import type { PanchakInfo } from "./panchak";
+import type { DayHoraSchedule, HoraPeriod } from "./hora";
+import type { GowriPeriod } from "./gowri";
+
+export type { BhadraInfo, PanchakInfo, DayHoraSchedule, HoraPeriod, GowriPeriod };
 
 export type Paksha = "shukla" | "krishna";
 
@@ -149,6 +155,12 @@ export type DayPanchang = {
   dayChoghadiya: ChoghadiyaPeriod[];
   nightChoghadiya: ChoghadiyaPeriod[];
   
+  // Extended Vedic Calculations
+  bhadra?: BhadraInfo;
+  panchak?: PanchakInfo;
+  horas?: DayHoraSchedule;
+  gowriPanchangam?: { day: GowriPeriod[]; night: GowriPeriod[] };
+
   // Observances
   observances: Observance[];
   

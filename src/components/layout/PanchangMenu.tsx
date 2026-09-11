@@ -49,6 +49,10 @@ const PANCHANG_COLUMNS: { titleEn?: string; titleHi?: string; items: PanchangMen
   // Column 4
   {
     items: [
+      { slug: "choghadiya", href: "/choghadiya", labelEn: "Choghadiya", labelHi: "चौघड़िया (दिन-रात)" },
+      { slug: "panchak", href: "/panchak", labelEn: "Panchak Calendar", labelHi: "पंचक विचार 2026" },
+      { slug: "bhadra", href: "/bhadra", labelEn: "Bhadra Timings", labelHi: "भद्रा काल विचार" },
+      { slug: "hora", href: "/hora", labelEn: "Planetary Hora", labelHi: "ग्रह होरा चक्र" },
       { slug: "vinchudo", href: "/panchang/vinchudo", labelEn: "Vinchudo", labelHi: "विंछुड़ो विचार" },
       { slug: "nakshatra", href: "/panchang/nakshatra", labelEn: "Nakshatra", labelHi: "नक्षत्र फल" },
     ],

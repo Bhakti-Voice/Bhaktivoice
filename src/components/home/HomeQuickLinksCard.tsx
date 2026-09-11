@@ -40,8 +40,10 @@ export function HomeQuickLinksCard({ locale }: HomeQuickLinksCardProps) {
       icon: <Clock className="h-4 w-4 text-amber-600" />,
       badge: isHi ? "शुभ वेला" : "Auspicious",
       links: [
-        { href: PATHS.regionalPanchang("panchang-utilities"), label: isHi ? "आज का चौघड़िया (Day/Night)" : "Choghadiya (Day & Night)", featured: true },
-        { href: PATHS.regionalPanchang("panchang-utilities"), label: isHi ? "शुभ ग्रह होरा चक्र" : "Shubha Planetary Hora" },
+        { href: PATHS.choghadiya, label: isHi ? "आज का चौघड़िया (Day/Night)" : "Choghadiya (Day & Night)", featured: true },
+        { href: PATHS.hora, label: isHi ? "शुभ ग्रह होरा चक्र" : "Shubha Planetary Hora", featured: true },
+        { href: PATHS.bhadra, label: isHi ? "भद्रा काल एवं वास विचार" : "Bhadra Timings & Vaas", featured: true },
+        { href: PATHS.panchak, label: isHi ? "पंचक विचार एवं 2026 कैलेंडर" : "Panchak Status & 2026 Dates", featured: true },
         { href: PATHS.shubhDates("vivah-muhurat"), label: isHi ? "शुभ विवाह मुहूर्त 2026 (कैलेंडर)" : "Vivah Muhurat (Wedding Calendar)", featured: true },
         { href: PATHS.shubhDates("griha-pravesh"), label: isHi ? "गृह प्रवेश एवं वास्तु मुहूर्त" : "Griha Pravesh Calendar" },
         { href: PATHS.shubhDates("property-purchase"), label: isHi ? "संपत्ति एवं भूमि रजिस्ट्री मुहूर्त" : "Property Purchase Calendar" },

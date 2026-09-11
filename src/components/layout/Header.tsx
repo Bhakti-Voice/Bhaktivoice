@@ -33,6 +33,10 @@ export function Header() {
     { href: PATHS.gita, label: t.nav.gita },
   ];
   const moreLinks = [
+    { href: PATHS.choghadiya, label: locale === "hi" ? "आज का चौघड़िया" : "Today's Choghadiya" },
+    { href: PATHS.panchak, label: locale === "hi" ? "पंचक विचार 2026" : "Panchak Calendar" },
+    { href: PATHS.bhadra, label: locale === "hi" ? "भद्रा काल विचार" : "Bhadra Timings" },
+    { href: PATHS.hora, label: locale === "hi" ? "दैनिक ग्रह होरा" : "Planetary Hora" },
     { href: PATHS.sadhana, label: t.nav.sadhana },
     { href: PATHS.calendar, label: locale === "hi" ? "हिन्दू कैलेंडर" : "Hindu Calendar" },
     { href: PATHS.panchangToday, label: locale === "hi" ? "आज का पंचांग" : "Today's Panchang" },

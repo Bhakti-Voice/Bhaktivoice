@@ -35,5 +35,10 @@ export const PATHS = {
   shubhDates: (slug: string) => `/shubh-dates/${slug}`,
   vratUpavas: "/vrat-upavas",
   grahan: "/grahan",
+  choghadiya: "/choghadiya",
+  panchak: "/panchak",
+  bhadra: "/bhadra",
+  hora: "/hora",
+  gowriPanchangam: "/gowri-panchangam",
 } as const;
 

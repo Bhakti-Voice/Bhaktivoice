@@ -204,6 +204,36 @@ export function HomeDailyVedicHub({ locale }: HomeDailyVedicHubProps) {
                 {isHi ? panchang.yoga.nameHi : panchang.yoga.name} • {isHi ? panchang.karana.nameHi : panchang.karana.name}
               </div>
             </div>
+
+            {/* Quick Micro-Muhurat Badges */}
+            <div className="mt-3 flex flex-wrap gap-1.5 pt-1">
+              <LocaleLink
+                href={PATHS.choghadiya}
+                className="inline-flex items-center gap-1 rounded-lg border border-amber-300 bg-amber-50/80 px-2.5 py-1 text-[11px] font-semibold text-amber-900 hover:bg-amber-100 transition"
+              >
+                <Clock className="h-3 w-3 text-amber-700" />
+                <span>{isHi ? "आज का चौघड़िया" : "Choghadiya"}</span>
+              </LocaleLink>
+              <LocaleLink
+                href={PATHS.hora}
+                className="inline-flex items-center gap-1 rounded-lg border border-amber-300 bg-amber-50/80 px-2.5 py-1 text-[11px] font-semibold text-amber-900 hover:bg-amber-100 transition"
+              >
+                <Sparkles className="h-3 w-3 text-amber-700" />
+                <span>{isHi ? "ग्रह होरा" : "Planetary Hora"}</span>
+              </LocaleLink>
+              <LocaleLink
+                href={PATHS.panchak}
+                className="inline-flex items-center gap-1 rounded-lg border border-amber-300 bg-amber-50/80 px-2 py-1 text-[11px] font-semibold text-amber-900 hover:bg-amber-100 transition"
+              >
+                <span>{isHi ? "पंचक" : "Panchak"}</span>
+              </LocaleLink>
+              <LocaleLink
+                href={PATHS.bhadra}
+                className="inline-flex items-center gap-1 rounded-lg border border-amber-300 bg-amber-50/80 px-2 py-1 text-[11px] font-semibold text-amber-900 hover:bg-amber-100 transition"
+              >
+                <span>{isHi ? "भद्रा" : "Bhadra"}</span>
+              </LocaleLink>
+            </div>
           </div>
 
           {/* Card Links */}

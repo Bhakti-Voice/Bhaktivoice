@@ -51,6 +51,15 @@ export function HomeFeatureCards({ locale }: { locale: string }) {
       bgGrad: "from-orange-500/15 via-amber-500/10 to-orange-500/5",
     },
     {
+      href: PATHS.choghadiya,
+      icon: PanchangIcon,
+      title: isHi ? "आज का चौघड़िया" : "Today's Choghadiya",
+      text: isHi ? "अमृत, शुभ व लाभ मुहूर्त" : "Amrit, Shubh & Labh",
+      badge: isHi ? "शुभ वेला" : "Muhurat",
+      color: "#f59e0b",
+      bgGrad: "from-amber-400/15 via-yellow-500/10 to-amber-400/5",
+    },
+    {
       href: PATHS.naamJaap,
       icon: PrayerHandsIcon,
       title: isHi ? "नाम जप काउंटर" : "Naam Jaap",
