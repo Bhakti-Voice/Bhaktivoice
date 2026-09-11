@@ -563,7 +563,7 @@ button:disabled,
 }
 
 /* ==========================================================================
-   Rich Content & Table Styles (Admin Formatted HTML)
+   Rich Content & Table Styles (Admin Formatted HTML & Markdown Parity)
    ========================================================================== */
 
 .table-scroll-container {
@@ -577,19 +577,102 @@ button:disabled,
   box-shadow: 0 4px 16px rgba(43, 33, 24, 0.04);
 }
 
+.prose-rich-content {
+  color: #2c221a;
+  font-size: 1.05rem;
+  line-height: 1.78;
+}
+
+.prose-rich-content h1 {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: clamp(1.85rem, 3.2vw, 2.35rem);
+  font-weight: 700;
+  color: #2b2118;
+  margin-top: 2rem;
+  margin-bottom: 0.85rem;
+  line-height: 1.25;
+}
+
+.prose-rich-content h2 {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: clamp(1.45rem, 2.5vw, 1.85rem);
+  font-weight: 700;
+  color: #2b2118;
+  margin-top: 2.2rem;
+  margin-bottom: 0.85rem;
+  line-height: 1.35;
+  border-bottom: 1px solid rgba(238, 222, 201, 0.7);
+  padding-bottom: 0.45rem;
+}
+
+.prose-rich-content h3 {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: clamp(1.2rem, 2vw, 1.45rem);
+  font-weight: 600;
+  color: #873812;
+  margin-top: 1.8rem;
+  margin-bottom: 0.6rem;
+  line-height: 1.4;
+}
+
+.prose-rich-content h4 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #2b2118;
+  margin-top: 1.4rem;
+  margin-bottom: 0.45rem;
+  line-height: 1.45;
+}
+
+.prose-rich-content h5,
+.prose-rich-content h6 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #6f6255;
+  margin-top: 1.2rem;
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.prose-rich-content p {
+  margin: 0.95rem 0;
+  line-height: 1.78;
+  color: #2d241e;
+}
+
+.prose-rich-content p:first-child {
+  margin-top: 0;
+}
+
+.prose-rich-content p:last-child {
+  margin-bottom: 0;
+}
+
+.prose-rich-content .table-scroll-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 1.5rem 0;
+  border-radius: 12px;
+  border: 1px solid rgba(234, 223, 206, 0.9);
+  background: #ffffff;
+  box-shadow: 0 4px 16px rgba(43, 33, 24, 0.04);
+}
+
 .prose-rich-content table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
   font-size: 0.95rem;
-  line-height: 1.5;
-  color: var(--ink);
+  line-height: 1.55;
+  color: #2b2118;
   margin: 0;
 }
 
 .prose-rich-content thead {
   background: linear-gradient(135deg, #fdf7ee 0%, #faedd9 100%);
-  border-bottom: 2px solid rgba(196, 92, 38, 0.3);
+  border-bottom: 2px solid rgba(196, 92, 38, 0.35);
 }
 
 .prose-rich-content th {
@@ -601,30 +684,28 @@ button:disabled,
   letter-spacing: 0.02em;
   text-transform: none;
   white-space: nowrap;
+  border: 1px solid rgba(234, 223, 206, 0.8);
 }
 
 .prose-rich-content td {
   padding: 0.8rem 1.1rem;
-  border-bottom: 1px solid rgba(234, 223, 206, 0.7);
+  border: 1px solid rgba(234, 223, 206, 0.8);
   vertical-align: middle;
+  color: #2b2118;
 }
 
 .prose-rich-content tbody tr:nth-child(even) {
-  background: rgba(251, 246, 238, 0.45);
+  background: #faf6ef;
 }
 
 .prose-rich-content tbody tr:hover {
-  background: rgba(254, 243, 228, 0.65);
-}
-
-.prose-rich-content tbody tr:last-child td {
-  border-bottom: none;
+  background: #fdf3e5;
 }
 
 .prose-rich-content b,
 .prose-rich-content strong {
   font-weight: 700;
-  color: var(--ink);
+  color: #1c140e;
 }
 
 .prose-rich-content i,
@@ -637,36 +718,43 @@ button:disabled,
 .prose-rich-content .highlight {
   background: rgba(230, 126, 34, 0.15);
   color: #923a0e;
-  padding: 0.15rem 0.4rem;
+  padding: 0.15rem 0.45rem;
   border-radius: 4px;
   font-weight: 500;
 }
 
 .prose-rich-content ul {
   list-style-type: disc;
-  padding-left: 1.5rem;
-  margin: 0.8rem 0;
+  padding-left: 1.65rem;
+  margin: 0.95rem 0;
 }
 
 .prose-rich-content ol {
   list-style-type: decimal;
-  padding-left: 1.5rem;
-  margin: 0.8rem 0;
+  padding-left: 1.65rem;
+  margin: 0.95rem 0;
 }
 
 .prose-rich-content li {
-  margin: 0.35rem 0;
+  margin: 0.4rem 0;
+  line-height: 1.7;
+  color: #2d241e;
+}
+
+.prose-rich-content li::marker {
+  color: #c45c26;
+  font-weight: 600;
 }
 
 .prose-rich-content blockquote,
 .prose-rich-content .callout {
-  margin: 1.25rem 0;
-  padding: 1rem 1.25rem;
+  margin: 1.35rem 0;
+  padding: 1rem 1.35rem;
   background: #fdfaf4;
   border-left: 4px solid var(--saffron);
   border-radius: 0 10px 10px 0;
   font-style: italic;
-  color: var(--ink);
+  color: #2b2118;
   box-shadow: 0 2px 8px rgba(196, 92, 38, 0.05);
 }
 
@@ -675,10 +763,40 @@ button:disabled,
   text-decoration: underline;
   text-underline-offset: 3px;
   font-weight: 500;
+  transition: color 0.15s ease;
 }
 
 .prose-rich-content a:hover {
   color: #a44818;
 }
+
+.prose-rich-content hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(211, 84, 0, 0.35), transparent);
+  margin: 2rem 0;
+}
+
+.prose-rich-content code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.88em;
+  background: #faf6ef;
+  color: #923a0e;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  border: 1px solid rgba(234, 223, 206, 0.7);
+}
+
+.prose-rich-content pre {
+  margin: 1.25rem 0;
+  padding: 1rem 1.25rem;
+  background: #faf6ef;
+  border-radius: 10px;
+  border: 1px solid rgba(234, 223, 206, 0.8);
+  overflow-x: auto;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
 
 

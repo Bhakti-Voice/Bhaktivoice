@@ -224,18 +224,26 @@
             if (isPreviewing) {
               textarea.style.display = "none";
               let content = textarea.value;
-              // Format ## headings for preview
-              content = content.replace(/^##\s+(.+)$/gm, '<h2 style="font-family:serif;font-size:1.4rem;color:#2b2118;margin:1.2rem 0 0.5rem;font-weight:bold;">$1</h2>');
-              // Format double newlines into paragraphs if not HTML tag
+              // Format markdown headings for preview
+              content = content.replace(/^####\s+(.+)$/gm, '<h4 style="font-size:1.15rem;color:#2b2118;margin:1.1rem 0 0.4rem;font-weight:600;">$1</h4>');
+              content = content.replace(/^###\s+(.+)$/gm, '<h3 style="font-family:Georgia,serif;font-size:1.3rem;color:#873812;margin:1.3rem 0 0.45rem;font-weight:600;">$1</h3>');
+              content = content.replace(/^##\s+(.+)$/gm, '<h2 style="font-family:Georgia,serif;font-size:1.55rem;color:#2b2118;margin:1.6rem 0 0.6rem;font-weight:bold;border-bottom:1px solid #eedec9;padding-bottom:0.35rem;">$1</h2>');
+              content = content.replace(/^#\s+(.+)$/gm, '<h1 style="font-family:Georgia,serif;font-size:1.85rem;color:#2b2118;margin:1.8rem 0 0.75rem;font-weight:bold;">$1</h1>');
+              // Format double newlines into paragraphs if not block HTML tag
               const blocks = content.split(/\n{2,}/);
               const formattedBlocks = blocks.map(b => {
                 const trimmed = b.trim();
-                if (trimmed.startsWith("<") && (trimmed.startsWith("<table") || trimmed.startsWith("<ul") || trimmed.startsWith("<ol") || trimmed.startsWith("<div") || trimmed.startsWith("<blockquote") || trimmed.startsWith("<h2"))) {
+                if (!trimmed) return "";
+                const isBlockTag = /^<\/?(table|thead|tbody|tr|th|td|ul|ol|li|div|blockquote|h[1-6]|p|hr|section|article|aside)\b/i.test(trimmed);
+                if (isBlockTag) {
                   return trimmed;
                 }
-                return '<p style="margin:0.7rem 0;">' + trimmed.replace(/\n/g, '<br/>') + '</p>';
+                return '<p style="margin:0.85rem 0;line-height:1.75;">' + trimmed.replace(/\n/g, '<br/>') + '</p>';
               });
-              previewPane.innerHTML = formattedBlocks.join("");
+              let finalHtml = formattedBlocks.filter(Boolean).join("");
+              // Wrap tables in responsive scroll wrapper
+              finalHtml = finalHtml.replace(/(?:<div\s+class="[^"]*table-scroll-container[^"]*">\s*)?(<table[\s\S]*?<\/table>)(?:\s*<\/div>)?/gi, '<div class="table-scroll-container">$1</div>');
+              previewPane.innerHTML = finalHtml;
             } else {
               textarea.style.display = "block";
               textarea.focus();
