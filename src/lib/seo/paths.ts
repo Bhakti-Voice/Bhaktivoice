@@ -46,5 +46,6 @@ export const PATHS = {
   gochar: "/panchang/gochar",
   sadeSati: "/kundli/sade-sati",
   ekadashi: "/vrat-upavas/ekadashi",
+  tarabalam: "/panchang/tarabalam",
 } as const;
 

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
 import { FaqList } from "@/components/seo/FaqList";
+import { GrahanView } from "@/components/panchang/GrahanView";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { getLocale } from "@/lib/i18n/server";
 import { localizedCrumbs } from "@/lib/seo/crumbs";
@@ -116,6 +117,11 @@ export default async function GrahanPage() {
       </PageHero>
 
       <main className="mx-auto max-w-7xl px-4 pt-6 lg:px-8 space-y-10">
+        {/* Interactive Astronomical Grahan Tracker */}
+        <section className="space-y-4">
+          <GrahanView />
+        </section>
+
         {/* Eclipse Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Surya Grahan */}

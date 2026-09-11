@@ -78,6 +78,86 @@ export default async function SpiritualToolsPage() {
         : t.spiritualTools.tools.milan.description,
       icon: "milan" as const,
     },
+    {
+      href: PATHS.sadeSati,
+      title: isHi ? "शनि साढ़े साती कैलकुलेटर" : "Shani Sade Sati Calculator",
+      description: isHi
+        ? "अपनी जन्म चंद्र राशि से साढ़े साती के तीनों चरण, कंटक व अष्टम ढैय्या एवं प्रामाणिक वैदिक उपाय।"
+        : "Calculate Rising, Peak, and Setting phases of Sade Sati, Kantaka & Ashtama Dhaiya with remedies.",
+      icon: "sadeSati" as const,
+    },
+    {
+      href: PATHS.gochar,
+      title: isHi ? "दैनिक ग्रह गोचर फल" : "Daily Planetary Transits (Gochar)",
+      description: isHi
+        ? "९ वैदिक ग्रहों का चंद्र राशि से भाव गोचर, शुभ-अशुभ स्कोर एवं २०२४-२०३० मुख्य गोचर कैलेंडर।"
+        : "Real-time 9-Graha transit analysis from natal Moon sign with favorability score and 2024–2030 ingress calendar.",
+      icon: "gochar" as const,
+    },
+    {
+      href: PATHS.grahaSthiti,
+      title: isHi ? "दैनिक ग्रह स्थिति (Ephemeris)" : "Planetary Ephemeris (Graha Sthiti)",
+      description: isHi
+        ? "लाहिरी अयनांश आधारित ९ वैदिक ग्रह, राशि, अंश, कला, विकला, नक्षत्र पाद, वक्री व अस्त स्थिति।"
+        : "High-precision Sidereal Lahiri degrees, Nakshatra Pada, retrograde (Vakri), and combust status.",
+      icon: "ephemeris" as const,
+    },
+    {
+      href: PATHS.tarabalam,
+      title: isHi ? "ताराबलम् व चंद्रबलम्" : "Tarabalam & Chandrabalam",
+      description: isHi
+        ? "जन्म नक्षत्र और राशि से जानें आज का दिन आपके लिए कैसा रहेगा? ९ तारा चक्र एवं अष्टम चंद्र विचार।"
+        : "Evaluate your personal daily strength through the 9 Tara Chakra and Ashtama Chandra checks.",
+      icon: "tarabalam" as const,
+    },
+    {
+      href: PATHS.ekadashi,
+      title: isHi ? "एकादशी व्रत व पारणा समय" : "Ekadashi Vrat & Parana Timings",
+      description: isHi
+        ? "वर्ष की सभी २४ एकादशियों की सूची, स्मार्त व वैष्णव तारीखें, प्रातःकालीन पारणा समय व हरिवासर समाप्ति।"
+        : "Complete schedule of all 24 Ekadashis, Smarta vs. Vaishnava dates, and exact morning Parana windows.",
+      icon: "ekadashi" as const,
+    },
+    {
+      href: PATHS.choghadiya,
+      title: isHi ? "चौघड़िया मुहूर्त" : "Choghadiya Muhurat",
+      description: isHi
+        ? "दिन एवं रात के ८-८ चौघड़िया मुहूर्त (शुभ, लाभ, अमृत, चर, काल, रोग, उद्वेग) और उनके स्वामी ग्रह।"
+        : "8 Day and 8 Night Choghadiya intervals with auspiciousness ratings and planetary rulers.",
+      icon: "choghadiya" as const,
+    },
+    {
+      href: PATHS.hora,
+      title: isHi ? "दैनिक होरा चक्र" : "Daily Hora Chakra",
+      description: isHi
+        ? "सूर्योदय से सूर्यास्त एवं रात्रि के २४ होरा काल, स्वामी ग्रह एवं अनुकूल कार्यों की जानकारी।"
+        : "Hourly planetary rulers (Horas) for selecting the most auspicious hours for meetings and transactions.",
+      icon: "hora" as const,
+    },
+    {
+      href: PATHS.printableCalendar,
+      title: isHi ? "प्रिंट योग्य हिन्दू वॉल कैलेंडर" : "Printable Wall Calendar",
+      description: isHi
+        ? "पारंपरिक हिन्दू दीवार कैलेंडर जिसे आप किसी भी शहर के लिए A4 शीट पर सीधे प्रिंट या PDF सेव कर सकते हैं।"
+        : "Traditional single-sheet monthly Hindu wall calendar formatted for A4 printing and PDF export.",
+      icon: "printableCalendar" as const,
+    },
+    {
+      href: PATHS.babyNames,
+      title: isHi ? "नक्षत्र अनुसार शिशु नाम" : "Baby Names by Nakshatra",
+      description: isHi
+        ? "जन्म नक्षत्र के चरण और पाद के प्रारंभिक नामाक्षरों के अनुसार हजारों आधुनिक व वैदिक शिशु नाम।"
+        : "Thousands of Vedic and modern baby names categorized by Janma Nakshatra Pada syllables.",
+      icon: "babyNames" as const,
+    },
+    {
+      href: PATHS.grahan,
+      title: isHi ? "सूर्य एवं चंद्र ग्रहण 2026" : "Solar & Lunar Eclipses 2026",
+      description: isHi
+        ? "सटीक खगोलीय ग्रहण तिथियां, सूतक काल, स्पर्श व मोक्ष समय, भारत में दृश्यता एवं गर्भवती महिलाओं के नियम।"
+        : "Precise astronomical eclipse dates, Sutak Kaal countdown, India visibility, and spiritual guidelines.",
+      icon: "grahan" as const,
+    },
   ];
 
 

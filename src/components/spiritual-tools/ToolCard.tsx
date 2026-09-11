@@ -1,5 +1,20 @@
 import { LocaleLink } from "@/components/i18n/LocaleLink";
-import { Calendar, CalendarDays, Heart, ScrollText, Sparkles, Sun } from "lucide-react";
+import {
+  Calendar,
+  CalendarDays,
+  Clock,
+  Compass,
+  Heart,
+  Moon,
+  Printer,
+  Scale,
+  ScrollText,
+  Shield,
+  Sparkles,
+  Star,
+  Sun,
+  Zap,
+} from "lucide-react";
 import type { ReactNode } from "react";
 
 const ICONS: Record<string, ReactNode> = {
@@ -8,6 +23,16 @@ const ICONS: Record<string, ReactNode> = {
   calendar: <Calendar className="h-7 w-7 text-saffron" aria-hidden />,
   kundli: <ScrollText className="h-7 w-7 text-saffron" aria-hidden />,
   milan: <Heart className="h-7 w-7 text-saffron" aria-hidden />,
+  sadeSati: <Scale className="h-7 w-7 text-saffron" aria-hidden />,
+  gochar: <Compass className="h-7 w-7 text-saffron" aria-hidden />,
+  ephemeris: <Sun className="h-7 w-7 text-amber-600" aria-hidden />,
+  ekadashi: <Sparkles className="h-7 w-7 text-saffron-deep" aria-hidden />,
+  tarabalam: <Star className="h-7 w-7 text-saffron" aria-hidden />,
+  grahan: <Moon className="h-7 w-7 text-indigo-600" aria-hidden />,
+  choghadiya: <Clock className="h-7 w-7 text-saffron" aria-hidden />,
+  hora: <Clock className="h-7 w-7 text-amber-600" aria-hidden />,
+  printableCalendar: <Printer className="h-7 w-7 text-saffron" aria-hidden />,
+  babyNames: <Heart className="h-7 w-7 text-rose-500" aria-hidden />,
 };
 
 

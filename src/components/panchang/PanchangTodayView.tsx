@@ -28,6 +28,7 @@ import { CityPickerButton } from "./CityPickerButton";
 import { getPanchang } from "@/lib/panchang/engine";
 import { getDailyEphemeris } from "@/lib/panchang/ephemeris-engine";
 import { GrahaSthitiTable } from "./GrahaSthitiTable";
+import { PanchangShareCardModal } from "./PanchangShareCardModal";
 import { MoonPhaseIcon } from "@/components/calendar/MoonPhaseIcon";
 import type { DayPanchang } from "@/lib/panchang/types";
 import { useLocale } from "@/lib/i18n/client";
@@ -50,6 +51,7 @@ export function PanchangTodayView({
   const [city, setCity] = useState<CityConfig>(() => getCityById(initialCityId));
   const [choghadiyaTab, setChoghadiyaTab] = useState<"day" | "night">("day");
   const [copied, setCopied] = useState(false);
+  const [showCardModal, setShowCardModal] = useState(false);
 
   // Sync with localStorage on client mount if no explicit initialCityId
   useEffect(() => {
@@ -172,6 +174,14 @@ export function PanchangTodayView({
               <span>{copied ? (isHi ? "कॉपी हो गया!" : "Copied!") : (isHi ? "कॉपी" : "Copy")}</span>
             </button>
 
+            <button
+              onClick={() => setShowCardModal(true)}
+              className="flex items-center gap-1.5 rounded-2xl border border-emerald-300 bg-emerald-50/60 px-3.5 py-2 text-xs font-semibold text-emerald-950 hover:bg-emerald-100 active:scale-95 shadow-2xs transition"
+            >
+              <Share2 className="h-4 w-4 text-emerald-600" />
+              <span>{isHi ? "व्हाट्सएप कार्ड" : "Status Card"}</span>
+            </button>
+
             <LocaleLink
               href={PATHS.calendar}
               className="flex items-center gap-1.5 rounded-2xl border border-saffron/40 bg-saffron/10 px-3.5 py-2 text-xs font-semibold text-saffron-deep hover:bg-saffron hover:text-white active:scale-95 shadow-2xs"
@@ -265,6 +275,14 @@ export function PanchangTodayView({
         >
           <span>🪔</span>
           <span>{isHi ? "एकादशी पारणा समय" : "Ekadashi Parana"}</span>
+        </LocaleLink>
+
+        <LocaleLink
+          href={PATHS.tarabalam}
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-2xl border border-sand bg-white px-3.5 py-2 text-xs font-bold text-ink shadow-2xs transition hover:border-saffron hover:bg-saffron hover:text-white"
+        >
+          <span>🌟</span>
+          <span>{isHi ? "ताराबलम् व चंद्रबलम्" : "Tarabalam"}</span>
         </LocaleLink>
 
         <LocaleLink
@@ -653,6 +671,16 @@ export function PanchangTodayView({
       <section className="space-y-4">
         <GrahaSthitiTable ephemeris={ephemeris} isHi={isHi} />
       </section>
+
+      {/* WhatsApp / Social Share Card Modal */}
+      {showCardModal && (
+        <PanchangShareCardModal
+          panchang={panchang}
+          city={city}
+          isHi={isHi}
+          onClose={() => setShowCardModal(false)}
+        />
+      )}
     </div>
   );
 }

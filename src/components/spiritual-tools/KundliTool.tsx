@@ -27,6 +27,7 @@ import { KundliChartSvg } from "./KundliChartSvg";
 import { ManglikCard } from "./ManglikCard";
 import { KundliDashaTable } from "./KundliDashaTable";
 import { AshtakavargaTable } from "./AshtakavargaTable";
+import { PrintableKundliReport } from "./PrintableKundliReport";
 
 export function KundliTool() {
   const locale = useLocale();
@@ -41,6 +42,7 @@ export function KundliTool() {
   const [loading, setLoading] = useState(false);
   const [chart, setChart] = useState<KundliChart | null>(null);
   const [copied, setCopied] = useState(false);
+  const [showPrintModal, setShowPrintModal] = useState(false);
   const [activeTab, setActiveTab] = useState<"chart" | "ashtakavarga" | "planets" | "houses" | "dasha" | "manglik">("chart");
 
   async function onSubmit(event: React.FormEvent) {
@@ -63,9 +65,7 @@ export function KundliTool() {
   }
 
   function handlePrint() {
-    if (typeof window !== "undefined") {
-      window.print();
-    }
+    setShowPrintModal(true);
   }
 
   async function handleShare() {
@@ -537,6 +537,15 @@ export function KundliTool() {
             </div>
           )}
         </div>
+      )}
+
+      {/* Printable Janam Patrika Modal */}
+      {showPrintModal && chart && (
+        <PrintableKundliReport
+          chart={chart}
+          isHi={isHi}
+          onClose={() => setShowPrintModal(false)}
+        />
       )}
     </div>
   );
