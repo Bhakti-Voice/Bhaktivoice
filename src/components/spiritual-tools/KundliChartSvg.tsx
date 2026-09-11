@@ -1,7 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import type { KundliChart, PlanetPosition } from "@/lib/spiritual-tools/types";
+import {
+  calculateVargaRashi,
+  DIVISIONAL_CHARTS,
+  type DivisionalChartId,
+} from "@/lib/spiritual-tools/divisional-charts";
 import { useLocale } from "@/lib/i18n/client";
 import { Moon, Sparkles, Sun } from "lucide-react";
 
@@ -13,8 +18,9 @@ export type KundliChartSvgProps = {
 export function KundliChartSvg({ chart, className = "" }: KundliChartSvgProps) {
   const locale = useLocale();
   const isHi = locale === "hi";
-  const [chartType, setChartType] = useState<"north" | "south">("north");
+  const [chartType, setChartType] = useState<"north" | "south" | "east">("north");
   const [chartBase, setChartBase] = useState<"lagna" | "chandra">("lagna");
+  const [varga, setVarga] = useState<DivisionalChartId>("D1");
 
   const planetAbbrEn: Record<string, string> = {
     sun: "Su",
@@ -42,110 +48,163 @@ export function KundliChartSvg({ chart, className = "" }: KundliChartSvgProps) {
     lagna: "लग्न",
   };
 
+  const rashiNamesEn = [
+    "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
+    "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
+  ];
+  const rashiNamesHi = [
+    "मेष", "वृषभ", "मिथुन", "कर्क", "सिंह", "कन्या",
+    "तुला", "वृश्चिक", "धनु", "मकर", "कुंभ", "मीन"
+  ];
+
   const getPlanetLabel = (id: string, retro?: boolean) => {
     const base = isHi ? planetAbbrHi[id] || id : planetAbbrEn[id] || id;
     return retro ? `${base}(R)` : base;
   };
 
-  // Base Rashi for House 1 (Lagna vs Chandra)
-  const house1RashiIndex = chartBase === "lagna" ? chart.lagna.rashiIndex : chart.moon.rashiIndex;
-  const house1RashiNum = house1RashiIndex + 1; // 1 to 12
+  // Compute active Lagna rashi for selected varga
+  const activeLagnaRashiIndex = useMemo(() => {
+    if (chartBase === "chandra") {
+      return calculateVargaRashi(chart.moon.siderealLongitude, varga);
+    }
+    return calculateVargaRashi(chart.lagna.siderealLongitude, varga);
+  }, [chart, chartBase, varga]);
 
-  // Map each planet's house based on selected base
-  const housePlanets: Record<number, PlanetPosition[]> = {};
-  for (let i = 1; i <= 12; i++) {
-    housePlanets[i] = [];
-  }
+  // Compute active planets in selected varga
+  const activePlanets: PlanetPosition[] = useMemo(() => {
+    return chart.planets.map((p) => {
+      const vargaRashiIndex = calculateVargaRashi(p.siderealLongitude, varga);
+      const house = ((vargaRashiIndex - activeLagnaRashiIndex + 12) % 12) + 1;
+      return {
+        ...p,
+        rashiIndex: vargaRashiIndex,
+        house,
+      };
+    });
+  }, [chart.planets, activeLagnaRashiIndex, varga]);
 
-  chart.planets.forEach((p) => {
-    const h = ((p.rashiIndex - house1RashiIndex + 12) % 12) + 1;
-    housePlanets[h]?.push(p);
-  });
+  // Map each house's planets
+  const housePlanets: Record<number, PlanetPosition[]> = useMemo(() => {
+    const map: Record<number, PlanetPosition[]> = {};
+    for (let i = 1; i <= 12; i++) {
+      map[i] = [];
+    }
+    activePlanets.forEach((p) => {
+      map[p.house]?.push(p);
+    });
+    return map;
+  }, [activePlanets]);
 
+  const house1RashiNum = activeLagnaRashiIndex + 1;
   const getHouseRashiNum = (house: number) => ((house1RashiNum - 1 + house - 1) % 12) + 1;
+
+  const currentVargaMeta = DIVISIONAL_CHARTS.find((d) => d.id === varga) || DIVISIONAL_CHARTS[0];
 
   return (
     <div className={`flex flex-col items-center rounded-3xl border border-saffron/25 bg-gradient-to-b from-[#fffbf7] via-white to-[#fff9f2] p-5 shadow-xs sm:p-6 ${className}`}>
-      {/* Chart Header & Controls */}
-      <div className="mb-4 flex flex-col gap-3 w-full sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h3 className="font-serif text-lg font-bold text-ink sm:text-xl flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-saffron" />
-            <span>
-              {chartBase === "lagna"
-                ? isHi
-                  ? "लग्न कुंडली चक्र (D-1)"
-                  : "Lagna Kundli Chart (D-1)"
-                : isHi
-                ? "चन्द्र कुंडली चक्र"
-                : "Chandra Kundli (Moon Chart)"}
-            </span>
-          </h3>
-          <p className="text-xs text-muted">
-            {chartBase === "lagna"
-              ? isHi
-                ? `प्रथम भाव: ${chart.lagna.rashiHi} लग्न`
-                : `House 1: ${chart.lagna.rashi} Ascendant`
-              : isHi
-              ? `प्रथम भाव: ${chart.moon.rashiHi} चन्द्र राशि`
-              : `House 1: ${chart.moon.rashi} Moon Sign`}
-          </p>
+      {/* Top Controls Bar */}
+      <div className="mb-5 flex flex-col gap-3.5 w-full">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <h3 className="font-serif text-lg font-bold text-ink sm:text-xl flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-saffron" />
+              <span>
+                {isHi ? currentVargaMeta.nameHi : currentVargaMeta.name}
+              </span>
+            </h3>
+            <p className="text-xs text-muted">
+              {isHi ? currentVargaMeta.significationHi : currentVargaMeta.signification}
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            {/* Lagna vs Chandra Base Toggle */}
+            <div className="flex rounded-xl bg-sand/40 p-1 text-xs font-semibold">
+              <button
+                type="button"
+                onClick={() => setChartBase("lagna")}
+                className={`rounded-lg px-2.5 py-1 transition flex items-center gap-1 ${
+                  chartBase === "lagna"
+                    ? "bg-white text-saffron-deep shadow-xs"
+                    : "text-muted hover:text-ink"
+                }`}
+              >
+                <Sun className="h-3 w-3" />
+                <span>{isHi ? "लग्न" : "Lagna"}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setChartBase("chandra")}
+                className={`rounded-lg px-2.5 py-1 transition flex items-center gap-1 ${
+                  chartBase === "chandra"
+                    ? "bg-white text-saffron-deep shadow-xs"
+                    : "text-muted hover:text-ink"
+                }`}
+              >
+                <Moon className="h-3 w-3" />
+                <span>{isHi ? "चन्द्र" : "Chandra"}</span>
+              </button>
+            </div>
+
+            {/* North vs South vs East Style Switcher */}
+            <div className="flex rounded-xl bg-sand/40 p-1 text-xs font-semibold">
+              <button
+                type="button"
+                onClick={() => setChartType("north")}
+                className={`rounded-lg px-2 py-1 transition ${
+                  chartType === "north"
+                    ? "bg-white text-saffron-deep shadow-xs"
+                    : "text-muted hover:text-ink"
+                }`}
+              >
+                {isHi ? "उत्तर (North)" : "North"}
+              </button>
+              <button
+                type="button"
+                onClick={() => setChartType("south")}
+                className={`rounded-lg px-2 py-1 transition ${
+                  chartType === "south"
+                    ? "bg-white text-saffron-deep shadow-xs"
+                    : "text-muted hover:text-ink"
+                }`}
+              >
+                {isHi ? "दक्षिण (South)" : "South"}
+              </button>
+              <button
+                type="button"
+                onClick={() => setChartType("east")}
+                className={`rounded-lg px-2 py-1 transition ${
+                  chartType === "east"
+                    ? "bg-white text-saffron-deep shadow-xs"
+                    : "text-muted hover:text-ink"
+                }`}
+              >
+                {isHi ? "पूर्व (East)" : "East"}
+              </button>
+            </div>
+          </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
-          {/* Lagna vs Chandra Toggle */}
-          <div className="flex rounded-xl bg-sand/40 p-1 text-xs font-semibold">
+        {/* Divisional Chart (Varga) Selector Pills */}
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs no-scrollbar">
+          <span className="font-bold text-muted shrink-0 text-[11px] uppercase tracking-wider mr-1">
+            {isHi ? "वर्ग चक्र:" : "Varga Chart:"}
+          </span>
+          {DIVISIONAL_CHARTS.slice(0, 8).map((d) => (
             <button
+              key={d.id}
               type="button"
-              onClick={() => setChartBase("lagna")}
-              className={`rounded-lg px-2.5 py-1 transition flex items-center gap-1 ${
-                chartBase === "lagna"
-                  ? "bg-white text-saffron-deep shadow-xs"
-                  : "text-muted hover:text-ink"
+              onClick={() => setVarga(d.id)}
+              className={`shrink-0 rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
+                varga === d.id
+                  ? "bg-saffron text-white shadow-xs"
+                  : "bg-sand/35 text-ink hover:bg-sand/60"
               }`}
             >
-              <Sun className="h-3 w-3" />
-              <span>{isHi ? "लग्न" : "Lagna"}</span>
+              <span>{d.id}</span>
+              <span className="ml-1 text-[10px] opacity-85">({d.sanskritName})</span>
             </button>
-            <button
-              type="button"
-              onClick={() => setChartBase("chandra")}
-              className={`rounded-lg px-2.5 py-1 transition flex items-center gap-1 ${
-                chartBase === "chandra"
-                  ? "bg-white text-saffron-deep shadow-xs"
-                  : "text-muted hover:text-ink"
-              }`}
-            >
-              <Moon className="h-3 w-3" />
-              <span>{isHi ? "चन्द्र" : "Chandra"}</span>
-            </button>
-          </div>
-
-          {/* North vs South Indian Style Switcher */}
-          <div className="flex rounded-xl bg-sand/40 p-1 text-xs font-semibold">
-            <button
-              type="button"
-              onClick={() => setChartType("north")}
-              className={`rounded-lg px-2.5 py-1 transition ${
-                chartType === "north"
-                  ? "bg-white text-saffron-deep shadow-xs"
-                  : "text-muted hover:text-ink"
-              }`}
-            >
-              {isHi ? "उत्तर" : "North"}
-            </button>
-            <button
-              type="button"
-              onClick={() => setChartType("south")}
-              className={`rounded-lg px-2.5 py-1 transition ${
-                chartType === "south"
-                  ? "bg-white text-saffron-deep shadow-xs"
-                  : "text-muted hover:text-ink"
-              }`}
-            >
-              {isHi ? "दक्षिण" : "South"}
-            </button>
-          </div>
+          ))}
         </div>
       </div>
 
@@ -180,9 +239,12 @@ export function KundliChartSvg({ chart, className = "" }: KundliChartSvgProps) {
               strokeWidth="1.8"
             />
 
-            {/* Center Om Symbol */}
-            <text x="200" y="206" textAnchor="middle" className="fill-saffron/20 font-serif text-3xl font-bold select-none pointer-events-none">
+            {/* Center Om Symbol & Varga Label */}
+            <text x="200" y="196" textAnchor="middle" className="fill-saffron/25 font-serif text-3xl font-bold select-none pointer-events-none">
               ॐ
+            </text>
+            <text x="200" y="216" textAnchor="middle" className="fill-saffron-deep font-sans text-xs font-bold select-none pointer-events-none">
+              {varga}
             </text>
 
             {/* House 1 (Top Diamond) */}
@@ -282,7 +344,7 @@ export function KundliChartSvg({ chart, className = "" }: KundliChartSvgProps) {
             </text>
           </svg>
         </div>
-      ) : (
+      ) : chartType === "south" ? (
         /* South Indian Grid Chart SVG */
         <div className="relative w-full max-w-[370px] aspect-square sm:max-w-[440px]">
           <svg viewBox="0 0 400 400" className="h-full w-full drop-shadow-sm select-none">
@@ -300,90 +362,187 @@ export function KundliChartSvg({ chart, className = "" }: KundliChartSvgProps) {
 
             {/* Center Box */}
             <rect x="106" y="106" width="188" height="188" fill="#fff5ea" />
-            <text x="200" y="190" textAnchor="middle" className="fill-saffron-deep font-serif text-base font-bold">
-              {chartBase === "lagna" ? (isHi ? "लग्न कुंडली" : "Lagna Kundli") : (isHi ? "चन्द्र कुंडली" : "Chandra Kundli")}
+            <text x="200" y="185" textAnchor="middle" className="fill-saffron-deep font-serif text-base font-bold">
+              {varga} {isHi ? currentVargaMeta.nameHi : currentVargaMeta.name}
             </text>
-            <text x="200" y="215" textAnchor="middle" className="fill-stone-800 text-xs font-semibold">
+            <text x="200" y="210" textAnchor="middle" className="fill-stone-800 text-xs font-semibold">
               {chartBase === "lagna"
                 ? isHi
-                  ? `लग्न: ${chart.lagna.rashiHi}`
-                  : `Asc: ${chart.lagna.rashi}`
+                  ? `लग्न: ${rashiNamesHi[activeLagnaRashiIndex]}`
+                  : `Asc: ${rashiNamesEn[activeLagnaRashiIndex]}`
                 : isHi
-                ? `चन्द्र: ${chart.moon.rashiHi}`
-                : `Moon: ${chart.moon.rashi}`}
+                ? `चन्द्र: ${rashiNamesHi[activeLagnaRashiIndex]}`
+                : `Moon: ${rashiNamesEn[activeLagnaRashiIndex]}`}
             </text>
 
             {/* Fixed Signs in South Indian System */}
             {/* Box 12: Pisces (Top-Left) */}
             <text x="20" y="30" className="fill-amber-800 text-[10px] font-bold">12 {isHi ? "मीन" : "Pisces"}</text>
             <text x="59" y="65" textAnchor="middle" className="fill-stone-900 text-[12px] font-bold">
-              {chart.lagna.rashiIndex === 11 && chartBase === "lagna" ? "Asc " : ""}{chart.planets.filter(p => p.rashiIndex === 11).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
+              {activeLagnaRashiIndex === 11 && chartBase === "lagna" ? "Asc " : ""}{activePlanets.filter(p => p.rashiIndex === 11).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
             </text>
 
             {/* Box 1: Aries (Top Col 2) */}
             <text x="115" y="30" className="fill-amber-800 text-[10px] font-bold">1 {isHi ? "मेष" : "Aries"}</text>
             <text x="153" y="65" textAnchor="middle" className="fill-stone-900 text-[12px] font-bold">
-              {chart.lagna.rashiIndex === 0 && chartBase === "lagna" ? "Asc " : ""}{chart.planets.filter(p => p.rashiIndex === 0).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
+              {activeLagnaRashiIndex === 0 && chartBase === "lagna" ? "Asc " : ""}{activePlanets.filter(p => p.rashiIndex === 0).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
             </text>
 
             {/* Box 2: Taurus (Top Col 3) */}
             <text x="210" y="30" className="fill-amber-800 text-[10px] font-bold">2 {isHi ? "वृषभ" : "Taurus"}</text>
             <text x="247" y="65" textAnchor="middle" className="fill-stone-900 text-[12px] font-bold">
-              {chart.lagna.rashiIndex === 1 && chartBase === "lagna" ? "Asc " : ""}{chart.planets.filter(p => p.rashiIndex === 1).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
+              {activeLagnaRashiIndex === 1 && chartBase === "lagna" ? "Asc " : ""}{activePlanets.filter(p => p.rashiIndex === 1).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
             </text>
 
             {/* Box 3: Gemini (Top-Right) */}
             <text x="305" y="30" className="fill-amber-800 text-[10px] font-bold">3 {isHi ? "मिथुन" : "Gemini"}</text>
             <text x="341" y="65" textAnchor="middle" className="fill-stone-900 text-[12px] font-bold">
-              {chart.lagna.rashiIndex === 2 && chartBase === "lagna" ? "Asc " : ""}{chart.planets.filter(p => p.rashiIndex === 2).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
+              {activeLagnaRashiIndex === 2 && chartBase === "lagna" ? "Asc " : ""}{activePlanets.filter(p => p.rashiIndex === 2).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
             </text>
 
             {/* Box 4: Cancer (Right Row 2) */}
             <text x="305" y="125" className="fill-amber-800 text-[10px] font-bold">4 {isHi ? "कर्क" : "Cancer"}</text>
             <text x="341" y="160" textAnchor="middle" className="fill-stone-900 text-[12px] font-bold">
-              {chart.lagna.rashiIndex === 3 && chartBase === "lagna" ? "Asc " : ""}{chart.planets.filter(p => p.rashiIndex === 3).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
+              {activeLagnaRashiIndex === 3 && chartBase === "lagna" ? "Asc " : ""}{activePlanets.filter(p => p.rashiIndex === 3).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
             </text>
 
             {/* Box 5: Leo (Right Row 3) */}
             <text x="305" y="220" className="fill-amber-800 text-[10px] font-bold">5 {isHi ? "सिंह" : "Leo"}</text>
             <text x="341" y="255" textAnchor="middle" className="fill-stone-900 text-[12px] font-bold">
-              {chart.lagna.rashiIndex === 4 && chartBase === "lagna" ? "Asc " : ""}{chart.planets.filter(p => p.rashiIndex === 4).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
+              {activeLagnaRashiIndex === 4 && chartBase === "lagna" ? "Asc " : ""}{activePlanets.filter(p => p.rashiIndex === 4).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
             </text>
 
             {/* Box 6: Virgo (Bottom-Right) */}
             <text x="305" y="315" className="fill-amber-800 text-[10px] font-bold">6 {isHi ? "कन्या" : "Virgo"}</text>
             <text x="341" y="350" textAnchor="middle" className="fill-stone-900 text-[12px] font-bold">
-              {chart.lagna.rashiIndex === 5 && chartBase === "lagna" ? "Asc " : ""}{chart.planets.filter(p => p.rashiIndex === 5).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
+              {activeLagnaRashiIndex === 5 && chartBase === "lagna" ? "Asc " : ""}{activePlanets.filter(p => p.rashiIndex === 5).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
             </text>
 
             {/* Box 7: Libra (Bottom Col 3) */}
             <text x="210" y="315" className="fill-amber-800 text-[10px] font-bold">7 {isHi ? "तुला" : "Libra"}</text>
             <text x="247" y="350" textAnchor="middle" className="fill-stone-900 text-[12px] font-bold">
-              {chart.lagna.rashiIndex === 6 && chartBase === "lagna" ? "Asc " : ""}{chart.planets.filter(p => p.rashiIndex === 6).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
+              {activeLagnaRashiIndex === 6 && chartBase === "lagna" ? "Asc " : ""}{activePlanets.filter(p => p.rashiIndex === 6).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
             </text>
 
             {/* Box 8: Scorpio (Bottom Col 2) */}
             <text x="115" y="315" className="fill-amber-800 text-[10px] font-bold">8 {isHi ? "वृश्चिक" : "Scorpio"}</text>
             <text x="153" y="350" textAnchor="middle" className="fill-stone-900 text-[12px] font-bold">
-              {chart.lagna.rashiIndex === 7 && chartBase === "lagna" ? "Asc " : ""}{chart.planets.filter(p => p.rashiIndex === 7).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
+              {activeLagnaRashiIndex === 7 && chartBase === "lagna" ? "Asc " : ""}{activePlanets.filter(p => p.rashiIndex === 7).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
             </text>
 
             {/* Box 9: Sagittarius (Bottom-Left) */}
             <text x="20" y="315" className="fill-amber-800 text-[10px] font-bold">9 {isHi ? "धनु" : "Sagittarius"}</text>
             <text x="59" y="350" textAnchor="middle" className="fill-stone-900 text-[12px] font-bold">
-              {chart.lagna.rashiIndex === 8 && chartBase === "lagna" ? "Asc " : ""}{chart.planets.filter(p => p.rashiIndex === 8).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
+              {activeLagnaRashiIndex === 8 && chartBase === "lagna" ? "Asc " : ""}{activePlanets.filter(p => p.rashiIndex === 8).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
             </text>
 
             {/* Box 10: Capricorn (Left Row 3) */}
             <text x="20" y="220" className="fill-amber-800 text-[10px] font-bold">10 {isHi ? "मकर" : "Capricorn"}</text>
             <text x="59" y="255" textAnchor="middle" className="fill-stone-900 text-[12px] font-bold">
-              {chart.lagna.rashiIndex === 9 && chartBase === "lagna" ? "Asc " : ""}{chart.planets.filter(p => p.rashiIndex === 9).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
+              {activeLagnaRashiIndex === 9 && chartBase === "lagna" ? "Asc " : ""}{activePlanets.filter(p => p.rashiIndex === 9).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
             </text>
 
             {/* Box 11: Aquarius (Left Row 2) */}
             <text x="20" y="125" className="fill-amber-800 text-[10px] font-bold">11 {isHi ? "कुंभ" : "Aquarius"}</text>
             <text x="59" y="160" textAnchor="middle" className="fill-stone-900 text-[12px] font-bold">
-              {chart.lagna.rashiIndex === 10 && chartBase === "lagna" ? "Asc " : ""}{chart.planets.filter(p => p.rashiIndex === 10).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
+              {activeLagnaRashiIndex === 10 && chartBase === "lagna" ? "Asc " : ""}{activePlanets.filter(p => p.rashiIndex === 10).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
+            </text>
+          </svg>
+        </div>
+      ) : (
+        /* East Indian (Bengali / Odia / Assamese) Chart SVG */
+        <div className="relative w-full max-w-[370px] aspect-square sm:max-w-[440px]">
+          <svg viewBox="0 0 400 400" className="h-full w-full drop-shadow-sm select-none">
+            {/* Outer Box */}
+            <rect x="12" y="12" width="376" height="376" fill="#fffaf3" stroke="#b45309" strokeWidth="2.5" rx="4" />
+
+            {/* Horizontal & Vertical Crosses */}
+            <line x1="12" y1="200" x2="388" y2="200" stroke="#b45309" strokeWidth="1.5" />
+            <line x1="200" y1="12" x2="200" y2="388" stroke="#b45309" strokeWidth="1.5" />
+
+            {/* Corner Cross Diagonals */}
+            <line x1="12" y1="12" x2="200" y2="200" stroke="#b45309" strokeWidth="1.5" />
+            <line x1="388" y1="12" x2="200" y2="200" stroke="#b45309" strokeWidth="1.5" />
+            <line x1="12" y1="388" x2="200" y2="200" stroke="#b45309" strokeWidth="1.5" />
+            <line x1="388" y1="388" x2="200" y2="200" stroke="#b45309" strokeWidth="1.5" />
+
+            {/* Center Label */}
+            <circle cx="200" cy="200" r="28" fill="#fff5ea" stroke="#b45309" strokeWidth="1" />
+            <text x="200" y="204" textAnchor="middle" className="fill-saffron-deep font-serif text-xs font-bold">
+              {varga} East
+            </text>
+
+            {/* 12 Fixed Signs of East Indian Chart */}
+            {/* 1. Aries (Mesha) - Top Diamond Upper */}
+            <text x="200" y="40" textAnchor="middle" className="fill-amber-800 text-[11px] font-bold">1 {isHi ? "मेष" : "Aries"}</text>
+            <text x="200" y="85" textAnchor="middle" className="fill-stone-900 text-[12px] font-bold">
+              {activeLagnaRashiIndex === 0 ? "Asc " : ""}{activePlanets.filter(p => p.rashiIndex === 0).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
+            </text>
+
+            {/* 2. Taurus (Vrishabha) - Top-Left Upper */}
+            <text x="75" y="40" textAnchor="middle" className="fill-amber-800 text-[11px] font-bold">2 {isHi ? "वृषभ" : "Taurus"}</text>
+            <text x="80" y="85" textAnchor="middle" className="fill-stone-900 text-[12px] font-bold">
+              {activeLagnaRashiIndex === 1 ? "Asc " : ""}{activePlanets.filter(p => p.rashiIndex === 1).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
+            </text>
+
+            {/* 3. Gemini (Mithuna) - Left-Top */}
+            <text x="40" y="145" textAnchor="middle" className="fill-amber-800 text-[11px] font-bold">3 {isHi ? "मिथुन" : "Gemini"}</text>
+            <text x="65" y="180" textAnchor="middle" className="fill-stone-900 text-[12px] font-bold">
+              {activeLagnaRashiIndex === 2 ? "Asc " : ""}{activePlanets.filter(p => p.rashiIndex === 2).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
+            </text>
+
+            {/* 4. Cancer (Karka) - Left-Bottom */}
+            <text x="40" y="255" textAnchor="middle" className="fill-amber-800 text-[11px] font-bold">4 {isHi ? "कर्क" : "Cancer"}</text>
+            <text x="65" y="235" textAnchor="middle" className="fill-stone-900 text-[12px] font-bold">
+              {activeLagnaRashiIndex === 3 ? "Asc " : ""}{activePlanets.filter(p => p.rashiIndex === 3).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
+            </text>
+
+            {/* 5. Leo (Simha) - Bottom-Left Lower */}
+            <text x="75" y="375" textAnchor="middle" className="fill-amber-800 text-[11px] font-bold">5 {isHi ? "सिंह" : "Leo"}</text>
+            <text x="80" y="325" textAnchor="middle" className="fill-stone-900 text-[12px] font-bold">
+              {activeLagnaRashiIndex === 4 ? "Asc " : ""}{activePlanets.filter(p => p.rashiIndex === 4).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
+            </text>
+
+            {/* 6. Virgo (Kanya) - Bottom Center */}
+            <text x="200" y="375" textAnchor="middle" className="fill-amber-800 text-[11px] font-bold">6 {isHi ? "कन्या" : "Virgo"}</text>
+            <text x="200" y="325" textAnchor="middle" className="fill-stone-900 text-[12px] font-bold">
+              {activeLagnaRashiIndex === 5 ? "Asc " : ""}{activePlanets.filter(p => p.rashiIndex === 5).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
+            </text>
+
+            {/* 7. Libra (Tula) - Bottom-Right Lower */}
+            <text x="325" y="375" textAnchor="middle" className="fill-amber-800 text-[11px] font-bold">7 {isHi ? "तुला" : "Libra"}</text>
+            <text x="320" y="325" textAnchor="middle" className="fill-stone-900 text-[12px] font-bold">
+              {activeLagnaRashiIndex === 6 ? "Asc " : ""}{activePlanets.filter(p => p.rashiIndex === 6).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
+            </text>
+
+            {/* 8. Scorpio (Vrischika) - Right-Bottom */}
+            <text x="360" y="255" textAnchor="middle" className="fill-amber-800 text-[11px] font-bold">8 {isHi ? "वृश्चिक" : "Scorpio"}</text>
+            <text x="335" y="235" textAnchor="middle" className="fill-stone-900 text-[12px] font-bold">
+              {activeLagnaRashiIndex === 7 ? "Asc " : ""}{activePlanets.filter(p => p.rashiIndex === 7).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
+            </text>
+
+            {/* 9. Sagittarius (Dhanu) - Right-Top */}
+            <text x="360" y="145" textAnchor="middle" className="fill-amber-800 text-[11px] font-bold">9 {isHi ? "धनु" : "Sagittarius"}</text>
+            <text x="335" y="180" textAnchor="middle" className="fill-stone-900 text-[12px] font-bold">
+              {activeLagnaRashiIndex === 8 ? "Asc " : ""}{activePlanets.filter(p => p.rashiIndex === 8).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
+            </text>
+
+            {/* 10. Capricorn (Makara) - Top-Right Upper */}
+            <text x="325" y="40" textAnchor="middle" className="fill-amber-800 text-[11px] font-bold">10 {isHi ? "मकर" : "Capricorn"}</text>
+            <text x="320" y="85" textAnchor="middle" className="fill-stone-900 text-[12px] font-bold">
+              {activeLagnaRashiIndex === 9 ? "Asc " : ""}{activePlanets.filter(p => p.rashiIndex === 9).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
+            </text>
+
+            {/* 11. Aquarius (Kumbha) - Inner Right-Top Diamond */}
+            <text x="255" y="145" textAnchor="middle" className="fill-amber-800 text-[10px] font-bold">11 {isHi ? "कुंभ" : "Aquarius"}</text>
+            <text x="245" y="170" textAnchor="middle" className="fill-stone-900 text-[11px] font-bold">
+              {activeLagnaRashiIndex === 10 ? "Asc " : ""}{activePlanets.filter(p => p.rashiIndex === 10).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
+            </text>
+
+            {/* 12. Pisces (Meena) - Inner Left-Top Diamond */}
+            <text x="145" y="145" textAnchor="middle" className="fill-amber-800 text-[10px] font-bold">12 {isHi ? "मीन" : "Pisces"}</text>
+            <text x="155" y="170" textAnchor="middle" className="fill-stone-900 text-[11px] font-bold">
+              {activeLagnaRashiIndex === 11 ? "Asc " : ""}{activePlanets.filter(p => p.rashiIndex === 11).map(p => getPlanetLabel(p.id, p.retrograde)).join(" ")}
             </text>
           </svg>
         </div>

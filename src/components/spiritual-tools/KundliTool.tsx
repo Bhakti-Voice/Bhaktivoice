@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import {
+  Award,
   Calendar,
   Check,
   Clock,
@@ -25,6 +26,7 @@ import { ToolSection, primaryButtonClassName } from "./ToolUi";
 import { KundliChartSvg } from "./KundliChartSvg";
 import { ManglikCard } from "./ManglikCard";
 import { KundliDashaTable } from "./KundliDashaTable";
+import { AshtakavargaTable } from "./AshtakavargaTable";
 
 export function KundliTool() {
   const locale = useLocale();
@@ -39,7 +41,7 @@ export function KundliTool() {
   const [loading, setLoading] = useState(false);
   const [chart, setChart] = useState<KundliChart | null>(null);
   const [copied, setCopied] = useState(false);
-  const [activeTab, setActiveTab] = useState<"chart" | "planets" | "houses" | "dasha" | "manglik">("chart");
+  const [activeTab, setActiveTab] = useState<"chart" | "ashtakavarga" | "planets" | "houses" | "dasha" | "manglik">("chart");
 
   async function onSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -247,7 +249,20 @@ export function KundliTool() {
               }`}
             >
               <Compass className="h-3.5 w-3.5" />
-              <span>{isHi ? "कुंडली चक्र (Charts)" : "Kundli Charts"}</span>
+              <span>{isHi ? "कुंडली चक्र (16 वर्ग)" : "Kundli Charts (16 Vargas)"}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveTab("ashtakavarga")}
+              className={`flex items-center gap-2 whitespace-nowrap rounded-xl px-4 py-2 text-xs font-bold transition ${
+                activeTab === "ashtakavarga"
+                  ? "bg-white text-saffron-deep shadow-xs"
+                  : "text-muted hover:text-ink"
+              }`}
+            >
+              <Award className="h-3.5 w-3.5" />
+              <span>{isHi ? "अष्टकवर्ग (Ashtakavarga)" : "Ashtakavarga (SAV/BAV)"}</span>
             </button>
 
             <button
@@ -339,6 +354,9 @@ export function KundliTool() {
               </div>
             </div>
           )}
+
+          {/* Tab: Ashtakavarga Matrix */}
+          {activeTab === "ashtakavarga" && <AshtakavargaTable chart={chart} />}
 
           {/* Tab 2: Planetary Positions Table */}
           {activeTab === "planets" && (

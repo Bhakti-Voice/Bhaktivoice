@@ -40,6 +40,8 @@ export function Footer() {
         { href: PATHS.naamJaap, label: t.nav.naamJaap },
         { href: PATHS.katha, label: t.nav.katha },
         { href: PATHS.yatra, label: t.nav.yatra },
+        { href: PATHS.babyNames, label: "Vedic Baby Names (नामकरण)" },
+        { href: PATHS.printableCalendar, label: "Printable Wall Calendar (PDF)" },
       ],
     },
     {

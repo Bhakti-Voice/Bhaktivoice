@@ -27,6 +27,7 @@ const TOOL_COLUMNS: ToolColumn[] = [
     items: [
       { href: "/kundli", labelEn: "Free Janam Kundli", labelHi: "मुफ्त जन्म कुंडली" },
       { href: "/kundli-milan", labelEn: "Kundli Milan (36 Guna)", labelHi: "३६ गुण कुंडली मिलान" },
+      { href: "/baby-names", labelEn: "Baby Names by Nakshatra", labelHi: "नक्षत्र अनुसार नामकरण" },
       { href: "/panchang/chandrabalam", labelEn: "Chandrabalam Finder", labelHi: "दैनिक चंद्रबलम" },
       { href: "/panchang/nakshatra", labelEn: "Nakshatra Calculator", labelHi: "नक्षत्र एवं राशि फल" },
     ],
@@ -47,6 +48,7 @@ const TOOL_COLUMNS: ToolColumn[] = [
     categoryEn: "Creative & Utilities",
     categoryHi: "उपयोगी टूल्स व मीडिया",
     items: [
+      { href: "/printable-calendar", labelEn: "Printable Wall Calendar (PDF)", labelHi: "दीवार कैलेंडर प्रिंट / PDF" },
       { href: "/suvichar-card-maker", labelEn: "Suvichar Status Maker", labelHi: "सुविचार स्टेटस मेकर" },
       { href: "/sacred-yatra-guides/planner", labelEn: "Tirth Yatra Planner", labelHi: "तीर्थ यात्रा प्लानर" },
       { href: "/panchang/panchang-utilities", labelEn: "Panchang Utilities", labelHi: "पंचांग टूल्स एवं गणना" },

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { Printer, Sparkles } from "lucide-react";
 import { CalendarView } from "@/components/calendar/CalendarView";
+import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { PageHero } from "@/components/layout/PageHero";
 import { FaqList } from "@/components/seo/FaqList";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -156,6 +158,35 @@ export default async function HinduCalendarPage({
         initialCityId={params.city}
         initialSelectedDate={params.date}
       />
+
+      {/* Printable Wall Calendar Callout Banner */}
+      <div className="mx-auto max-w-7xl px-4 pt-8 lg:px-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 rounded-3xl border border-saffron/30 bg-gradient-to-r from-[#fff9f2] via-white to-[#fff9f2] p-6 shadow-xs">
+          <div>
+            <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-saffron-deep">
+              <Sparkles className="h-3.5 w-3.5" />
+              <span>{isHi ? "नया फीचर: दीवार कैलेंडर" : "New: Printable Wall Calendar"}</span>
+            </div>
+            <h3 className="mt-1.5 font-serif text-xl sm:text-2xl font-bold text-ink">
+              {isHi
+                ? "घर एवं मंदिर के लिए सनातन पंचांग दीवार कैलेंडर प्रिंट करें"
+                : "Printable Sanatan Panchang Wall Calendar (A4 PDF)"}
+            </h3>
+            <p className="mt-1 text-xs sm:text-sm text-muted max-w-2xl">
+              {isHi
+                ? "अपने शहर के सूर्योदय-सूर्यास्त, विक्रम संवत्, एकादशी और सम्पूर्ण पर्वों की सूची के साथ उच्च गुणवत्ता वाला A4 दीवार पोस्टर एक क्लिक में प्रिंट करें या PDF डाउनलोड करें।"
+                : "Download high-resolution, print-ready A4 Hindu Wall Calendar poster customized with your city's exact sunrise, Tithi, Ekadashi, and festival timings."}
+            </p>
+          </div>
+          <LocaleLink
+            href={PATHS.printableCalendar}
+            className="shrink-0 inline-flex items-center gap-2 rounded-2xl bg-saffron-deep px-5 py-2.5 text-xs sm:text-sm font-bold text-white shadow-sm hover:bg-[#963806] active:scale-95 transition"
+          >
+            <Printer className="h-4 w-4" />
+            <span>{isHi ? "कैलेंडर प्रिंट करें" : "Print Calendar (PDF)"}</span>
+          </LocaleLink>
+        </div>
+      </div>
 
       <div className="mx-auto max-w-4xl px-4 py-12 lg:px-8">
         <FaqList
