@@ -24,32 +24,42 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return localizedMetadata({
     title: isHi
-      ? `पंचक कब है 2026 (${dateFormatted}) — आज पंचक की स्थिति, प्रकार, वर्जित कार्य व उपाय`
-      : `Panchak 2026 Dates (${dateFormatted}) — Today Panchak Status, Types & Niyam`,
+      ? `पंचक कब है 2026 (${dateFormatted}) — आज पंचक है या नहीं? तारीखें, वर्जित कार्य व उपाय`
+      : `Panchak Kab Hai 2026 (${dateFormatted}) — Today Panchak Status, Start-End Dates & Niyam`,
     description: isHi
-      ? `आज ${dateFormatted} को पंचक है या नहीं? पंचक के 5 प्रकार (रोग, राज, अग्नि, चोर, मृत्यु पंचक), वर्जित कार्य, शांति उपाय एवं वर्ष 2026 की संपूर्ण तिथि समय सारणी।`
-      : `Is Panchak active today (${dateFormatted})? Check Panchak types, start and end dates, prohibited activities, and full 2026 Panchak calendar schedule.`,
+      ? `आज ${dateFormatted} को पंचक है या नहीं? पंचक कब से कब तक है? 5 प्रकार (राज, रोग, अग्नि, चोर, मृत्यु पंचक), 5 वर्जित कार्य, शांति उपाय एवं 2026 की संपूर्ण पंचांग तालिका।`
+      : `Is Panchak active today (${dateFormatted})? Check accurate Panchak start and end dates, 5 Panchak types (Raja, Roga, Agni, Chora, Mrityu), prohibited activities, and full 2026-2027 Panchak schedule.`,
     path: PATHS.panchak,
     keywords: isHi
       ? [
           "पंचक कब है",
           "आज पंचक है या नहीं",
           "पंचक 2026 तारीख",
+          "पंचक कब से कब तक है",
+          "पंचक में क्या नहीं करना चाहिए",
           "पंचक के प्रकार",
-          "मृत्यु पंचक",
-          "राज पंचक",
-          "पंचक में वर्जित कार्य",
-          "पंचक शांति उपाय",
+          "राज पंचक 2026",
+          "मृत्यु पंचक प्रभाव",
+          "अग्नि पंचक",
+          "चोर पंचक",
+          "पंचक शांति पूजा विधि",
+          "panchak kab hai 2026",
         ]
       : [
           "panchak kab hai",
+          "panchak 2026",
           "today panchak status",
-          "panchak 2026 dates",
+          "panchak start and end date 2026",
           "is panchak active today",
-          "panchak types",
-          "mrityu panchak",
-          "raja panchak",
+          "aaj panchak hai ya nahi",
           "panchak prohibited activities",
+          "what not to do in panchak",
+          "raja panchak",
+          "mrityu panchak timings",
+          "agni panchak dosh remedies",
+          "panchak dates 2026 calendar",
+          "panchak nakshatra 5 list",
+          "panchak shanti vidhi",
         ],
   });
 }

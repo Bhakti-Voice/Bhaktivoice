@@ -24,32 +24,45 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return localizedMetadata({
     title: isHi
-      ? `आज का चौघड़िया (${dateFormatted}) — दिन और रात का शुभ चौघड़िया मुहूर्त`
-      : `Today's Choghadiya (${dateFormatted}) — Aaj Ka Choghadiya, Day & Night Muhurat`,
+      ? `आज का चौघड़िया (${dateFormatted}) — दिन और रात का शुभ चौघड़िया मुहूर्त | Aaj Ka Choghadiya`
+      : `Aaj Ka Choghadiya (आज का चौघड़िया) — Today's Choghadiya Muhurat ${dateFormatted} | Day & Night Timings`,
     description: isHi
-      ? `आज ${dateFormatted} का संपूर्ण दिन और रात का चौघड़िया मुहूर्त। अमृत, शुभ, लाभ, चर, रोग, काल और उद्वेग की सटीक समय सारणी अपने शहर अनुसार देखें। 100% सटीक वैदिक गणना।`
-      : `Get accurate Today's Choghadiya for ${dateFormatted}. Day and Night Choghadiya timings with Amrit, Shubh, Labh, Char, Rog, Kaal, and Udveg for 120+ Indian and global cities.`,
+      ? `आज ${dateFormatted} का संपूर्ण दिन और रात का शुभ चौघड़िया मुहूर्त। अमृत, शुभ, लाभ, चर, रोग, काल और उद्वेग की सटीक समय सारणी अपने शहर अनुसार देखें। यात्रा, गृह प्रवेश व नवीन कार्य हेतु सर्वोत्तम चौघड़िया।`
+      : `Check accurate Aaj Ka Choghadiya for today (${dateFormatted}). Live Day & Night Choghadiya table with Amrit, Shubh, Labh timings, Rahu Kaal, and Shubh Muhurat for 120+ Indian and global cities.`,
     path: PATHS.choghadiya,
     keywords: isHi
       ? [
           "आज का चौघड़िया",
-          "दैनिक चौघड़िया",
+          "आज का शुभ चौघड़िया मुहूर्त",
           "दिन का चौघड़िया",
           "रात का चौघड़िया",
-          "शुभ चौघड़िया मुहूर्त",
-          "अमृत चौघड़िया",
-          "लाभ चौघड़िया",
-          "चौघड़िया मुहूर्त आज",
+          "अमृत चौघड़िया कब है",
+          "लाभ चौघड़िया समय",
+          "दैनिक चौघड़िया सारणी",
+          "चौघड़िया मुहूर्त 2026",
+          "aaj ka choghadiya hindi",
+          "आज का चौघड़िया दिल्ली",
+          "शुभ चौघड़िया समय",
         ]
       : [
           "aaj ka choghadiya",
           "today choghadiya",
-          "day night choghadiya",
+          "choghadiya",
+          "choghadiya today",
           "shubh choghadiya today",
-          "choghadiya timings",
+          "day night choghadiya",
           "amrit choghadiya",
+          "labh choghadiya",
           "choghadiya muhurat",
-          "choghadiya today delhi",
+          "choghadiya timings today",
+          "aaj ka choghadiya shubh ya ashubh",
+          "choghadiya table 2026",
+          "today choghadiya delhi",
+          "raat ka choghadiya",
+          "shubh muhurat choghadiya",
+          "today choghadiya in hindi",
+          "is today choghadiya shubh",
+          "choghadiya chart today",
         ],
   });
 }

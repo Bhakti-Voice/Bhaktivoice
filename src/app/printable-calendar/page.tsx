@@ -18,31 +18,43 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return localizedMetadata({
     title: isHi
-      ? `हिन्दू दीवार कैलेंडर ${currentYear} (Print / PDF) — सनातन पंचांग एवं व्रत त्यौहार`
-      : `Printable Hindu Calendar ${currentYear} (PDF / Wall Calendar) — Sanatan Panchang`,
+      ? `हिन्दू दीवार कैलेंडर ${currentYear} (Print / PDF) — सनातन पंचांग, व्रत त्यौहार व एकादशी तारीखें`
+      : `Printable Hindu Calendar ${currentYear} (PDF / Wall Calendar) — Free Sanatan Panchang Download`,
     description: isHi
-      ? `${currentYear} का प्रामाणिक सनातन दीवार कैलेंडर (Wall Calendar)। किसी भी शहर के लिए मासिक व वार्षिक पंचांग, एकादशी, पूर्णिमा, अमावस्या एवं प्रमुख त्यौहार एक क्लिक में प्रिंट करें या PDF डाउनलोड करें।`
-      : `Download or print authentic monthly & annual Hindu Wall Calendar for ${currentYear}. Complete Sanatan Panchang with Tithi, Nakshatra, Ekadashi, Vrats, and festivals for any city.`,
+      ? `${currentYear} का प्रामाणिक सनातन दीवार कैलेंडर (Wall Calendar)। किसी भी शहर के लिए 12 महीनों का पंचांग, एकादशी, पूर्णिमा, अमावस्या एवं प्रमुख त्यौहार एक क्लिक में A4 शीट पर प्रिंट करें या PDF डाउनलोड करें। लाला रामस्वरूप व ठाकुर प्रसाद पंचांग अनुरूप।`
+      : `Download or print free monthly & annual Hindu Wall Calendar ${currentYear} (Vikram Samvat 2082-2083) in A4 PDF. Complete Sanatan Panchang with Tithi, Nakshatra, Ekadashi, Vrats, and festival markers for any city.`,
     path: PATHS.printableCalendar,
     keywords: isHi
       ? [
           "हिन्दू दीवार कैलेंडर 2026",
-          "सनातन पंचांग 2026 pdf",
-          "हिन्दू कैलेंडर प्रिंट",
-          "aaj ka panchang print",
-          "लाला रामस्वरूप पंचांग 2026",
-          "ठाकुर प्रसाद कैलेंडर 2026",
-          "wall calendar hindi 2026",
-          "एकादशी व्रत कैलेंडर प्रिंट",
+          "सनातन पंचांग 2026 pdf डाउनलोड",
+          "लाला रामस्वरूप पंचांग 2026 pdf",
+          "ठाकुर प्रसाद पंचांग 2026",
+          "हिन्दू कैलेंडर प्रिंट आउट",
+          "2026 का हिन्दू कैलेंडर व्रत त्यौहार सहित",
+          "एकादशी व्रत कैलेंडर 2026 print",
+          "विक्रम संवत 2082 2083 कैलेंडर",
+          "मासिक पंचांग कैलेंडर 2026",
+          "हिन्दू पंचांग वॉल पोस्टर",
+          "बाबूलाल चतुर्वेदी कैलेंडर 2026",
+          "hindu calendar 2026 pdf download",
         ]
       : [
           "printable hindu calendar 2026",
           "hindu wall calendar 2026 pdf",
-          "sanatan panchang printable",
-          "hindu calendar pdf download",
+          "hindu calendar 2026 pdf download",
+          "sanatan panchang printable 2026",
+          "free printable hindu calendar with tithi",
+          "hindu calendar 2026 with festivals pdf",
           "monthly hindu calendar for print",
-          "vedic calendar wall poster",
-          "tithi calendar 2026 print",
+          "lala ramswaroop calendar 2026 pdf download",
+          "thakur prasad calendar 2026 pdf",
+          "babulal chaturvedi calendar 2026",
+          "vikram samvat 2082 calendar printable",
+          "ekadashi calendar 2026 printable",
+          "hindu festival calendar 2026 a4 print",
+          "indian calendar 2026 pdf download",
+          "panchang wall calendar",
         ],
   });
 }

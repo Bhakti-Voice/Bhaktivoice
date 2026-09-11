@@ -68,6 +68,16 @@ export const SPIRITUAL_TOOL_FAQS = {
       answer:
         "Enter your exact date of birth, time of birth, and birthplace. For the most accurate Ascendant (Lagna) and planetary house positions, use the precise time recorded on your official birth record.",
     },
+    {
+      question: "What are the 16 Divisional Charts (Shodashvarga) in Vedic astrology?",
+      answer:
+        "Shodashvarga refers to the 16 harmonic sub-divisional charts formulated by Maharishi Parashara: D-1 (Rashi - physical life), D-2 (Hora - wealth), D-3 (Drekkana - siblings & courage), D-4 (Chaturthamsha - fortune & property), D-7 (Saptamsha - progeny), D-9 (Navamsha - spouse, dharma & inner self), D-10 (Dashamsha - career & status), D-12 (Dwadashamsha - parents), D-16 (Shodashamsha - vehicles & pleasures), D-20 (Vimshamsha - spirituality), D-24 (Chaturvimshamsha - learning & intellect), D-27 (Saptavimshamsha - strength), D-30 (Trimshamsha - misfortunes & evils), D-40 (Khavedamsha - auspiciousness), D-45 (Akshavedamsha - character), and D-60 (Shashtiamsha - karmic past life).",
+    },
+    {
+      question: "How does the Parashari Ashtakavarga system evaluate strength?",
+      answer:
+        "Ashtakavarga evaluates the relative benefic influence (Bindus) of the 7 major planets across all 12 houses. The total Sarvashtakavarga (SAV) score is 337 points. Houses with 28 or more Bindus indicate strength, prosperity, and auspicious transit results, while houses below 25 require remedial astrological attention.",
+    },
   ] satisfies Faq[],
 
   milan: [
@@ -152,6 +162,16 @@ export const SPIRITUAL_TOOL_FAQS_HI = {
       answer:
         "सटीक लग्न और ग्रह स्थिति हेतु सटीक जन्म तिथि, जन्म समय (घंटे और मिनट) और जन्म स्थान दर्ज करें।",
     },
+    {
+      question: "वैदिक ज्योतिष में 16 वर्ग कुंडलियां (षोडशवर्ग) क्या होती हैं?",
+      answer:
+        "महर्षि पराशर द्वारा प्रतिपादित 16 वर्ग कुंडलियां जीवन के विभिन्न क्षेत्रों का सूक्ष्म विश्लेषण करती हैं: D-1 लग्न (शारीरिक जीवन), D-2 होरा (धन-संपत्ति), D-3 द्रेष्काण (भाई-बहन व पराक्रम), D-7 सप्तमांश (संतान), D-9 नवांश (विवाह व धर्म), D-10 दशमांश (आजीविका, करियर व मान-प्रतिष्ठा), D-12 द्वादशांश (माता-पिता), D-30 त्रिंशांश (अरिष्ट व कष्ट) तथा D-60 षष्ट्यंश (पूर्व जन्म के संचित कर्म)।",
+    },
+    {
+      question: "महर्षि पराशर अष्टाकवर्ग पद्धति कैसे काम करती है?",
+      answer:
+        "अष्टाकवर्ग में 7 प्रमुख ग्रहों द्वारा 12 भावों में दिए गए शुभ अंकों (बिंदुओं) का मूल्यांकन किया जाता है। कुल सर्वाष्टाकवर्ग (SAV) 337 बिंदुओं का होता है। जिस भाव में 28 या अधिक बिंदु होते हैं, वह भाव बलिष्ठ एवं शुभ फलदायी होता है, जबकि 25 से कम बिंदु वाले भावों में सावधानी आवश्यक होती है।",
+    },
   ] satisfies Faq[],
 
   milan: [
@@ -192,10 +212,25 @@ export const SPIRITUAL_TOOL_KEYWORDS = {
   kundli: [
     "free kundli",
     "janam kundli",
+    "kundli in hindi",
+    "online kundli",
     "birth chart calculator",
     "free kundli reading online",
     "exact janam patrika by date of birth",
     "vedic astrology chart",
+    "16 divisional charts",
+    "shodashvarga chart calculator",
+    "navamsha chart d9",
+    "dashamsha chart d10",
+    "ashtakavarga calculator",
+    "sarvashtakavarga points calculator",
+    "parashari ashtakavarga",
+    "south indian kundli online",
+    "east indian kundli chart",
+    "kundli kaise dekhe",
+    "janam kundali online free in hindi",
+    "manglik dosha calculator",
+    "vimshottari dasha calculator",
   ],
   milan: [
     "kundli milan",

@@ -17,33 +17,51 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return localizedMetadata({
     title: isHi
-      ? "नक्षत्र अनुसार बच्चों के नाम — 108 पाद नामाक्षर एवं वैदिक नामकरण"
-      : "Baby Names by Nakshatra & Pada — Vedic Namkaran Syllables 2026",
+      ? "नक्षत्र अनुसार बच्चों के नाम 2026 — 108 पाद नामाक्षर, 12 राशि के आधुनिक व वैदिक नाम"
+      : "Baby Names by Nakshatra & Pada 2026 (नक्षत्र अनुसार नाम) — 108 Vedic Namkaran Syllables & Modern Names",
     description: isHi
-      ? "27 नक्षत्रों के 108 पाद नामाक्षर और 12 राशियों के अनुसार बालक व बालिकाओं के सर्वश्रेष्ठ वैदिक नाम। संस्कृत अर्थ, कुलदेवता, अंक ज्योतिष एवं नामकरण संस्कार विधि।"
-      : "Find auspicious Hindu baby names by Janma Nakshatra and Pada. Explore 108 sacred syllables, Rashi letters, Sanskrit meanings, deities, and Vedic Namkaran rules.",
+      ? "27 नक्षत्रों के 108 पाद नामाक्षर (1, 2, 3, 4 पाद) और 12 राशियों के अनुसार नवजात बालकों और बालिकाओं के सर्वश्रेष्ठ वैदिक व आधुनिक नाम। सुंदर संस्कृत अर्थ, कुलदेवी-देवता एवं शास्त्रसम्मत नामकरण विधि।"
+      : "Find auspicious Hindu baby names by Nakshatra and Pada (1, 2, 3, 4) in 2026. Complete 108 sacred Vedic syllables, 12 Rashi letters, boy & girl names with Sanskrit meanings, deities, and Namkaran rules.",
     path: PATHS.babyNames,
     keywords: isHi
       ? [
           "नक्षत्र अनुसार बच्चों के नाम",
-          "वैदिक नामकरण संस्कार",
-          "राशि अनुसार नाम",
-          "लड़कों के नाम",
-          "लड़कियों के नाम",
-          "संस्कृत नाम अर्थ सहित",
-          "108 नामाक्षर",
+          "जन्म नक्षत्र के अनुसार नाम",
+          "108 पाद नामाक्षर",
+          "राशि अनुसार बच्चों के नाम",
+          "लड़कों के आधुनिक नाम अर्थ सहित",
+          "लड़कियों के सुंदर वैदिक नाम",
+          "वैदिक नामकरण संस्कार विधि",
+          "नक्षत्र नामाक्षर 2026",
+          "संस्कृत में बच्चों के नाम",
+          "हिन्दू बेबी नेम्स 2026",
+          "मेष राशि के नाम",
+          "अश्विनी नक्षत्र के नाम",
+          "रोहिणी नक्षत्र के नाम",
           "baby names hindi",
+          "bacchon ke naam nakshatra ke hisab se",
         ]
       : [
           "baby names by nakshatra",
           "nakshatra baby names",
-          "hindu baby names 2026",
+          "baby names by nakshatra pada",
+          "baby names by nakshatra pada 1 2 3 4",
+          "hindu baby boy names by nakshatra",
+          "hindu baby girl names by nakshatra",
+          "modern hindu baby names 2026",
           "vedic baby names with meaning",
           "namkaran syllables",
-          "rashi baby names",
-          "boy girl baby names sanskrit",
-          "baby names by pada",
           "108 nakshatra syllables",
+          "rashi baby names",
+          "rashi letters for baby names",
+          "nakshatra ke hisab se bacchon ke naam",
+          "janma nakshatra baby names",
+          "sanskrit baby names with meanings",
+          "unique indian baby names 2026",
+          "namkaran sanskar vidhi and rules",
+          "baby names by date of birth and time",
+          "astrology baby names boy and girl",
+          "hindu baby names 2026",
         ],
   });
 }

@@ -20,34 +20,47 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return localizedMetadata({
     title: isHi
-      ? `हिन्दू कैलेंडर ${currentYear} — दैनिक पंचांग, आज की तिथि, व्रत एवं त्यौहार`
-      : `Hindu Calendar ${currentYear} — Daily Panchang, Tithi, Festivals & Vrat`,
+      ? `हिन्दू कैलेंडर ${currentYear} (सनातन पंचांग) — आज की तिथि, व्रत, त्यौहार व शुभ मुहूर्त`
+      : `Hindu Calendar ${currentYear} (सनातन पंचांग) — Daily Panchang, Tithi, Festivals & Vrat`,
     description: isHi
-      ? `${currentYear} का सम्पूर्ण हिन्दू कैलेंडर और वैदिक पंचांग। सटीक तिथि, नक्षत्र, शुभ मुहूर्त, राहु काल, एकादशी, पूर्णिमा, अमावस्या एवं प्रमुख हिन्दू त्यौहार देखें।`
-      : `Complete Hindu Calendar & Vedic Panchang for ${currentYear}. Get accurate Tithi, Nakshatra, Shubh Muhurat, Rahu Kaal, Ekadashi, Purnima, and Hindu festivals with city-wise timings.`,
+      ? `${currentYear} का सम्पूर्ण हिन्दू कैलेंडर और प्रामाणिक सनातन पंचांग (विक्रम संवत 2082-2083)। आज की तिथि, नक्षत्र, शुभ मुहूर्त, राहु काल, एकादशी, पूर्णिमा, प्रदोष व्रत, अमावस्या एवं प्रमुख हिन्दू त्यौहारों की संपूर्ण सूची।`
+      : `Complete Hindu Calendar & Vedic Sanatan Panchang for ${currentYear} (Vikram Samvat 2082-2083). Accurate Tithi, Nakshatra, Shubh Muhurat, Rahu Kaal, Ekadashi, Purnima, Pradosh, and Hindu festivals with city-wise timings.`,
     path: PATHS.calendar,
     keywords: isHi
       ? [
           "हिन्दू कैलेंडर 2026",
+          "सनातन पंचांग 2026",
           "आज का पंचांग",
           "आज की तिथि",
           "एकादशी व्रत 2026",
-          "पूर्णिमा व्रत",
-          "अमावस्या",
-          "शुभ मुहूर्त",
-          "राहु काल समय",
+          "पूर्णिमा व्रत 2026",
+          "अमावस्या तारीखें",
+          "प्रदोष व्रत 2026",
+          "शुभ विवाह मुहूर्त 2026",
+          "हिन्दू त्यौहार 2026 सूची",
+          "विक्रम संवत 2082 2083",
+          "लाला रामस्वरूप कैलेंडर 2026",
+          "ठाकुर प्रसाद पंचांग 2026",
+          "दृक पंचांग कैलेंडर 2026",
         ]
       : [
           "hindu calendar 2026",
+          "hindu calendar",
           "panchang today",
           "aaj ka panchang",
           "hindu festivals 2026",
           "ekadashi dates 2026",
-          "purnima dates",
-          "amavasya dates",
-          "shubh muhurat",
+          "purnima dates 2026",
+          "amavasya dates 2026",
+          "pradosh vrat 2026",
+          "shubh muhurat 2026",
           "rahu kaal timing",
           "tithi today",
+          "hindu calendar with tithi",
+          "sanatan panchang 2026",
+          "drik panchang 2026",
+          "indian calendar 2026",
+          "vikram samvat 2082 calendar",
         ],
   });
 }

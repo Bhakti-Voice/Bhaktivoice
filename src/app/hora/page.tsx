@@ -24,30 +24,50 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return localizedMetadata({
     title: isHi
-      ? `आज की शुभ होरा (${dateFormatted}) — 24 दैनिक ग्रह होरा समय सारणी`
-      : `Planetary Hora Today (${dateFormatted}) — Shubha Hora Timings & Calculator`,
+      ? `आज की शुभ होरा (${dateFormatted}) — 24 दैनिक ग्रह होरा चक्र | दिन व रात का शुभ मुहूर्त`
+      : `Aaj Ki Hora (${dateFormatted}) — Planetary Hora Today, Day & Night Shubh Hora Timings`,
     description: isHi
-      ? `आज ${dateFormatted} की 24 दैनिक ग्रह होरा। सूर्य, शुक्र, बुध, चंद्र, शनि, गुरु व मंगल होरा का सटीक समय एवं प्रत्येक ग्रह अनुसार शुभ कार्य।`
-      : `Check Today's Planetary Hora for ${dateFormatted}. Accurate 24 Day and Night Horas (Sun, Venus, Mercury, Moon, Saturn, Jupiter, Mars) with favorable activities.`,
+      ? `आज ${dateFormatted} की 24 दैनिक ग्रह होरा का सटीक समय। सूर्य, शुक्र, बुध, चंद्र, शनि, गुरु और मंगल होरा के शुभ फल, व्यापार, यात्रा, गृह प्रवेश व नवीन कार्य आरम्भ हेतु शुभ होरा मुहूर्त सारणी।`
+      : `Check accurate Aaj Ki Hora for today (${dateFormatted}). Complete 24-hour planetary hora table (Sun, Venus, Mercury, Moon, Saturn, Jupiter, Mars) with auspicious timings for wealth, travel, business, and Puja across 120+ cities.`,
     path: PATHS.hora,
     keywords: isHi
       ? [
           "आज की होरा",
-          "शुभ होरा मुहूर्त",
-          "दैनिक ग्रह होरा",
-          "काल होरा",
-          "गुरु होरा समय",
-          "शुक्र होरा समय",
-          "होरा चक्र आज",
+          "शुभ होरा मुहूर्त आज",
+          "दैनिक ग्रह होरा चक्र",
+          "आज की शुभ होरा कब है",
+          "काल होरा समय सारणी",
+          "गुरु होरा का समय",
+          "शुक्र होरा कब है",
+          "दिन और रात की होरा",
+          "सोना खरीदने की शुभ होरा",
+          "व्यापार शुरू करने की होरा",
+          "ग्रह होरा 2026",
+          "होरा मुहूर्त तालिका",
+          "aaj ki hora",
+          "today hora hindi",
         ]
       : [
-          "planetary hora today",
           "aaj ki hora",
+          "planetary hora today",
+          "hora today",
+          "today hora timings",
+          "shubh hora today",
           "shubha hora timings",
           "kaal hora calculator",
-          "jupiter hora time",
-          "venus hora time",
-          "24 hora table today",
+          "day and night hora table",
+          "jupiter hora time today",
+          "shukra hora time today",
+          "venus hora timings",
+          "surya hora time today",
+          "chandra hora time",
+          "budh hora timings",
+          "mangal hora time",
+          "shani hora timings",
+          "hora for buying gold",
+          "hora chart today",
+          "24 hora timings calculator",
+          "hora in astrology",
         ],
   });
 }
@@ -138,11 +158,11 @@ export default async function HoraPage({
       />
 
       <PageHero
-        title={isHi ? "दैनिक शुभ ग्रह होरा" : "Planetary Hora Calculator"}
+        title={isHi ? "आज की शुभ होरा — 24 दैनिक ग्रह होरा चक्र" : "Aaj Ki Hora — Planetary Hora Today"}
         subtitle={
           isHi
-            ? "दिन एवं रात की 24 ग्रह होरा का सटीक समय। किस होरा में कौन सा कार्य करना फलदायी है, शास्त्रीय प्रमाण सहित देखें।"
-            : "Accurate 24 Day and Night Planetary Horas. Discover favorable and unfavorable hours ruled by the nine celestial grahas."
+            ? "दिन एवं रात की 24 ग्रह होरा का सटीक समय। सूर्य, शुक्र, गुरु आदि ग्रहों की शुभ होरा एवं अनुकूल कार्यों की शास्त्रीय समय सारणी।"
+            : "Live 24 Day and Night Planetary Horas. Check favorable timings for Sun, Jupiter, Venus, Moon, Mars, Mercury, and Saturn."
         }
         hub="spirituality"
         crumbs={localizedCrumbs(

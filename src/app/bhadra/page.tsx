@@ -24,30 +24,51 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return localizedMetadata({
     title: isHi
-      ? `भद्रा कब है (${dateFormatted}) — आज भद्रा की स्थिति, भद्रा वास एवं मुख-पुच्छ समय`
-      : `Bhadra Timings Today (${dateFormatted}) — Bhadra Status, Vaas & Mukha Puchha`,
+      ? `भद्रा कब है आज (${dateFormatted}) — आज भद्रा कब से कब तक है? भद्रा वास व मुख-पुच्छ समय`
+      : `Bhadra Timings Today (${dateFormatted}) — Aaj Bhadra Kab Hai? Live Status, Vaas & Mukha Puchha`,
     description: isHi
-      ? `आज ${dateFormatted} को भद्रा कब से कब तक है? भद्रा वास (स्वर्ग, पृथ्वी, पाताल), भद्रा मुख एवं पुच्छ काल, रक्षाबंधन व होलिका दहन के विशेष शास्त्रीय नियम।`
-      : `Is Bhadra active today (${dateFormatted})? Check Bhadra start & end timings, Bhadra Vaas (Swarga, Prithvi, Patala), Mukha-Puchha timings, and festival rules.`,
+      ? `आज ${dateFormatted} को भद्रा कब से कब तक है? जानें आज भद्रा है या नहीं, भद्रा का वास (स्वर्ग, पाताल, पृथ्वी), मुख और पुच्छ काल का सटीक समय, और रक्षाबंधन व होलिका दहन के शास्त्रीय नियम। 120+ शहरों अनुसार लाइव समय सारणी।`
+      : `Is Bhadra active today (${dateFormatted})? Check exact Bhadra start and end timings, Bhadra Vaas (Swarga, Prithvi, Patala), Mukha & Puchha kaal, and Raksha Bandhan festival rules across 120+ cities.`,
     path: PATHS.bhadra,
     keywords: isHi
       ? [
           "भद्रा कब है",
-          "आज भद्रा कब तक है",
-          "भद्रा वास",
-          "भद्रा मुख और पुच्छ",
-          "भद्रा में राखी क्यों नहीं बांधते",
-          "विष्टि करण",
-          "भद्रा समय आज",
+          "आज भद्रा कब से कब तक है",
+          "आज भद्रा है या नहीं",
+          "क्या आज भद्रा है",
+          "भद्रा काल आज का",
+          "भद्रा वास कहां है आज",
+          "भद्रा मुख और पुच्छ का समय",
+          "विष्टि करण क्या है",
+          "भद्रा में क्या नहीं करना चाहिए",
+          "राखी बांधने का शुभ मुहूर्त भद्रा",
+          "होलिका दहन भद्रा काल 2026",
+          "भद्रा शांति के उपाय",
+          "स्वर्ग पाताल पृथ्वी भद्रा वास",
+          "दैनिक भद्रा समय सारणी",
+          "bhadra kab hai",
+          "bhadra timings today hindi",
         ]
       : [
           "bhadra kab hai",
           "bhadra timings today",
+          "today bhadra start and end time",
+          "aaj bhadra kab se kab tak hai",
+          "aaj bhadra hai ya nahi",
           "is bhadra active today",
-          "bhadra vaas",
-          "bhadra mukha puchha",
-          "vishti karana",
-          "raksha bandhan bhadra rules",
+          "bhadra kaal today",
+          "bhadra vaas today",
+          "bhadra mukha puchha timings",
+          "vishti karana timings today",
+          "vishti karana today",
+          "bhadra in hindi",
+          "raksha bandhan bhadra timings",
+          "holika dahan bhadra rules",
+          "bhadra dosha remedies",
+          "swarga patala prithvi bhadra",
+          "kya aaj bhadra hai",
+          "bhadra puchha time today",
+          "bhadra calendar 2026",
         ],
   });
 }
@@ -133,11 +154,11 @@ export default async function BhadraPage() {
       />
 
       <PageHero
-        title={isHi ? "भद्रा विचार एवं समय सारणी" : "Bhadra Timings & Status"}
+        title={isHi ? "भद्रा कब है — आज की भद्रा स्थिति व समय सारणी" : "Bhadra Timings Today (आज भद्रा कब है)"}
         subtitle={
           isHi
-            ? "आज भद्रा कब से कब तक है? भद्रा वास (स्वर्ग, पृथ्वी, पाताल), भद्रा मुख एवं पुच्छ समय तथा रक्षाबंधन के विशेष नियम।"
-            : "Is Bhadra active today? Discover exact start and end times, Bhadra Vaas in 3 realms, Mukha-Puchha windows, and festival guidelines."
+            ? "आज भद्रा कब से कब तक है? जानें भद्रा वास (स्वर्ग, पृथ्वी, पाताल), मुख एवं पुच्छ समय तथा रक्षाबंधन के विशेष शास्त्रीय नियम।"
+            : "Is Bhadra active today? Discover exact start & end timings, Bhadra Vaas in 3 realms, Mukha-Puchha windows, and festival guidelines."
         }
         hub="spirituality"
         crumbs={localizedCrumbs(

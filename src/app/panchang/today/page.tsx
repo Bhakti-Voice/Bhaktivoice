@@ -24,30 +24,49 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return localizedMetadata({
     title: isHi
-      ? `आज का पंचांग (${dateFormatted}) — आज की तिथि, शुभ मुहूर्त, चौघड़िया एवं राहु काल`
-      : `Today's Panchang (${dateFormatted}) — Aaj Ka Panchang, Tithi, Shubh Muhurat & Rahu Kaal`,
+      ? `आज का पंचांग (${dateFormatted}) — आज की तिथि, शुभ चौघड़िया मुहूर्त, नक्षत्र व राहु काल`
+      : `Aaj Ka Panchang (${dateFormatted}) — Today's Panchang, Tithi, Shubh Muhurat & Choghadiya`,
     description: isHi
-      ? `${dateFormatted} का सम्पूर्ण वैदिक पंचांग। आज की तिथि, नक्षत्र, योग, करण, सूर्योदय-सूर्यास्त, राहु काल, अभिजित मुहूर्त और दिन-रात का चौघड़िया।`
-      : `Get accurate Today's Panchang for ${dateFormatted}. Aaj ki Tithi, Nakshatra, Yoga, Karana, Sunrise/Sunset, Rahu Kaal, Abhijit Muhurat, and Choghadiya for all Indian cities.`,
+      ? `आज ${dateFormatted} का संपूर्ण वैदिक पंचांग। आज की तिथि, नक्षत्र, योग, करण, सूर्योदय-सूर्यास्त, राहु काल, अभिजित मुहूर्त और दिन-रात का शुभ चौघड़िया। 120+ नगरों अनुसार सटीक गणना।`
+      : `Get accurate Aaj Ka Panchang for today (${dateFormatted}). Live Tithi, Nakshatra, Yoga, Karana, Sunrise & Sunset, Abhijit Muhurat, Rahu Kaal, and Day-Night Choghadiya across 120+ cities. Top Hindu Vedic Panchang.`,
     path: PATHS.panchangToday,
     keywords: isHi
       ? [
           "आज का पंचांग",
           "आज की तिथि",
-          "शुभ मुहूर्त आज",
-          "राहु काल आज",
+          "आज का शुभ मुहूर्त",
           "आज का चौघड़िया",
-          "दैनिक पंचांग",
+          "राहु काल का समय आज",
+          "अभिजित मुहूर्त आज का",
+          "दैनिक पंचांग 2026",
+          "सूर्योदय और सूर्यास्त का समय",
+          "आज कौन सा नक्षत्र है",
+          "आज कौन सा पक्ष है",
+          "हिन्दू पंचांग आज का",
+          "दृक पंचांग आज का",
+          "aaj ka panchang hindi",
+          "आज का पंचांग दिल्ली",
         ]
       : [
           "aaj ka panchang",
           "today panchang",
+          "panchang today",
           "aaj ki tithi",
+          "today tithi",
           "today nakshatra",
           "shubh muhurat today",
+          "aaj ka shubh muhurat",
           "rahu kaal today",
+          "rahu kaal time today",
           "today choghadiya",
+          "aaj ka choghadiya",
+          "abhijit muhurat today",
           "hindu calendar today",
+          "panchangam today",
+          "drik panchang today",
+          "panchang 2026",
+          "today panchang delhi mumbai",
+          "surya uday time today",
         ],
   });
 }

@@ -22,11 +22,11 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return localizedMetadata({
     title: isHi
-      ? "मुफ्त जन्म कुंडली — वैदिक जन्म पत्रिका, लग्न, ग्रह स्थिति एवं दशा ऑनलाइन"
-      : "Free Janam Kundli — Accurate Vedic Birth Chart & Horoscope Online",
+      ? "मुफ्त जन्म कुंडली ऑनलाइन — 16 वर्ग कुंडलियां (नवांश D-9, दशमांश D-10) एवं अष्टाकवर्ग कैलकुलेटर"
+      : "Free Janam Kundli Online (जन्म कुंडली) — 16 Divisional Charts (D9, D10) & Ashtakavarga Calculator",
     description: isHi
-      ? "सटीक वैदिक जन्म कुंडली ऑनलाइन बनाएं। लग्न, चंद्र राशि, जन्म नक्षत्र, 12 भाव, ग्रह स्पष्ट, मांगलिक दोष विश्लेषण एवं विंशोत्तरी महादशा। 100% सुरक्षित और गोपनीय।"
-      : "Generate your free, 100% accurate Vedic Janam Kundli online. Detailed birth chart (D-1), Ascendant, Moon sign, Nakshatra, 12 Bhavas, Manglik Dosha, and Vimshottari Dasha.",
+      ? "सटीक वैदिक जन्म कुंडली 100% मुफ्त ऑनलाइन बनाएं। 16 वर्ग कुंडलियां (D-1 से D-60), नवांश (D-9), महर्षि पराशर अष्टाकवर्ग (337 बिंदु तालिका), उत्तर/दक्षिण/पूर्व भारतीय चार्ट, मांगलिक दोष एवं विंशोत्तरी महादशा। 100% सुरक्षित और गोपनीय।"
+      : "Generate your free, 100% accurate Vedic Janam Kundli online. Detailed Shodashvarga (16 divisional charts: D-1 to D-60), Parashari Ashtakavarga (337 SAV Bindus), North/South/East chart styles, Lagna, Manglik Dosha & Vimshottari Dasha.",
     path: PATHS.kundli,
     keywords: [...SPIRITUAL_TOOL_KEYWORDS.kundli],
   });
