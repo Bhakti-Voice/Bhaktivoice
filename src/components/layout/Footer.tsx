@@ -1,9 +1,7 @@
-"use client";
-
 import { Logo } from "@/components/brand/Logo";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { NewsletterForm } from "@/components/layout/NewsletterForm";
-import { useMessages } from "@/lib/i18n/client";
+import { getMessages } from "@/lib/i18n/server";
 import { PATHS } from "@/lib/seo/paths";
 
 function SocialMark({ path, label, href }: { path: string; label: string; href?: string }) {
@@ -30,8 +28,8 @@ function SocialMark({ path, label, href }: { path: string; label: string; href?:
   );
 }
 
-export function Footer() {
-  const t = useMessages();
+export async function Footer() {
+  const t = await getMessages();
   const columns = [
     {
       title: t.footerCols.quickLinks,

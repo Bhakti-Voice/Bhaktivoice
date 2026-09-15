@@ -2,41 +2,18 @@
 
 import { useMemo, useState } from "react";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
-import { ArrowRight, Calendar as CalendarIcon, Clock, Sparkles, Sun, Moon } from "lucide-react";
-import { getPanchang, getMonthCalendar } from "@/lib/panchang/engine";
-import { DEFAULT_CITY } from "@/lib/panchang/cities";
-import { getDailyRashifal, type RashiForecast } from "@/lib/spiritual-tools/daily-rashifal";
+import { ArrowRight, Calendar as CalendarIcon, Clock, Sparkles, Sun } from "lucide-react";
+import type { HomeVedicData } from "@/lib/panchang/home-vedic-data";
 import { PATHS } from "@/lib/seo/paths";
 
 interface HomeDailyVedicHubProps {
   locale: string;
+  data: HomeVedicData;
 }
 
-function formatTime(d: Date | string | null | undefined): string {
-  if (!d) return "--:--";
-  try {
-    return new Intl.DateTimeFormat("en-IN", {
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-      timeZone: "Asia/Kolkata",
-    }).format(new Date(d));
-  } catch {
-    return "--:--";
-  }
-}
-
-export function HomeDailyVedicHub({ locale }: HomeDailyVedicHubProps) {
+export function HomeDailyVedicHub({ locale, data }: HomeDailyVedicHubProps) {
   const isHi = locale === "hi";
-  const now = useMemo(() => new Date(), []);
-
-  // Compute live Panchang, Month Calendar & 12 Rashis
-  const panchang = useMemo(() => getPanchang(now, DEFAULT_CITY), [now]);
-  const monthCalendar = useMemo(
-    () => getMonthCalendar(now.getFullYear(), now.getMonth() + 1, DEFAULT_CITY),
-    [now],
-  );
-  const rashifalList = useMemo(() => getDailyRashifal(now), [now]);
+  const { panchang, days, rashifalList, formattedToday, monthLabel, upcomingObservances } = data;
 
   // Selected Rashi state (defaults to Aries or based on current moon sign)
   const [selectedRashiId, setSelectedRashiId] = useState<string>("aries");
@@ -44,44 +21,6 @@ export function HomeDailyVedicHub({ locale }: HomeDailyVedicHubProps) {
     () => rashifalList.find((r) => r.id === selectedRashiId) || rashifalList[0],
     [rashifalList, selectedRashiId],
   );
-
-  // Format today's date for display
-  const formattedToday = useMemo(() => {
-    return new Intl.DateTimeFormat(isHi ? "hi-IN" : "en-IN", {
-      weekday: "long",
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-      timeZone: "Asia/Kolkata",
-    }).format(now);
-  }, [isHi, now]);
-
-  const monthLabel = useMemo(() => {
-    return new Intl.DateTimeFormat(isHi ? "hi-IN" : "en-IN", {
-      month: "long",
-      year: "numeric",
-      timeZone: "Asia/Kolkata",
-    }).format(now);
-  }, [isHi, now]);
-
-  // Extract next 2 upcoming observances from current month
-  const upcomingObservances = useMemo(() => {
-    const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
-    const futureDays = monthCalendar.days.filter((d) => d.isCurrentMonth && d.dateString >= todayStr);
-    const obsList: { name: string; dateNumber: number }[] = [];
-    for (const d of futureDays) {
-      for (const obs of d.observances) {
-        if (obsList.length < 2 && !obsList.some((o) => o.name === (isHi ? obs.nameHi || obs.name : obs.name))) {
-          obsList.push({
-            name: isHi ? obs.nameHi || obs.name : obs.name,
-            dateNumber: d.dayNumber,
-          });
-        }
-      }
-      if (obsList.length >= 2) break;
-    }
-    return obsList;
-  }, [monthCalendar, now, isHi]);
 
   const weekdaysShort = isHi
     ? ["रवि", "सोम", "मं", "बुध", "गुरु", "शुक्र", "शनि"]
@@ -129,7 +68,7 @@ export function HomeDailyVedicHub({ locale }: HomeDailyVedicHubProps) {
                     {isHi ? "आज का पञ्चाङ्ग" : "Today's Panchang"}
                   </h3>
                   <p className="text-xs text-muted">
-                    {panchang.masaPurnimanta.nameHi} • संवत {panchang.vikramSamvat}
+                    {panchang.masaPurnimantaHi} • संवत {panchang.vikramSamvat}
                   </p>
                 </div>
               </div>
@@ -148,10 +87,10 @@ export function HomeDailyVedicHub({ locale }: HomeDailyVedicHubProps) {
                   {isHi ? "तिथि" : "Tithi"}
                 </span>
                 <span className="mt-0.5 block font-bold text-ink text-sm sm:text-base truncate">
-                  {isHi ? panchang.tithiAtSunrise.nameHi : panchang.tithiAtSunrise.name}
+                  {isHi ? panchang.tithiNameHi : panchang.tithiName}
                 </span>
                 <span className="text-xs text-muted truncate block">
-                  {panchang.tithiAtSunrise.paksha === "shukla" ? (isHi ? "शुक्ल पक्ष" : "Shukla") : (isHi ? "कृष्ण पक्ष" : "Krishna")}
+                  {panchang.paksha === "shukla" ? (isHi ? "शुक्ल पक्ष" : "Shukla") : (isHi ? "कृष्ण पक्ष" : "Krishna")}
                 </span>
               </div>
 
@@ -160,10 +99,10 @@ export function HomeDailyVedicHub({ locale }: HomeDailyVedicHubProps) {
                   {isHi ? "नक्षत्र" : "Nakshatra"}
                 </span>
                 <span className="mt-0.5 block font-bold text-ink text-sm sm:text-base truncate">
-                  {isHi ? panchang.nakshatra.nameHi : panchang.nakshatra.name}
+                  {isHi ? panchang.nakshatraNameHi : panchang.nakshatraName}
                 </span>
                 <span className="text-xs text-muted block">
-                  {isHi ? `पाद ${panchang.nakshatra.pada}` : `Pada ${panchang.nakshatra.pada}`}
+                  {isHi ? `पाद ${panchang.nakshatraPada}` : `Pada ${panchang.nakshatraPada}`}
                 </span>
               </div>
 
@@ -172,8 +111,8 @@ export function HomeDailyVedicHub({ locale }: HomeDailyVedicHubProps) {
                   {isHi ? "शुभ मुहूर्त (अभिजित)" : "Abhijit Muhurat"}
                 </span>
                 <span className="mt-0.5 block font-bold text-emerald-950 text-sm sm:text-base truncate">
-                  {panchang.abhijitMuhurat
-                    ? `${formatTime(panchang.abhijitMuhurat.start)} - ${formatTime(panchang.abhijitMuhurat.end)}`
+                  {panchang.abhijitTime
+                    ? panchang.abhijitTime
                     : (isHi ? "बुधवार परिहार" : "None Today")}
                 </span>
                 <span className="text-xs text-emerald-700">
@@ -186,7 +125,7 @@ export function HomeDailyVedicHub({ locale }: HomeDailyVedicHubProps) {
                   {isHi ? "राहु काल (अशुभ)" : "Rahu Kaal"}
                 </span>
                 <span className="mt-0.5 block font-bold text-rose-950 text-sm sm:text-base truncate">
-                  {formatTime(panchang.rahuKaal.start)} - {formatTime(panchang.rahuKaal.end)}
+                  {panchang.rahuKaalTime}
                 </span>
                 <span className="text-xs text-rose-700">
                   {isHi ? "शुभ कार्य वर्जित" : "Avoid Key Work"}
@@ -198,10 +137,10 @@ export function HomeDailyVedicHub({ locale }: HomeDailyVedicHubProps) {
             <div className="mt-3.5 flex items-center justify-between rounded-xl bg-sand/60 px-3.5 py-2.5 text-xs sm:text-sm text-ink">
               <div className="flex items-center gap-1.5 font-medium">
                 <Sun className="h-4 w-4 text-saffron" />
-                <span>{formatTime(panchang.sunrise)} • {formatTime(panchang.sunset)}</span>
+                <span>{panchang.sunTimes}</span>
               </div>
               <div className="text-muted truncate">
-                {isHi ? panchang.yoga.nameHi : panchang.yoga.name} • {isHi ? panchang.karana.nameHi : panchang.karana.name}
+                {isHi ? panchang.yogaNameHi : panchang.yogaName} • {isHi ? panchang.karanaNameHi : panchang.karanaName}
               </div>
             </div>
 
@@ -291,9 +230,8 @@ export function HomeDailyVedicHub({ locale }: HomeDailyVedicHubProps) {
 
               {/* Days grid */}
               <div className="grid grid-cols-7 gap-1 text-center text-xs sm:text-sm">
-                {monthCalendar.days.slice(0, 35).map((day, idx) => {
+                {days.map((day, idx) => {
                   const isCurrentDay = day.isCurrentMonth && day.isToday;
-                  const hasFast = day.hasEkadashi || day.hasPurnima || day.hasAmavasya || day.hasPradosh;
 
                   return (
                     <div
@@ -305,11 +243,11 @@ export function HomeDailyVedicHub({ locale }: HomeDailyVedicHubProps) {
                             ? "text-ink hover:bg-[#fae7cf]/60"
                             : "text-muted/40"
                       }`}
-                      title={day.observances.map((o) => (isHi ? o.nameHi || o.name : o.name)).join(", ")}
+                      title={day.observanceTitle}
                     >
                       <span className="leading-none">{day.dayNumber}</span>
                       {/* Event dot */}
-                      {hasFast && !isCurrentDay && (
+                      {day.hasFast && !isCurrentDay && (
                         <span className="mt-0.5 h-1.5 w-1.5 rounded-full bg-amber-600" />
                       )}
                     </div>

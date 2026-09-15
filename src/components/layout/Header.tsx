@@ -6,7 +6,7 @@ import { Logo } from "@/components/brand/Logo";
 import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { useAuth } from "@/lib/auth/AuthProvider";
-import { useLocale, useMessages } from "@/lib/i18n/client";
+import { useLocale, useNavMessages } from "@/lib/i18n/client";
 import { stripLocale, withLocale } from "@/lib/i18n/config";
 import { SpiritualToolsMenu } from "@/components/spiritual-tools/SpiritualToolsMenu";
 import { PanchangMenu } from "@/components/layout/PanchangMenu";
@@ -19,7 +19,7 @@ export function Header() {
   const pathname = usePathname() || "/";
   const router = useRouter();
   const locale = useLocale();
-  const t = useMessages();
+  const t = useNavMessages();
   const { user, signInWithGoogle, configured } = useAuth();
   const [open, setOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);

@@ -40,38 +40,55 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     let cancelled = false;
     let unsub: (() => void) | undefined;
-    void (async () => {
-      const [{ getFirebaseAuth }, { onAuthStateChanged }] = await Promise.all([
-        import("./firebase"),
-        import("firebase/auth"),
-      ]);
-      if (cancelled) return;
-      const auth = getFirebaseAuth();
-      if (!auth) {
-        setLoading(false);
-        return;
-      }
-      unsub = onAuthStateChanged(auth, async (next) => {
-        setUser(next);
-        setLoading(false);
-        if (!next) return;
-        const token = await next.getIdToken();
-        await fetch("/api/auth/sync", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            email: next.email,
-            name: next.displayName,
-            photoUrl: next.photoURL,
-          }),
-        }).catch(() => undefined);
-      });
-    })();
+
+    const initAuth = () => {
+      void (async () => {
+        const [{ getFirebaseAuth }, { onAuthStateChanged }] = await Promise.all([
+          import("./firebase"),
+          import("firebase/auth"),
+        ]);
+        if (cancelled) return;
+        const auth = getFirebaseAuth();
+        if (!auth) {
+          setLoading(false);
+          return;
+        }
+        unsub = onAuthStateChanged(auth, async (next) => {
+          setUser(next);
+          setLoading(false);
+          if (!next) return;
+          const token = await next.getIdToken();
+          await fetch("/api/auth/sync", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              email: next.email,
+              name: next.displayName,
+              photoUrl: next.photoURL,
+            }),
+          }).catch(() => undefined);
+        });
+      })();
+    };
+
+    let idleId: number | undefined;
+    let timerId: ReturnType<typeof setTimeout> | undefined;
+
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      idleId = (window as Window & { requestIdleCallback: (cb: () => void, opts?: { timeout: number }) => number }).requestIdleCallback(initAuth, { timeout: 2000 });
+    } else {
+      timerId = setTimeout(initAuth, 500);
+    }
+
     return () => {
       cancelled = true;
+      if (idleId && typeof window !== "undefined" && "cancelIdleCallback" in window) {
+        (window as Window & { cancelIdleCallback: (id: number) => void }).cancelIdleCallback(idleId);
+      }
+      if (timerId) clearTimeout(timerId);
       unsub?.();
     };
   }, [configured]);

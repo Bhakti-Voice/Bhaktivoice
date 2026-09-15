@@ -2,11 +2,11 @@
 
 import { BookOpen, CircleDot, Home, LayoutGrid, ShoppingBag } from "lucide-react";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
-import { useMessages } from "@/lib/i18n/client";
+import { useNavMessages } from "@/lib/i18n/client";
 import { PATHS } from "@/lib/seo/paths";
 
 export function MobileNav() {
-  const t = useMessages();
+  const t = useNavMessages();
   const items = [
     { href: "/", label: t.nav.home, icon: Home },
     { href: PATHS.naamJaap, label: t.nav.jaap, icon: CircleDot },

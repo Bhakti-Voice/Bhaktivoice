@@ -9,8 +9,7 @@ import { localizedMetadata } from "@/lib/seo/metadata";
 import { PATHS } from "@/lib/seo/paths";
 import { SITE } from "@/lib/seo/site";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 1800;
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();

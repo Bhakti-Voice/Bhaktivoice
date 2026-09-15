@@ -1,7 +1,6 @@
 import { withHindi } from "@/lib/i18n/hi-route";
 import EnDefault, { generateMetadata as enMeta } from "@/app/vrat-upavas/ekadashi/page";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 3600;
 export const generateMetadata = withHindi(enMeta);
 export default withHindi(EnDefault);

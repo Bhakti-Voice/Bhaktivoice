@@ -6,6 +6,7 @@ import { OmFlourish } from "@/components/brand/OmFlourish";
 import { HomeQuickLinksCard } from "@/components/home/HomeQuickLinksCard";
 import { HomeFeatureCards } from "@/components/home/HomeFeatureCards";
 import { HomeDailyVedicHub } from "@/components/home/HomeDailyVedicHub";
+import { getHomeVedicData } from "@/lib/panchang/home-vedic-data";
 import {
   ArrowRight,
   Bell,
@@ -307,9 +308,11 @@ async function HomeContentSections({ t, locale }: { t: Messages; locale: string 
   const latest = blogs.slice(0, 3);
   const latestAartis = aartis.slice(0, 3);
 
+  const vedicData = getHomeVedicData(locale);
+
   return (
     <>
-      <HomeDailyVedicHub locale={locale} />
+      <HomeDailyVedicHub locale={locale} data={vedicData} />
 
       {popular.length > 0 ? (
         <section className="mx-auto max-w-7xl px-4 pb-14 lg:px-8">
