@@ -147,7 +147,6 @@ export default async function HomePage() {
               sizes="100vw"
             />
           </div>
-          <div className="hero-krishna-text-veil pointer-events-none" />
           <div className="hero-krishna-fade pointer-events-none absolute inset-0" />
           <div className="hero-krishna-blur-bottom pointer-events-none" />
           <div className="relative z-10 mx-auto flex min-h-[34rem] max-w-7xl flex-col justify-start px-4 pb-24 pt-5 sm:min-h-[40rem] sm:pb-32 sm:pt-8 lg:min-h-[760px] lg:justify-center lg:px-8 lg:pb-40 lg:pt-16">

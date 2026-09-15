@@ -94,53 +94,34 @@ button:disabled,
   mask-image: linear-gradient(90deg, transparent 0%, #000 14%, #000 100%);
 }
 
-.hero-krishna-text-veil {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    #fff9f2 0%,
-    rgba(255, 249, 242, 0.98) 36%,
-    rgba(255, 249, 242, 0.88) 52%,
-    rgba(255, 249, 242, 0.58) 68%,
-    rgba(255, 249, 242, 0.28) 82%,
-    rgba(255, 249, 242, 0.12) 100%
-  );
-}
-
 .hero-krishna-fade {
   background:
     linear-gradient(
       90deg,
       #fff9f2 0%,
-      rgba(255, 249, 242, 0.97) 40%,
-      rgba(255, 249, 242, 0.7) 56%,
-      rgba(255, 249, 242, 0.28) 72%,
-      rgba(255, 249, 242, 0.08) 88%,
-      transparent 100%
+      rgba(255, 249, 242, 0.98) 35%,
+      rgba(255, 249, 242, 0.8) 55%,
+      rgba(255, 249, 242, 0.25) 75%,
+      transparent 95%
     ),
     linear-gradient(
       180deg,
-      transparent 68%,
-      rgba(255, 249, 242, 0.14) 84%,
-      rgba(255, 249, 242, 0.58) 100%
+      transparent 70%,
+      rgba(255, 249, 242, 0.2) 85%,
+      rgba(255, 249, 242, 0.6) 100%
     );
 }
 
 @media (min-width: 1024px) {
-  .hero-krishna-text-veil {
-    inset: 0 38% 0 0;
-  }
-
   .hero-krishna-fade {
     background: linear-gradient(
       90deg,
       #fff9f2 0%,
-      #fff9f2 18%,
-      rgba(255, 249, 242, 0.88) 32%,
-      rgba(255, 249, 242, 0.38) 48%,
-      rgba(255, 249, 242, 0.08) 62%,
-      transparent 76%
+      #fff9f2 22%,
+      rgba(255, 249, 242, 0.95) 34%,
+      rgba(255, 249, 242, 0.65) 45%,
+      rgba(255, 249, 242, 0.2) 55%,
+      transparent 64%
     );
   }
 }
