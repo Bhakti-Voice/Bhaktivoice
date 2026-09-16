@@ -293,17 +293,6 @@ async function HomeContentSections({ t, locale }: { t: Messages; locale: string 
       imageAlt: item.heroImageAlt || item.title,
     })),
   ];
-  if (popular.length < 3) {
-    popular.push(
-      ...yatra.slice(0, 3 - popular.length).map((item) => ({
-        href: `${PATHS.yatra}/${item.slug}`,
-        title: item.title,
-        text: item.introduction,
-        image: item.heroImage,
-        imageAlt: item.heroImageAlt || item.title,
-      })),
-    );
-  }
   const latest = blogs.slice(0, 3);
   const latestAartis = aartis.slice(0, 3);
 

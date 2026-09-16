@@ -126,7 +126,7 @@ async function cmsGet<T>(
       ...(revalidate === false
         ? { cache: "no-store" as const }
         : { next: { revalidate } }),
-      signal: AbortSignal.timeout(8000),
+      signal: AbortSignal.timeout(15000),
     });
     if (response.status === 404) {
       return fallback;
@@ -177,7 +177,11 @@ export async function listContent<T>(kind: string): Promise<T[]> {
     const previewPath = await withLocaleQuery(`/api/content/${kind}?preview=true`);
     return cmsGet<T[]>(previewPath, [], false);
   }
-  return cachedCmsGet<T[]>(await withLocaleQuery(`/api/content/${kind}`), [], CONTENT_REVALIDATE);
+  const path = await withLocaleQuery(`/api/content/${kind}`);
+  const cached = await cachedCmsGet<T[]>(path, [], CONTENT_REVALIDATE);
+  if (cached && cached.length > 0) return cached;
+  // If cache is empty (e.g. cold-start timeout during ISR build), perform an uncached fetch
+  return cmsGet<T[]>(path, [], false);
 }
 
 export async function getContent<T>(kind: string, slug: string): Promise<T | null> {
