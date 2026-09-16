@@ -336,7 +336,7 @@ SKIP_HINDI_NAMES = {
 }
 
 
-def with_hindi(fields: tuple[Field, ...]) -> tuple[Field, ...]:
+def with_locales(fields: tuple[Field, ...]) -> tuple[Field, ...]:
     expanded: list[Field] = []
     for item in fields:
         expanded.append(item)
@@ -351,11 +351,21 @@ def with_hindi(fields: tuple[Field, ...]) -> tuple[Field, ...]:
                     item.rows,
                 )
             )
+            expanded.append(
+                Field(
+                    f"{item.name}Te",
+                    f"{item.label} (Telugu)",
+                    item.type,
+                    item.hint,
+                    item.options,
+                    item.rows,
+                )
+            )
     return tuple(expanded)
 
 
 KINDS = {
-    key: Kind(kind.key, kind.label, kind.plural, kind.path, kind.schema, with_hindi(kind.fields))
+    key: Kind(kind.key, kind.label, kind.plural, kind.path, kind.schema, with_locales(kind.fields))
     for key, kind in KINDS.items()
 }
 
@@ -373,6 +383,22 @@ KIND_LABEL_HI = {
     "chalisa": "चालीसा",
     "quotes": "उद्धरण",
 }
+
+KIND_LABEL_TE = {
+    "katha": "కథ",
+    "blog": "బ్లాగ్",
+    "yatra": "తీర్థయాత్ర",
+    "temple": "ఆలయం",
+    "festival": "పండుగ",
+    "spirituality": "ఆధ్యాత్మిక జ్ఞానం",
+    "mantra": "మంత్రం",
+    "product": "భండార్",
+    "bhajan": "భజన",
+    "aarti": "హారతి",
+    "chalisa": "చాలీసా",
+    "quotes": "సుభాషితం",
+}
+
 CTA_DEFAULTS = {
     "en": {
         "title": "Start Naam Jaap",
@@ -383,6 +409,11 @@ CTA_DEFAULTS = {
         "title": "नाम जप शुरू करें",
         "body": "पढ़ने के बाद, बैठें।",
         "label": "जप शुरू करें",
+    },
+    "te": {
+        "title": "నామ జపం ప్రారంభించండి",
+        "body": "చదివిన తర్వాత, ప్రశాంతంగా కూర్చోండి.",
+        "label": "జపం ప్రారంభించండి",
     },
 }
 
@@ -413,17 +444,21 @@ def _filled(value: Any) -> bool:
 
 
 def apply_locale(data: dict[str, Any], locale: str) -> dict[str, Any]:
-    if locale != "hi":
+    if locale == "hi":
+        suffix = "Hi"
+    elif locale == "te":
+        suffix = "Te"
+    else:
         return dict(data)
     out = dict(data)
     for key, value in data.items():
-        if key.endswith("Hi") and _filled(value):
+        if key.endswith(suffix) and _filled(value):
             out[key[:-2]] = value
     return out
 
 
 def strip_hi_keys(data: dict[str, Any]) -> dict[str, Any]:
-    return {key: value for key, value in data.items() if not key.endswith("Hi")}
+    return {key: value for key, value in data.items() if not key.endswith("Hi") and not key.endswith("Te")}
 
 
 def has_hero_image(kind: Kind) -> bool:
@@ -437,9 +472,12 @@ def has_youtube_url(kind: Kind) -> bool:
 def kind_crumb_name(kind: Kind, locale: str) -> str:
     if locale == "hi":
         return KIND_LABEL_HI.get(kind.key, kind.label)
+    if locale == "te":
+        return KIND_LABEL_TE.get(kind.key, kind.label)
     if kind.key == "yatra":
         return "Yatra"
     return kind.label
+
 
 PAGE_KINDS = (
     "katha",

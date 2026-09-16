@@ -5,11 +5,12 @@
   <div class="row" style="justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
     <div>
       <h1>{% if item_id %}Edit{% else %}New{% endif %} {{ kind.label }}</h1>
-      <p class="hint">English is the default public page. Fill every “(Hindi)” field so <code>/hi</code> shows a full translation. Empty Hindi fields fall back to English. One Turso row, one slug, two languages.</p>
+      <p class="hint">English is the default public page. Fill “(Hindi)” and “(Telugu)” fields so <code>/hi</code> and <code>/te</code> show full translations. Empty fields fall back to English. One Turso row, one slug, three languages.</p>
     </div>
     <div class="row" style="margin-top: 0.5rem;">
       <a class="btn ghost preview-btn" id="preview-btn-top-en" href="{{ preview_url }}" target="_blank" rel="noopener noreferrer nofollow" title="Preview English page (Excluded from GA &amp; Noindex)">👁️ Preview (EN)</a>
       <a class="btn ghost preview-btn" id="preview-btn-top-hi" href="{{ preview_url_hi }}" target="_blank" rel="noopener noreferrer nofollow" title="Preview Hindi page (Excluded from GA &amp; Noindex)">👁️ Preview (HI)</a>
+      <a class="btn ghost preview-btn" id="preview-btn-top-te" href="{{ preview_url_te }}" target="_blank" rel="noopener noreferrer nofollow" title="Preview Telugu page (Excluded from GA &amp; Noindex)">👁️ Preview (TE)</a>
     </div>
   </div>
   <form class="card" method="post" action="/admin/{{ kind.key }}/save" id="entry-form" accept-charset="UTF-8">
@@ -78,6 +79,7 @@
           <button class="btn" type="submit">Save to Turso</button>
           <a class="btn ghost preview-btn" id="preview-btn-bottom-en" href="{{ preview_url }}" target="_blank" rel="noopener noreferrer nofollow" title="Preview English page (Excluded from GA &amp; Noindex)">👁️ Preview (EN)</a>
           <a class="btn ghost preview-btn" id="preview-btn-bottom-hi" href="{{ preview_url_hi }}" target="_blank" rel="noopener noreferrer nofollow" title="Preview Hindi page (Excluded from GA &amp; Noindex)">👁️ Preview (HI)</a>
+          <a class="btn ghost preview-btn" id="preview-btn-bottom-te" href="{{ preview_url_te }}" target="_blank" rel="noopener noreferrer nofollow" title="Preview Telugu page (Excluded from GA &amp; Noindex)">👁️ Preview (TE)</a>
           {% if item_id %}
             <a class="btn ghost" href="/admin/{{ kind.key }}/{{ item_id }}/json">Edit JSON</a>
           {% endif %}

@@ -538,7 +538,12 @@ def user_stats(uid: str, request: Request):
 
 
 def normalize_locale(locale: str | None) -> str:
-    return "hi" if (locale or "").lower().startswith("hi") else "en"
+    loc = (locale or "").lower().strip()
+    if loc.startswith("hi"):
+        return "hi"
+    if loc.startswith("te"):
+        return "te"
+    return "en"
 
 
 def ist_today() -> str:
@@ -1450,6 +1455,7 @@ def admin_list(request: Request, kind: str):
         item["youtubeUrl"] = str(data.get("youtubeUrl") or "").strip() if show_youtube else ""
         item["preview_url"] = preview_url_for(kind, item.get("slug") or "", locale="en", base=preview_base)
         item["preview_url_hi"] = preview_url_for(kind, item.get("slug") or "", locale="hi", base=preview_base)
+        item["preview_url_te"] = preview_url_for(kind, item.get("slug") or "", locale="te", base=preview_base)
         rows.append(item)
     return templates.TemplateResponse(
         "list.html",
@@ -1478,6 +1484,7 @@ def admin_new(request: Request, kind: str):
             preview_base=preview_base,
             preview_url=preview_url_for(kind, "", locale="en", base=preview_base),
             preview_url_hi=preview_url_for(kind, "", locale="hi", base=preview_base),
+            preview_url_te=preview_url_for(kind, "", locale="te", base=preview_base),
             **form_image_kwargs(spec, values),
         ),
     )
@@ -1525,6 +1532,7 @@ def admin_edit(request: Request, kind: str, item_id: int):
                 preview_base=preview_base,
                 preview_url=preview_url_for(kind, slug_val, locale="en", base=preview_base),
                 preview_url_hi=preview_url_for(kind, slug_val, locale="hi", base=preview_base),
+                preview_url_te=preview_url_for(kind, slug_val, locale="te", base=preview_base),
                 **form_image_kwargs(spec, values),
             ),
         )
@@ -1597,6 +1605,7 @@ def admin_edit_json(request: Request, kind: str, item_id: int):
             preview_base=preview_base,
             preview_url=preview_url_for(kind, slug_val, locale="en", base=preview_base),
             preview_url_hi=preview_url_for(kind, slug_val, locale="hi", base=preview_base),
+                preview_url_te=preview_url_for(kind, slug_val, locale="te", base=preview_base),
             **form_image_kwargs(spec, data),
         ),
     )
@@ -1627,6 +1636,7 @@ async def admin_save_json(request: Request, kind: str, item_id: int, json_text: 
                 preview_base=preview_base,
                 preview_url=preview_url_for(kind, slug_val, locale="en", base=preview_base),
                 preview_url_hi=preview_url_for(kind, slug_val, locale="hi", base=preview_base),
+                preview_url_te=preview_url_for(kind, slug_val, locale="te", base=preview_base),
                 **form_image_kwargs(spec, parse_data(row.get("data"))),
             ),
             status_code=400,

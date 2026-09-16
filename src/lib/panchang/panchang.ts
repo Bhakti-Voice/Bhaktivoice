@@ -9,7 +9,8 @@ export function getPanchang(now: Date = new Date(), _upcomingDays?: number): Day
 
 
 export function formatIstTime(date: Date, locale: string = "en"): string {
-  return new Intl.DateTimeFormat(locale === "hi" ? "hi-IN" : "en-IN", {
+  const loc = locale === "hi" ? "hi-IN" : locale === "te" ? "te-IN" : "en-IN";
+  return new Intl.DateTimeFormat(loc, {
     timeZone: DELHI.timeZone,
     hour: "numeric",
     minute: "2-digit",
@@ -18,7 +19,8 @@ export function formatIstTime(date: Date, locale: string = "en"): string {
 }
 
 export function formatIstDateTime(date: Date, locale: string = "en"): string {
-  return new Intl.DateTimeFormat(locale === "hi" ? "hi-IN" : "en-IN", {
+  const loc = locale === "hi" ? "hi-IN" : locale === "te" ? "te-IN" : "en-IN";
+  return new Intl.DateTimeFormat(loc, {
     timeZone: DELHI.timeZone,
     day: "numeric",
     month: "short",
@@ -29,7 +31,8 @@ export function formatIstDateTime(date: Date, locale: string = "en"): string {
 }
 
 export function formatIstDate(date: Date, locale: string = "en"): string {
-  return new Intl.DateTimeFormat(locale === "hi" ? "hi-IN" : "en-IN", {
+  const loc = locale === "hi" ? "hi-IN" : locale === "te" ? "te-IN" : "en-IN";
+  return new Intl.DateTimeFormat(loc, {
     timeZone: DELHI.timeZone,
     weekday: "long",
     day: "numeric",
@@ -39,7 +42,8 @@ export function formatIstDate(date: Date, locale: string = "en"): string {
 }
 
 export function formatIstMonthDayYear(date: Date, locale: string = "en"): string {
-  return new Intl.DateTimeFormat(locale === "hi" ? "hi-IN" : "en-US", {
+  const loc = locale === "hi" ? "hi-IN" : locale === "te" ? "te-IN" : "en-US";
+  return new Intl.DateTimeFormat(loc, {
     timeZone: DELHI.timeZone,
     month: "long",
     day: "numeric",

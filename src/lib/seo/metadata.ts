@@ -67,8 +67,13 @@ export function buildMetadata({
       description,
       url,
       siteName: SITE.name,
-      locale: locale === "hi" ? "hi_IN" : "en_IN",
-      alternateLocale: locale === "hi" ? ["en_IN"] : ["hi_IN"],
+      locale: locale === "hi" ? "hi_IN" : locale === "te" ? "te_IN" : "en_IN",
+      alternateLocale:
+        locale === "hi"
+          ? ["en_IN", "te_IN"]
+          : locale === "te"
+          ? ["en_IN", "hi_IN"]
+          : ["hi_IN", "te_IN"],
       type,
       publishedTime,
       modifiedTime,
@@ -90,7 +95,7 @@ export function buildMetadata({
       images: [imageUrl],
     },
     other: {
-      "content-language": locale === "hi" ? "hi-IN" : "en-IN",
+      "content-language": locale === "hi" ? "hi-IN" : locale === "te" ? "te-IN" : "en-IN",
     },
   };
 }

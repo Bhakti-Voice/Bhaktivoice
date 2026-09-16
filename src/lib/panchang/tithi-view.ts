@@ -72,8 +72,85 @@ export type TithiProse = {
   close: string;
 };
 
+
+const TELUGU_WEEKDAYS: Record<string, string> = {
+  Sunday: "ఆదివారం",
+  Monday: "సోమవారం",
+  Tuesday: "మంగళవారం",
+  Wednesday: "బుధవారం",
+  Thursday: "గురువారం",
+  Friday: "శుక్రవారం",
+  Saturday: "శనివారం",
+  रविवार: "ఆదివారం",
+  सोमवार: "సోమవారం",
+  मंगलवार: "మంగళవారం",
+  बुधवार: "బుధవారం",
+  गुरुवार: "గురువారం",
+  शुक्रवार: "శుక్రవారం",
+  शनिवार: "శనివారం",
+};
+
+const TELUGU_PAKSHAS: Record<string, string> = {
+  shukla: "శుక్ల పక్షం",
+  krishna: "కృష్ణ పక్షం",
+  Shukla: "శుక్ల పక్షం",
+  Krishna: "కృష్ణ పక్షం",
+  शुक्ल: "శుక్ల పక్షం",
+  कृष्ण: "కృష్ణ పక్షం",
+};
+
+const TELUGU_TITHIS: Record<string, string> = {
+  Pratipada: "పాడ్యమి",
+  Dwitiya: "విదియ",
+  Tritiya: "తదియ",
+  Chaturthi: "చవితి",
+  Panchami: "పంచమి",
+  Shashthi: "షష్ఠి",
+  Saptami: "సప్తమి",
+  Ashtami: "అష్టమి",
+  Navami: "నవమి",
+  Dashami: "దశమి",
+  Ekadashi: "ఏకాదశి",
+  Dwadashi: "ద్వాదశి",
+  Trayodashi: "త్రయోదశి",
+  Chaturdashi: "చతుర్దశి",
+  Purnima: "పౌర్ణమి",
+  Amavasya: "అమావాస్య",
+};
+
+const TELUGU_NAKSHATRAS: Record<string, string> = {
+  Ashwini: "అశ్విని",
+  Bharani: "భరణి",
+  Krittika: "కృత్తిక",
+  Rohini: "రోహిణి",
+  Mrigashirsha: "మృగశిర",
+  Ardra: "ఆరుద్ర",
+  Punarvasu: "పునర్వసు",
+  Pushya: "పుష్యమి",
+  Ashlesha: "ఆశ్లేష",
+  Magha: "మఖ",
+  PurvaPhalguni: "పూర్వఫల్గుణి (పుబ్బ)",
+  UttaraPhalguni: "ఉత్తరఫల్గుణి (ఉత్తర)",
+  Hasta: "హస్త",
+  Chitra: "చిత్త",
+  Swati: "స్వాతి",
+  Vishakha: "విశాఖ",
+  Anuradha: "అనూరాధ",
+  Jyeshtha: "జ్యేష్ఠ",
+  Mula: "మూల",
+  PurvaAshadha: "పూర్వాషాఢ",
+  UttaraAshadha: "ఉత్తరాషాఢ",
+  Shravana: "శ్రవణం",
+  Dhanishta: "ధనిష్ఠ",
+  Shatabhisha: "శతభిషం",
+  PurvaBhadrapada: "పూర్వాభాద్ర",
+  UttaraBhadrapada: "ఉత్తరాభాద్ర",
+  Revati: "రేవతి",
+};
+
 export function toTithiPageData(locale: Locale, now = new Date()): TithiPageData {
   const hi = locale === "hi";
+  const te = locale === "te";
   const panchang = getPanchang(now, 7);
   const tithi = panchang.tithiAtSunrise;
   const paksha = pakshaLabel(tithi.paksha);
@@ -92,29 +169,32 @@ export function toTithiPageData(locale: Locale, now = new Date()): TithiPageData
     currentVikramSamvat: String(panchang.vikramSamvat),
     currentMasa: hi ? masa.nameHi : masa.name,
     masaAmanta: hi ? panchang.masaAmanta.nameHi : panchang.masaAmanta.name,
-    currentPaksha: hi ? paksha.hi : paksha.en,
-    currentTithi: hi ? tithi.nameHi : tithi.name,
+    currentPaksha: te ? (TELUGU_PAKSHAS[tithi.paksha] ?? paksha.en) : hi ? paksha.hi : paksha.en,
+    currentTithi: te ? (TELUGU_TITHIS[tithi.name] ?? tithi.name) : hi ? tithi.nameHi : tithi.name,
     tithiNumber: tithi.number,
     tithiStartTime: time(tithi.start),
     tithiEndTime: time(tithi.end),
     tithiStartAt: dateTime(tithi.start),
     tithiEndAt: dateTime(tithi.end),
-    nextTithi: hi ? panchang.nextTithi.nameHi : panchang.nextTithi.name,
+    nextTithi: te ? (TELUGU_TITHIS[panchang.nextTithi.name] ?? panchang.nextTithi.name) : hi ? panchang.nextTithi.nameHi : panchang.nextTithi.name,
     nextTithiEndAt: dateTime(panchang.nextTithi.end),
     sunriseTime: time(panchang.sunrise),
     sunsetTime: time(panchang.sunset),
     rahuKaalStart: time(panchang.rahuKaal.start),
     rahuKaalEnd: time(panchang.rahuKaal.end),
-    currentNakshatra: hi ? panchang.nakshatra.nameHi : panchang.nakshatra.name,
+    currentNakshatra: te ? (TELUGU_NAKSHATRAS[panchang.nakshatra.name] ?? panchang.nakshatra.name) : hi ? panchang.nakshatra.nameHi : panchang.nakshatra.name,
     nakshatraPada: panchang.nakshatra.pada,
-    weekday: hi ? panchang.weekdayNameHi : panchang.weekdayName,
+    weekday: te ? (TELUGU_WEEKDAYS[panchang.weekdayName] ?? panchang.weekdayName) : hi ? panchang.weekdayNameHi : panchang.weekdayName,
     ritu: hi ? panchang.ritu.nameHi : panchang.ritu.name,
     yoga: panchang.yoga.name,
     karana: panchang.karana.name,
     specialFestivals,
     upcomingTithis: panchang.upcoming.map((day) => {
       const dayPaksha = pakshaLabel(day.tithi.paksha);
-      const tithiName = hi
+      const dayTithiName = te ? (TELUGU_TITHIS[day.tithi.name] ?? day.tithi.name) : hi ? day.tithi.nameHi : day.tithi.name;
+      const tithiName = te
+        ? `${day.masaName} ${TELUGU_PAKSHAS[day.tithi.paksha] ?? dayPaksha.en} ${dayTithiName}`
+        : hi
         ? `${day.masaNameHi} ${dayPaksha.hi} ${day.tithi.nameHi}`
         : `${day.masaName} ${dayPaksha.en} ${day.tithi.name}`;
       const festival = day.observances
@@ -122,7 +202,7 @@ export function toTithiPageData(locale: Locale, now = new Date()): TithiPageData
         .join(" · ");
       return {
         date: formatIstDate(day.date, locale),
-        day: hi ? day.weekdayNameHi : day.weekdayName,
+        day: te ? (TELUGU_WEEKDAYS[day.weekdayName] ?? day.weekdayName) : hi ? day.weekdayNameHi : day.weekdayName,
         tithi: tithiName,
         festival: festival || undefined,
       };
@@ -296,7 +376,7 @@ export function tithiPageGraph(
         url,
         name: tithiPageName(locale),
         description: meta.description,
-        inLanguage: locale === "hi" ? "hi-IN" : "en-IN",
+        inLanguage: locale === "hi" ? "hi-IN" : locale === "te" ? "te-IN" : "en-IN",
         isPartOf: {
           "@type": "WebSite",
           "@id": `${SITE.url}/#website`,
@@ -332,9 +412,9 @@ export function tithiPageGraph(
 }
 
 export function tithiPageName(locale: Locale) {
-  return locale === "hi"
-    ? "आज की तिथि: आज का पंचांग और हिन्दू कैलेंडर विवरण"
-    : "Aaj Ki Tithi: Today's Panchang & Hindu Calendar Details";
+  if (locale === "hi") return "आज की तिथि: आज का पंचांग और हिन्दू कैलेंडर विवरण";
+  if (locale === "te") return "ఈరోజు తిథి: నేటి పంచాంగం మరియు క్యాలెండర్ వివరాలు";
+  return "Aaj Ki Tithi: Today's Panchang & Hindu Calendar Details";
 }
 
 function titlePaksha(value: string) {
@@ -364,9 +444,9 @@ function lunarDayPhrase(number: number, tithiName: string, hi: boolean) {
   return hi ? `चंद्र मास का ${number}वाँ दिन` : `the ${en} lunar day`;
 }
 
-function joinAnd(items: string[], locale: "en" | "hi") {
+function joinAnd(items: string[], locale: Locale | string) {
   if (items.length <= 1) return items[0] ?? "";
-  const conj = locale === "hi" ? " और " : " and ";
+  const conj = locale === "hi" ? " और " : locale === "te" ? " మరియు " : " and ";
   if (items.length === 2) return `${items[0]}${conj}${items[1]}`;
   return `${items.slice(0, -1).join(", ")},${conj}${items[items.length - 1]}`;
 }

@@ -90,7 +90,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: number,
   ) {
     const alts = hreflangForPath(path);
-    for (const locale of ["en", "hi"] as const) {
+    for (const locale of ["en", "hi", "te"] as const) {
       const localized = withLocale(path, locale);
       const url = `${SITE.url}${localized === "/" ? "" : localized}`;
       if (seen.has(url)) continue;
@@ -99,7 +99,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         url,
         lastModified,
         changeFrequency,
-        priority: locale === "hi" ? Math.max(0.3, priority - 0.05) : priority,
+        priority: locale === "hi" || locale === "te" ? Math.max(0.3, priority - 0.05) : priority,
         alternates: { languages: alts },
       });
     }

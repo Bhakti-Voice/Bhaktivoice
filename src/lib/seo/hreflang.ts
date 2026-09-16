@@ -4,17 +4,20 @@ import { absoluteUrl } from "./site";
 export type HreflangMap = {
   "en-IN": string;
   "hi-IN": string;
+  "te-IN": string;
   "x-default": string;
 };
 
-/** English URL, Hindi URL, and x-default (English) for the same page. */
+/** English URL, Hindi URL, Telugu URL, and x-default (English) for the same page. */
 export function hreflangForPath(path: string): HreflangMap {
   const clean = stripLocale((path.split("?")[0] || "/").split("#")[0] || "/");
   const en = absoluteUrl(clean);
   const hi = absoluteUrl(withLocale(clean, "hi"));
+  const te = absoluteUrl(withLocale(clean, "te"));
   return {
     "en-IN": en,
     "hi-IN": hi,
+    "te-IN": te,
     "x-default": en,
   };
 }

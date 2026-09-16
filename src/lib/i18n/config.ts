@@ -1,14 +1,18 @@
-export const LOCALES = ["en", "hi"] as const;
+export const LOCALES = ["en", "hi", "te"] as const;
 export type Locale = (typeof LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = "en";
 
 export function isLocale(value: string | null | undefined): value is Locale {
-  return value === "en" || value === "hi";
+  return value === "en" || value === "hi" || value === "te";
 }
 
 export function stripLocale(pathname: string): string {
-  if (pathname === "/hi") return "/";
+  if (pathname === "/hi" || pathname === "/te") return "/";
   if (pathname.startsWith("/hi/")) {
+    const rest = pathname.slice(3);
+    return rest.startsWith("/") ? rest : `/${rest}`;
+  }
+  if (pathname.startsWith("/te/")) {
     const rest = pathname.slice(3);
     return rest.startsWith("/") ? rest : `/${rest}`;
   }
@@ -16,7 +20,7 @@ export function stripLocale(pathname: string): string {
 }
 
 export function withLocale(path: string, locale: Locale): string {
-  if (!path) return locale === "hi" ? "/hi" : "/";
+  if (!path) return locale === "hi" ? "/hi" : locale === "te" ? "/te" : "/";
   if (
     path.startsWith("http://") ||
     path.startsWith("https://") ||
@@ -29,12 +33,16 @@ export function withLocale(path: string, locale: Locale): string {
   const [withoutHash, hash] = path.split("#");
   const [rawPath, search] = (withoutHash || "/").split("?");
   const clean = stripLocale(rawPath || "/");
+  const prefix = locale === "hi" ? "/hi" : locale === "te" ? "/te" : "";
   const prefixed =
-    locale === "hi" ? (clean === "/" ? "/hi" : `/hi${clean}`) : clean === "" ? "/" : clean;
+    prefix ? (clean === "/" ? prefix : `${prefix}${clean}`) : clean === "" ? "/" : clean;
   const withSearch = search ? `${prefixed}?${search}` : prefixed;
   return hash ? `${withSearch}#${hash}` : withSearch;
 }
 
 export function localeFromPath(pathname: string): Locale {
-  return pathname === "/hi" || pathname.startsWith("/hi/") ? "hi" : "en";
+  if (pathname === "/hi" || pathname.startsWith("/hi/")) return "hi";
+  if (pathname === "/te" || pathname.startsWith("/te/")) return "te";
+  return "en";
 }
+

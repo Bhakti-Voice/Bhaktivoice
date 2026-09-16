@@ -36,6 +36,13 @@ const PRIVATE = [
   "/hi/cart",
   "/hi/login",
   "/hi/search",
+  "/te/profile",
+  "/te/account",
+  "/te/settings",
+  "/te/checkout",
+  "/te/cart",
+  "/te/login",
+  "/te/search",
   ...PREVIEW_DISALLOW,
 ];
 

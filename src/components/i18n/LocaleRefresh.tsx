@@ -11,7 +11,7 @@ export function LocaleRefresh() {
   const previous = useRef(locale);
 
   useEffect(() => {
-    document.documentElement.lang = locale === "hi" ? "hi" : "en";
+    document.documentElement.lang = locale;
   }, [locale]);
 
   useEffect(() => {

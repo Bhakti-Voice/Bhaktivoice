@@ -350,8 +350,9 @@ export function zonedLocalToUtc(date: string, time: string, timeZone: string): D
   return new Date(utcGuess);
 }
 
-export function formatTime(date: Date, timeZone: string, locale: "en" | "hi" = "en"): string {
-  return new Intl.DateTimeFormat(locale === "hi" ? "hi-IN" : "en-IN", {
+export function formatTime(date: Date, timeZone: string, locale: string = "en"): string {
+  const loc = locale === "hi" ? "hi-IN" : locale === "te" ? "te-IN" : "en-IN";
+  return new Intl.DateTimeFormat(loc, {
     timeZone,
     hour: "numeric",
     minute: "2-digit",
@@ -359,8 +360,9 @@ export function formatTime(date: Date, timeZone: string, locale: "en" | "hi" = "
   }).format(date);
 }
 
-export function formatDateLong(date: Date, timeZone: string, locale: "en" | "hi" = "en"): string {
-  return new Intl.DateTimeFormat(locale === "hi" ? "hi-IN" : "en-IN", {
+export function formatDateLong(date: Date, timeZone: string, locale: string = "en"): string {
+  const loc = locale === "hi" ? "hi-IN" : locale === "te" ? "te-IN" : "en-IN";
+  return new Intl.DateTimeFormat(loc, {
     timeZone,
     weekday: "long",
     day: "numeric",
@@ -368,6 +370,7 @@ export function formatDateLong(date: Date, timeZone: string, locale: "en" | "hi"
     year: "numeric",
   }).format(date);
 }
+
 
 export async function readDeviceLocation(): Promise<BirthPlace | null> {
   if (typeof navigator === "undefined" || !navigator.geolocation) return null;
