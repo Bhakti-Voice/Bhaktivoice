@@ -99,6 +99,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="alternate" type="text/plain" href="/llms.txt" title="LLMs.txt" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `if(location.pathname.startsWith('/hi'))document.documentElement.lang='hi';`,
+          }}
+        />
       </head>
       <body className={`${playfair.variable} ${inter.variable} ${devanagari.variable} bg-ivory text-ink antialiased`}>
         <LocaleRoot>

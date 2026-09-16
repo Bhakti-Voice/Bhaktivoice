@@ -51,13 +51,13 @@ export function BlogPostCard({
             </div>
           ) : null}
 
-          <h2 className="font-serif text-[17px] sm:text-[18px] font-bold leading-snug text-[#2c1810] group-hover:text-saffron-deep transition-colors line-clamp-2">
+          <h2 className="listing-card-title font-serif text-[17px] sm:text-[18px] font-bold leading-snug text-[#2c1810] group-hover:text-saffron-deep transition-colors line-clamp-2">
             {post.title}
           </h2>
 
           <ProseText
             text={post.excerpt || post.introduction}
-            className="mt-2 text-xs sm:text-[13px] leading-relaxed text-stone-600 line-clamp-2"
+            className="listing-card-text mt-2 text-xs sm:text-[13px] leading-relaxed text-stone-600 line-clamp-2"
           />
         </div>
       </LocaleLink>

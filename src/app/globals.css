@@ -47,25 +47,51 @@ h3,
   letter-spacing: -0.02em;
 }
 
-html[lang="hi"] body {
+/* Hindi typography root sizing & legibility */
+html[lang="hi"] {
+  font-size: 18px; /* Base font size increased from 16px to 18px (+2px) */
+  --spacing: calc(0.25rem * (16 / 18)); /* Lock spacing scale (p-4, gap-4) to 4px intervals to preserve layout */
+}
+
+html[lang="hi"] body,
+[lang="hi"] {
   font-family: var(--font-devanagari), var(--font-inter), ui-sans-serif, sans-serif;
 }
 
 html[lang="hi"] h1,
 html[lang="hi"] h2,
 html[lang="hi"] h3,
+html[lang="hi"] h4,
+html[lang="hi"] h5,
+html[lang="hi"] h6,
 html[lang="hi"] .font-serif,
-html[lang="hi"] .font-display {
+html[lang="hi"] .font-display,
+[lang="hi"] h1,
+[lang="hi"] h2,
+[lang="hi"] h3,
+[lang="hi"] h4,
+[lang="hi"] h5,
+[lang="hi"] h6,
+[lang="hi"] .font-serif,
+[lang="hi"] .font-display {
   font-family: var(--font-devanagari), var(--font-playfair), ui-serif, serif;
 }
 
-html[lang="hi"] .listing-card-title {
-  font-size: 1.2rem;
+/* Generous line-height for Hindi vowels and matras */
+html[lang="hi"] p,
+[lang="hi"] p {
+  line-height: 1.7;
+}
+
+html[lang="hi"] .listing-card-title,
+[lang="hi"] .listing-card-title {
+  font-size: 1.25rem !important;
   line-height: 1.5;
 }
 
-html[lang="hi"] .listing-card-text {
-  font-size: 1rem;
+html[lang="hi"] .listing-card-text,
+[lang="hi"] .listing-card-text {
+  font-size: 1.05rem !important;
   line-height: 1.65;
 }
 
@@ -224,6 +250,11 @@ button:disabled,
 
 .font-devanagari {
   font-family: var(--font-devanagari), "Noto Serif Devanagari", serif;
+}
+
+/* Standalone Devanagari on non-Hindi pages: +2px optical alignment */
+html:not([lang="hi"]) .font-devanagari {
+  font-size: calc(1em + 2px);
 }
 
 .jaap-flow-layer {
