@@ -33,7 +33,7 @@
       {% set is_te = field.name.endswith("Te") %}
       {% set is_hi = field.name.endswith("Hi") %}
       {% set is_en = not is_te and not is_hi %}
-      <div class="field-item-row" data-field-lang="{{ 'te' if is_te else 'hi' if is_hi else 'en' }}" style="margin-top: 0.85rem;">
+      <div class="field-item-row" data-field-lang="{{ 'te' if is_te else 'hi' if is_hi else 'en' }}" style="margin-top: 0.85rem; {% if is_te %}border-left: 3px solid #0284c7; padding-left: 0.65rem; background: #f0f9ff40; border-radius: 8px; padding-top: 0.35rem; padding-bottom: 0.35rem;{% endif %}">
         <label style="display: flex; align-items: center; justify-content: space-between; font-weight: 600; color: var(--ink);">
           <span>{{ field.label }}</span>
           {% if is_te %}
@@ -62,7 +62,7 @@
             <button type="button" class="editor-toolbar-btn" data-action="h2" title="Section heading (##)">## Heading</button>
             <button type="button" class="editor-toolbar-btn preview-toggle" data-action="preview" title="Toggle live formatted preview">👁️ Live Preview</button>
           </div>
-          <textarea class="has-toolbar-textarea" name="{{ field.name }}" id="field-{{ field.name }}" rows="{{ field.rows }}">{{ values.get(field.name, '') }}</textarea>
+          <textarea class="has-toolbar-textarea" name="{{ field.name }}" id="field-{{ field.name }}" rows="{{ field.rows }}" {% if is_te %}placeholder="తెలుగు వివరణ లేదా కథనం ఇక్కడ నమోదు చేయండి (Enter Telugu content)..."{% endif %}>{{ values.get(field.name, '') }}</textarea>
           <div class="editor-preview-pane" id="preview-{{ field.name }}"></div>
         {% elif field.type == "related" %}
           <div class="related-editor-widget" data-field-name="{{ field.name }}">
@@ -73,13 +73,12 @@
             <textarea name="{{ field.name }}" id="field-{{ field.name }}" style="display: none;">{{ values.get(field.name, '') }}</textarea>
           </div>
         {% elif field.type in ["textarea", "lines", "faqs", "places", "itinerary", "episodes", "sections", "paragraphs", "tags"] %}
-          <textarea name="{{ field.name }}" rows="{{ field.rows }}">{{ values.get(field.name, '') }}</textarea>
+          <textarea name="{{ field.name }}" rows="{{ field.rows }}" {% if is_te %}placeholder="తెలుగు సమాచారం ఇక్కడ రాయండి (Telugu)..."{% endif %}>{{ values.get(field.name, '') }}</textarea>
         {% elif field.type == "number" %}
           <input type="number" name="{{ field.name }}" value="{{ values.get(field.name, '') }}" />
         {% else %}
-          <input name="{{ field.name }}" value="{{ values.get(field.name, '') }}" />
+          <input name="{{ field.name }}" value="{{ values.get(field.name, '') }}" {% if is_te %}placeholder="తెలుగు అనువాదం (Telugu)..."{% endif %} />
         {% endif %}
-      </label>
       {% if field.name == "heroImage" and values.get(field.name) %}
         <img class="thumb-lg" src="{{ values.get(field.name) }}" alt="" style="margin-top: 0.5rem;" />
       {% endif %}

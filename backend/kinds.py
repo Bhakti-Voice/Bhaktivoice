@@ -933,8 +933,8 @@ def public_page(
         related["relatedTemples"] = data["temples"] if isinstance(data.get("temples"), list) else []
         if related["relatedTemples"] and isinstance(related["relatedTemples"][0], dict) and "label" not in related["relatedTemples"][0]:
             pass
-    defaults = CTA_DEFAULTS["hi" if locale == "hi" else "en"]
-    home_name = "होम" if locale == "hi" else "Home"
+    defaults = CTA_DEFAULTS.get(locale, CTA_DEFAULTS["en"])
+    home_name = "హోమ్" if locale == "te" else "होम" if locale == "hi" else "Home"
     cta = {
         "title": data.get("cta_title") or defaults["title"],
         "body": data.get("cta_body") or defaults["body"],
@@ -1036,7 +1036,7 @@ def public_page(
         extras["category"] = data.get("categorySlug") or data.get("category") or ""
         page["breadcrumbs"] = [
             {"name": home_name, "href": "/"},
-            {"name": "भंडार" if locale == "hi" else "Store", "href": "/bhakti-store"},
+            {"name": "భండార్" if locale == "te" else "भंडार" if locale == "hi" else "Store", "href": "/bhakti-store"},
             {"name": extras["name"], "href": f"/bhakti-store/{slug}"},
         ]
     page.update(extras)

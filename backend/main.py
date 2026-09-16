@@ -36,7 +36,7 @@ from kinds import (
     public_simple,
     today,
 )
-from json_import import coerce_entry, kind_placeholders, parse_json_text
+from json_import import coerce_entry, empty_field_value, kind_placeholders, parse_json_text
 from store import save_entry
 from media import load_media, replace_hero_image, safe_image_src, safe_youtube_src
 from firebase_auth import optional_user_id, require_user_id
@@ -674,14 +674,19 @@ def search(q: str = "", locale: str = "en"):
                 row.get("title") or "",
                 raw.get("title") or "",
                 raw.get("titleHi") or "",
+                raw.get("titleTe") or "",
                 raw.get("introduction") or "",
                 raw.get("introductionHi") or "",
+                raw.get("introductionTe") or "",
                 raw.get("category") or "",
                 raw.get("categoryHi") or "",
+                raw.get("categoryTe") or "",
                 raw.get("excerpt") or "",
                 raw.get("excerptHi") or "",
+                raw.get("excerptTe") or "",
                 raw.get("h1") or "",
                 raw.get("h1Hi") or "",
+                raw.get("h1Te") or "",
             ]
         ).lower()
         if needle not in haystack:
@@ -1334,6 +1339,14 @@ def dashboard(request: Request):
 
 
 def dump_entry_json(row: dict) -> str:
+    kind_key = row.get("kind") or ""
+    raw_data = parse_data(row.get("data"))
+    data = dict(raw_data)
+    spec = KINDS.get(kind_key)
+    if spec:
+        for f in spec.fields:
+            if f.name not in data:
+                data[f.name] = empty_field_value(f, kind_key)
     return json.dumps(
         {
             "id": row.get("id"),
@@ -1341,7 +1354,7 @@ def dump_entry_json(row: dict) -> str:
             "slug": row.get("slug") or "",
             "status": row.get("status") or "published",
             "title": row.get("title") or "",
-            "data": parse_data(row.get("data")),
+            "data": data,
         },
         ensure_ascii=False,
         indent=2,
