@@ -1,3 +1,26 @@
+const GOCHAR_FAQS_TE = [
+  {
+    question: "గ్రహ గోచారం (Gochar) అంటే ఏమిటి?",
+    answer:
+      "ఆకాశంలో గ్రహాల నిరంతర చలనాన్ని 'గోచారం' అంటారు. జన్మ కుండలిలోని గ్రహాలు స్థిరంగా ఉంటాయి, అయితే ప్రస్తుత బ్రహ్మాండంలో కదులుతున్న గ్రహాలను గోచార గ్రహాలు అంటారు. ఫలిత జ్యోతిష్యంలో గోచారాన్ని జాతకుని జన్మ చంద్ర రాశి (Moon Sign) నుండి లెక్కిస్తారు.",
+  },
+  {
+    question: "చంద్ర రాశి నుండే గోచారాన్ని ఎందుకు చూస్తారు?",
+    answer:
+      "వైదిక జ్యోతిష్యంలో చంద్రుడు మనస్సు, చేతన మరియు అనుభవాలకు కారకుడు. గ్రహ గోచార ప్రభావం నేరుగా వ్యక్తి యొక్క మానసిక స్థితి, నిర్ణయాలు మరియు దైనందిన సుఖ-దుఃఖాలపై పడుతుంది, అందుకే మహర్షి పరాశరుడు చంద్ర రాశి ఆధారిత గోచారానికి అత్యంత ప్రాధాన్యతనిచ్చారు.",
+  },
+  {
+    question: "ఏ స్థానాల్లో గ్రహాల గోచారం అత్యంత శుభప్రదంగా పరిగణించబడుతుంది?",
+    answer:
+      "• సూర్యుడు: 3, 6, 10, 11వ స్థానాల్లో శుభం\n• చంద్రుడు: 1, 3, 6, 7, 10, 11వ స్థానాల్లో శుభం\n• కుజుడు: 3, 6, 11వ స్థానాల్లో శుభం\n• బుధుడు: 2, 4, 6, 8, 10, 11వ స్థానాల్లో శుభం\n• గురువు: 2, 5, 7, 9, 11వ స్థానాల్లో శుభం\n• శుక్రుడు: 1, 2, 3, 4, 5, 8, 9, 11, 12వ స్థానాల్లో శుభం\n• శని, రాహువు, కేతువు: 3, 6, 11వ (ఉపచయ) స్థానాల్లో శుభ ఫలితాలనిస్తారు.",
+  },
+  {
+    question: "గోచారం మరియు మహాదశలలో ఏది ఎక్కువ ప్రభావవంతమైనది?",
+    answer:
+      "వింశోత్తరి మహాదశ జీవితపు పునాదిని నిర్ణయిస్తుంది, అయితే గోచారం ఆ ఫలితాలు సంభవించే ఖచ్చితమైన సమయాన్ని (ట్రిగ్గర్) నిర్దేశిస్తుంది. దశ అనుకూలంగా ఉండి, గోచారం కూడా శుభంగా ఉంటే అత్యద్భుతమైన విజయం లభిస్తుంది.",
+  },
+];
+
 import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -14,12 +37,17 @@ export const revalidate = 3600;
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
-  const title = isHi
+  const title = isTe
+    ? "దైనందిన గ్రహ గోచార ఫలాలు & గోచార క్యాలెండర్ — 9 గ్రహాల రాశి మార్పు & భావ ఫలాలు"
+    : isHi
     ? "दैनिक ग्रह गोचर फल एवं गोचर कैलेंडर — ९ ग्रहों का राशि परिवर्तन व भाव फल"
     : "Daily Planetary Transits (Gochar) & Transit Calendar — 9 Grahas Transit Analysis";
 
-  const description = isHi
+  const description = isTe
+    ? "వైదిక జ్యోతిష్యం ప్రకారం దైనందిన గ్రహ గోచారం మరియు చంద్ర రాశి ఆధారిత భావ ఫలాలు. సూర్య, చంద్ర, కుజ, బుధ, గురు, శుక్ర, శని, రాహు, కేతువుల రాశి సంచారం మరియు శుభ/అశుభ స్కోరు."
+    : isHi
     ? "वैदिक ज्योतिष अनुसार दैनिक ग्रह गोचर एवं चंद्र राशि आधारित भाव फल। सूर्य, चंद्र, मंगल, बुध, गुरु, शुक्र, शनि, राहु व केतु का राशि गोचर, शुभ/अशुभ प्रभाव स्कोर एवं २०२४-२०३० का मुख्य गोचर कैलेंडर।"
     : "Vedic Planetary Transit (Gochar) dashboard and transit calendar. Real-time Sidereal positions for all 9 Grahas, house-by-house analysis from natal Moon sign, favorability score, and 2024–2030 major transit timeline.";
 
@@ -54,14 +82,15 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function GocharPage() {
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const breadcrumbs = localizedCrumbs(
     t.homeName,
-    [isHi ? "पंचांग" : "Panchang", PATHS.panchang],
-    [isHi ? "ग्रह गोचर" : "Planetary Transits (Gochar)", `${PATHS.panchang}/gochar`]
+    [isTe ? "పంచాంగం" : isHi ? "पंचांग" : "Panchang", PATHS.panchang],
+    [isTe ? "గ్రహ గోచారం" : isHi ? "ग्रह गोचर" : "Planetary Transits (Gochar)", `${PATHS.panchang}/gochar`]
   );
 
-  const faqs = isHi
+  const faqs = isTe ? GOCHAR_FAQS_TE : isHi
     ? [
         {
           question: "ग्रह गोचर (Gochar) क्या होता है?",

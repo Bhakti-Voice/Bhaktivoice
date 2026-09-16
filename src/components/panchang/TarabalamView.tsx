@@ -21,8 +21,10 @@ import {
 import {
   NAKSHATRA_NAMES,
   NAKSHATRA_NAMES_HI,
+  NAKSHATRA_NAMES_TE,
   RASI_NAMES,
   RASI_NAMES_HI,
+  RASI_NAMES_TE,
 } from "@/lib/panchang/names";
 import { DEFAULT_CITY, type CityConfig } from "@/lib/panchang/cities";
 import { CityPickerButton } from "./CityPickerButton";
@@ -31,6 +33,7 @@ import { useLocale } from "@/lib/i18n/client";
 export function TarabalamView() {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   // Default birth star: Rohini (index 3), Taurus (index 1)
   const [janmaNakshatra, setJanmaNakshatra] = useState<number>(3);
@@ -74,7 +77,7 @@ export function TarabalamView() {
           <button
             onClick={handlePrevDay}
             className="flex h-9 w-9 items-center justify-center rounded-xl border border-sand bg-sand/40 text-ink transition hover:bg-sand hover:text-saffron-deep"
-            title={isHi ? "पिछला दिन" : "Previous Day"}
+            title={isTe ? "మునుపటి రోజు" : isHi ? "पिछला दिन" : "Previous Day"}
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
@@ -92,7 +95,7 @@ export function TarabalamView() {
           <button
             onClick={handleNextDay}
             className="flex h-9 w-9 items-center justify-center rounded-xl border border-sand bg-sand/40 text-ink transition hover:bg-sand hover:text-saffron-deep"
-            title={isHi ? "अगला दिन" : "Next Day"}
+            title={isTe ? "తరువాతి రోజు" : isHi ? "अगला दिन" : "Next Day"}
           >
             <ChevronRight className="h-5 w-5" />
           </button>
@@ -101,12 +104,12 @@ export function TarabalamView() {
             onClick={handleToday}
             className="rounded-xl border border-saffron/30 bg-saffron/10 px-3 py-1.5 text-xs font-bold text-saffron-deep transition hover:bg-saffron hover:text-white"
           >
-            {isHi ? "आज" : "Today"}
+            {isTe ? "నేడు" : isHi ? "आज" : "Today"}
           </button>
         </div>
 
         <div className="flex items-center gap-3">
-          <CityPickerButton city={city} onCityChange={setCity} isHi={isHi} />
+          <CityPickerButton city={city} onCityChange={setCity} isHi={isHi} isTe={isTe} />
         </div>
       </div>
 
@@ -417,7 +420,7 @@ export function TarabalamView() {
                   </span>
                   {item.isCurrent && (
                     <span className="rounded-md bg-saffron px-1.5 py-0.5 text-[9px] font-bold text-white uppercase">
-                      {isHi ? "आज" : "Today"}
+                      {isTe ? "నేడు" : isHi ? "आज" : "Today"}
                     </span>
                   )}
                 </div>

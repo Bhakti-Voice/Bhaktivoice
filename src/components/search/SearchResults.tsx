@@ -22,6 +22,17 @@ const SUGGESTED_QUERIES_EN = [
   "Naam Jaap",
 ];
 
+const SUGGESTED_QUERIES_TE = [
+  "భగవద్గీత అధ్యాయం 2",
+  "హనుమాన్ చాలీసా",
+  "నేటి పంచాంగం",
+  "గాయత్రీ మంత్రం",
+  "జన్మ కుండలి",
+  "కర్మణ్యేవాధికారస్తే",
+  "దైవిక సువిచార్",
+  "నామ జపం",
+];
+
 const SUGGESTED_QUERIES_HI = [
   "भगवद्गीता अध्याय २",
   "श्री हनुमान चालीसा",
@@ -38,6 +49,7 @@ export function SearchResults() {
   const query = (searchParams.get("q") ?? "").trim();
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const t = useMessages();
 
   const [results, setResults] = useState<SearchHit[]>([]);
@@ -97,7 +109,7 @@ export function SearchResults() {
     return results.filter((r) => r.kind === selectedCategory);
   }, [results, selectedCategory]);
 
-  const suggestions = isHi ? SUGGESTED_QUERIES_HI : SUGGESTED_QUERIES_EN;
+  const suggestions = isTe ? SUGGESTED_QUERIES_TE : isHi ? SUGGESTED_QUERIES_HI : SUGGESTED_QUERIES_EN;
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
@@ -120,7 +132,7 @@ export function SearchResults() {
         <div className="mt-6 overflow-hidden rounded-3xl border-2 border-saffron/40 bg-gradient-to-br from-[#fffdf9] to-[#fff8ee] p-6 sm:p-8 shadow-xs">
           <div className="flex items-center gap-2 text-saffron-deep font-semibold text-xs sm:text-sm uppercase tracking-wider">
             <Sparkles className="h-4 w-4" />
-            <span>{isHi ? "प्रामाणिक शास्त्र उत्तर" : "Scriptural Direct Answer"}</span>
+            <span>{isTe ? "ప్రామాణిక శాస్త్ర సమాధానం" : isHi ? "प्रामाणिक शास्त्र उत्तर" : "Scriptural Direct Answer"}</span>
             <span className="rounded-full bg-saffron/10 px-2.5 py-0.5 text-xs text-saffron-deep font-medium normal-case ml-auto">
               {directAnswer.category}
             </span>
@@ -140,12 +152,12 @@ export function SearchResults() {
 
           <div className="mt-4 space-y-2 text-sm sm:text-base leading-relaxed text-ink/80">
             <p>
-              <strong className="text-ink font-semibold">{isHi ? "भावार्थ: " : "Meaning: "}</strong>
+              <strong className="text-ink font-semibold">{isTe ? "తాత్పర్యం: " : isHi ? "भावार्थ: " : "Meaning: "}</strong>
               {directAnswer.meaning}
             </p>
             {directAnswer.significance ? (
               <p>
-                <strong className="text-ink font-semibold">{isHi ? "आध्यात्मिक महत्व: " : "Spiritual Essence: "}</strong>
+                <strong className="text-ink font-semibold">{isTe ? "ఆధ్యాత్మిక ప్రాముఖ్యత: " : isHi ? "आध्यात्मिक महत्व: " : "Spiritual Essence: "}</strong>
                 {directAnswer.significance}
               </p>
             ) : null}
@@ -153,13 +165,13 @@ export function SearchResults() {
 
           <div className="mt-5 pt-4 border-t border-line/60 flex items-center justify-between gap-4">
             <span className="text-xs text-muted">
-              {isHi ? "स्रोत: " : "Source: "} {directAnswer.source}
+              {isTe ? "మూలం: " : isHi ? "स्रोत: " : "Source: "} {directAnswer.source}
             </span>
             <Link
               href={directAnswer.sourceUrl}
               className="inline-flex items-center gap-1.5 text-sm font-semibold text-saffron-deep hover:text-saffron transition-colors"
             >
-              <span>{isHi ? "विस्तार से पढ़ें" : "Explore Full Guide"}</span>
+              <span>{isTe ? "వివరంగా చదవండి" : isHi ? "विस्तार से पढ़ें" : "Explore Full Guide"}</span>
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -178,7 +190,7 @@ export function SearchResults() {
                 : "bg-sand/60 text-ink hover:bg-sand"
             }`}
           >
-            {isHi ? "सभी परिणाम" : "All Results"} ({results.length})
+            {isTe ? "అన్ని ఫలితాలు" : isHi ? "सभी परिणाम" : "All Results"} ({results.length})
           </button>
           {categories.map((cat) => (
             <button
@@ -219,9 +231,13 @@ export function SearchResults() {
           <Search className="mx-auto h-10 w-10 text-saffron/60" />
           <h2 className="mt-4 font-serif text-xl sm:text-2xl font-bold text-ink">
             {query
-              ? isHi
+              ? isTe
+                ? `"${query}" కోసం ఎటువంటి ఫలితాలు లభించలేదు`
+                : isHi
                 ? `"${query}" के लिए कोई परिणाम नहीं मिला`
                 : `No results found for "${query}"`
+              : isTe
+              ? "పవిత్ర గ్రంథాలు & పంచాంగంలో శోధించండి"
               : isHi
               ? "पवित्र शास्त्रों व पंचांग में खोजें"
               : "Search Sacred Scriptures & Panchang"}
@@ -234,7 +250,7 @@ export function SearchResults() {
 
           <div className="mt-6">
             <p className="text-xs font-semibold text-muted uppercase tracking-wider">
-              {isHi ? "लोकप्रिय खोज सुझाव" : "Popular Searches"}
+              {isTe ? "ప్రజాదరణ పొందిన శోధనలు" : isHi ? "लोकप्रिय खोज सुझाव" : "Popular Searches"}
             </p>
             <div className="mt-3 flex flex-wrap justify-center gap-2 max-w-2xl mx-auto">
               {suggestions.map((item) => (

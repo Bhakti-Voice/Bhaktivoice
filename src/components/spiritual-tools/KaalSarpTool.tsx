@@ -29,6 +29,7 @@ import { useLocale } from "@/lib/i18n/client";
 export function KaalSarpTool() {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const [name, setName] = useState("");
   const [date, setDate] = useState("1996-03-24");

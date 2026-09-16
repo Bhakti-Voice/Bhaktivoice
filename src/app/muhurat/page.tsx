@@ -32,12 +32,17 @@ export const revalidate = 1800; // 30 minutes
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
-  const title = isHi
+  const title = isTe
+    ? "శుభ ముహూర్తాలు 2026 — చోఘడియా, వివాహం, గృహ ప్రవేశం, వాహనం, ఆస్తి కొనుగోలు & శుభ హోరా"
+    : isHi
     ? "शुभ मुहूर्त 2026 — चौघड़िया, विवाह, गृह प्रवेश, वाहन, संपत्ति क्रय एवं शुभ होरा"
     : "Shubh Muhurat 2026 — Choghadiya, Marriage, Griha Pravesh, Property, Vehicle & Hora";
 
-  const description = isHi
+  const description = isTe
+    ? "వైదిక దృక్-సిద్ధాంత ఆధారిత దిన శుభ ముహూర్తాలు, పగలు-రాత్రి చోఘడియా, నేటి అభిజిత్ ముహూర్తం, రాహుకాలం, వివాహ ముహూర్తాలు 2026, గృహ ప్రవేశం, వాహన కొనుగోలు & సర్వార్థ సిద్ధి యోగం."
+    : isHi
     ? "वैदिक दृक सिद्धान्त पर आधारित दैनिक शुभ मुहूर्त, दिन-रात का चौघड़िया, आज का अभिजित मुहूर्त, राहु काल, विवाह मुहूर्त 2026, गृह प्रवेश, वाहन क्रय एवं सर्वार्थ सिद्धि योग।"
     : "Comprehensive Vedic Shubh Muhurat guide. Calculate today's Day & Night Choghadiya, Abhijit Muhurat, Rahu Kaal, 2026 Marriage dates, Griha Pravesh, Vehicle & Property Purchase.";
 
@@ -45,7 +50,21 @@ export async function generateMetadata(): Promise<Metadata> {
     title,
     description,
     path: PATHS.muhurat,
-    keywords: isHi
+    keywords: isTe
+      ? [
+          "శుభ ముహూర్తాలు 2026",
+          "నేటి చోఘడియా",
+          "వివాహ ముహూర్తాలు 2026",
+          "గృహ ప్రవేశ ముహూర్తం",
+          "అభిజిత్ ముహూర్తం సమయం",
+          "రాహుకాలం నేడు",
+          "వాహన కొనుగోలు ముహూర్తం",
+          "ఆస్తి కొనుగోలు ముహూర్తం",
+          "శుభ గ్రహ హోరా",
+          "గౌరీ పంచాంగం",
+          "సర్వార్థ సిద్ధి యోగం",
+        ]
+      : isHi
       ? [
           "शुभ मुहूर्त 2026",
           "आज का चौघड़िया",
@@ -75,6 +94,29 @@ export async function generateMetadata(): Promise<Metadata> {
         ],
   });
 }
+
+const FAQS_TE = [
+  {
+    question: "ముహూర్తం అంటే ఏమిటి మరియు దైనందిన జీవితంలో దీని ప్రాముఖ్యత ఏమిటి?",
+    answer:
+      "వైదిక కాల గణనలో 48 నిమిషాల కాలాన్ని ఒక 'ముహూర్తం' అంటారు (రోజు మరియు రాత్రి కలిపి మొత్తం 30 ముహూర్తాలు ఉంటాయి). ఏదైనా ముఖ్యమైన పని, సంస్కారం లేదా వ్యాపార ప్రయాణాన్ని విశ్వ అనుకూలత కలిగిన శుభ ముహూర్తంలో ప్రారంభించడం వల్ల విఘ్నాలు తొలగి, కార్యసిద్ధి లభిస్తుంది.",
+  },
+  {
+    question: "చోఘడియాలో ఏ సమయాలు శుభమైనవి మరియు ఏవి విసర్జించాలి?",
+    answer:
+      "చోఘడియాలోని ఏడు కాలాలలో 'అమృత' (అత్యుత్తమమైనది), 'శుభ' (మాంగలిక కార్యాలకు), 'లాభ' (వ్యాపార పురోగతికి), మరియు 'చర' (ప్రయాణాలకు) శుభప్రదమైనవిగా పరిగణించబడతాయి. అలాగే 'రోగ', 'కాల' మరియు 'ఉద్వేగ'లను అశుభకరమైనవిగా భావించి, ఆ సమయాల్లో నూతన కార్యాలు ప్రారంభించకుండా ఉండాలి.",
+  },
+  {
+    question: "అభిజిత్ ముహూర్తాన్ని సర్వదోష నివారిణిగా ఎందుకు భావిస్తారు?",
+    answer:
+      "అభిజిత్ ముహూర్తం ప్రతిరోజూ మధ్యాహ్న సమయానికి సుమారు 24 నిమిషాల ముందు నుండి 24 నిమిషాల తర్వాత వరకు (సూర్యుడు ఆకాశంలో అత్యున్నత బిందువులో ఉన్నప్పుడు) ఉంటుంది. దీనికి శ్రీ మహావిష్ణువు సుదర్శన చక్ర రక్షణ లభిస్తుంది, దీనివల్ల సాధారణ గ్రహ దోషాలన్నీ వాటంతట అవే తొలగిపోతాయి.",
+  },
+  {
+    question: "వివాహం మరియు గృహ ప్రవేశ ముహూర్తాలలో త్రిబల శుద్ధి అంటే ఏమిటి?",
+    answer:
+      "వధూవరుల జాతకంలో గోచార రీత్యా సూర్యుడు, చంద్రుడు మరియు గురుడు (బృహస్పతి) అనుకూలంగా ఉండటాన్ని 'త్రిబల శుద్ధి' అంటారు. సూర్యుని నుండి ఆత్మబలం, చంద్రుని నుండి మనశ్శాంతి, గురుని నుండి దాంపత్య సుఖం మరియు సంతాన ప్రాప్తి సిద్ధిస్తాయి.",
+  },
+];
 
 const FAQS_HI = [
   {
@@ -125,23 +167,26 @@ const FAQS_EN = [
 export default async function MuhuratHubPage() {
   const locale = await getLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const today = new Date();
   const panchang = getPanchang(today, DEFAULT_CITY);
 
   const crumbs = localizedCrumbs(
-    isHi ? "होम" : "Home",
-    [isHi ? "शुभ मुहूर्त" : "Shubh Muhurat", PATHS.muhurat]
+    isTe ? "హోమ్" : isHi ? "होम" : "Home",
+    [isTe ? "శుభ ముహూర్తాలు" : isHi ? "शुभ मुहूर्त" : "Shubh Muhurat", PATHS.muhurat]
   );
 
   return (
     <div className="min-h-screen bg-[#faf6f0] text-ink pb-16">
       <PageHero
-        title={isHi ? "वैदिक शुभ मुहूर्त एवं चौघड़िया डायरेक्टरी 2026" : "Vedic Shubh Muhurat & Timings Directory 2026"}
+        title={isTe ? "వైదిక శుభ ముహూర్తాలు & చోఘడియా డైరెక్టరీ 2026" : isHi ? "वैदिक शुभ मुहूर्त एवं चौघड़िया डायरेक्टरी 2026" : "Vedic Shubh Muhurat & Timings Directory 2026"}
         crumbs={crumbs}
         ornament
       >
         <p className="mt-3 text-xs sm:text-sm text-ink/75 max-w-3xl leading-relaxed">
-          {isHi
+          {isTe
+            ? "దిన చోఘడియా, శుభ గ్రహ హోరా, అభిజిత్ ముహూర్తం, వివాహ ముహూర్తాలు, గృహ ప్రవేశం, ఆస్తి & వాహన కొనుగోలుకు శాస్త్రోక్త ముహూర్తాలు. 100% ప్రామాణిక దృక్-సిద్ధాంత గణన."
+            : isHi
             ? "दैनिक चौघड़िया, शुभ ग्रह होरा, अभिजित मुहूर्त, विवाह मुहूर्त, गृह प्रवेश, संपत्ति व वाहन क्रय के सटीक एवं शास्त्रोक्त मुहूर्त। 100% प्रामाणिक दृक सिद्धान्त गणना।"
             : "Precision Vedic electional astrology (Muhurat Shastra). Instant Day & Night Choghadiya, Shubha Hora, Abhijit Muhurat, Vivah Muhurat 2026, Griha Pravesh, Property and Vehicle purchase dates."}
         </p>
@@ -157,7 +202,7 @@ export default async function MuhuratHubPage() {
               </div>
               <div>
                 <h2 className="font-serif text-base font-bold text-ink sm:text-lg">
-                  {isHi ? "आज के प्रमुख काल एवं मुहूर्त" : "Today's Key Muhurat Windows"}
+                  {isTe ? "నేటి ముఖ్య సమయాలు & ముహూర్తాలు" : isHi ? "आज के प्रमुख काल एवं मुहूर्त" : "Today's Key Muhurat Windows"}
                 </h2>
                 <p className="text-xs text-muted">
                   {DEFAULT_CITY.name} ({DEFAULT_CITY.state}) • {today.toLocaleDateString(isHi ? "hi-IN" : "en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
@@ -166,7 +211,7 @@ export default async function MuhuratHubPage() {
             </div>
             <div className="flex items-center gap-2 text-xs font-semibold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full ring-1 ring-emerald-200">
               <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
-              <span>{isHi ? "दृक गणित सम्मत" : "Accurate Ephemeris"}</span>
+              <span>{isTe ? "దృక్-గణిత సిద్ధాంతం" : isHi ? "दृक गणित सम्मत" : "Accurate Ephemeris"}</span>
             </div>
           </div>
 
@@ -175,10 +220,10 @@ export default async function MuhuratHubPage() {
             <div className="rounded-2xl bg-amber-50/70 p-4 ring-1 ring-amber-300/60 flex flex-col justify-between">
               <div>
                 <span className="inline-block rounded-md bg-amber-200/60 px-2 py-0.5 text-[10px] font-bold text-amber-900 uppercase">
-                  {isHi ? "परम शुभ काल" : "Highly Auspicious"}
+                  {isTe ? "అత్యంత శుభ సమయం" : isHi ? "परम शुभ काल" : "Highly Auspicious"}
                 </span>
                 <h3 className="mt-2 font-serif text-sm font-bold text-ink">
-                  {isHi ? "अभिजित मुहूर्त" : "Abhijit Muhurat"}
+                  {isTe ? "అభిజిత్ ముహూర్తం" : isHi ? "अभिजित मुहूर्त" : "Abhijit Muhurat"}
                 </h3>
                 <p className="mt-1 text-xs font-semibold text-saffron-deep">
                   {panchang.abhijitMuhurat ? `${panchang.abhijitMuhurat.start.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} – ${panchang.abhijitMuhurat.end.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}` : (isHi ? "आज उपलब्ध नहीं" : "Not today")}
@@ -193,10 +238,10 @@ export default async function MuhuratHubPage() {
             <div className="rounded-2xl bg-emerald-50/70 p-4 ring-1 ring-emerald-300/60 flex flex-col justify-between">
               <div>
                 <span className="inline-block rounded-md bg-emerald-200/60 px-2 py-0.5 text-[10px] font-bold text-emerald-900 uppercase">
-                  {isHi ? "अमृत वेला" : "Nectar Period"}
+                  {isTe ? "అమృత వేళ" : isHi ? "अमृत वेला" : "Nectar Period"}
                 </span>
                 <h3 className="mt-2 font-serif text-sm font-bold text-ink">
-                  {isHi ? "अमृत काल" : "Amrit Kaal"}
+                  {isTe ? "అమృత కాలం" : isHi ? "अमृत काल" : "Amrit Kaal"}
                 </h3>
                 <p className="mt-1 text-xs font-semibold text-emerald-700">
                   {panchang.amritKaal ? `${panchang.amritKaal.start.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} – ${panchang.amritKaal.end.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}` : (isHi ? "रात्रि कालीन" : "Night window")}
@@ -211,10 +256,10 @@ export default async function MuhuratHubPage() {
             <div className="rounded-2xl bg-purple-50/70 p-4 ring-1 ring-purple-300/60 flex flex-col justify-between">
               <div>
                 <span className="inline-block rounded-md bg-purple-200/60 px-2 py-0.5 text-[10px] font-bold text-purple-900 uppercase">
-                  {isHi ? "साधना काल" : "Spiritual Dawn"}
+                  {isTe ? "సాధనా వేళ" : isHi ? "साधना काल" : "Spiritual Dawn"}
                 </span>
                 <h3 className="mt-2 font-serif text-sm font-bold text-ink">
-                  {isHi ? "ब्रह्म मुहूर्त" : "Brahma Muhurat"}
+                  {isTe ? "బ్రహ్మ ముహూర్తం" : isHi ? "ब्रह्म मुहूर्त" : "Brahma Muhurat"}
                 </h3>
                 <p className="mt-1 text-xs font-semibold text-purple-700">
                   {panchang.brahmaMuhurat ? `${panchang.brahmaMuhurat.start.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} – ${panchang.brahmaMuhurat.end.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}` : (isHi ? "प्रातः काल" : "Dawn period")}
@@ -229,10 +274,10 @@ export default async function MuhuratHubPage() {
             <div className="rounded-2xl bg-rose-50/70 p-4 ring-1 ring-rose-300/60 flex flex-col justify-between">
               <div>
                 <span className="inline-block rounded-md bg-rose-200/60 px-2 py-0.5 text-[10px] font-bold text-rose-900 uppercase">
-                  {isHi ? "अशुभ वेला (त्याज्य)" : "Inauspicious (Avoid)"}
+                  {isTe ? "అశుభ వేళ (విసర్జించాలి)" : isHi ? "अशुभ वेला (त्याज्य)" : "Inauspicious (Avoid)"}
                 </span>
                 <h3 className="mt-2 font-serif text-sm font-bold text-ink">
-                  {isHi ? "राहु काल" : "Rahu Kaal"}
+                  {isTe ? "రాహు కాలం" : isHi ? "राहु काल" : "Rahu Kaal"}
                 </h3>
                 <p className="mt-1 text-xs font-semibold text-rose-700">
                   {panchang.rahuKaal ? `${panchang.rahuKaal.start.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} – ${panchang.rahuKaal.end.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}` : "--"}
@@ -253,7 +298,7 @@ export default async function MuhuratHubPage() {
             <div className="flex items-center gap-2 border-b border-line pb-3">
               <Sun className="h-5 w-5 text-amber-600" />
               <h3 className="font-serif text-base font-bold text-ink">
-                {isHi ? "दिन व रात का चौघड़िया" : "Day & Night Choghadiya"}
+                {isTe ? "పగలు & రాత్రి చోఘడియా" : isHi ? "दिन व रात का चौघड़िया" : "Day & Night Choghadiya"}
               </h3>
             </div>
             <p className="mt-3 text-xs leading-relaxed text-muted">
@@ -263,13 +308,13 @@ export default async function MuhuratHubPage() {
             </p>
             <div className="mt-4 flex items-center justify-between">
               <span className="text-[11px] font-semibold text-saffron-deep">
-                {isHi ? "अमृत • शुभ • लाभ • चर" : "Amrut • Shubh • Labh • Char"}
+                {isTe ? "అమృత • శుభ • లాభ • చర" : isHi ? "अमृत • शुभ • लाभ • चर" : "Amrut • Shubh • Labh • Char"}
               </span>
               <LocaleLink
                 href="/panchang/panchang-utilities"
                 className="inline-flex items-center gap-1 text-xs font-semibold text-saffron-deep hover:underline"
               >
-                {isHi ? "चौघड़िया तालिका →" : "View Table →"}
+                {isTe ? "చోఘడియా పట్టిక →" : isHi ? "चौघड़िया तालिका →" : "View Table →"}
               </LocaleLink>
             </div>
           </div>
@@ -279,7 +324,7 @@ export default async function MuhuratHubPage() {
             <div className="flex items-center gap-2 border-b border-line pb-3">
               <Clock className="h-5 w-5 text-orange-600" />
               <h3 className="font-serif text-base font-bold text-ink">
-                {isHi ? "शुभ ग्रह होरा चक्र" : "Planetary Hora Calculator"}
+                {isTe ? "శుభ గ్రహ హోరా చక్రం" : isHi ? "शुभ ग्रह होरा चक्र" : "Planetary Hora Calculator"}
               </h3>
             </div>
             <p className="mt-3 text-xs leading-relaxed text-muted">
@@ -289,13 +334,13 @@ export default async function MuhuratHubPage() {
             </p>
             <div className="mt-4 flex items-center justify-between">
               <span className="text-[11px] font-semibold text-amber-800">
-                {isHi ? "२४ घंटे का ग्रह प्रभाव" : "24-Hour Planetary Clock"}
+                {isTe ? "24 గంటల గ్రహ ప్రభావం" : isHi ? "२४ घंटे का ग्रह प्रभाव" : "24-Hour Planetary Clock"}
               </span>
               <LocaleLink
                 href="/panchang/panchang-utilities"
                 className="inline-flex items-center gap-1 text-xs font-semibold text-saffron-deep hover:underline"
               >
-                {isHi ? "होरा चक्र देखें →" : "Calculate Hora →"}
+                {isTe ? "హోరా చక్రం చూడండి →" : isHi ? "होरा चक्र देखें →" : "Calculate Hora →"}
               </LocaleLink>
             </div>
           </div>
@@ -305,7 +350,7 @@ export default async function MuhuratHubPage() {
             <div className="flex items-center gap-2 border-b border-line pb-3">
               <Heart className="h-5 w-5 text-rose-600" />
               <h3 className="font-serif text-base font-bold text-ink">
-                {isHi ? "शुभ विवाह मुहूर्त 2026" : "Vivah Muhurat 2026 (Weddings)"}
+                {isTe ? "శుభ వివాహ ముహూర్తాలు 2026" : isHi ? "शुभ विवाह मुहूर्त 2026" : "Vivah Muhurat 2026 (Weddings)"}
               </h3>
             </div>
             <p className="mt-3 text-xs leading-relaxed text-muted">
@@ -315,13 +360,13 @@ export default async function MuhuratHubPage() {
             </p>
             <div className="mt-4 flex items-center justify-between">
               <span className="text-[11px] font-semibold text-rose-800">
-                {isHi ? "माह-दर-माह विवाह तिथियाँ" : "Monthly Wedding Calendar"}
+                {isTe ? "నెలవారీ వివాహ తేదీలు" : isHi ? "माह-दर-माह विवाह तिथियाँ" : "Monthly Wedding Calendar"}
               </span>
               <LocaleLink
                 href="/panchang/month-panchang"
                 className="inline-flex items-center gap-1 text-xs font-semibold text-saffron-deep hover:underline"
               >
-                {isHi ? "विवाह तिथियाँ →" : "Wedding Dates →"}
+                {isTe ? "వివాహ తేదీలు →" : isHi ? "विवाह तिथियाँ →" : "Wedding Dates →"}
               </LocaleLink>
             </div>
           </div>
@@ -331,7 +376,7 @@ export default async function MuhuratHubPage() {
             <div className="flex items-center gap-2 border-b border-line pb-3">
               <Home className="h-5 w-5 text-emerald-600" />
               <h3 className="font-serif text-base font-bold text-ink">
-                {isHi ? "गृह प्रवेश एवं वास्तु मुहूर्त" : "Griha Pravesh Muhurat (Housewarming)"}
+                {isTe ? "గృహ ప్రవేశం & వాస్తు ముహూర్తం" : isHi ? "गृह प्रवेश एवं वास्तु मुहूर्त" : "Griha Pravesh Muhurat (Housewarming)"}
               </h3>
             </div>
             <p className="mt-3 text-xs leading-relaxed text-muted">
@@ -341,13 +386,13 @@ export default async function MuhuratHubPage() {
             </p>
             <div className="mt-4 flex items-center justify-between">
               <span className="text-[11px] font-semibold text-emerald-800">
-                {isHi ? "वास्तु शुद्धि एवं स्थिर लग्न" : "Vastu Sthira Lagna"}
+                {isTe ? "వాస్తు శుద్ధి & స్థిర లగ్నం" : isHi ? "वास्तु शुद्धि एवं स्थिर लग्न" : "Vastu Sthira Lagna"}
               </span>
               <LocaleLink
                 href="/panchang/month-panchang"
                 className="inline-flex items-center gap-1 text-xs font-semibold text-saffron-deep hover:underline"
               >
-                {isHi ? "गृह प्रवेश तिथियाँ →" : "Housewarming Dates →"}
+                {isTe ? "గృహ ప్రవేశ తేదీలు →" : isHi ? "गृह प्रवेश तिथियाँ →" : "Housewarming Dates →"}
               </LocaleLink>
             </div>
           </div>
@@ -357,7 +402,7 @@ export default async function MuhuratHubPage() {
             <div className="flex items-center gap-2 border-b border-line pb-3">
               <Building className="h-5 w-5 text-indigo-600" />
               <h3 className="font-serif text-base font-bold text-ink">
-                {isHi ? "संपत्ति एवं भूमि रजिस्ट्री मुहूर्त" : "Property Purchase & Registry"}
+                {isTe ? "ఆస్తి & భూమి రిజిస్ట్రేషన్ ముహూర్తం" : isHi ? "संपत्ति एवं भूमि रजिस्ट्री मुहूर्त" : "Property Purchase & Registry"}
               </h3>
             </div>
             <p className="mt-3 text-xs leading-relaxed text-muted">
@@ -367,13 +412,13 @@ export default async function MuhuratHubPage() {
             </p>
             <div className="mt-4 flex items-center justify-between">
               <span className="text-[11px] font-semibold text-indigo-800">
-                {isHi ? "भूमि व फ्लैट रजिस्ट्री" : "Land & Real Estate"}
+                {isTe ? "భూమి & ఫ్లాట్ రిజిస్ట్రేషన్" : isHi ? "भूमि व फ्लैट रजिस्ट्री" : "Land & Real Estate"}
               </span>
               <LocaleLink
                 href="/panchang/month-panchang"
                 className="inline-flex items-center gap-1 text-xs font-semibold text-saffron-deep hover:underline"
               >
-                {isHi ? "रजिस्ट्री मुहूर्त →" : "Registry Dates →"}
+                {isTe ? "రిజిస్ట్రేషన్ తేదీలు →" : isHi ? "रजिस्ट्री मुहूर्त →" : "Registry Dates →"}
               </LocaleLink>
             </div>
           </div>
@@ -383,7 +428,7 @@ export default async function MuhuratHubPage() {
             <div className="flex items-center gap-2 border-b border-line pb-3">
               <Car className="h-5 w-5 text-teal-600" />
               <h3 className="font-serif text-base font-bold text-ink">
-                {isHi ? "वाहन क्रय मुहूर्त (कार/बाइक)" : "Vehicle Purchase Muhurat"}
+                {isTe ? "వాహన కొనుగోలు ముహూర్తం (కారు/బైక్)" : isHi ? "वाहन क्रय मुहूर्त (कार/बाइक)" : "Vehicle Purchase Muhurat"}
               </h3>
             </div>
             <p className="mt-3 text-xs leading-relaxed text-muted">
@@ -393,13 +438,13 @@ export default async function MuhuratHubPage() {
             </p>
             <div className="mt-4 flex items-center justify-between">
               <span className="text-[11px] font-semibold text-teal-800">
-                {isHi ? "सुरक्षित एवं सुखद यात्रा" : "Safe Vehicle Delivery"}
+                {isTe ? "సురక్షిత & సుఖ ప్రయాణం" : isHi ? "सुरक्षित एवं सुखद यात्रा" : "Safe Vehicle Delivery"}
               </span>
               <LocaleLink
                 href="/panchang/month-panchang"
                 className="inline-flex items-center gap-1 text-xs font-semibold text-saffron-deep hover:underline"
               >
-                {isHi ? "वाहन मुहूर्त →" : "Vehicle Dates →"}
+                {isTe ? "వాహన ముహూర్తాలు →" : isHi ? "वाहन मुहूर्त →" : "Vehicle Dates →"}
               </LocaleLink>
             </div>
           </div>
@@ -409,7 +454,7 @@ export default async function MuhuratHubPage() {
             <div className="flex items-center gap-2 border-b border-line pb-3">
               <Compass className="h-5 w-5 text-amber-700" />
               <h3 className="font-serif text-base font-bold text-ink">
-                {isHi ? "दैनिक लग्न तालिका" : "Daily Lagna Table (Ascendant)"}
+                {isTe ? "దిన లగ్న పట్టిక" : isHi ? "दैनिक लग्न तालिका" : "Daily Lagna Table (Ascendant)"}
               </h3>
             </div>
             <p className="mt-3 text-xs leading-relaxed text-muted">
@@ -419,13 +464,13 @@ export default async function MuhuratHubPage() {
             </p>
             <div className="mt-4 flex items-center justify-between">
               <span className="text-[11px] font-semibold text-amber-900">
-                {isHi ? "१२ राशियों का उदय काल" : "12 Ascendant Spans"}
+                {isTe ? "12 రాశుల ఉదయ కాలం" : isHi ? "१२ राशियों का उदय काल" : "12 Ascendant Spans"}
               </span>
               <LocaleLink
                 href="/panchang/dainik-panchang"
                 className="inline-flex items-center gap-1 text-xs font-semibold text-saffron-deep hover:underline"
               >
-                {isHi ? "लग्न तालिका →" : "View Lagna →"}
+                {isTe ? "లగ్న పట్టిక చూడండి →" : isHi ? "लग्न तालिका →" : "View Lagna →"}
               </LocaleLink>
             </div>
           </div>
@@ -435,7 +480,7 @@ export default async function MuhuratHubPage() {
             <div className="flex items-center gap-2 border-b border-line pb-3">
               <Sparkles className="h-5 w-5 text-purple-600" />
               <h3 className="font-serif text-base font-bold text-ink">
-                {isHi ? "गौरी पंचांगम" : "Gowri Panchangam"}
+                {isTe ? "గౌరీ పంచాంగం" : isHi ? "गौरी पंचांगम" : "Gowri Panchangam"}
               </h3>
             </div>
             <p className="mt-3 text-xs leading-relaxed text-muted">
@@ -445,13 +490,13 @@ export default async function MuhuratHubPage() {
             </p>
             <div className="mt-4 flex items-center justify-between">
               <span className="text-[11px] font-semibold text-purple-900">
-                {isHi ? "अमृत, उति व लाभ काल" : "Amrita & Uthi Windows"}
+                {isTe ? "అమృత, ఉతి & లాభ కాలాలు" : isHi ? "अमृत, उति व लाभ काल" : "Amrita & Uthi Windows"}
               </span>
               <LocaleLink
                 href="/panchang/tamil-panchangam"
                 className="inline-flex items-center gap-1 text-xs font-semibold text-saffron-deep hover:underline"
               >
-                {isHi ? "गौरी पंचांगम →" : "Explore Gowri →"}
+                {isTe ? "గౌరీ పంచాంగం చూడండి →" : isHi ? "गौरी पंचांगम →" : "Explore Gowri →"}
               </LocaleLink>
             </div>
           </div>
@@ -461,7 +506,7 @@ export default async function MuhuratHubPage() {
             <div className="flex items-center gap-2 border-b border-line pb-3">
               <ShieldCheck className="h-5 w-5 text-emerald-700" />
               <h3 className="font-serif text-base font-bold text-ink">
-                {isHi ? "जैन पच्चक्खाण एवं नवकारशी" : "Jain Pachchakkhan & Navkarshi"}
+                {isTe ? "జైన పచ్చక్ఖాణ్ & నవకార్శీ" : isHi ? "जैन पच्चक्खाण एवं नवकारशी" : "Jain Pachchakkhan & Navkarshi"}
               </h3>
             </div>
             <p className="mt-3 text-xs leading-relaxed text-muted">
@@ -471,13 +516,13 @@ export default async function MuhuratHubPage() {
             </p>
             <div className="mt-4 flex items-center justify-between">
               <span className="text-[11px] font-semibold text-emerald-900">
-                {isHi ? "अहिंसा व संयम काल" : "Ascetic Fasting Timings"}
+                {isTe ? "అహింస & సంయమ కాలం" : isHi ? "अहिंसा व संयम काल" : "Ascetic Fasting Timings"}
               </span>
               <LocaleLink
                 href="/panchang/gujarati-panchang"
                 className="inline-flex items-center gap-1 text-xs font-semibold text-saffron-deep hover:underline"
               >
-                {isHi ? "पच्चक्खाण समय →" : "View Timings →"}
+                {isTe ? "పచ్చక్ఖాణ్ సమయాలు →" : isHi ? "पच्चक्खाण समय →" : "View Timings →"}
               </LocaleLink>
             </div>
           </div>
@@ -487,7 +532,7 @@ export default async function MuhuratHubPage() {
             <div className="flex items-center gap-2 border-b border-line pb-3">
               <AlertTriangle className="h-5 w-5 text-rose-600" />
               <h3 className="font-serif text-base font-bold text-ink">
-                {isHi ? "राहु काल, यमगण्ड एवं गुलिक" : "Rahu Kala, Yamaganda & Gulika"}
+                {isTe ? "రాహు కాలం, యమగండం & గుళిక" : isHi ? "राहु काल, यमगण्ड एवं गुलिक" : "Rahu Kala, Yamaganda & Gulika"}
               </h3>
             </div>
             <p className="mt-3 text-xs leading-relaxed text-muted">
@@ -497,13 +542,13 @@ export default async function MuhuratHubPage() {
             </p>
             <div className="mt-4 flex items-center justify-between">
               <span className="text-[11px] font-semibold text-rose-900">
-                {isHi ? "अशुभ काल परिहार" : "Inauspicious Shielding"}
+                {isTe ? "అశుభ కాల నివారణ" : isHi ? "अशुभ काल परिहार" : "Inauspicious Shielding"}
               </span>
               <LocaleLink
                 href="/panchang/panchang-utilities"
                 className="inline-flex items-center gap-1 text-xs font-semibold text-saffron-deep hover:underline"
               >
-                {isHi ? "राहु काल घटी →" : "Rahu Kaal Clock →"}
+                {isTe ? "రాహు కాలం గడియలు →" : isHi ? "राहु काल घटी →" : "Rahu Kaal Clock →"}
               </LocaleLink>
             </div>
           </div>
@@ -513,7 +558,7 @@ export default async function MuhuratHubPage() {
             <div className="flex items-center gap-2 border-b border-line pb-3">
               <Sparkles className="h-5 w-5 text-amber-600" />
               <h3 className="font-serif text-base font-bold text-ink">
-                {isHi ? "सर्वार्थ व अमृत सिद्धि योग" : "Sarvartha & Amrit Siddhi Yoga"}
+                {isTe ? "సర్వార్థ & అమృత సిద్ధి యోగం" : isHi ? "सर्वार्थ व अमृत सिद्धि योग" : "Sarvartha & Amrit Siddhi Yoga"}
               </h3>
             </div>
             <p className="mt-3 text-xs leading-relaxed text-muted">
@@ -523,13 +568,13 @@ export default async function MuhuratHubPage() {
             </p>
             <div className="mt-4 flex items-center justify-between">
               <span className="text-[11px] font-semibold text-amber-800">
-                {isHi ? "पुष्य योग व सिद्धि योग" : "Pushya & Siddhi Yogas"}
+                {isTe ? "పుష్య యోగం & సిద్ధి యోగాలు" : isHi ? "पुष्य योग व सिद्धि योग" : "Pushya & Siddhi Yogas"}
               </span>
               <LocaleLink
                 href="/panchang/nakshatra"
                 className="inline-flex items-center gap-1 text-xs font-semibold text-saffron-deep hover:underline"
               >
-                {isHi ? "योग तिथियाँ →" : "View Yogas →"}
+                {isTe ? "యోగ తేదీలు చూడండి →" : isHi ? "योग तिथियाँ →" : "View Yogas →"}
               </LocaleLink>
             </div>
           </div>
@@ -539,7 +584,7 @@ export default async function MuhuratHubPage() {
             <div className="flex items-center gap-2 border-b border-line pb-3">
               <ShieldCheck className="h-5 w-5 text-blue-600" />
               <h3 className="font-serif text-base font-bold text-ink">
-                {isHi ? "पंचक रहित मुहूर्त निर्णय" : "Panchaka Rahita Muhurat"}
+                {isTe ? "పంచక రహిత ముహూర్త నిర్ణయం" : isHi ? "पंचक रहित मुहूर्त निर्णय" : "Panchaka Rahita Muhurat"}
               </h3>
             </div>
             <p className="mt-3 text-xs leading-relaxed text-muted">
@@ -549,13 +594,13 @@ export default async function MuhuratHubPage() {
             </p>
             <div className="mt-4 flex items-center justify-between">
               <span className="text-[11px] font-semibold text-blue-900">
-                {isHi ? "पंचक दोष शुद्धि" : "Panchaka Free Timings"}
+                {isTe ? "పంచక దోష శుద్ధి" : isHi ? "पंचक दोष शुद्धि" : "Panchaka Free Timings"}
               </span>
               <LocaleLink
                 href="/panchang/month-panchang"
                 className="inline-flex items-center gap-1 text-xs font-semibold text-saffron-deep hover:underline"
               >
-                {isHi ? "पंचक तालिका →" : "Panchaka Dates →"}
+                {isTe ? "పంచక పట్టిక →" : isHi ? "पंचक तालिका →" : "Panchaka Dates →"}
               </LocaleLink>
             </div>
           </div>
@@ -629,7 +674,7 @@ export default async function MuhuratHubPage() {
           <h2 className="font-serif text-lg font-bold text-ink sm:text-xl mb-4">
             {isHi ? "शुभ मुहूर्त से जुड़े अक्सर पूछे जाने वाले प्रश्न (FAQ)" : "Frequently Asked Questions about Muhurat"}
           </h2>
-          <FaqList faqs={isHi ? FAQS_HI : FAQS_EN} jsonLd />
+          <FaqList faqs={isTe ? FAQS_TE : isHi ? FAQS_HI : FAQS_EN} jsonLd />
         </section>
       </main>
     </div>

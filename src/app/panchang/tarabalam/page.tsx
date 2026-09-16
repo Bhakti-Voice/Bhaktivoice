@@ -1,3 +1,21 @@
+const TARABALAM_FAQS_TE = [
+  {
+    question: "తారాబలం (Tarabalam) అంటే ఏమిటి?",
+    answer:
+      "తారాబలం అనేది ఒకరి జన్మ నక్షత్రం నుండి ప్రస్తుత గోచార నక్షత్రం వరకు గల దూరాన్ని లెక్కించే ప్రక్రియ. ఇది 9 తారల (జన్మ, సంపత్, విపత్, క్షేమ, ప్రత్యక్, సాధన, నైధన, మిత్ర, పరమ మిత్ర) చక్రంలో తిరుగుతుంది. సంపత్, క్షేమ, సాధన, మిత్ర మరియు పరమ మిత్ర తారలు అత్యంత శుభప్రదమైనవి.",
+  },
+  {
+    question: "చంద్రబలం (Chandrabalam) అంటే ఏమిటి మరియు అష్టమ చంద్ర దోషం ఎందుకు పరిహరించాలి?",
+    answer:
+      "చంద్రబలం అంటే జన్మ రాశి నుండి గోచార చంద్రుని స్థానాన్ని గణించడం. 1, 3, 6, 7, 10, 11 వ స్థానాల్లో చంద్రుడు శుభ ఫలితాలనిస్తాడు. జన్మ రాశి నుండి 8వ స్థానంలో చంద్రుడు ఉన్నప్పుడు 'అష్టమ చంద్ర దోషం' అంటారు, ఇది మానసిక అశాంతిని, పనుల్లో ఆటంకాలను కలిగిస్తుంది.",
+  },
+  {
+    question: "తారాబలం అశుభంగా ఉన్నప్పుడు ఏ పరిహారాలు చేయాలి?",
+    answer:
+      "విపత్ తారలో బెల్లం దానం, ప్రత్యక్ తారలో సైంధవ లవణం (ఉప్పు) దానం, మరియు నైధన తారలో నువ్వుల దానం చేయడం లేదా మహామృత్యుంజయ మంత్ర జపం చేయడం వల్ల దోష శాంతి కలుగుతుంది.",
+  },
+];
+
 import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -14,12 +32,17 @@ export const revalidate = 3600;
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
-  const title = isHi
+  const title = isTe
+    ? "దైనందిన తారాబలం & చంద్రబలం కాలిక్యులేటర్ — నేటి రోజు మీకు ఎలా ఉంటుంది? (తారా చక్రం)"
+    : isHi
     ? "दैनिक ताराबलम् एवं चंद्रबलम् कैलकुलेटर — आज का दिन आपके लिए कैसा रहेगा? (Tara Chakra)"
     : "Daily Tarabalam & Chandrabalam Calculator — Is Today Auspicious for You? (Tara Chakra)";
 
-  const description = isHi
+  const description = isTe
+    ? "మీ జన్మ నక్షత్రం మరియు చంద్ర రాశి ఆధారంగా నేటి వ్యక్తిగత తారాబలం మరియు చంద్రబలాన్ని తెలుసుకోండి. 9 తారా చక్రం (సంపత్, క్షేమ, సాధన, విపత్, నైధన), అష్టమ చంద్ర విచారం మరియు శుభ ముహూర్త నిర్ణయం."
+    : isHi
     ? "अपने जन्म नक्षत्र और चंद्र राशि से जानें आज का व्यक्तिगत ताराबल और चंद्रबल। ९ तारा चक्र (सम्पत, क्षेम, साधना, विपत, प्रत्यक, निधन), अष्टम चंद्र दोष विचार, और शुभ मुहूर्त निर्णय।"
     : "Calculate your personalized daily Tarabalam and Chandrabalam online. Instant Tara Chakra analysis (Sampat, Kshema, Sadhana, Vipat, Naidhana), Ashtama Chandra check, and auspiciousness rating for travel and business.";
 
@@ -56,14 +79,15 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function TarabalamPage() {
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const breadcrumbs = localizedCrumbs(
     t.homeName,
-    [isHi ? "पंचांग" : "Panchang", PATHS.panchang],
-    [isHi ? "ताराबलम् व चंद्रबलम्" : "Tarabalam & Chandrabalam", `${PATHS.panchang}/tarabalam`]
+    [isTe ? "పంచాంగం" : isHi ? "पंचांग" : "Panchang", PATHS.panchang],
+    [isTe ? "తారాబలం & చంద్రబలం" : isHi ? "ताराबलम् व चंद्रबलम्" : "Tarabalam & Chandrabalam", `${PATHS.panchang}/tarabalam`]
   );
 
-  const faqs = isHi
+  const faqs = isTe ? TARABALAM_FAQS_TE : isHi
     ? [
         {
           question: "ताराबलम् (Tarabalam) क्या होता है?",

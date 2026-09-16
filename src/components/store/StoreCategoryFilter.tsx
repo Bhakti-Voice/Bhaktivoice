@@ -23,6 +23,7 @@ export type StoreCategoryFilterProps = {
 export function StoreCategoryFilter({ products, className = "" }: StoreCategoryFilterProps) {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -72,10 +73,10 @@ export function StoreCategoryFilter({ products, className = "" }: StoreCategoryF
 
   const getCategoryLabel = (cat: string) => {
     const clean = cat.replace(/^(local-dev-|store-)/, "");
-    if (clean === "malas") return isHi ? "जाप माला" : "Jaap Malas";
-    if (clean === "yantras") return isHi ? "सिद्ध यंत्र" : "Sacred Yantras";
-    if (clean === "puja") return isHi ? "पूजा सामग्री" : "Puja Essentials";
-    if (clean === "books") return isHi ? "धार्मिक पुस्तकें" : "Sacred Books";
+    if (clean === "malas") return isTe ? "జప మాలలు" : isHi ? "जाप माला" : "Jaap Malas";
+    if (clean === "yantras") return isTe ? "సిద్ధ యంత్రాలు" : isHi ? "सिद्ध यंत्र" : "Sacred Yantras";
+    if (clean === "puja") return isTe ? "పూజా సామగ్రి" : isHi ? "पूजा सामग्री" : "Puja Essentials";
+    if (clean === "books") return isTe ? "ఆధ్యాత్మిక గ్రంథాలు" : isHi ? "धार्मिक पुस्तकें" : "Sacred Books";
     return clean.charAt(0).toUpperCase() + clean.slice(1);
   };
 
@@ -90,7 +91,7 @@ export function StoreCategoryFilter({ products, className = "" }: StoreCategoryF
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder={isHi ? "तुलसी माला, रुद्राक्ष, श्री यंत्र खोजें..." : "Search malas, yantras, diyas, puja items..."}
+            placeholder={isTe ? "తులసి మాల, రుద్రాక్ష, శ్రీ యంత్రం వెతకండి..." : isHi ? "तुलसी माला, रुद्राक्ष, श्री यंत्र खोजें..." : "Search malas, yantras, diyas, puja items..."}
             className="w-full rounded-2xl border border-line bg-sand/20 py-2.5 pr-10 pl-10 text-sm text-ink placeholder:text-muted focus:border-saffron focus:bg-white focus:outline-none focus:ring-1 focus:ring-saffron"
           />
           {search && (
@@ -117,7 +118,7 @@ export function StoreCategoryFilter({ products, className = "" }: StoreCategoryF
                   : "bg-sand/40 text-ink hover:bg-sand/70"
               }`}
             >
-              {isHi ? "सभी सामग्री" : "All Items"} ({products.length})
+              {isTe ? "అన్ని వస్తువులు" : isHi ? "सभी सामग्री" : "All Items"} ({products.length})
             </button>
 
             {categories.map((cat) => (
@@ -145,7 +146,7 @@ export function StoreCategoryFilter({ products, className = "" }: StoreCategoryF
                 onChange={(e) => setInStockOnly(e.target.checked)}
                 className="h-3.5 w-3.5 rounded-sm border-line text-saffron focus:ring-saffron"
               />
-              <span>{isHi ? "केवल उपलब्ध" : "In Stock"}</span>
+              <span>{isTe ? "లభ్యమయ్యేవి మాత్రమే" : isHi ? "केवल उपलब्ध" : "In Stock"}</span>
             </label>
 
             <select
@@ -186,7 +187,7 @@ export function StoreCategoryFilter({ products, className = "" }: StoreCategoryF
             <Filter className="h-6 w-6" />
           </div>
           <h3 className="mt-4 font-serif text-lg font-bold text-ink">
-            {isHi ? "कोई सामग्री नहीं मिली" : "No Items Found"}
+            {isTe ? "ఎటువంటి సామగ్రి లభించలేదు" : isHi ? "कोई सामग्री नहीं मिली" : "No Items Found"}
           </h3>
           <p className="mt-1 max-w-sm text-xs text-muted">
             {isHi
@@ -202,7 +203,7 @@ export function StoreCategoryFilter({ products, className = "" }: StoreCategoryF
             }}
             className="mt-4 rounded-xl bg-saffron px-4 py-2 text-xs font-bold text-white shadow-xs"
           >
-            {isHi ? "फ़िल्टर रीसेट करें" : "Reset Filters"}
+            {isTe ? "ఫిల్టర్లను రీసెట్ చేయండి" : isHi ? "फ़िल्टर रीसेट करें" : "Reset Filters"}
           </button>
         </div>
       )}

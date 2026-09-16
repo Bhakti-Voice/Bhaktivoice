@@ -17,23 +17,26 @@ export type KundliDashaTableProps = {
 export function KundliDashaTable({ vimshottari }: KundliDashaTableProps) {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   return (
     <div className="rounded-3xl border border-line bg-white p-5 shadow-xs sm:p-6">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h3 className="font-serif text-lg font-bold text-ink sm:text-xl">
-            {isHi ? "विंशोत्तरी महादशा चक्र" : "Vimshottari Mahadasha Timeline"}
+            {isTe ? "వింశోత్తరీ మహాదశా కాలచక్రం" : isHi ? "विंशोत्तरी महादशा चक्र" : "Vimshottari Mahadasha Timeline"}
           </h3>
           <p className="text-xs text-muted sm:text-sm">
-            {isHi
+            {isTe
+              ? `జన్మ సమయ దశా శేషం: ${vimshottari.birthBalancePlanetHi || vimshottari.birthBalancePlanet} (${vimshottari.birthBalanceYears} సం.)`
+              : isHi
               ? `जन्म समय दशा शेष: ${vimshottari.birthBalancePlanetHi} (${vimshottari.birthBalanceYears} वर्ष)`
               : `Birth Balance Dasha: ${vimshottari.birthBalancePlanet} (${vimshottari.birthBalanceYears} yrs)`}
           </p>
         </div>
         <div className="flex items-center gap-1.5 self-start rounded-full bg-saffron/10 px-3 py-1 text-xs font-semibold text-saffron-deep">
           <Clock className="h-3.5 w-3.5" />
-          <span>120 {isHi ? "वर्षीय चक्र" : "Year Cycle"}</span>
+          <span>120 {isTe ? "సంవత్సరాల చక్రం" : isHi ? "वर्षीय चक्र" : "Year Cycle"}</span>
         </div>
       </div>
 
@@ -61,10 +64,10 @@ export function KundliDashaTable({ vimshottari }: KundliDashaTableProps) {
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-ink">
-                    {isHi ? `${period.planetNameHi} महादशा` : `${period.planetName} Mahadasha`}
+                    {isTe ? `${period.planetNameHi || period.planetName} మహాదశ` : isHi ? `${period.planetNameHi} महादशा` : `${period.planetName} Mahadasha`}
                   </h4>
                   <p className="text-xs text-muted">
-                    {period.startYear} – {period.endYear} ({period.durationYears} {isHi ? "वर्ष" : "yrs"})
+                    {period.startYear} – {period.endYear} ({period.durationYears} {isTe ? "సం." : isHi ? "वर्ष" : "yrs"})
                   </p>
                 </div>
               </div>
@@ -72,7 +75,7 @@ export function KundliDashaTable({ vimshottari }: KundliDashaTableProps) {
               {isCurrent && (
                 <span className="flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-800">
                   <Sparkles className="h-3 w-3" />
-                  {isHi ? "वर्तमान" : "Active"}
+                  {isTe ? "ప్రస్తుతం" : isHi ? "वर्तमान" : "Active"}
                 </span>
               )}
             </div>

@@ -21,6 +21,7 @@ export interface PanchangShareCardModalProps {
   panchang: DayPanchang;
   city: CityConfig;
   isHi?: boolean;
+  isTe?: boolean;
   onClose: () => void;
 }
 
@@ -28,13 +29,14 @@ export function PanchangShareCardModal({
   panchang,
   city,
   isHi = false,
+  isTe = false,
   onClose,
 }: PanchangShareCardModalProps) {
   const [copied, setCopied] = useState(false);
 
   function formatTime(d: Date | null): string {
     if (!d) return "--:--";
-    return new Intl.DateTimeFormat(isHi ? "hi-IN" : "en-IN", {
+    return new Intl.DateTimeFormat(isTe ? "te-IN" : isHi ? "hi-IN" : "en-IN", {
       timeZone: city.timeZone,
       hour: "numeric",
       minute: "2-digit",
@@ -42,7 +44,9 @@ export function PanchangShareCardModal({
     }).format(d);
   }
 
-  const shareText = isHi
+  const shareText = isTe
+    ? `🕉️ ${panchang.gregorianLabel} — దిన పంచాంగం\n📍 ప్రాంతం: ${city.name}\n\n• తిథి: ${panchang.tithiAtSunrise.name} (${panchang.tithiAtSunrise.paksha === "shukla" ? "శుక్ల పక్షం" : "కృష్ణ పక్షం"})\n• నక్షత్రం: ${panchang.nakshatra.name} (పాదము ${panchang.nakshatra.pada})\n• యోగం: ${panchang.yoga.name} | కరణం: ${panchang.karana.name}\n• సూర్యోదయం: ${formatTime(panchang.sunrise)} | సూర్యాస్తమయం: ${formatTime(panchang.sunset)}\n• రాహు కాలం: ${formatTime(panchang.rahuKaal.start)} - ${formatTime(panchang.rahuKaal.end)}\n• అభిజిత్ ముహూర్తం: ${panchang.abhijitMuhurat ? `${formatTime(panchang.abhijitMuhurat.start)} - ${formatTime(panchang.abhijitMuhurat.end)}` : "ఏదీ లేదు"}\n\n🌸 నేటి మంత్రం: ${panchang.dailyMantra ? panchang.dailyMantra.sanskrit : "ఓం నమో భగవతే వాసుదేవాయ"}\n\nసంపూర్ణ దిన పంచాంగం మరియు శుభ ముహూర్తాలు చూడండి:\nhttps://bhaktivoice.com/te/panchang/today`
+    : isHi
     ? `🕉️ ${panchang.gregorianLabelHi} — दैनिक पंचांग\n📍 स्थान: ${city.nameHi}\n\n• तिथि: ${panchang.tithiAtSunrise.nameHi} (${panchang.tithiAtSunrise.paksha === "shukla" ? "शुक्ल पक्ष" : "कृष्ण पक्ष"})\n• नक्षत्र: ${panchang.nakshatra.nameHi} (पाद ${panchang.nakshatra.pada})\n• योग: ${panchang.yoga.nameHi} | करण: ${panchang.karana.nameHi}\n• सूर्योदय: ${formatTime(panchang.sunrise)} | सूर्यास्त: ${formatTime(panchang.sunset)}\n• राहु काल: ${formatTime(panchang.rahuKaal.start)} - ${formatTime(panchang.rahuKaal.end)}\n• अभिजित मुहूर्त: ${panchang.abhijitMuhurat ? `${formatTime(panchang.abhijitMuhurat.start)} - ${formatTime(panchang.abhijitMuhurat.end)}` : "कोई नहीं"}\n\n🌸 आज का मंत्र: ${panchang.dailyMantra ? panchang.dailyMantra.sanskrit : "ॐ नमो भगवते वासुदेवाय"}\n\nसम्पूर्ण दैनिक पंचांग व शुभ मुहूर्त देखें:\nhttps://bhaktivoice.com/panchang/today`
     : `🕉️ ${panchang.gregorianLabel} — Daily Panchang\n📍 City: ${city.name}\n\n• Tithi: ${panchang.tithiAtSunrise.name} (${panchang.tithiAtSunrise.paksha === "shukla" ? "Shukla" : "Krishna"} Paksha)\n• Nakshatra: ${panchang.nakshatra.name} (Pada ${panchang.nakshatra.pada})\n• Yoga: ${panchang.yoga.name} | Karana: ${panchang.karana.name}\n• Sunrise: ${formatTime(panchang.sunrise)} | Sunset: ${formatTime(panchang.sunset)}\n• Rahu Kaal: ${formatTime(panchang.rahuKaal.start)} - ${formatTime(panchang.rahuKaal.end)}\n• Abhijit Muhurat: ${panchang.abhijitMuhurat ? `${formatTime(panchang.abhijitMuhurat.start)} - ${formatTime(panchang.abhijitMuhurat.end)}` : "None"}\n\n🌸 Sacred Mantra: ${panchang.dailyMantra ? panchang.dailyMantra.sanskrit : "Om Namo Bhagavate Vasudevaya"}\n\nExplore complete daily Panchang & Shubh Muhurats:\nhttps://bhaktivoice.com/panchang/today`;
 
@@ -68,7 +72,7 @@ export function PanchangShareCardModal({
         <div className="flex items-center justify-between border-b border-sand pb-3">
           <div className="flex items-center gap-2 font-serif text-sm font-bold text-ink">
             <Share2 className="h-4 w-4 text-saffron" />
-            <span>{isHi ? "दैनिक पंचांग स्टेटस कार्ड" : "Daily Panchang Status Card"}</span>
+            <span>{isTe ? "దిన పంచాంగ స్టేటస్ కార్డ్" : isHi ? "दैनिक पंचांग स्टेटस कार्ड" : "Daily Panchang Status Card"}</span>
           </div>
 
           <button
@@ -94,34 +98,34 @@ export function PanchangShareCardModal({
               <MapPin className="h-3.5 w-3.5 text-saffron" />
               <span>{isHi ? city.nameHi : city.name}</span>
               <span>•</span>
-              <span>{isHi ? "संवत " + panchang.vikramSamvat : "Samvat " + panchang.vikramSamvat}</span>
+              <span>{isTe ? "సంవత్సరం " + panchang.vikramSamvat : isHi ? "संवत " + panchang.vikramSamvat : "Samvat " + panchang.vikramSamvat}</span>
             </div>
           </div>
 
           {/* Core Panchanga Limbs Grid */}
           <div className="grid grid-cols-2 gap-2 text-xs">
             <div className="rounded-xl bg-white/90 p-2.5 border border-sand/70">
-              <span className="text-muted block text-[10px] uppercase font-bold">{isHi ? "तिथि" : "Tithi"}</span>
+              <span className="text-muted block text-[10px] uppercase font-bold">{isTe ? "తిథి" : isHi ? "तिथि" : "Tithi"}</span>
               <strong className="font-serif text-ink text-sm block">
                 {isHi ? panchang.tithiAtSunrise.nameHi : panchang.tithiAtSunrise.name}
               </strong>
               <span className="text-[10px] text-muted">
-                {isHi ? (panchang.tithiAtSunrise.paksha === "shukla" ? "शुक्ल पक्ष" : "कृष्ण पक्ष") : panchang.tithiAtSunrise.paksha + " Paksha"}
+                {isTe ? (panchang.tithiAtSunrise.paksha === "shukla" ? "శుక్ల పక్షం" : "కృష్ణ పక్షం") : isHi ? (panchang.tithiAtSunrise.paksha === "shukla" ? "शुक्ल पक्ष" : "कृष्ण पक्ष") : panchang.tithiAtSunrise.paksha + " Paksha"}
               </span>
             </div>
 
             <div className="rounded-xl bg-white/90 p-2.5 border border-sand/70">
-              <span className="text-muted block text-[10px] uppercase font-bold">{isHi ? "नक्षत्र" : "Nakshatra"}</span>
+              <span className="text-muted block text-[10px] uppercase font-bold">{isTe ? "నక్షత్రం" : isHi ? "नक्षत्र" : "Nakshatra"}</span>
               <strong className="font-serif text-ink text-sm block">
                 {isHi ? panchang.nakshatra.nameHi : panchang.nakshatra.name}
               </strong>
               <span className="text-[10px] text-muted">
-                {isHi ? `पाद ${panchang.nakshatra.pada}` : `Pada ${panchang.nakshatra.pada}`}
+                {isTe ? `పాదము ${panchang.nakshatra.pada}` : isHi ? `पाद ${panchang.nakshatra.pada}` : `Pada ${panchang.nakshatra.pada}`}
               </span>
             </div>
 
             <div className="rounded-xl bg-white/90 p-2.5 border border-sand/70">
-              <span className="text-muted block text-[10px] uppercase font-bold">{isHi ? "सूर्योदय / सूर्यास्त" : "Sun Times"}</span>
+              <span className="text-muted block text-[10px] uppercase font-bold">{isTe ? "సూర్యోదయం / సూర్యాస్తమయం" : isHi ? "सूर्योदय / सूर्यास्त" : "Sun Times"}</span>
               <div className="text-[11px] font-semibold text-ink flex items-center justify-between">
                 <span>🌅 {formatTime(panchang.sunrise)}</span>
                 <span>🌇 {formatTime(panchang.sunset)}</span>
@@ -129,7 +133,7 @@ export function PanchangShareCardModal({
             </div>
 
             <div className="rounded-xl bg-white/90 p-2.5 border border-sand/70">
-              <span className="text-muted block text-[10px] uppercase font-bold">{isHi ? "राहु काल" : "Rahu Kaal"}</span>
+              <span className="text-muted block text-[10px] uppercase font-bold">{isTe ? "రాహు కాలం" : isHi ? "राहु काल" : "Rahu Kaal"}</span>
               <strong className="text-rose-900 font-mono text-xs block">
                 {formatTime(panchang.rahuKaal.start)} - {formatTime(panchang.rahuKaal.end)}
               </strong>
@@ -141,7 +145,7 @@ export function PanchangShareCardModal({
             <div className="flex items-center justify-between rounded-xl bg-emerald-50 p-2.5 border border-emerald-200 text-xs">
               <span className="font-bold text-emerald-950 flex items-center gap-1.5">
                 <Sparkles className="h-3.5 w-3.5 text-emerald-600" />
-                {isHi ? "अभिजित मुहूर्त (सर्वकार्य सिद्धि):" : "Abhijit Muhurat (Best Shubh):"}
+                {isTe ? "అభిజిత్ ముహూర్తం (సర్వకార్య సిద్ధి):" : isHi ? "अभिजित मुहूर्त (सर्वकार्य सिद्धि):" : "Abhijit Muhurat (Best Shubh):"}
               </span>
               <span className="font-bold text-ink font-mono">
                 {formatTime(panchang.abhijitMuhurat.start)} - {formatTime(panchang.abhijitMuhurat.end)}
@@ -153,7 +157,7 @@ export function PanchangShareCardModal({
           {panchang.dailyMantra && (
             <div className="rounded-xl bg-white/95 p-3 border border-saffron/30 text-center">
               <div className="text-[10px] font-bold uppercase tracking-wider text-saffron-deep">
-                {isHi ? "आज का दैनिक मन्त्र" : "Daily Sacred Mantra"}
+                {isTe ? "నేటి దిన మంత్రం" : isHi ? "आज का दैनिक मन्त्र" : "Daily Sacred Mantra"}
               </div>
               <div className="mt-1 font-serif text-xs font-bold text-ink">
                 {panchang.dailyMantra.sanskrit}
@@ -163,7 +167,7 @@ export function PanchangShareCardModal({
 
           {/* Card Footer Brand */}
           <div className="text-center text-[10px] text-muted pt-1 border-t border-saffron/20">
-            BhaktiVoice.com • {isHi ? "दैनिक वैदिक पंचांग" : "Vedic Panchang & Muhurat"}
+            BhaktiVoice.com • {isTe ? "దిన వైదిక పంచాంగం" : isHi ? "दैनिक वैदिक पंचांग" : "Vedic Panchang & Muhurat"}
           </div>
         </div>
 

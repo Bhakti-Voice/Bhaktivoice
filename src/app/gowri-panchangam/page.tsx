@@ -14,22 +14,29 @@ export const revalidate = 300;
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const now = new Date();
-  const dateFormatted = new Intl.DateTimeFormat(isHi ? "hi-IN" : "en-IN", {
+  const dateFormatted = new Intl.DateTimeFormat(isTe ? "te-IN" : isHi ? "hi-IN" : "en-IN", {
     day: "numeric",
     month: "long",
     year: "numeric",
   }).format(now);
 
   return localizedMetadata({
-    title: isHi
+    title: isTe
+      ? `నేటి గౌరీ పంచాంగం (${dateFormatted}) — పగలు & రాత్రి గౌరీ నల్ల నేరం శుభ ముహూర్తం`
+      : isHi
       ? `आज का गौरी पंचांगम (${dateFormatted}) — दिन और रात का गौरी नल्ला नेरम शुभ मुहूर्त`
       : `Gowri Panchangam Today (${dateFormatted}) — Day & Night Nalla Neram Timings & Chart`,
-    description: isHi
+    description: isTe
+      ? `నేటి ${dateFormatted} సంపూర్ణ గౌరీ పంచాంగం. పగలు & రాత్రి శుభ గౌరీ నల్ల నేరం సమయాలు (అమృత, శుభ, లాభ, ధన, ఉతి, రోగ, విష, సోర) మీ నగర సూర్యోదయం ప్రకారం తెలుసుకోండి.`
+      : isHi
       ? `आज ${dateFormatted} का संपूर्ण गौरी पंचांगम। दिन व रात का शुभ गौरी नल्ला नेरम समय (अमृत, शुभ, लाभ, धन, उत्ति, रोग, विष, सोर) अपने शहर के सटीक सूर्योदय अनुसार देखें। यात्रा व शुभ कार्यों हेतु समय सारणी।`
       : `Check accurate Gowri Panchangam for today (${dateFormatted}). Day & Night Gowri Nalla Neram timings (Amrutha, Shubha, Labha, Dhana, Uthi, Roga, Visha, Sora) with Rahu Kaal for 120+ Indian and world cities.`,
     path: PATHS.gowriPanchangam,
-    keywords: isHi
+    keywords: isTe
+      ? ["గౌరీ పంచాంగం", "నేటి గౌరీ పంచాంగం", "గౌరీ నల్ల నేరం", "అమృత గౌరీ సమయం", "తమిళ గౌరీ పంచాంగం"]
+      : isHi
       ? [
           "गौरी पंचांगम",
           "आज का गौरी पंचांगम",
@@ -85,6 +92,24 @@ const FAQS_EN = [
   },
 ];
 
+const FAQS_TE = [
+  {
+    question: "గౌరీ పంచాంగం అంటే ఏమిటి మరియు దీని ప్రాముఖ్యత ఏమిటి?",
+    answer:
+      "గౌరీ పంచాంగం దక్షిణ భారతదేశంలో (ప్రత్యేకంగా తమిళనాడు, కర్ణాటక మరియు ఆంధ్రప్రదేశ్‌లలో) అత్యంత ప్రాచుర్యం పొందిన సూక్ష్మ ముహూర్త విధానం. ఇందులో పగలు మరియు రాత్రిని 8-8 సమాన భాగాలుగా విభజించి, 8 గౌరీ రూపాలుగా (అమృత, శుభ, లాభ, ధన, ఉతి, రోగ, విష, సోర) పిలుస్తారు.",
+  },
+  {
+    question: "గౌరీ పంచాంగంలో ఏ సమయాలు శుభమైనవి (నల్ల నేరం)?",
+    answer:
+      "అమృత, శుభ, లాభ మరియు ధన అనే నాలుగు కాలాలను సర్వకార్య సాధకమైన 'నల్ల నేరం' (శుభ సమయం) గా పరిగణిస్తారు. వీటిలో కొత్త వ్యాపారం, ప్రయాణం, గృహ ప్రవేశం మరియు ముఖ్యమైన ఒప్పందాలు విజయవంతమవుతాయి.",
+  },
+  {
+    question: "చోఘడియా మరియు గౌరీ పంచాంగానికి తేడా ఏమిటి?",
+    answer:
+      "రెండు పద్ధతులూ పగలు-రాత్రిని 8-8 భాగాలుగా విభజిస్తాయి. అయితే చోఘడియా ఉత్తర/పశ్చిమ భారతదేశంలో గ్రహాధిపతుల ఆధారంగా సాగే వ్యవస్థ కాగా, గౌరీ పంచాంగం దక్షిణ భారత ఆగమాలపై ఆధారపడిన పార్వతీ దేవి (గౌరి) పవిత్ర ముహూర్త సంప్రదాయం.",
+  },
+];
+
 const FAQS_HI = [
   {
     question: "गौरी पंचांगम क्या है और इसका क्या महत्व है?",
@@ -106,7 +131,8 @@ const FAQS_HI = [
 export default async function GowriPanchangamPage() {
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
   const isHi = locale === "hi";
-  const faqs = isHi ? FAQS_HI : FAQS_EN;
+  const isTe = locale === "te";
+  const faqs = isTe ? FAQS_TE : isHi ? FAQS_HI : FAQS_EN;
 
   return (
     <div>

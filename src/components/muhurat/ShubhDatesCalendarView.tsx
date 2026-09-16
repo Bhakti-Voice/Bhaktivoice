@@ -50,13 +50,17 @@ export function ShubhDatesCalendarView({
   selectedYear,
 }: ShubhDatesCalendarViewProps) {
   const isHi = locale === "hi";
+  const isTe = locale === "te";
+  const TE_MONTHS = ["జనవరి", "ఫిబ్రవరి", "మార్చి", "ఏప్రిల్", "మే", "జూన్", "జూలై", "ఆగస్టు", "సెప్టెంబర్", "అక్టోబర్", "నవంబర్", "డిసెంబర్"];
   const [activeMonthIdx, setActiveMonthIdx] = useState<number>(0);
   const [selectedDay, setSelectedDay] = useState<ShubhDayDetail | null>(null);
 
   const activeCalendar = calendars[activeMonthIdx] || calendars[0];
   const IconComponent = CATEGORY_ICONS[category] || Sparkles;
 
-  const weekDayLabels = isHi
+  const weekDayLabels = isTe
+    ? ["ఆది", "సోమ", "మంగళ", "బుధ", "గురు", "శుక్ర", "శని"]
+    : isHi
     ? ["रवि", "सोम", "मंगल", "बुध", "गुरु", "शुक्र", "शनि"]
     : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -77,10 +81,10 @@ export function ShubhDatesCalendarView({
           </div>
           <div>
             <div className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">
-              {totalShubhDaysInYear} {isHi ? "शुभ दिन" : "Auspicious Days"}
+              {totalShubhDaysInYear} {isTe ? "శుభ దినాలు" : isHi ? "शुभ दिन" : "Auspicious Days"}
             </div>
             <div className="text-xs text-neutral-600 dark:text-neutral-400 font-medium">
-              {isHi ? `वर्ष ${selectedYear} में कुल सर्वोत्तम मुहूर्त` : `Total Best Muhurat Days in ${selectedYear}`}
+              {isTe ? `${selectedYear} సంవత్సరంలో మొత్తం ఉత్తమ ముహూర్త దినాలు` : isHi ? `वर्ष ${selectedYear} में कुल सर्वोत्तम मुहूर्त` : `Total Best Muhurat Days in ${selectedYear}`}
             </div>
           </div>
         </div>
@@ -91,10 +95,10 @@ export function ShubhDatesCalendarView({
           </div>
           <div>
             <div className="text-2xl font-bold text-emerald-800 dark:text-emerald-300">
-              {activeCalendar.shubhDaysCount} {isHi ? "शुभ दिन" : "Shubh Days"}
+              {activeCalendar.shubhDaysCount} {isTe ? "శుభ దినాలు" : isHi ? "शुभ दिन" : "Shubh Days"}
             </div>
             <div className="text-xs text-neutral-600 dark:text-neutral-400 font-medium">
-              {isHi ? `${activeCalendar.monthNameHi} ${selectedYear} में` : `In ${activeCalendar.monthNameEn} ${selectedYear}`}
+              {isTe ? `${TE_MONTHS[activeCalendar.month - 1]} ${selectedYear} లో` : isHi ? `${activeCalendar.monthNameHi} ${selectedYear} में` : `In ${activeCalendar.monthNameEn} ${selectedYear}`}
             </div>
           </div>
         </div>
@@ -105,10 +109,10 @@ export function ShubhDatesCalendarView({
           </div>
           <div>
             <div className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">
-              12 {isHi ? "महीने" : "Months"}
+              12 {isTe ? "నెలలు" : isHi ? "महीने" : "Months"}
             </div>
             <div className="text-xs text-neutral-600 dark:text-neutral-400 font-medium">
-              {isHi ? "पंचांग आधारित संपूर्ण वार्षिक चक्र" : "Complete Full-Year Panchang Grid"}
+              {isTe ? "పంచాంగ ఆధారిత సంపూర్ణ వార్షిక చక్రం" : isHi ? "पंचांग आधारित संपूर्ण वार्षिक चक्र" : "Complete Full-Year Panchang Grid"}
             </div>
           </div>
         </div>
@@ -131,7 +135,7 @@ export function ShubhDatesCalendarView({
                   : "bg-neutral-100 dark:bg-neutral-800/80 text-neutral-700 dark:text-neutral-300 hover:bg-amber-50 dark:hover:bg-neutral-800 hover:text-amber-700"
               }`}
             >
-              <span>{isHi ? cal.monthNameHi : cal.monthNameEn}</span>
+              <span>{isTe ? TE_MONTHS[cal.month - 1] : isHi ? cal.monthNameHi : cal.monthNameEn}</span>
               <span
                 className={`text-[11px] px-1.5 py-0.5 rounded-full font-bold ${
                   isActive
@@ -155,7 +159,9 @@ export function ShubhDatesCalendarView({
           <div className="flex items-center justify-between mb-6 pb-4 border-b border-neutral-100 dark:border-neutral-800">
             <div>
               <h2 className="text-xl font-bold text-neutral-900 dark:text-neutral-100">
-                {isHi
+                {isTe
+                  ? `${TE_MONTHS[activeCalendar.month - 1]} ${selectedYear} క్యాలెండర్`
+                  : isHi
                   ? `${activeCalendar.monthNameHi} ${selectedYear} कैलेंडर`
                   : `${activeCalendar.monthNameEn} ${selectedYear} Calendar`}
               </h2>

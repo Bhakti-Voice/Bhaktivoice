@@ -1,3 +1,26 @@
+const PRINT_FAQS_TE = [
+  {
+    question: "ఈ హిందూ వాల్ క్యాలెండర్‌ను PDF రూపంలో డౌన్‌లోడ్ లేదా ప్రింట్ ఎలా చేయాలి?",
+    answer:
+      "కుడి ఎగువన ఉన్న 'ప్రింట్ వాల్ క్యాలెండర్ / PDF' బటన్‌పై క్లిక్ చేయండి. మీ బ్రౌజర్ ప్రింట్ డైలాగ్‌లో 'Save as PDF' ఎంచుకోండి లేదా ప్రింటర్‌తో A4 సైజులో ప్రింట్ తీయండి. ఈ పేజీ ప్రింటింగ్ కోసం ప్రత్యేకంగా రూపొందించబడింది, మెనూలు లేదా బటన్లు ఆటోమేటిక్‌గా దాచబడతాయి.",
+  },
+  {
+    question: "ఈ క్యాలెండర్‌లోని తిథులు మరియు సూర్యోదయం నా నగరం ప్రకారం సరిగ్గా ఉంటాయా?",
+    answer:
+      "అవును, ఖచ్చితంగా. మార్కెట్లో దొరికే సాధారణ కాగితపు క్యాలెండర్లు వారణాసి లేదా ఉజ్జయిని సమయాలకు పరిమితమై ఉంటాయి. భక్తి వాయిస్ మీరు ఎంచుకున్న నగరం యొక్క ఖచ్చితమైన అక్షాంశ, రేఖాంశాల ప్రకారం సూర్యోదయం, సూర్యాస్తమయం మరియు ఉదయ తిథిని గణిస్తుంది.",
+  },
+  {
+    question: "విక్రమ సంవత్సరం అంటే ఏమిటి మరియు ఇది గ్రెగోరియన్ సంవత్సరం కంటే ఎందుకు ముందు ఉంటుంది?",
+    answer:
+      "విక్రమ శకాన్ని ఉజ్జయిని చక్రవర్తి విక్రమాదిత్యుడు క్రీ.పూ 57 లో ప్రారంభించారు. ఇది గ్రెగోరియన్ క్యాలెండర్ కంటే 57 సంవత్సరాల ముందే ప్రారంభమైనందున ఎల్లప్పుడూ 56 నుండి 57 సంవత్సరాలు ముందుంటుంది (ఉదా. 2026 నాటికి విక్రమ సంవత్సరం 2082–2083).",
+  },
+  {
+    question: "క్యాలెండర్ బాక్స్‌లో 'శు' మరియు 'కృ' అంటే అర్థం ఏమిటి?",
+    answer:
+      "'శు' అంటే శుక్ల పక్షం (అమావాస్య నుండి పౌర్ణమి వరకు పెరిగే వెన్నెల పక్షం), మరియు 'కృ' అంటే కృష్ణ పక్షం (పౌర్ణమి నుండి అమావాస్య వరకు తగ్గే చీకటి పక్షం).",
+  },
+];
+
 import type { Metadata } from "next";
 import { PrintableWallCalendarView } from "@/components/calendar/PrintableWallCalendarView";
 import { PageHero } from "@/components/layout/PageHero";
@@ -112,10 +135,11 @@ export default async function PrintableCalendarPage({
 }) {
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const params = await searchParams;
   const initialYear = params.year ? Number(params.year) : undefined;
   const initialMonth = params.month ? Number(params.month) : undefined;
-  const faqs = isHi ? FAQS_HI : FAQS_EN;
+  const faqs = isTe ? PRINT_FAQS_TE : isHi ? FAQS_HI : FAQS_EN;
 
   return (
     <div>

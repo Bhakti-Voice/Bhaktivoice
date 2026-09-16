@@ -24,6 +24,7 @@ import { useLocale } from "@/lib/i18n/client";
 export function GowriView({ initialCityId }: { initialCityId?: string }) {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const [city, setCity] = useState<CityConfig>(() => getCityById(initialCityId) || DEFAULT_CITY);
   const [tab, setTab] = useState<"day" | "night">("day");
@@ -56,7 +57,7 @@ export function GowriView({ initialCityId }: { initialCityId?: string }) {
   };
 
   function formatTime(date: Date): string {
-    return new Intl.DateTimeFormat(isHi ? "hi-IN" : "en-IN", {
+    return new Intl.DateTimeFormat(isTe ? "te-IN" : isHi ? "hi-IN" : "en-IN", {
       timeZone: city.timeZone,
       hour: "2-digit",
       minute: "2-digit",

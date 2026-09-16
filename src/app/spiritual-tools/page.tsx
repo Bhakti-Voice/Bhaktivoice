@@ -11,6 +11,7 @@ import { SITE } from "@/lib/seo/site";
 import {
   SPIRITUAL_TOOL_FAQS,
   SPIRITUAL_TOOL_FAQS_HI,
+  SPIRITUAL_TOOL_FAQS_TE,
   SPIRITUAL_TOOL_KEYWORDS,
 } from "@/lib/spiritual-tools/seo-content";
 
@@ -18,13 +19,18 @@ export const revalidate = 86400;
 
 export async function generateMetadata(): Promise<Metadata> {
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
+  const isTe = locale === "te";
   const isHi = locale === "hi";
 
   return localizedMetadata({
-    title: isHi
+    title: isTe
+      ? "వైదిక & ఆధ్యాత్మిక సాధనాలు — నేటి పంచాంగం, హిందూ క్యాలెండర్, జన్మ కుండలి & పొంతన"
+      : isHi
       ? "वैदिक एवं आध्यात्मिक उपकरण — आज का पंचांग, हिन्दू कैलेंडर, कुंडली एवं मिलान"
       : t.hubs.spiritualTools.title,
-    description: isHi
+    description: isTe
+      ? "భక్తి వాయిస్ 100% ఉచిత మరియు సురక్షిత వైదిక సాధనాలు. నేటి పంచాంగం, హిందూ క్యాలెండర్ 2026, ఉచిత జన్మ కుండలి మరియు 36 గుణ కుండలి మిలనం నేరుగా మీ బ్రౌజర్ లో చూడండి."
+      : isHi
       ? "भक्ति वॉइस के 100% निःशुल्क एवं सुरक्षित वैदिक उपकरण। आज का पंचांग, हिन्दू कैलेंडर 2026, मुफ्त जन्म कुंडली एवं 36 गुण कुंडली मिलान सीधे अपने ब्राउज़र में देखें।"
       : t.hubs.spiritualTools.description,
     path: PATHS.spiritualTools,
@@ -34,46 +40,61 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function SpiritualToolsPage() {
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
+  const isTe = locale === "te";
   const isHi = locale === "hi";
-  const faqs = isHi ? [...SPIRITUAL_TOOL_FAQS_HI.landing] : [...SPIRITUAL_TOOL_FAQS.landing];
+  const faqs = isTe
+    ? [...SPIRITUAL_TOOL_FAQS_TE.landing]
+    : isHi
+    ? [...SPIRITUAL_TOOL_FAQS_HI.landing]
+    : [...SPIRITUAL_TOOL_FAQS.landing];
 
   const tools = [
     {
       href: PATHS.suvicharMaker,
-      title: isHi ? "सुविचार एवं व्हाट्सएप स्टेटस मेकर" : "Daily Suvichar & Status Studio",
-      description: isHi
+      title: isTe ? "సువిచార కార్డ్ & స్టేటస్ మేకర్" : isHi ? "सुविचार एवं व्हाट्सएप स्टेटस मेकर" : "Daily Suvichar & Status Studio",
+      description: isTe
+        ? "జైన వాణి, భగవద్గీత శ్లోకాలు, శివ, హనుమాన్, శ్రీరామ సూక్తులతో మీ పేరు, ఫోటో జతచేసి HD స్టేటస్ కార్డ్ తయారుచేసుకోండి."
+        : isHi
         ? "जैन वाणी, गीता श्लोक, शिव, हनुमान, राम एवं पर्व सुविचार के साथ अपना नाम व फोटो जोड़कर HD स्टेटस कार्ड बनाएं।"
         : "Create personalized HD WhatsApp Status & Story cards with Jain wisdom, Gita shlokas, and daily Vedic Panchang.",
       icon: "suvichar" as const,
     },
     {
       href: PATHS.panchangToday,
-      title: isHi ? "आज का पंचांग" : "Today's Panchang",
-      description: isHi
+      title: isTe ? "నేటి పంచాంగం" : isHi ? "आज का पंचांग" : "Today's Panchang",
+      description: isTe
+        ? "నేటి తిథి, నక్షత్రం, సూర్యోదయం, రాహుకాలం, అభిజిత్ ముహూర్తం మరియు చోఘడియా పూర్తి వివరాలు."
+        : isHi
         ? "आज की तिथि, नक्षत्र, सूर्योदय, सूर्यास्त, राहु काल, अभिजित मुहूर्त और चौघड़िया का सम्पूर्ण दैनिक विवरण।"
         : "Live Vedic Panchang for today: accurate Tithi, Nakshatra, Shubh Muhurat, Rahu Kaal, and Choghadiya timings.",
       icon: "panchang" as const,
     },
     {
       href: PATHS.calendar,
-      title: isHi ? "हिन्दू कैलेंडर 2026" : "Hindu Calendar 2026",
-      description: isHi
+      title: isTe ? "హిందూ క్యాలెండర్ 2026" : isHi ? "हिन्दू कैलेंडर 2026" : "Hindu Calendar 2026",
+      description: isTe
+        ? "మాస పట్టిక, ఏకాదశి, పౌర్ణమి, అమావాస్య, ప్రదోషం మరియు ప్రముఖ హిందూ పండుగల సమగ్ర క్యాలెండర్."
+        : isHi
         ? "मासिक पंचांग ग्रिड, एकादशी, पूर्णिमा, अमावस्या, प्रदोष, संक्रांति और सभी प्रमुख हिन्दू त्यौहारों की तिथियाँ।"
         : "Interactive 7-column Hindu lunisolar calendar with monthly Tithis, Ekadashis, Vrats, and major festival dates.",
       icon: "calendar" as const,
     },
     {
       href: PATHS.kundli,
-      title: isHi ? "मुफ्त जन्म कुंडली" : t.spiritualTools.tools.kundli.title,
-      description: isHi
+      title: isTe ? "ఉచిత జన్మ కుండలి" : isHi ? "मुफ्त जन्म कुंडली" : t.spiritualTools.tools.kundli.title,
+      description: isTe
+        ? "ఖచ్చితమైన జన్మ పత్రిక, లగ్నం, గ్రహ స్థానాలు మరియు భావ విశ్లేషణ. 100% ఉచితం & గోప్యమైనది."
+        : isHi
         ? "सटीक जन्म पत्रिका, लग्न, ग्रह स्थिति और भाव विश्लेषण। 100% सुरक्षित और निजी।"
         : t.spiritualTools.tools.kundli.description,
       icon: "kundli" as const,
     },
     {
       href: PATHS.kundliMilan,
-      title: isHi ? "कुंडली मिलान" : t.spiritualTools.tools.milan.title,
-      description: isHi
+      title: isTe ? "కుండలి పొంతన (36 గుణాలు)" : isHi ? "कुंडली मिलान" : t.spiritualTools.tools.milan.title,
+      description: isTe
+        ? "వివాహ అనుకూలత కొరకు సాంప్రదాయ 36 గుణాల అష్టకూట మిలన విశ్లేషణ."
+        : isHi
         ? "विवाह अनुकूलता हेतु पारंपरिक 36 गुण अष्टकूट मिलान विश्लेषण।"
         : t.spiritualTools.tools.milan.description,
       icon: "milan" as const,
@@ -212,21 +233,23 @@ export default async function SpiritualToolsPage() {
       />
 
       <PageHero
-        title={isHi ? "आध्यात्मिक एवं वैदिक उपकरण" : t.hubs.spiritualTools.h1}
+        title={isTe ? "ఆధ్యాత్మిక & వైదిక సాధనాలు" : isHi ? "आध्यात्मिक एवं वैदिक उपकरण" : t.hubs.spiritualTools.h1}
         subtitle={
-          isHi
+          isTe
+            ? "100% ఉచిత & సురక్షిత వైదిక పరికరాలు — దిన పంచాంగం, హిందూ క్యాలెండర్, జన్మ కుండలి మరియు కుండలి మిలనం. మీ సమాచారం ఎప్పుడూ సర్వర్‌కు పంపబడదు."
+            : isHi
             ? "100% सुरक्षित और निजी वैदिक टूल्स — दैनिक पंचांग, हिन्दू कैलेंडर, जन्म कुंडली और कुंडली मिलान। आपकी कोई भी जानकारी कभी सर्वर पर नहीं भेजी जाती।"
             : t.spiritualTools.landingLead
         }
         hub="tithi"
         crumbs={localizedCrumbs(t.homeName, [
-          isHi ? "आध्यात्मिक उपकरण" : t.nav.spiritualTools,
+          isTe ? "ఆధ్యాత్మిక పరికరాలు" : isHi ? "आध्यात्मिक उपकरण" : t.nav.spiritualTools,
           PATHS.spiritualTools,
         ])}
       />
       <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8 lg:pb-12">
-        <ToolCardGrid tools={tools} openLabel={isHi ? "उपकरण खोलें" : t.spiritualTools.openTool} />
-        <FaqList faqs={faqs} title={isHi ? "अक्सर पूछे जाने वाले प्रश्न (FAQs)" : t.common.faqTitle} className="mt-12" />
+        <ToolCardGrid tools={tools} openLabel={isTe ? "సాధనాన్ని తెరవండి" : isHi ? "उपकरण खोलें" : t.spiritualTools.openTool} />
+        <FaqList faqs={faqs} title={isTe ? "తరచుగా అడిగే ప్రశ్నలు (FAQs)" : isHi ? "अक्सर पूछे जाने वाले प्रश्न (FAQs)" : t.common.faqTitle} className="mt-12" />
       </div>
     </div>
   );

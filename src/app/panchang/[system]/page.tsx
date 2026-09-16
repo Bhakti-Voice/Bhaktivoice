@@ -45,12 +45,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const locale = await getLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
-  const title = isHi
+  const title = isTe
+    ? `${sys.slug === "telugu-panchangam" ? "తెలుగు పంచాంగం 2026 — నేటి తిథి, నక్షత్రం, యోగం, వర్జ్యం & అమృత ఘడియలు" : `${sys.titleEn} — తెలుగు వైదిక పంచాంగం`}`
+    : isHi
     ? `${sys.titleHi} — वैदिक एवं क्षेत्रीय पंचांग, शुभ मुहूर्त व तिथि`
     : `${sys.titleEn} — Daily Tithi, Nakshatra, Muhurat & Regional Calendar`;
 
-  const description = isHi
+  const description = isTe
+    ? `${sys.slug === "telugu-panchangam" ? "ఖచ్చితమైన దృక్ సిద్ధాంత ఆధారిత తెలుగు పంచాంగం. నేటి తిథి, నక్షత్రం, వర్జ్యం, దుర్ముహూర్తం, రాహుకాలం, మరియు శుభ ముహూర్తాలు." : `${sys.descriptionEn} Accurate astronomical calculations using Lahiri Ayanamsa and Drik Ganita.`}`
+    : isHi
     ? `${sys.descriptionHi} प्रामाणिक दृक सिद्धांत और खगोलीय गणना पर आधारित।`
     : `${sys.descriptionEn} Accurate astronomical calculations using Lahiri Ayanamsa and Drik Ganita.`;
 
@@ -69,9 +74,10 @@ export default async function RegionalPanchangPage({ params }: PageProps) {
 
   const locale = await getLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const now = new Date();
 
-  const dateFormatted = new Intl.DateTimeFormat(isHi ? "hi-IN" : "en-IN", {
+  const dateFormatted = new Intl.DateTimeFormat(isTe ? "te-IN" : isHi ? "hi-IN" : "en-IN", {
     weekday: "long",
     day: "numeric",
     month: "long",
@@ -137,7 +143,13 @@ export default async function RegionalPanchangPage({ params }: PageProps) {
             : `${sys.region} • Authentic Vedic & Regional Almanac • ${dateFormatted}`
         }
         crumbs={
-          isHi
+          isTe
+            ? localizedCrumbs(
+                "హోమ్",
+                ["పంచాంగం", "/panchang/today"],
+                [sys.slug === "telugu-panchangam" ? "తెలుగు పంచాంగం" : sys.titleEn, `/panchang/${sys.slug}`]
+              )
+            : isHi
             ? localizedCrumbs(
                 "होम",
                 ["पंचांग", "/panchang/today"],

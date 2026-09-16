@@ -23,6 +23,8 @@ export type PrintableWallCalendarViewProps = {
 
 const WEEKDAY_NAMES_EN = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const WEEKDAY_NAMES_HI = ["रविवार", "सोमवार", "मंगलवार", "बुधवार", "गुरुवार", "शुक्रवार", "शनिवार"];
+const WEEKDAY_NAMES_TE = ["ఆదివారం", "సోమవారం", "మంగళవారం", "బుధవారం", "గురువారం", "శుక్రవారం", "శనివారం"];
+const TE_MONTHS = ["జనవరి", "ఫిబ్రవరి", "మార్చి", "ఏప్రిల్", "మే", "జూన్", "జూలై", "ఆగస్టు", "సెప్టెంబర్", "అక్టోబర్", "నవంబర్", "డిసెంబర్"];
 
 export function PrintableWallCalendarView({
   initialYear,
@@ -31,6 +33,7 @@ export function PrintableWallCalendarView({
 }: PrintableWallCalendarViewProps) {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const today = useMemo(() => new Date(), []);
   const defaultYear = initialYear || today.getFullYear();
@@ -185,7 +188,7 @@ export function PrintableWallCalendarView({
         {/* City Switcher & Print Button */}
         <div className="flex flex-wrap items-center gap-2.5">
           {/* City Selector */}
-          <CityPickerButton city={city} onCityChange={setCity} isHi={isHi} variant="compact" />
+          <CityPickerButton city={city} onCityChange={setCity} isHi={isHi} isTe={isTe} variant="compact" />
 
           {/* Direct Print / Save as PDF Button */}
           <button
@@ -194,7 +197,7 @@ export function PrintableWallCalendarView({
             className="flex items-center gap-2 rounded-2xl bg-saffron-deep px-5 py-2 text-xs sm:text-sm font-bold text-white shadow-md hover:bg-[#963806] active:scale-95 transition"
           >
             <Printer className="h-4 w-4" />
-            <span>{isHi ? "वॉल कैलेंडर प्रिंट करें / PDF" : "Print Wall Calendar / PDF"}</span>
+            <span>{isTe ? "వాల్ క్యాలెండర్ ప్రింట్ / PDF" : isHi ? "वॉल कैलेंडर प्रिंट करें / PDF" : "Print Wall Calendar / PDF"}</span>
           </button>
         </div>
       </div>

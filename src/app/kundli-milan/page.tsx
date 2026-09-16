@@ -11,6 +11,7 @@ import { SITE } from "@/lib/seo/site";
 import {
   SPIRITUAL_TOOL_FAQS,
   SPIRITUAL_TOOL_FAQS_HI,
+  SPIRITUAL_TOOL_FAQS_TE,
   SPIRITUAL_TOOL_KEYWORDS,
 } from "@/lib/spiritual-tools/seo-content";
 
@@ -35,7 +36,8 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function KundliMilanPage() {
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
   const isHi = locale === "hi";
-  const faqs = isHi ? [...SPIRITUAL_TOOL_FAQS_HI.milan] : [...SPIRITUAL_TOOL_FAQS.milan];
+  const isTe = locale === "te";
+  const faqs = isTe ? [...SPIRITUAL_TOOL_FAQS_TE.milan] : isHi ? [...SPIRITUAL_TOOL_FAQS_HI.milan] : [...SPIRITUAL_TOOL_FAQS.milan];
 
   return (
     <div>

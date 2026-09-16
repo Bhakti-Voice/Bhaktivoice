@@ -47,6 +47,7 @@ export const revalidate = 1800;
 export async function generateMetadata(): Promise<Metadata> {
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   return localizedMetadata({
     title: t.home.title,
@@ -55,7 +56,20 @@ export async function generateMetadata(): Promise<Metadata> {
     image: "/assets/bhakti-voice-og-home.jpg",
     imageAlt: "Bhakti Voice - Online Naam Jaap, Katha, and Spiritual Sadhana",
     absoluteTitle: true,
-    keywords: isHi
+    keywords: isTe
+      ? [
+          "భక్తి వాయిస్",
+          "ఆన్‌లైన్ నామ జపం",
+          "నేటి పంచాంగం",
+          "హిందూ క్యాలెండర్ 2026",
+          "దైవిక సువిచారాలు",
+          "ఉచిత జన్మ కుండలి",
+          "పౌరాణిక గాథలు",
+          "పుణ్య క్షేత్రాలు",
+          "దిన సాధన",
+          "హారతులు & చాలీసా",
+        ]
+      : isHi
       ? [
           "भक्ति वॉइस",
           "ऑनलाइन नाम जप",
@@ -89,18 +103,19 @@ const AVATARS = ["#c05621", "#d97706", "#7c3aed", "#be185d", "#1d4ed8", "#0f766e
 export default async function HomePage() {
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const features = [
     {
       href: PATHS.calendar,
       icon: HinduCalendarIcon,
-      title: isHi ? "हिन्दू कैलेंडर" : "Hindu Calendar",
-      text: isHi ? "तिथि, व्रत और पर्व" : "Tithi, Vrat & Festivals",
+      title: isTe ? "హిందూ క్యాలెండర్" : isHi ? "हिन्दू कैलेंडर" : "Hindu Calendar",
+      text: isTe ? "తిథి, వ్రతం & పండుగలు" : isHi ? "तिथि, व्रत और पर्व" : "Tithi, Vrat & Festivals",
     },
     {
       href: PATHS.panchangToday,
       icon: PanchangIcon,
-      title: isHi ? "आज का पंचांग" : "Today's Panchang",
-      text: isHi ? "शुभ मुहूर्त एवं चौघड़िया" : "Shubh Muhurat & Timings",
+      title: isTe ? "నేటి పంచాంగం" : isHi ? "आज का पंचांग" : "Today's Panchang",
+      text: isTe ? "శుభ ముహూర్తం & సమయాలు" : isHi ? "शुभ मुहूर्त एवं चौघड़िया" : "Shubh Muhurat & Timings",
     },
     { href: PATHS.naamJaap, icon: PrayerHandsIcon, ...t.home.features[0] },
     { href: PATHS.katha, icon: OpenBookIcon, ...t.home.features[1] },
@@ -408,7 +423,7 @@ async function HomeContentSections({ t, locale }: { t: Messages; locale: string 
 
       {latestAartis.length > 0 ? (
         <section className="mx-auto max-w-7xl px-4 pb-14 lg:px-8">
-          <SectionHeading>{locale === "hi" ? t.home.aartisTitle : "Aartis Section"}</SectionHeading>
+          <SectionHeading>{locale === "te" ? t.home.aartisTitle : locale === "hi" ? t.home.aartisTitle : "Aartis Section"}</SectionHeading>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {latestAartis.map((item) => (
               <article key={item.slug} className="min-w-0">
@@ -427,14 +442,18 @@ async function HomeContentSections({ t, locale }: { t: Messages; locale: string 
                     ) : null}
                   </div>
                   <h3 className="mt-3 font-serif text-xl leading-snug text-ink">
-                    {locale === "hi" && item.titleHi ? item.titleHi : item.title}
+                    {locale === "te" && (item as any).titleTe
+                      ? (item as any).titleTe
+                      : locale === "hi" && item.titleHi
+                      ? item.titleHi
+                      : item.title}
                   </h3>
                   <ProseText
                     text={item.introduction || item.metaDescription || ""}
                     className="mt-2 line-clamp-2 text-sm text-muted"
                   />
                   <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-lotus">
-                    {locale === "hi" ? "आरती पढ़ें" : t.home.readMore}
+                    {locale === "te" ? "హారతి చదవండి" : locale === "hi" ? "आरती पढ़ें" : t.home.readMore}
                     <ArrowRight className="h-3.5 w-3.5" />
                   </span>
                 </LocaleLink>
@@ -446,7 +465,7 @@ async function HomeContentSections({ t, locale }: { t: Messages; locale: string 
               href={PATHS.aarti}
               className="inline-flex items-center gap-1.5 text-sm font-medium text-saffron hover:text-saffron-deep"
             >
-              {locale === "hi" ? t.home.moreAartis : "More Aartis"}
+              {locale === "te" ? t.home.moreAartis : locale === "hi" ? t.home.moreAartis : "More Aartis"}
               <ArrowRight className="h-4 w-4" />
             </LocaleLink>
           </div>

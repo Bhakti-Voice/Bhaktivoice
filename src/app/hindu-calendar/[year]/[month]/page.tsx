@@ -53,21 +53,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { year, month } = await params;
   const locale = await getLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const monthNum = parseMonth(month);
   const yearNum = Number(year);
 
   if (monthNum === -1 || isNaN(yearNum) || yearNum < 2000 || yearNum > 2100) {
-    return { title: isHi ? "माह नहीं मिला" : "Calendar Month Not Found" };
+    return { title: isTe ? "నెల లభించలేదు" : isHi ? "माह नहीं मिला" : "Calendar Month Not Found" };
   }
 
+  const TE_MONTHS = ["జనవరి", "ఫిబ్రవరి", "మార్చి", "ఏప్రిల్", "మే", "జూన్", "జూలై", "ఆగస్టు", "సెప్టెంబర్", "అక్టోబర్", "నవంబర్", "డిసెంబర్"];
   const monthName = MONTH_NAMES_EN[monthNum - 1];
   const monthNameHi = MONTH_NAMES_HI[monthNum - 1];
+  const monthNameTe = TE_MONTHS[monthNum - 1];
 
   return localizedMetadata({
-    title: isHi
+    title: isTe
+      ? `హిందూ క్యాలెండర్ ${monthNameTe} ${year} — దిన తిథి, వ్రతాలు & పంచాంగం`
+      : isHi
       ? `हिन्दू कैलेंडर ${monthNameHi} ${year} — दैनिक तिथि, व्रत एवं पंचांग`
       : `Hindu Calendar ${monthName} ${year} — Tithi, Festivals & Panchang`,
-    description: isHi
+    description: isTe
+      ? `${monthNameTe} ${year} దిన హిందూ క్యాలెండర్. తిథి, నక్షత్రం, ఏకాదశి, పౌర్ణమి, అమావాస్య, శుభ ముహూర్తాలు మరియు పండుగల పూర్తి సమాచారం.`
+      : isHi
       ? `${monthNameHi} (${monthName}) ${year} का दैनिक हिन्दू कैलेंडर। तिथि, नक्षत्र, एकादशी, पूर्णिमा, अमावस्या, शुभ मुहूर्त और त्यौहारों की सम्पूर्ण जानकारी।`
       : `Daily Hindu Calendar for ${monthName} (${monthNameHi}) ${year}. Check accurate Tithi, Nakshatra, Ekadashi, Purnima, Amavasya, Shubh Muhurat, and festivals.`,
     path: `${PATHS.calendar}/${year}/${month}`,
@@ -96,8 +103,11 @@ export default async function MonthCalendarPage({ params, searchParams }: Props)
 
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
   const isHi = locale === "hi";
+  const isTe = locale === "te";
+  const TE_MONTHS = ["జనవరి", "ఫిబ్రవరి", "మార్చి", "ఏప్రిల్", "మే", "జూన్", "జూలై", "ఆగస్టు", "సెప్టెంబర్", "అక్టోబర్", "నవంబర్", "డిసెంబర్"];
   const monthName = MONTH_NAMES_EN[monthNum - 1];
   const monthNameHi = MONTH_NAMES_HI[monthNum - 1];
+  const monthNameTe = TE_MONTHS[monthNum - 1];
   const sParams = await searchParams;
 
   const faqs = isHi

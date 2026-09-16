@@ -50,6 +50,7 @@ export default async function ProductDetailPage({ params }: Props) {
   ]);
   if (!page) notFound();
 
+  const isTe = locale === "te";
   const isHi = locale === "hi";
   const finalMrp = Math.round(page.priceInr * 1.35);
   const discountPercent = Math.round(((finalMrp - page.priceInr) / finalMrp) * 100);
@@ -89,11 +90,11 @@ export default async function ProductDetailPage({ params }: Props) {
             />
             {page.outOfStock ? (
               <span className="absolute top-4 left-4 rounded-full bg-stone-900/90 px-3 py-1 text-xs font-bold text-white shadow-xs backdrop-blur-xs">
-                {isHi ? "स्टॉक समाप्त" : "Out of Stock"}
+                {isTe ? "స్టాక్ పూర్తయింది" : isHi ? "स्टॉक समाप्त" : "Out of Stock"}
               </span>
             ) : discountPercent > 0 ? (
               <span className="absolute top-4 left-4 rounded-full bg-saffron-deep px-3 py-1 text-xs font-bold text-white shadow-xs">
-                {discountPercent}% {isHi ? "छूट" : "OFF"}
+                {discountPercent}% {isTe ? "రాయితీ" : isHi ? "छूट" : "OFF"}
               </span>
             ) : null}
           </div>
@@ -118,8 +119,8 @@ export default async function ProductDetailPage({ params }: Props) {
                   <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
                   <span className="font-bold text-xs text-ink">4.9</span>
                 </div>
-                <span className="text-xs text-muted">• 128 {isHi ? "भक्तों की समीक्षा" : "Devotee Reviews"}</span>
-                <span className="text-xs text-emerald-700 font-semibold">• 100% {isHi ? "प्रामाणिक" : "Authentic"}</span>
+                <span className="text-xs text-muted">• 128 {isTe ? "భక్తుల సమీక్షలు" : isHi ? "भक्तों की समीक्षा" : "Devotee Reviews"}</span>
+                <span className="text-xs text-emerald-700 font-semibold">• 100% {isTe ? "ప్రామాణికం" : isHi ? "प्रामाणिक" : "Authentic"}</span>
               </div>
             </div>
 
@@ -136,12 +137,12 @@ export default async function ProductDetailPage({ params }: Props) {
                 )}
                 {discountPercent > 0 && (
                   <span className="rounded-md bg-emerald-100 px-2 py-0.5 text-xs font-bold text-emerald-800">
-                    {isHi ? `${discountPercent}% की बचत` : `Save ${discountPercent}%`}
+                    {isTe ? `${discountPercent}% ఆదా` : isHi ? `${discountPercent}% की बचत` : `Save ${discountPercent}%`}
                   </span>
                 )}
               </div>
               <p className="mt-1 text-xs text-muted">
-                {isHi ? "सभी कर सम्मिलित • भारत भर में सुरक्षित प्रेषण" : "Inclusive of all taxes • Pan-India safe dispatch"}
+                {isTe ? "అన్ని పన్నులు కలిపి • భారతదేశమంతటా సురక్షిత డెలివరీ" : isHi ? "सभी कर सम्मिलित • भारत भर में सुरक्षित प्रेषण" : "Inclusive of all taxes • Pan-India safe dispatch"}
               </p>
             </div>
 
@@ -158,15 +159,15 @@ export default async function ProductDetailPage({ params }: Props) {
             <div className="space-y-2 border-t border-line/60 pt-4 text-xs text-ink/80">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
-                <span>{isHi ? "100% शुद्ध एवं नैसर्गिक सामग्री" : "100% Pure & Natural Materials"}</span>
+                <span>{isTe ? "100% స్వచ్ఛమైన & సహజ పదార్థాలు" : isHi ? "100% शुद्ध एवं नैसर्गिक सामग्री" : "100% Pure & Natural Materials"}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Truck className="h-4 w-4 text-saffron shrink-0" />
-                <span>{isHi ? "₹499 से अधिक के ऑर्डर पर मुफ्त डिलीवरी" : "Free Pan-India Delivery on orders over ₹499"}</span>
+                <span>{isTe ? "₹499 పైబడిన ఆర్డర్లపై ఉచిత డెలివరీ" : isHi ? "₹499 से अधिक के ऑर्डर पर मुफ्त डिलीवरी" : "Free Pan-India Delivery on orders over ₹499"}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Sparkles className="h-4 w-4 text-saffron shrink-0" />
-                <span>{isHi ? "दैनिक नाम जप एवं पूजन हेतु उपयुक्त" : "Ideal for daily Naam Jaap and Puja rituals"}</span>
+                <span>{isTe ? "నిత్య నామ జపం & పూజాధికాలకు అనువైనది" : isHi ? "दैनिक नाम जप एवं पूजन हेतु उपयुक्त" : "Ideal for daily Naam Jaap and Puja rituals"}</span>
               </div>
             </div>
           </div>
@@ -187,7 +188,7 @@ export default async function ProductDetailPage({ params }: Props) {
       {/* Description & Spiritual Significance Accordions */}
       <div className="rounded-3xl border border-line bg-white p-6 shadow-xs sm:p-8 space-y-6">
         <h2 className="font-serif text-xl font-bold text-ink sm:text-2xl">
-          {isHi ? "सामग्री विवरण एवं आध्यात्मिक महत्व" : "Product Details & Spiritual Significance"}
+          {isTe ? "వస్తువు వివరాలు & ఆధ్యాత్మిక ప్రాముఖ్యత" : isHi ? "सामग्री विवरण एवं आध्यात्मिक महत्व" : "Product Details & Spiritual Significance"}
         </h2>
         <div className="prose max-w-none text-ink/80 leading-relaxed text-sm sm:text-base">
           <ProseText text={page.introduction} className="text-muted leading-relaxed" />
@@ -202,7 +203,7 @@ export default async function ProductDetailPage({ params }: Props) {
       {relatedProducts.length > 0 && (
         <section className="space-y-6 pt-4">
           <h2 className="font-serif text-2xl font-bold text-ink sm:text-3xl">
-            {isHi ? "अन्य आध्यात्मिक साधन सामग्री" : "Related Sadhana Companions"}
+            {isTe ? "ఇతర ఆధ్యాత్మిక సాధన సామగ్రి" : isHi ? "अन्य आध्यात्मिक साधन सामग्री" : "Related Sadhana Companions"}
           </h2>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {relatedProducts.map((p) => (

@@ -27,6 +27,7 @@ export type UpcomingFestivalsProps = {
 export function UpcomingFestivals({ upcoming, onSelectFestival }: UpcomingFestivalsProps) {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const nextFestival = upcoming[0];
   const otherFestivals = upcoming.slice(1);
@@ -100,19 +101,19 @@ export function UpcomingFestivals({ upcoming, onSelectFestival }: UpcomingFestiv
             <div className="mt-3 grid grid-cols-4 gap-2 text-center">
               <div className="rounded-xl bg-white/10 px-3 py-2 min-w-[55px]">
                 <span className="font-serif text-2xl font-bold">{timeLeft.days}</span>
-                <span className="block text-[10px] text-white/80 uppercase">{isHi ? "दिन" : "Days"}</span>
+                <span className="block text-[10px] text-white/80 uppercase">{isTe ? "రోజులు" : isHi ? "दिन" : "Days"}</span>
               </div>
               <div className="rounded-xl bg-white/10 px-3 py-2 min-w-[55px]">
                 <span className="font-serif text-2xl font-bold">{timeLeft.hours}</span>
-                <span className="block text-[10px] text-white/80 uppercase">{isHi ? "घंटे" : "Hours"}</span>
+                <span className="block text-[10px] text-white/80 uppercase">{isTe ? "గంటలు" : isHi ? "घंटे" : "Hours"}</span>
               </div>
               <div className="rounded-xl bg-white/10 px-3 py-2 min-w-[55px]">
                 <span className="font-serif text-2xl font-bold">{timeLeft.minutes}</span>
-                <span className="block text-[10px] text-white/80 uppercase">{isHi ? "मिनट" : "Mins"}</span>
+                <span className="block text-[10px] text-white/80 uppercase">{isTe ? "నిమిషాలు" : isHi ? "मिनट" : "Mins"}</span>
               </div>
               <div className="rounded-xl bg-white/10 px-3 py-2 min-w-[55px]">
                 <span className="font-serif text-2xl font-bold">{timeLeft.seconds}</span>
-                <span className="block text-[10px] text-white/80 uppercase">{isHi ? "सेकंड" : "Secs"}</span>
+                <span className="block text-[10px] text-white/80 uppercase">{isTe ? "సెకన్లు" : isHi ? "सेकंड" : "Secs"}</span>
               </div>
             </div>
 

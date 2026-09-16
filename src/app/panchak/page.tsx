@@ -14,22 +14,29 @@ export const revalidate = 1800;
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const now = new Date();
-  const dateFormatted = new Intl.DateTimeFormat(isHi ? "hi-IN" : "en-IN", {
+  const dateFormatted = new Intl.DateTimeFormat(isTe ? "te-IN" : isHi ? "hi-IN" : "en-IN", {
     day: "numeric",
     month: "long",
     year: "numeric",
   }).format(now);
 
   return localizedMetadata({
-    title: isHi
+    title: isTe
+      ? `పంచకం ఎప్పుడు 2026 (${dateFormatted}) — నేడు పంచకం ఉందా లేదా? తేదీలు, వర్జ్య పనులు & నివారణలు`
+      : isHi
       ? `पंचक कब है 2026 (${dateFormatted}) — आज पंचक है या नहीं? तारीखें, वर्जित कार्य व उपाय`
       : `Panchak Kab Hai 2026 (${dateFormatted}) — Today Panchak Status, Start-End Dates & Niyam`,
-    description: isHi
+    description: isTe
+      ? `నేడు ${dateFormatted} పంచకం ఉందా లేదా? పంచకం ఎప్పటి నుండి ఎప్పటి వరకు? 5 రకాలు (రాజ, రోగ, అగ్ని, చోర, మృత్యు పంచకం), 5 నిషేధిత పనులు మరియు 2026 సంపూర్ణ పంచక పట్టిక.`
+      : isHi
       ? `आज ${dateFormatted} को पंचक है या नहीं? पंचक कब से कब तक है? 5 प्रकार (राज, रोग, अग्नि, चोर, मृत्यु पंचक), 5 वर्जित कार्य, शांति उपाय एवं 2026 की संपूर्ण पंचांग तालिका।`
       : `Is Panchak active today (${dateFormatted})? Check accurate Panchak start and end dates, 5 Panchak types (Raja, Roga, Agni, Chora, Mrityu), prohibited activities, and full 2026-2027 Panchak schedule.`,
     path: PATHS.panchak,
-    keywords: isHi
+    keywords: isTe
+      ? ["పంచకం ఎప్పుడు 2026", "నేడు పంచకం ఉందా", "పంచక రకాలు", "రాజ పంచకం", "మృత్యు పంచకం", "పంచక నివారణోపాయాలు"]
+      : isHi
       ? [
           "पंचक कब है",
           "आज पंचक है या नहीं",
@@ -81,6 +88,24 @@ const PANCHAK_FAQS_EN = [
   },
 ];
 
+const PANCHAK_FAQS_TE = [
+  {
+    question: "పంచకం అంటే ఏమిటి మరియు ఇది ఎందుకు ఏర్పడుతుంది?",
+    answer:
+      "చంద్రుడు కుంభ మరియు మీన రాశులలో సంచరించేటప్పుడు ధనిష్ఠ (రెండవ సగం), శతభిషం, పూర్వాభాద్ర, ఉత్తరాభాద్ర మరియు రేవతి నక్షత్రాల గుండా ప్రయాణిస్తాడు. ఈ ఐదు నక్షత్రాల సమూహాన్ని 'పంచకం' అంటారు. ఇది ప్రతి నెలా దాదాపు 5 రోజుల పాటు ఉంటుంది.",
+  },
+  {
+    question: "పంచకాలు ఎన్ని రకాలు?",
+    answer:
+      "పంచకం ఏ వారంలో ప్రారంభమవుతుందనే దానిపై ఆధారపడి 5 రకాలుగా విభజించబడింది: 1. రోగ పంచకం (ఆదివారం), 2. రాజ పంచకం (సోమవారం - శుభం), 3. అగ్ని పంచకం (మంగళవారం), 4. చోర పంచకం (శుక్రవారం), 5. మృత్యు పంచకం (శనివారం - అత్యంత అశుభం). బుధ, గురువారాల పంచకాలు దోషరహితమైనవి.",
+  },
+  {
+    question: "పంచకంలో ఏ పనులు చేయకూడదు?",
+    answer:
+      "పంచకంలో 5 పనులు నిషేధించబడ్డాయి: 1. ఇంటి పైకప్పు (స్లాబ్) వేయడం, 2. మంచం లేదా కొత్త పడక తయారుచేయడం, 3. దక్షిణ దిశగా ప్రయాణించడం, 4. కట్టెలు, ఇంధనం లేదా గడ్డిని నిల్వ చేయడం, 5. పంచక శాంతి చేయకుండా శవ దహనం చేయడం.",
+  },
+];
+
 const PANCHAK_FAQS_HI = [
   {
     question: "पंचक क्या होता है और यह क्यों लगता है?",
@@ -102,7 +127,8 @@ const PANCHAK_FAQS_HI = [
 export default async function PanchakPage() {
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
   const isHi = locale === "hi";
-  const faqs = isHi ? PANCHAK_FAQS_HI : PANCHAK_FAQS_EN;
+  const isTe = locale === "te";
+  const faqs = isTe ? PANCHAK_FAQS_TE : isHi ? PANCHAK_FAQS_HI : PANCHAK_FAQS_EN;
 
   return (
     <div>
@@ -153,8 +179,8 @@ export default async function PanchakPage() {
         hub="spirituality"
         crumbs={localizedCrumbs(
           t.homeName,
-          [isHi ? "शुभ मुहूर्त" : "Muhurat", PATHS.muhurat],
-          [isHi ? "पंचक विचार" : "Panchak", PATHS.panchak],
+          [isTe ? "శుభ ముహూర్తాలు" : isHi ? "शुभ मुहूर्त" : "Muhurat", PATHS.muhurat],
+          [isTe ? "పంచక విచారం" : isHi ? "पंचक विचार" : "Panchak", PATHS.panchak],
         )}
       />
 

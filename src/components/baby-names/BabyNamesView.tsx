@@ -29,6 +29,7 @@ import { useLocale } from "@/lib/i18n/client";
 export function BabyNamesView() {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const [mode, setMode] = useState<"nakshatra" | "rashi" | "all">("nakshatra");
   const [selectedNakshatraIdx, setSelectedNakshatraIdx] = useState<number>(0);
@@ -65,7 +66,9 @@ export function BabyNamesView() {
   }
 
   function handleShare(item: VedicBabyName) {
-    const text = isHi
+    const text = isTe
+      ? `🕉️ వైదిక నామం: ${item.name} (${item.nameHi})\nఅర్థం: ${item.meaning}\nనక్షత్రం: ${item.nakshatra} · రాశి: ${item.rashi}\n\nభక్తి వాయిస్ లో మరిన్ని వైదిక శిశు నామాలు చూడండి: ${typeof window !== "undefined" ? window.location.href : ""}`
+      : isHi
       ? `🕉️ वैदिक नाम: ${item.nameHi} (${item.name})\nअर्थ: ${item.meaningHi}\nनक्षत्र: ${item.nakshatraHi} · राशि: ${item.rashiHi}\n\nBhaktiVoice पर अपने शिशु के लिए वैदिक नामकरण देखें: ${typeof window !== "undefined" ? window.location.href : ""}`
       : `🕉️ Vedic Baby Name: ${item.name} (${item.nameHi})\nMeaning: ${item.meaning}\nNakshatra: ${item.nakshatra} · Rashi: ${item.rashi}\n\nFind auspicious Vedic baby names on BhaktiVoice: ${typeof window !== "undefined" ? window.location.href : ""}`;
 
@@ -157,7 +160,7 @@ export function BabyNamesView() {
                 <Baby className="h-4 w-4" />
               </span>
               <h2 className="font-serif text-xl sm:text-2xl font-bold text-ink">
-                {isHi ? "वैदिक नामकरण शोधक (Baby Names)" : "Vedic Baby Names by Nakshatra & Rashi"}
+                {isTe ? "నక్షత్రం & రాశి ప్రకారం శిశువుల పేర్లు" : isHi ? "वैदिक नामकरण शोधक (Baby Names)" : "Vedic Baby Names by Nakshatra & Rashi"}
               </h2>
             </div>
             <p className="mt-1 text-xs sm:text-sm text-muted">
@@ -182,7 +185,7 @@ export function BabyNamesView() {
               }`}
             >
               <Sparkles className="h-3.5 w-3.5" />
-              <span>{isHi ? "नक्षत्र अनुसार" : "By Nakshatra"}</span>
+              <span>{isTe ? "నక్షత్రం ప్రకారం" : isHi ? "नक्षत्र अनुसार" : "By Nakshatra"}</span>
             </button>
             <button
               type="button"
@@ -197,7 +200,7 @@ export function BabyNamesView() {
               }`}
             >
               <Moon className="h-3.5 w-3.5" />
-              <span>{isHi ? "राशि अनुसार" : "By Rashi"}</span>
+              <span>{isTe ? "రాశి ప్రకారం" : isHi ? "राशि अनुसार" : "By Rashi"}</span>
             </button>
             <button
               type="button"
@@ -212,7 +215,7 @@ export function BabyNamesView() {
               }`}
             >
               <Compass className="h-3.5 w-3.5" />
-              <span>{isHi ? "सभी नाम" : "All Names"}</span>
+              <span>{isTe ? "అన్ని పేర్లు" : isHi ? "सभी नाम" : "All Names"}</span>
             </button>
             <button
               type="button"
@@ -224,7 +227,7 @@ export function BabyNamesView() {
               }`}
             >
               <Bookmark className="h-3.5 w-3.5" />
-              <span>{isHi ? `पसंदीदा (${favorites.length})` : `Favorites (${favorites.length})`}</span>
+              <span>{isTe ? `ఇష్టమైనవి (${favorites.length})` : isHi ? `पसंदीदा (${favorites.length})` : `Favorites (${favorites.length})`}</span>
             </button>
           </div>
         </div>
@@ -234,7 +237,7 @@ export function BabyNamesView() {
           <div className="mt-5 space-y-4">
             <div>
               <label className="block text-xs font-bold text-muted uppercase tracking-wider mb-2">
-                {isHi ? "1. जन्म नक्षत्र चुनें (27 नक्षत्र)" : "1. Select Janma Nakshatra (27 Constellations)"}
+                {isTe ? "1. జన్మ నక్షత్రాన్ని ఎంచుకోండి (27 నక్షత్రాలు)" : isHi ? "1. जन्म नक्षत्र चुनें (27 नक्षत्र)" : "1. Select Janma Nakshatra (27 Constellations)"}
               </label>
               <div className="grid grid-cols-3 sm:grid-cols-6 lg:grid-cols-9 gap-1.5">
                 {NAKSHATRA_SYLLABLES.map((nak, idx) => (
@@ -286,7 +289,7 @@ export function BabyNamesView() {
                         : "bg-white text-muted hover:text-ink"
                     }`}
                   >
-                    {isHi ? "सभी पाद" : "All Padas"}
+                    {isTe ? "అన్ని పాదాలు" : isHi ? "सभी पाद" : "All Padas"}
                   </button>
                   {[1, 2, 3, 4].map((pNum) => {
                     const sylEn = currentNakshatra.padas[pNum - 1];
@@ -316,7 +319,7 @@ export function BabyNamesView() {
         {mode === "rashi" && !onlyFavorites && (
           <div className="mt-5">
             <label className="block text-xs font-bold text-muted uppercase tracking-wider mb-2">
-              {isHi ? "अपनी चंद्र राशि चुनें (12 राशियां)" : "Select Moon Sign (12 Rashis)"}
+              {isTe ? "మీ చంద్ర రాశిని ఎంచుకోండి (12 రాశులు)" : isHi ? "अपनी चंद्र राशि चुनें (12 राशियां)" : "Select Moon Sign (12 Rashis)"}
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2">
               {RASHI_LETTERS.map((rashi, idx) => {
@@ -352,7 +355,7 @@ export function BabyNamesView() {
           {/* Gender Filter Pills */}
           <div className="flex items-center gap-1.5 text-xs">
             <span className="text-muted font-bold text-[11px] uppercase mr-1">
-              {isHi ? "लिंग:" : "Gender:"}
+              {isTe ? "లింగం:" : isHi ? "लिंग:" : "Gender:"}
             </span>
             {(["all", "boy", "girl", "unisex"] as const).map((g) => (
               <button
@@ -391,7 +394,7 @@ export function BabyNamesView() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={isHi ? "नाम या अर्थ खोजें..." : "Search name or meaning..."}
+              placeholder={isTe ? "పేరు లేదా అర్థాన్ని వెతకండి..." : isHi ? "नाम या अर्थ खोजें..." : "Search name or meaning..."}
               className="w-full rounded-xl border border-line bg-white pl-9 pr-3 py-1.5 text-xs text-ink placeholder:text-muted focus:border-saffron focus:outline-none"
             />
           </div>
@@ -411,7 +414,7 @@ export function BabyNamesView() {
             onClick={() => setOnlyFavorites(false)}
             className="text-xs font-bold text-saffron-deep hover:underline"
           >
-            {isHi ? "← वापस सभी नाम देखें" : "← View all names"}
+            {isTe ? "← అన్ని పేర్లు చూడండి" : isHi ? "← वापस सभी नाम देखें" : "← View all names"}
           </button>
         )}
       </div>
@@ -421,7 +424,7 @@ export function BabyNamesView() {
         <div className="rounded-3xl border border-dashed border-sand bg-white p-12 text-center">
           <Baby className="mx-auto h-10 w-10 text-muted/40" />
           <h3 className="mt-3 font-serif text-lg font-bold text-ink">
-            {isHi ? "कोई नाम नहीं मिला" : "No Matching Names Found"}
+            {isTe ? "ఎటువంటి పేర్లు లభించలేదు" : isHi ? "कोई नाम नहीं मिला" : "No Matching Names Found"}
           </h3>
           <p className="mt-1 text-xs text-muted max-w-md mx-auto">
             {isHi
@@ -438,7 +441,7 @@ export function BabyNamesView() {
             }}
             className="mt-4 rounded-xl bg-saffron px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-saffron-deep transition"
           >
-            {isHi ? "फ़िल्टर रीसेट करें" : "Reset Filters"}
+            {isTe ? "ఫిల్టర్లను రీసెట్ చేయండి" : isHi ? "फ़िल्टर रीसेट करें" : "Reset Filters"}
           </button>
         </div>
       ) : (
@@ -491,7 +494,7 @@ export function BabyNamesView() {
                         type="button"
                         onClick={() => handleShare(item)}
                         className="rounded-full p-1.5 text-muted hover:bg-sand/30 hover:text-ink transition"
-                        title={isHi ? "शेयर करें" : "Share"}
+                        title={isTe ? "షేర్ చేయండి" : isHi ? "शेयर करें" : "Share"}
                       >
                         {isCopied ? (
                           <Check className="h-3.5 w-3.5 text-emerald-600" />
@@ -559,7 +562,7 @@ export function BabyNamesView() {
             <Info className="h-4 w-4" />
           </span>
           <h3 className="font-serif text-xl sm:text-2xl font-bold text-ink">
-            {isHi ? "वैदिक नामकरण संस्कार — शास्त्रीय विधि एवं महत्व" : "Vedic Namkaran Samskara — Ancient Classical Guidelines"}
+            {isTe ? "వైదిక నామకరణ సంస్కారం — శాస్త్రీయ పద్ధతి మరియు ప్రాముఖ్యత" : isHi ? "वैदिक नामकरण संस्कार — शास्त्रीय विधि एवं महत्व" : "Vedic Namkaran Samskara — Ancient Classical Guidelines"}
           </h3>
         </div>
 

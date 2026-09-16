@@ -39,11 +39,12 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function ManglikDoshaPage() {
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const breadcrumbs = localizedCrumbs(
     t.homeName,
-    [isHi ? "कुंडली" : "Kundli", PATHS.kundli],
-    [isHi ? "मांगलिक दोष कैलकुलेटर" : "Manglik Dosha Calculator", PATHS.manglikDosha]
+    [isTe ? "కుండలి" : isHi ? "कुंडली" : "Kundli", PATHS.kundli],
+    [isTe ? "మాంగ్లిక్ దోష కాలిక్యులేటర్" : isHi ? "मांगलिक दोष कैलकुलेटर" : "Manglik Dosha Calculator", PATHS.manglikDosha]
   );
 
   const faqs = [

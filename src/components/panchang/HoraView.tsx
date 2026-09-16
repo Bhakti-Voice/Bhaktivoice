@@ -22,6 +22,7 @@ import { useLocale } from "@/lib/i18n/client";
 export function HoraView({ initialCityId }: { initialCityId?: string }) {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const [city, setCity] = useState<CityConfig>(() => getCityById(initialCityId));
   const [tab, setTab] = useState<"day" | "night">("day");
@@ -75,7 +76,7 @@ export function HoraView({ initialCityId }: { initialCityId?: string }) {
   }, [sunrise, sunset, nextSunrise, weekday, now]);
 
   const formatTime = (d: Date) => {
-    return new Intl.DateTimeFormat(isHi ? "hi-IN" : "en-IN", {
+    return new Intl.DateTimeFormat(isTe ? "te-IN" : isHi ? "hi-IN" : "en-IN", {
       timeZone: city.timeZone,
       hour: "numeric",
       minute: "2-digit",
@@ -110,7 +111,7 @@ export function HoraView({ initialCityId }: { initialCityId?: string }) {
                 dateOffset === -1 ? "bg-maroon text-white shadow-xs" : "bg-white text-ink hover:bg-sand/40 border border-line"
               }`}
             >
-              {isHi ? "कल (बीता हुआ)" : "Yesterday"}
+              {isTe ? "నిన్న" : isHi ? "कल (बीता हुआ)" : "Yesterday"}
             </button>
             <button
               onClick={() => setDateOffset(0)}
@@ -118,7 +119,7 @@ export function HoraView({ initialCityId }: { initialCityId?: string }) {
                 dateOffset === 0 ? "bg-maroon text-white shadow-xs" : "bg-white text-ink hover:bg-sand/40 border border-line"
               }`}
             >
-              {isHi ? "आज" : "Today"}
+              {isTe ? "ఈరోజు" : isHi ? "आज" : "Today"}
             </button>
             <button
               onClick={() => setDateOffset(1)}
@@ -126,7 +127,7 @@ export function HoraView({ initialCityId }: { initialCityId?: string }) {
                 dateOffset === 1 ? "bg-maroon text-white shadow-xs" : "bg-white text-ink hover:bg-sand/40 border border-line"
               }`}
             >
-              {isHi ? "कल (आने वाला)" : "Tomorrow"}
+              {isTe ? "రేపు" : isHi ? "कल (आने वाला)" : "Tomorrow"}
             </button>
           </div>
 
@@ -160,7 +161,7 @@ export function HoraView({ initialCityId }: { initialCityId?: string }) {
               </div>
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-muted">
-                  {isHi ? "अभी सक्रिय ग्रह होरा" : "Currently Active Planetary Hora"}
+                  {isTe ? "ప్రస్తుతం నడుస్తున్న గ్రహ హోరా" : isHi ? "अभी सक्रिय ग्रह होरा" : "Currently Active Planetary Hora"}
                 </span>
                 <h3 className="font-serif text-xl font-bold text-ink">
                   {isHi ? `${horaSchedule.currentHora.rulerHi} होरा` : `${horaSchedule.currentHora.ruler} Hora`}{" "}
@@ -176,7 +177,7 @@ export function HoraView({ initialCityId }: { initialCityId?: string }) {
               className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-line bg-white px-4 py-2 text-xs font-semibold text-ink shadow-2xs hover:bg-sand/30"
             >
               {copied ? <Check className="h-4 w-4 text-emerald-600" /> : <Copy className="h-4 w-4" />}
-              {copied ? (isHi ? "कॉपी हो गया!" : "Copied!") : (isHi ? "कॉपी करें" : "Copy Schedule")}
+              {copied ? (isTe ? "కాపీ అయింది!" : isHi ? "कॉपी हो गया!" : "Copied!") : (isTe ? "కాపీ చేయండి" : isHi ? "कॉपी करें" : "Copy Schedule")}
             </button>
           </div>
         </div>
@@ -187,7 +188,7 @@ export function HoraView({ initialCityId }: { initialCityId?: string }) {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-line pb-5">
           <div>
             <h2 className="font-serif text-2xl font-bold text-ink">
-              {isHi ? "दैनिक 24 ग्रह होरा समय सारणी" : "24 Planetary Horas Schedule"}
+              {isTe ? "దిన 24 గ్రహ హోరా సమయ పట్టిక" : isHi ? "दैनिक 24 ग्रह होरा समय सारणी" : "24 Planetary Horas Schedule"}
             </h2>
             <p className="text-xs text-muted">
               {isHi
@@ -204,7 +205,7 @@ export function HoraView({ initialCityId }: { initialCityId?: string }) {
               }`}
             >
               <Sun className="h-4 w-4 text-amber-500" />
-              {isHi ? "दिन की होरा (12)" : "Day Horas (12)"}
+              {isTe ? "పగటి హోరalu (12)" : isHi ? "दिन की होरा (12)" : "Day Horas (12)"}
             </button>
             <button
               onClick={() => setTab("night")}
@@ -213,7 +214,7 @@ export function HoraView({ initialCityId }: { initialCityId?: string }) {
               }`}
             >
               <Moon className="h-4 w-4 text-indigo-500" />
-              {isHi ? "रात की होरा (12)" : "Night Horas (12)"}
+              {isTe ? "రాత్రి హోరalu (12)" : isHi ? "रात की होरा (12)" : "Night Horas (12)"}
             </button>
           </div>
         </div>
@@ -267,7 +268,7 @@ export function HoraView({ initialCityId }: { initialCityId?: string }) {
                 </div>
 
                 <div className="mt-2.5 border-t border-line/60 pt-2 text-xs text-muted">
-                  <span className="font-medium text-ink">{isHi ? "श्रेष्ठ कार्य:" : "Favorable for:"}</span>
+                  <span className="font-medium text-ink">{isTe ? "అనుకూల పనులు:" : isHi ? "श्रेष्ठ कार्य:" : "Favorable for:"}</span>
                   <p className="mt-0.5 text-[11px] leading-relaxed text-ink/80">
                     {(isHi ? h.bestTasksHi : h.bestTasksEn).slice(0, 2).join(", ")}
                   </p>

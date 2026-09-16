@@ -11,8 +11,39 @@ interface HomeDailyVedicHubProps {
   data: HomeVedicData;
 }
 
+const RASHI_NAMES_TE: Record<string, string> = {
+  aries: "మేషం",
+  taurus: "వృషభం",
+  gemini: "మిథునం",
+  cancer: "కర్కాటకం",
+  leo: "సింహం",
+  virgo: "కన్య",
+  libra: "తుల",
+  scorpio: "వృశ్చికం",
+  sagittarius: "ధనుస్సు",
+  capricorn: "మకరం",
+  aquarius: "కుంభం",
+  pisces: "మీనం",
+};
+
+const RASHI_RULER_TE: Record<string, string> = {
+  aries: "కుజుడు",
+  taurus: "శుక్రుడు",
+  gemini: "బుధుడు",
+  cancer: "చంద్రుడు",
+  leo: "సూర్యుడు",
+  virgo: "బుధుడు",
+  libra: "శుక్రుడు",
+  scorpio: "కుజుడు",
+  sagittarius: "గురుడు",
+  capricorn: "శని",
+  aquarius: "శని",
+  pisces: "గురుడు",
+};
+
 export function HomeDailyVedicHub({ locale, data }: HomeDailyVedicHubProps) {
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const { panchang, days, rashifalList, formattedToday, monthLabel, upcomingObservances } = data;
 
   // Selected Rashi state (defaults to Aries or based on current moon sign)
@@ -22,7 +53,9 @@ export function HomeDailyVedicHub({ locale, data }: HomeDailyVedicHubProps) {
     [rashifalList, selectedRashiId],
   );
 
-  const weekdaysShort = isHi
+  const weekdaysShort = isTe
+    ? ["ఆది", "సోమ", "మంగళ", "బుధ", "గురు", "శుక్ర", "శని"]
+    : isHi
     ? ["रवि", "सोम", "मं", "बुध", "गुरु", "शुक्र", "शनि"]
     : ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
@@ -34,14 +67,20 @@ export function HomeDailyVedicHub({ locale, data }: HomeDailyVedicHubProps) {
           <div className="flex items-center gap-2">
             <span className="inline-block h-2.5 w-2.5 rounded-full bg-saffron animate-pulse" />
             <span className="text-xs font-bold uppercase tracking-widest text-maroon">
-              {isHi ? "दैनिक वैदिक मार्गदर्शन" : "Daily Vedic Wisdom"}
+              {isTe ? "దిన వైదిక మార్గదర్శనం" : isHi ? "दैनिक वैदिक मार्गदर्शन" : "Daily Vedic Wisdom"}
             </span>
           </div>
           <h2 className="mt-1 font-serif text-2xl font-bold tracking-tight text-ink sm:text-3xl">
-            {isHi ? "आज का पञ्चाङ्ग • कैलेंडर • राशिफल" : "Today's Panchang • Calendar • Horoscope"}
+            {isTe
+              ? "నేటి పంచాంగం • క్యాలెండర్ • రాశిఫలాలు"
+              : isHi
+              ? "आज का पञ्चाङ्ग • कैलेंडर • राशिफल"
+              : "Today's Panchang • Calendar • Horoscope"}
           </h2>
           <p className="mt-1 text-xs sm:text-sm text-muted">
-            {isHi
+            {isTe
+              ? "ఖచ్చితమైన దిన పంచాంగం, చంద్ర క్యాలెండర్ మరియు 12 రాశుల దిన భవిష్యత్తు"
+              : isHi
               ? "सटीक दैनिक वैदिक पंचांग, मासिक चंद्र कैलेंडर एवं १२ राशियों का दैनिक भविष्यफल"
               : "Live daily updated Vedic Panchang, lunar calendar timings & 12 Rashi forecasts"}
           </p>
@@ -65,10 +104,10 @@ export function HomeDailyVedicHub({ locale, data }: HomeDailyVedicHubProps) {
                 </span>
                 <div>
                   <h3 className="font-serif text-lg font-bold text-ink sm:text-xl">
-                    {isHi ? "आज का पञ्चाङ्ग" : "Today's Panchang"}
+                    {isTe ? "నేటి పంచాంగం" : isHi ? "आज का पञ्चाङ्ग" : "Today's Panchang"}
                   </h3>
                   <p className="text-xs text-muted">
-                    {panchang.masaPurnimantaHi} • संवत {panchang.vikramSamvat}
+                    {panchang.masaPurnimantaHi} • {isTe ? `సంవత్సరం ${panchang.vikramSamvat}` : isHi ? `संवत ${panchang.vikramSamvat}` : `Samvat ${panchang.vikramSamvat}`}
                   </p>
                 </div>
               </div>
@@ -76,7 +115,7 @@ export function HomeDailyVedicHub({ locale, data }: HomeDailyVedicHubProps) {
                 href={PATHS.panchangToday}
                 className="text-xs sm:text-sm font-bold text-saffron-deep hover:underline"
               >
-                {isHi ? "विस्तार →" : "Details →"}
+                {isTe ? "వివరాలు →" : isHi ? "विस्तार →" : "Details →"}
               </LocaleLink>
             </div>
 
@@ -84,51 +123,69 @@ export function HomeDailyVedicHub({ locale, data }: HomeDailyVedicHubProps) {
             <div className="mt-4 grid grid-cols-2 gap-2.5 text-xs sm:text-sm">
               <div className="rounded-xl border border-[#edd8c4] bg-[#fdf8f0] p-3">
                 <span className="block text-[11px] uppercase font-bold text-muted">
-                  {isHi ? "तिथि" : "Tithi"}
+                  {isTe ? "తిథి" : isHi ? "तिथि" : "Tithi"}
                 </span>
                 <span className="mt-0.5 block font-bold text-ink text-sm sm:text-base truncate">
-                  {isHi ? panchang.tithiNameHi : panchang.tithiName}
+                  {isTe ? panchang.tithiNameHi : isHi ? panchang.tithiNameHi : panchang.tithiName}
                 </span>
                 <span className="text-xs text-muted truncate block">
-                  {panchang.paksha === "shukla" ? (isHi ? "शुक्ल पक्ष" : "Shukla") : (isHi ? "कृष्ण पक्ष" : "Krishna")}
+                  {panchang.paksha === "shukla"
+                    ? isTe
+                      ? "శుక్ల పక్షం"
+                      : isHi
+                      ? "शुक्ल पक्ष"
+                      : "Shukla"
+                    : isTe
+                    ? "కృష్ణ పక్షం"
+                    : isHi
+                    ? "कृष्ण पक्ष"
+                    : "Krishna"}
                 </span>
               </div>
 
               <div className="rounded-xl border border-[#edd8c4] bg-[#fdf8f0] p-3">
                 <span className="block text-[11px] uppercase font-bold text-muted">
-                  {isHi ? "नक्षत्र" : "Nakshatra"}
+                  {isTe ? "నక్షత్రం" : isHi ? "नक्षत्र" : "Nakshatra"}
                 </span>
                 <span className="mt-0.5 block font-bold text-ink text-sm sm:text-base truncate">
-                  {isHi ? panchang.nakshatraNameHi : panchang.nakshatraName}
+                  {isTe ? panchang.nakshatraNameHi : isHi ? panchang.nakshatraNameHi : panchang.nakshatraName}
                 </span>
                 <span className="text-xs text-muted block">
-                  {isHi ? `पाद ${panchang.nakshatraPada}` : `Pada ${panchang.nakshatraPada}`}
+                  {isTe
+                    ? `పాదం ${panchang.nakshatraPada}`
+                    : isHi
+                    ? `पाद ${panchang.nakshatraPada}`
+                    : `Pada ${panchang.nakshatraPada}`}
                 </span>
               </div>
 
               <div className="rounded-xl border border-emerald-200 bg-emerald-50/60 p-3">
                 <span className="block text-[11px] uppercase font-bold text-emerald-800">
-                  {isHi ? "शुभ मुहूर्त (अभिजित)" : "Abhijit Muhurat"}
+                  {isTe ? "శుభ ముహూర్తం (అభిజిత్)" : isHi ? "शुभ मुहूर्त (अभिजित)" : "Abhijit Muhurat"}
                 </span>
                 <span className="mt-0.5 block font-bold text-emerald-950 text-sm sm:text-base truncate">
                   {panchang.abhijitTime
                     ? panchang.abhijitTime
-                    : (isHi ? "बुधवार परिहार" : "None Today")}
+                    : isTe
+                    ? "ఈరోజు లేదు"
+                    : isHi
+                    ? "बुधवार परिहार"
+                    : "None Today"}
                 </span>
                 <span className="text-xs text-emerald-700">
-                  {isHi ? "श्रेष्ठ शुभ समय" : "Most Auspicious"}
+                  {isTe ? "శ్రేష్ఠమైన శుభ సమయం" : isHi ? "श्रेष्ठ शुभ समय" : "Most Auspicious"}
                 </span>
               </div>
 
               <div className="rounded-xl border border-rose-200 bg-rose-50/60 p-3">
                 <span className="block text-[11px] uppercase font-bold text-rose-800">
-                  {isHi ? "राहु काल (अशुभ)" : "Rahu Kaal"}
+                  {isTe ? "రాహు కాలం (అశుభం)" : isHi ? "राहु काल (अशुभ)" : "Rahu Kaal"}
                 </span>
                 <span className="mt-0.5 block font-bold text-rose-950 text-sm sm:text-base truncate">
                   {panchang.rahuKaalTime}
                 </span>
                 <span className="text-xs text-rose-700">
-                  {isHi ? "शुभ कार्य वर्जित" : "Avoid Key Work"}
+                  {isTe ? "శుభ కార్యాలు నిషిద్ధం" : isHi ? "शुभ कार्य वर्जित" : "Avoid Key Work"}
                 </span>
               </div>
             </div>
@@ -140,7 +197,8 @@ export function HomeDailyVedicHub({ locale, data }: HomeDailyVedicHubProps) {
                 <span>{panchang.sunTimes}</span>
               </div>
               <div className="text-muted truncate">
-                {isHi ? panchang.yogaNameHi : panchang.yogaName} • {isHi ? panchang.karanaNameHi : panchang.karanaName}
+                {isTe ? panchang.yogaNameHi : isHi ? panchang.yogaNameHi : panchang.yogaName} •{" "}
+                {isTe ? panchang.karanaNameHi : isHi ? panchang.karanaNameHi : panchang.karanaName}
               </div>
             </div>
 
@@ -151,26 +209,26 @@ export function HomeDailyVedicHub({ locale, data }: HomeDailyVedicHubProps) {
                 className="inline-flex items-center gap-1 rounded-lg border border-amber-300 bg-amber-50/80 px-2.5 py-1 text-[11px] font-semibold text-amber-900 hover:bg-amber-100 transition"
               >
                 <Clock className="h-3 w-3 text-amber-700" />
-                <span>{isHi ? "आज का चौघड़िया" : "Choghadiya"}</span>
+                <span>{isTe ? "నేటి చోఘడియా" : isHi ? "आज का चौघड़िया" : "Choghadiya"}</span>
               </LocaleLink>
               <LocaleLink
                 href={PATHS.hora}
                 className="inline-flex items-center gap-1 rounded-lg border border-amber-300 bg-amber-50/80 px-2.5 py-1 text-[11px] font-semibold text-amber-900 hover:bg-amber-100 transition"
               >
                 <Sparkles className="h-3 w-3 text-amber-700" />
-                <span>{isHi ? "ग्रह होरा" : "Planetary Hora"}</span>
+                <span>{isTe ? "గ్రహ హోరా" : isHi ? "ग्रह होरा" : "Planetary Hora"}</span>
               </LocaleLink>
               <LocaleLink
                 href={PATHS.panchak}
                 className="inline-flex items-center gap-1 rounded-lg border border-amber-300 bg-amber-50/80 px-2 py-1 text-[11px] font-semibold text-amber-900 hover:bg-amber-100 transition"
               >
-                <span>{isHi ? "पंचक" : "Panchak"}</span>
+                <span>{isTe ? "పంచకం" : isHi ? "पंचक" : "Panchak"}</span>
               </LocaleLink>
               <LocaleLink
                 href={PATHS.bhadra}
                 className="inline-flex items-center gap-1 rounded-lg border border-amber-300 bg-amber-50/80 px-2 py-1 text-[11px] font-semibold text-amber-900 hover:bg-amber-100 transition"
               >
-                <span>{isHi ? "भद्रा" : "Bhadra"}</span>
+                <span>{isTe ? "భద్రా" : isHi ? "भद्रा" : "Bhadra"}</span>
               </LocaleLink>
             </div>
           </div>
@@ -181,14 +239,14 @@ export function HomeDailyVedicHub({ locale, data }: HomeDailyVedicHubProps) {
               href={PATHS.panchangToday}
               className="inline-flex items-center gap-1.5 rounded-full bg-saffron px-4 py-2 text-xs sm:text-sm font-semibold text-white hover:bg-saffron-deep transition-colors"
             >
-              <span>{isHi ? "सम्पूर्ण पंचांग" : "Full Panchang"}</span>
+              <span>{isTe ? "సంపూర్ణ పంచాంగం" : isHi ? "सम्पूर्ण पंचांग" : "Full Panchang"}</span>
               <ArrowRight className="h-3.5 w-3.5" />
             </LocaleLink>
             <LocaleLink
               href={PATHS.muhurat}
               className="text-xs sm:text-sm font-semibold text-muted hover:text-maroon transition-colors"
             >
-              {isHi ? "मुहूर्त व चौघड़िया →" : "All Muhurats →"}
+              {isTe ? "ముహూర్తాలు & చోఘడియా →" : isHi ? "मुहूर्त व चौघड़िया →" : "All Muhurats →"}
             </LocaleLink>
           </div>
         </div>
@@ -204,7 +262,7 @@ export function HomeDailyVedicHub({ locale, data }: HomeDailyVedicHubProps) {
                 </span>
                 <div>
                   <h3 className="font-serif text-lg font-bold text-ink sm:text-xl">
-                    {isHi ? "हिन्दू कैलेंडर" : "Hindu Calendar"}
+                    {isTe ? "హిందూ క్యాలెండర్" : isHi ? "हिन्दू कैलेंडर" : "Hindu Calendar"}
                   </h3>
                   <p className="text-xs text-muted">{monthLabel}</p>
                 </div>
@@ -213,7 +271,7 @@ export function HomeDailyVedicHub({ locale, data }: HomeDailyVedicHubProps) {
                 href={PATHS.calendar}
                 className="text-xs sm:text-sm font-bold text-saffron-deep hover:underline"
               >
-                {isHi ? "कैलेंडर →" : "Calendar →"}
+                {isTe ? "క్యాలెండర్ →" : isHi ? "कैलेंडर →" : "Calendar →"}
               </LocaleLink>
             </div>
 
@@ -240,8 +298,8 @@ export function HomeDailyVedicHub({ locale, data }: HomeDailyVedicHubProps) {
                         isCurrentDay
                           ? "bg-saffron text-white font-bold shadow-xs"
                           : day.isCurrentMonth
-                            ? "text-ink hover:bg-[#fae7cf]/60"
-                            : "text-muted/40"
+                          ? "text-ink hover:bg-[#fae7cf]/60"
+                          : "text-muted/40"
                       }`}
                       title={day.observanceTitle}
                     >
@@ -260,7 +318,7 @@ export function HomeDailyVedicHub({ locale, data }: HomeDailyVedicHubProps) {
             {upcomingObservances.length > 0 && (
               <div className="mt-3.5 rounded-xl bg-[#fbf3e7] p-2.5 text-xs sm:text-sm border border-[#edd8c4]">
                 <span className="block text-xs font-bold text-maroon uppercase tracking-wider mb-1">
-                  {isHi ? "आगामी प्रमुख व्रत व पर्व" : "Upcoming Sacred Days"}
+                  {isTe ? "రాబోయే ముఖ్య వ్రతాలు & పండుగలు" : isHi ? "आगामी प्रमुख व्रत व पर्व" : "Upcoming Sacred Days"}
                 </span>
                 <div className="flex flex-wrap gap-1.5">
                   {upcomingObservances.map((obs, i) => (
@@ -269,7 +327,7 @@ export function HomeDailyVedicHub({ locale, data }: HomeDailyVedicHubProps) {
                       className="inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-0.5 text-xs font-semibold text-ink border border-line"
                     >
                       <span className="h-1.5 w-1.5 rounded-full bg-saffron" />
-                      {obs.dateNumber} {isHi ? "तारीख" : "th"}: {obs.name}
+                      {obs.dateNumber} {isTe ? "తేదీ" : isHi ? "तारीख" : "th"}: {obs.name}
                     </span>
                   ))}
                 </div>
@@ -283,14 +341,14 @@ export function HomeDailyVedicHub({ locale, data }: HomeDailyVedicHubProps) {
               href={PATHS.calendar}
               className="inline-flex items-center gap-1.5 rounded-full bg-saffron px-4 py-2 text-xs sm:text-sm font-semibold text-white hover:bg-saffron-deep transition-colors"
             >
-              <span>{isHi ? "सम्पूर्ण कैलेंडर" : "Full Calendar"}</span>
+              <span>{isTe ? "సంపూర్ణ క్యాలెండర్" : isHi ? "सम्पूर्ण कैलेंडर" : "Full Calendar"}</span>
               <ArrowRight className="h-3.5 w-3.5" />
             </LocaleLink>
             <LocaleLink
               href={PATHS.vratUpavas}
               className="text-xs sm:text-sm font-semibold text-muted hover:text-maroon transition-colors"
             >
-              {isHi ? "व्रत व उपवास सूची →" : "All Vrats →"}
+              {isTe ? "వ్రతాలు & ఉపవాసాల జాబితా →" : isHi ? "व्रत व उपवास सूची →" : "All Vrats →"}
             </LocaleLink>
           </div>
         </div>
@@ -306,10 +364,10 @@ export function HomeDailyVedicHub({ locale, data }: HomeDailyVedicHubProps) {
                 </span>
                 <div>
                   <h3 className="font-serif text-lg font-bold text-ink sm:text-xl">
-                    {isHi ? "आज का राशिफल" : "Today's Horoscope"}
+                    {isTe ? "నేటి రాశిఫలాలు" : isHi ? "आज का राशिफल" : "Today's Horoscope"}
                   </h3>
                   <p className="text-xs text-muted">
-                    {isHi ? "दैनिक ग्रह गोचर फल" : "Daily Planetary Guidance"}
+                    {isTe ? "దిన గ్రహ గోచార ఫలితాలు" : isHi ? "दैनिक ग्रह गोचर फल" : "Daily Planetary Guidance"}
                   </p>
                 </div>
               </div>
@@ -317,18 +375,19 @@ export function HomeDailyVedicHub({ locale, data }: HomeDailyVedicHubProps) {
                 href={PATHS.kundli}
                 className="text-xs sm:text-sm font-bold text-saffron-deep hover:underline"
               >
-                {isHi ? "कुंडली →" : "Kundli →"}
+                {isTe ? "కుండలి →" : isHi ? "कुंडली →" : "Kundli →"}
               </LocaleLink>
             </div>
 
-            {/* 12 Rashi Interactive Chips (Horizontal scrollable or wrap) */}
+            {/* 12 Rashi Interactive Chips */}
             <div className="mt-3.5">
               <p className="text-xs font-bold text-muted uppercase tracking-wider mb-2">
-                {isHi ? "अपनी राशि चुनें:" : "Select your Rashi:"}
+                {isTe ? "మీ రాశిని ఎంచుకోండి:" : isHi ? "अपनी राशि चुनें:" : "Select your Rashi:"}
               </p>
               <div className="flex flex-wrap gap-1.5">
                 {rashifalList.map((rashi) => {
                   const isSelected = rashi.id === selectedRashi.id;
+                  const rashiName = isTe ? RASHI_NAMES_TE[rashi.id] || rashi.nameHi : isHi ? rashi.nameHi : rashi.nameEn;
                   return (
                     <button
                       key={rashi.id}
@@ -341,7 +400,7 @@ export function HomeDailyVedicHub({ locale, data }: HomeDailyVedicHubProps) {
                       }`}
                     >
                       <span>{rashi.symbol} </span>
-                      <span>{isHi ? rashi.nameHi : rashi.nameEn}</span>
+                      <span>{rashiName}</span>
                     </button>
                   );
                 })}
@@ -352,29 +411,29 @@ export function HomeDailyVedicHub({ locale, data }: HomeDailyVedicHubProps) {
             <div className="mt-3.5 rounded-2xl bg-[#fdf8f0] border border-[#edd8c4] p-3.5 text-xs sm:text-sm">
               <div className="flex items-center justify-between border-b border-line/60 pb-2 mb-2">
                 <span className="font-serif font-bold text-ink text-sm sm:text-base">
-                  {selectedRashi.symbol} {isHi ? selectedRashi.nameHi : selectedRashi.nameEn}
+                  {selectedRashi.symbol} {isTe ? RASHI_NAMES_TE[selectedRashi.id] || selectedRashi.nameHi : isHi ? selectedRashi.nameHi : selectedRashi.nameEn}
                   <span className="text-xs font-normal text-muted ml-1.5">
-                    ({isHi ? `स्वामी: ${selectedRashi.rulerHi}` : `Ruler: ${selectedRashi.rulerEn}`})
+                    ({isTe ? `అధిపతి: ${RASHI_RULER_TE[selectedRashi.id] || selectedRashi.rulerHi}` : isHi ? `स्वामी: ${selectedRashi.rulerHi}` : `Ruler: ${selectedRashi.rulerEn}`})
                   </span>
                 </span>
                 <div className="flex items-center gap-2 text-xs">
                   <span className="bg-amber-100 text-amber-900 px-2.5 py-0.5 rounded-full font-bold">
-                    {isHi ? `अंक: ${selectedRashi.luckyNumber}` : `No: ${selectedRashi.luckyNumber}`}
+                    {isTe ? `సంఖ్య: ${selectedRashi.luckyNumber}` : isHi ? `अंक: ${selectedRashi.luckyNumber}` : `No: ${selectedRashi.luckyNumber}`}
                   </span>
                   <span className="bg-orange-100 text-orange-900 px-2.5 py-0.5 rounded-full font-bold truncate max-w-[110px]">
-                    {isHi ? selectedRashi.luckyColorHi : selectedRashi.luckyColorEn}
+                    {isTe ? selectedRashi.luckyColorHi : isHi ? selectedRashi.luckyColorHi : selectedRashi.luckyColorEn}
                   </span>
                 </div>
               </div>
 
               <p className="text-ink/80 leading-relaxed text-xs sm:text-sm">
-                {isHi ? selectedRashi.predictionHi : selectedRashi.predictionEn}
+                {isTe ? selectedRashi.predictionHi : isHi ? selectedRashi.predictionHi : selectedRashi.predictionEn}
               </p>
 
               {/* Remedy / Mantra */}
               <div className="mt-2.5 pt-2 border-t border-line/50 text-xs sm:text-sm text-maroon flex items-center gap-1.5">
-                <span className="font-bold shrink-0">{isHi ? "उपाय:" : "Remedy:"}</span>
-                <span className="truncate text-ink/80">{isHi ? selectedRashi.remedyHi : selectedRashi.remedyEn}</span>
+                <span className="font-bold shrink-0">{isTe ? "పరిహారం:" : isHi ? "उपाय:" : "Remedy:"}</span>
+                <span className="truncate text-ink/80">{isTe ? selectedRashi.remedyHi : isHi ? selectedRashi.remedyHi : selectedRashi.remedyEn}</span>
               </div>
             </div>
           </div>
@@ -385,14 +444,14 @@ export function HomeDailyVedicHub({ locale, data }: HomeDailyVedicHubProps) {
               href={PATHS.kundli}
               className="inline-flex items-center gap-1.5 rounded-full bg-saffron px-4 py-2 text-xs sm:text-sm font-semibold text-white hover:bg-saffron-deep transition-colors"
             >
-              <span>{isHi ? "मुफ्त जन्म कुंडली" : "Free Kundli"}</span>
+              <span>{isTe ? "ఉచిత జన్మ కుండలి" : isHi ? "मुफ्त जन्म कुंडली" : "Free Kundli"}</span>
               <ArrowRight className="h-3.5 w-3.5" />
             </LocaleLink>
             <LocaleLink
               href={PATHS.kundliMilan}
               className="text-xs sm:text-sm font-semibold text-muted hover:text-maroon transition-colors"
             >
-              {isHi ? "३६ गुण मिलान →" : "Kundli Milan →"}
+              {isTe ? "36 గుణాల మిలనం →" : isHi ? "३६ गुण मिलान →" : "Kundli Milan →"}
             </LocaleLink>
           </div>
         </div>

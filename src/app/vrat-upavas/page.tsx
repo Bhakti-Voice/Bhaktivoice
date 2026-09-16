@@ -1,3 +1,26 @@
+const VRAT_FAQS_TE = [
+  {
+    question: "ఏకాదశి ఉపవాసానికి ఖచ్చితమైన పారణ సమయం ఎందుకు ముఖ్యం?",
+    answer:
+      "వైదిక శాస్త్రాల ప్రకారం, నిర్దేశిత ద్వాదశి పారణ సమయంలో కాకుండా ఇతర సమయాల్లో ఉపవాసం విరమిస్తే ఏకాదశి వ్రత పుణ్యం లభించదు. అంతేకాక ద్వాదశి తిథి మొదటి పాదమైన 'హరివాసరం' సమయంలో భోజనం చేయడం పూర్తిగా నిషిద్ధం.",
+  },
+  {
+    question: "ప్రదోష వ్రత పూజకు ఏ సమయం శ్రేష్ఠమైనది?",
+    answer:
+      "త్రయోదశి తిథి నాడు సూర్యాస్తమయ సమయంలో — సూర్యాస్తమయానికి 45 నిమిషాల ముందు నుండి 45 నిమిషాల తర్వాత వరకు — ఉండే సంధ్యా కాలాన్ని ప్రదోష కాలం అంటారు. ఈ సమయంలో పరమశివుని ఆరాధించడం సమస్త దోషాలను తొలగిస్తుంది.",
+  },
+  {
+    question: "సంకష్ట చతుర్థి నాడు చంద్ర దర్శనం ఎందుకు ముఖ్యం?",
+    answer:
+      "శ్రీ గణేశునికి అంకితమైన సంకష్ట చతుర్థి వ్రతం రాత్రి చంద్రుని దర్శించి, పాలు, గరిక మరియు పవిత్ర జలంతో అర్ఘ్యం సమర్పించిన తర్వాతే పరిపూర్ణమవుతుంది.",
+  },
+  {
+    question: "ఉపవాస సమయంలో ఫలహార నియమాలు ఏమిటి?",
+    answer:
+      "ధాన్యాలు, పప్పుదినుసులు, ఉల్లి, వెల్లుల్లి మరియు సాధారణ ఉప్పు తీసుకోకూడదు. సగ్గుబియ్యం, రాజ్‌గిరా పిండి, పాలు, తాజా పండ్లు మరియు సైంధవ లవణం (రాక్ సాల్ట్) స్వీకరించవచ్చు.",
+  },
+];
+
 import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
 import { FaqList } from "@/components/seo/FaqList";
@@ -120,18 +143,19 @@ const FAQS_EN = [
 export default async function VratUpavasHubPage() {
   const locale = await getLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const today = new Date();
   const panchang = getPanchang(today, DEFAULT_CITY);
 
   const crumbs = localizedCrumbs(
-    isHi ? "होम" : "Home",
-    [isHi ? "व्रत एवं उपवास" : "Vrat & Upavas", PATHS.vratUpavas]
+    isTe ? "హోమ్" : isHi ? "होम" : "Home",
+    [isTe ? "వ్రతాలు & ఉపవాసాలు" : isHi ? "व्रत एवं उपवास" : "Vrat & Upavas", PATHS.vratUpavas]
   );
 
   return (
     <div className="min-h-screen bg-[#faf6f0] text-ink pb-16">
       <PageHero
-        title={isHi ? "सनातन व्रत, उपवास एवं पारण निर्देशिका 2026" : "Sanatana Vrat, Upavas & Fasting Guide 2026"}
+        title={isTe ? "సనాతన వ్రతాలు, ఉపవాసాలు & పారణ మార్గదర్శి 2026" : isHi ? "सनातन व्रत, उपवास एवं पारण निर्देशिका 2026" : "Sanatana Vrat, Upavas & Fasting Guide 2026"}
         crumbs={crumbs}
         ornament
       >
@@ -505,7 +529,7 @@ export default async function VratUpavasHubPage() {
           <h2 className="font-serif text-lg font-bold text-ink sm:text-xl mb-4">
             {isHi ? "सनातन व्रत व उपवास से जुड़े सामान्य प्रश्न (FAQ)" : "Frequently Asked Questions about Hindu Vrats"}
           </h2>
-          <FaqList faqs={isHi ? FAQS_HI : FAQS_EN} jsonLd />
+          <FaqList faqs={isTe ? VRAT_FAQS_TE : isHi ? FAQS_HI : FAQS_EN} jsonLd />
         </section>
       </main>
     </div>

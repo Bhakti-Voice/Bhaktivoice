@@ -27,6 +27,7 @@ const RASHI_SYMBOLS = [
 export function SadeSatiTool() {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   // Default to Pisces (Meena - currently under Sade Sati in 2025/2026)
   const [selectedRashi, setSelectedRashi] = useState<number>(11);
@@ -42,7 +43,7 @@ export function SadeSatiTool() {
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="font-serif text-lg font-bold text-ink">
-              {isHi ? "अपनी जन्म राशि (चंद्र राशि) चुनें" : "Select Your Moon Sign (Janma Rashi)"}
+              {isTe ? "మీ జన్మ చంద్ర రాశిని ఎంచుకోండి" : isHi ? "अपनी जन्म राशि (चंद्र राशि) चुनें" : "Select Your Moon Sign (Janma Rashi)"}
             </h2>
             <p className="text-xs text-muted">
               {isHi

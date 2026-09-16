@@ -26,6 +26,7 @@ export function EkadashiCalendarView({
 }) {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const currentYear = useMemo(() => new Date().getFullYear(), []);
   const [year, setYear] = useState<number>(initialYear || currentYear);
@@ -139,7 +140,7 @@ export function EkadashiCalendarView({
           </div>
 
           {/* City Picker Button with 100,000+ cities & auto DST */}
-          <CityPickerButton city={city} onCityChange={handleCityChange} isHi={isHi} />
+          <CityPickerButton city={city} onCityChange={handleCityChange} isHi={isHi} isTe={isTe} />
         </div>
       </div>
 
@@ -152,7 +153,7 @@ export function EkadashiCalendarView({
             <div className="space-y-2">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="rounded-full bg-saffron/15 px-3 py-1 text-xs font-bold text-saffron uppercase tracking-wider">
-                  {isHi ? "आगामी एकादशी" : "Next Upcoming Ekadashi"}
+                  {isTe ? "తరువాతి ఏకాదశి" : isHi ? "आगामी एकादशी" : "Next Upcoming Ekadashi"}
                 </span>
                 <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">
                   {daysUntil === 0
@@ -287,7 +288,7 @@ export function EkadashiCalendarView({
                 <th className="py-3 px-4">{isHi ? "माह / पक्ष" : "Masa / Paksha"}</th>
                 <th className="py-3 px-4">{isHi ? "व्रत दिनांक" : "Fast Date"}</th>
                 <th className="py-3 px-4 text-amber-900 font-bold bg-amber-50/50">
-                  {isHi ? "विहित पारणा समय" : "Parana Time Window"}
+                  {isTe ? "పారణ సమయ వ్యవధి" : isHi ? "विहित पारणा समय" : "Parana Time Window"}
                 </th>
                 <th className="py-3 px-4">{isHi ? "हरिवासर अंत" : "Hari Vasara End"}</th>
                 <th className="py-3 px-4">{isHi ? "द्वादशी अंत" : "Dwadashi End"}</th>

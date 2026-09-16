@@ -2,7 +2,7 @@ import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { PATHS } from "@/lib/seo/paths";
 import { BookOpen, Flame, HeartHandshake, HelpCircle, Info, Sparkles, Star } from "lucide-react";
 
-export function JaapSeoGuide({ isHi = false }: { isHi?: boolean }) {
+export function JaapSeoGuide({ isHi = false, isTe = false }: { isHi?: boolean; isTe?: boolean }) {
   return (
     <div className="mt-14 space-y-12 text-ink">
       {/* 1. Hero Guide Section */}
@@ -10,11 +10,13 @@ export function JaapSeoGuide({ isHi = false }: { isHi?: boolean }) {
         <div className="max-w-3xl">
           <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-orange-100 text-orange-800 border border-orange-200 mb-4">
             <Sparkles className="w-3.5 h-3.5 text-orange-600" />
-            {isHi ? "नाम जप विज्ञान एवं साधना महिमा" : "The Science & Glory of Naam Jaap"}
+            {isTe ? "నామ జప విజ్ఞానం & సాధనా మహిమ" : isHi ? "नाम जप विज्ञान एवं साधना महिमा" : "The Science & Glory of Naam Jaap"}
           </span>
 
           <h2 className="font-serif text-2xl sm:text-4xl font-bold text-ink leading-tight">
-            {isHi
+            {isTe
+              ? "కలియుగంలో నామ స్మరణయే శ్రేష్ఠమైన సాధన — నామ జప విశిష్టత & విధి"
+              : isHi
               ? "कलियुग में केवल नाम अधारा — नाम जप का महत्व और विधि"
               : "Why Naam Jaap is the Highest Spiritual Practice (Sadhana)"}
           </h2>
@@ -33,7 +35,7 @@ export function JaapSeoGuide({ isHi = false }: { isHi?: boolean }) {
               108
             </div>
             <h3 className="font-serif font-semibold text-lg text-ink">
-              {isHi ? "108 मनकों का रहस्य" : "Significance of 108"}
+              {isTe ? "108 పూసల రహస్యం" : isHi ? "108 मनकों का रहस्य" : "Significance of 108"}
             </h3>
             <p className="mt-2 text-sm text-muted leading-relaxed">
               {isHi
@@ -47,7 +49,7 @@ export function JaapSeoGuide({ isHi = false }: { isHi?: boolean }) {
               ✨
             </div>
             <h3 className="font-serif font-semibold text-lg text-ink">
-              {isHi ? "चित्त शुद्धि और शांति" : "Mental Purification"}
+              {isTe ? "చిత్త శుద్ధి మరియు శాంతి" : isHi ? "चित्त शुद्धि और शांति" : "Mental Purification"}
             </h3>
             <p className="mt-2 text-sm text-muted leading-relaxed">
               {isHi
@@ -61,7 +63,7 @@ export function JaapSeoGuide({ isHi = false }: { isHi?: boolean }) {
               📿
             </div>
             <h3 className="font-serif font-semibold text-lg text-ink">
-              {isHi ? "डिजिटल जप एवं एकाग्रता" : "Digital Mala Practice"}
+              {isTe ? "డిజిటల్ జపం & ఏకాగ్రత" : isHi ? "डिजिटल जप एवं एकाग्रता" : "Digital Mala Practice"}
             </h3>
             <p className="mt-2 text-sm text-muted leading-relaxed">
               {isHi
@@ -77,10 +79,10 @@ export function JaapSeoGuide({ isHi = false }: { isHi?: boolean }) {
         <div className="max-w-3xl">
           <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-amber-50 text-amber-800 border border-amber-200 mb-3">
             <BookOpen className="w-3.5 h-3.5 text-amber-600" />
-            {isHi ? "सरल जप विधि" : "How to Practice Naam Jaap (Step-by-Step)"}
+            {isTe ? "సులభ జప విధి" : isHi ? "सरल जप विधि" : "How to Practice Naam Jaap (Step-by-Step)"}
           </span>
           <h2 className="font-serif text-2xl sm:text-3xl font-bold text-ink">
-            {isHi ? "दैनिक नाम जप की सही एवं फलदायी विधि" : "The 4 Sacred Steps for Fruitful Naam Jaap"}
+            {isTe ? "దైనందిన నామ జపానికి 4 పవిత్ర సోపానాలు" : isHi ? "दैनिक नाम जप की सही एवं फलदायी विधि" : "The 4 Sacred Steps for Fruitful Naam Jaap"}
           </h2>
         </div>
 

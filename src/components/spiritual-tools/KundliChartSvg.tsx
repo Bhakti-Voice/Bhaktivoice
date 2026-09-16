@@ -18,6 +18,7 @@ export type KundliChartSvgProps = {
 export function KundliChartSvg({ chart, className = "" }: KundliChartSvgProps) {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const [chartType, setChartType] = useState<"north" | "south" | "east">("north");
   const [chartBase, setChartBase] = useState<"lagna" | "chandra">("lagna");
   const [varga, setVarga] = useState<DivisionalChartId>("D1");
@@ -55,6 +56,10 @@ export function KundliChartSvg({ chart, className = "" }: KundliChartSvgProps) {
   const rashiNamesHi = [
     "मेष", "वृषभ", "मिथुन", "कर्क", "सिंह", "कन्या",
     "तुला", "वृश्चिक", "धनु", "मकर", "कुंभ", "मीन"
+  ];
+  const rashiNamesTe = [
+    "మేషం", "వృషభం", "మిథునం", "కర్కాటకం", "సింహం", "కన్య",
+    "తుల", "వృశ్చికం", "ధనుస్సు", "మకరం", "కుంభం", "మీనం"
   ];
 
   const getPlanetLabel = (id: string, retro?: boolean) => {

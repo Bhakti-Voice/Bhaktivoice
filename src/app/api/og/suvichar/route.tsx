@@ -11,7 +11,9 @@ export async function GET(request: NextRequest) {
     const devoteeName = searchParams.get("n") || searchParams.get("name") || "";
     const devoteeCity = searchParams.get("c") || searchParams.get("city") || "";
     const salutation = searchParams.get("s") || searchParams.get("salutation") || "";
-    const isHi = searchParams.get("lang") !== "en";
+    const lang = searchParams.get("lang") || "en";
+    const isTe = lang === "te";
+    const isHi = lang === "hi";
 
     // Find Quote & Theme
     const item = SUVICHAR_DATABASE.find((q) => q.id === quoteId) || SUVICHAR_DATABASE[0];
@@ -19,7 +21,11 @@ export async function GET(request: NextRequest) {
 
     const displaySalutation =
       salutation.trim() ||
-      (isHi
+      (isTe
+        ? item.tradition === "jain"
+          ? "సప్రేమ జై జినేంద్ర"
+          : "జై శ్రీ కృష్ణ"
+        : isHi
         ? item.tradition === "jain"
           ? "सप्रेम जय जिनेन्द्र"
           : "जय श्री कृष्णा"
@@ -172,7 +178,7 @@ export async function GET(request: NextRequest) {
                   fontWeight: "bold",
                 }}
               >
-                <span style={{ display: "flex" }}>🙏 प्रेषक:</span>
+                <span style={{ display: "flex" }}>{isTe ? "🙏 పంపినవారు:" : isHi ? "🙏 प्रेषक:" : "🙏 From:"}</span>
                 <span style={{ display: "flex", color: theme.accentColor || "#FBBF24" }}>
                   {devoteeName} {devoteeCity ? `(${devoteeCity})` : ""}
                 </span>
@@ -195,9 +201,9 @@ export async function GET(request: NextRequest) {
             >
               <span style={{ display: "flex" }}>bhaktivoice.com</span>
               <span style={{ display: "flex" }}>•</span>
-              <span style={{ display: "flex" }}>भक्ति वॉइस</span>
+              <span style={{ display: "flex" }}>{isTe ? "భక్తి వాయిస్" : isHi ? "भक्ति वॉइस" : "Bhakti Voice"}</span>
               <span style={{ display: "flex" }}>•</span>
-              <span style={{ display: "flex", color: "#FDE68A" }}>अपना कार्ड बनाएं</span>
+              <span style={{ display: "flex", color: "#FDE68A" }}>{isTe ? "మీ కార్డ్‌ని రూపొందించండి" : isHi ? "अपना कार्ड बनाएं" : "Create Status"}</span>
             </div>
           </div>
         </div>

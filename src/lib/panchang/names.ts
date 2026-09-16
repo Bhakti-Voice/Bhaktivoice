@@ -18,6 +18,24 @@ export const TITHI_NAMES = [
   "Purnima / Amavasya",
 ] as const;
 
+export const TITHI_NAMES_TE = [
+  "పాడ్యమి",
+  "విదియ",
+  "తదియ",
+  "చవితి",
+  "పంచమి",
+  "షష్ఠి",
+  "సప్తమి",
+  "అష్టమి",
+  "నవమి",
+  "దశమి",
+  "ఏకాదశి",
+  "ద్వాదశి",
+  "త్రయోదశి",
+  "చతుర్దశి",
+  "పౌర్ణమి / అమావాస్య",
+] as const;
+
 export const TITHI_NAMES_HI = [
   "प्रतिपदा",
   "द्वितीया",
@@ -51,6 +69,21 @@ export const MASA_NAMES = [
   "Phalguna",
 ] as const;
 
+export const MASA_NAMES_TE = [
+  "చైత్రము",
+  "వైశాఖము",
+  "జ్యేష్ఠము",
+  "ఆషాఢము",
+  "శ్రావణము",
+  "భాద్రపదము",
+  "ఆశ్వయుజము",
+  "కార్తీకము",
+  "మార్గశిరము",
+  "పుష్యము",
+  "మాఘము",
+  "ఫాల్గుణము",
+] as const;
+
 export const MASA_NAMES_HI = [
   "चैत्र",
   "वैशाख",
@@ -79,6 +112,21 @@ export const RASI_NAMES = [
   "Makara (Capricorn)",
   "Kumbha (Aquarius)",
   "Meena (Pisces)",
+] as const;
+
+export const RASI_NAMES_TE = [
+  "మేషం",
+  "వృషభం",
+  "మిథునం",
+  "కర్కాటకం",
+  "సింహం",
+  "కన్య",
+  "తుల",
+  "వృశ్చికం",
+  "ధనుస్సు",
+  "మకరం",
+  "కుంభం",
+  "మీనం",
 ] as const;
 
 export const RASI_NAMES_HI = [
@@ -124,6 +172,36 @@ export const NAKSHATRA_NAMES = [
   "Purva Bhadrapada",
   "Uttara Bhadrapada",
   "Revati",
+] as const;
+
+export const NAKSHATRA_NAMES_TE = [
+  "అశ్విని",
+  "భరణి",
+  "కృత్తిక",
+  "రోహిణి",
+  "మృగశిర",
+  "ఆర్ద్ర",
+  "పునర్వసు",
+  "పుష్యమి",
+  "ఆశ్లేష",
+  "మఖ",
+  "పూర్వ ఫల్గుణి",
+  "ఉత్తర ఫల్గుణి",
+  "హస్త",
+  "చిత్త",
+  "స్వాతి",
+  "విశాఖ",
+  "అనూరాధ",
+  "జ్యేష్ఠ",
+  "మూల",
+  "పూర్వాషాఢ",
+  "ఉత్తరాషాఢ",
+  "శ్రవణం",
+  "ధనిష్ఠ",
+  "శతభిషం",
+  "పూర్వాభాద్ర",
+  "ఉత్తరాభాద్ర",
+  "రేవతి",
 ] as const;
 
 export const NAKSHATRA_NAMES_HI = [

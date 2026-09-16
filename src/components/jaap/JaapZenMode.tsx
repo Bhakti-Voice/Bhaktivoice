@@ -29,10 +29,11 @@ export function JaapZenMode({
 }: JaapZenModeProps) {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const [pulse, setPulse] = useState(false);
   const selected = JAAP_MANTRAS.find((m) => m.slug === mantra) ?? JAAP_MANTRAS[0];
 
-  const countLocale = isHi ? "hi-IN" : "en-IN";
+  const countLocale = isTe ? "te-IN" : isHi ? "hi-IN" : "en-IN";
   const malaProgress = count % 108;
   const malas = Math.floor(count / 108);
 
@@ -85,7 +86,7 @@ export function JaapZenMode({
             style={{ backgroundColor: selected.color }}
           />
           <span className="text-sm sm:text-base font-serif font-medium text-amber-200 tracking-wide">
-            {isHi ? "ध्यान साधना कक्ष (Zen Mode)" : "Zen Meditation Mode"}
+            {isTe ? "ధ్యాన సాధనా మందిరం (Zen Mode)" : isHi ? "ध्यान साधना कक्ष (Zen Mode)" : "Zen Meditation Mode"}
           </span>
         </div>
 
@@ -107,7 +108,7 @@ export function JaapZenMode({
             aria-label="Exit Zen Mode"
           >
             <Minimize2 className="w-4 h-4" />
-            <span>{isHi ? "बाहर निकलें (Esc)" : "Exit (Esc)"}</span>
+            <span>{isTe ? "నిష్క్రమించండి (Esc)" : isHi ? "बाहर निकलें (Esc)" : "Exit (Esc)"}</span>
           </button>
         </div>
       </header>
@@ -157,7 +158,7 @@ export function JaapZenMode({
 
         {/* Tap Prompt */}
         <p className="mt-8 text-xs sm:text-sm text-amber-200/60 font-sans tracking-wide">
-          {isHi ? "कहीं भी स्पर्श करें या Space दबाएँ" : "Tap anywhere or press Spacebar to count"}
+          {isTe ? "కౌంట్ చేయడానికి ఎక్కడైనా తాకండి లేదా Space నొక్కండి" : isHi ? "कहीं भी स्पर्श करें या Space दबाएँ" : "Tap anywhere or press Spacebar to count"}
         </p>
       </main>
 
@@ -165,7 +166,7 @@ export function JaapZenMode({
       <footer className="relative z-10 w-full max-w-lg flex items-center justify-between text-xs text-amber-200/70 border-t border-white/10 pt-4">
         <div className="flex items-center gap-1.5">
           <Hand className="w-4 h-4 text-amber-400" />
-          <span>{isHi ? `मनके: ${malaProgress} / 108` : `Bead: ${malaProgress} / 108`}</span>
+          <span>{isTe ? `పూసలు: ${malaProgress} / 108` : isHi ? `मनके: ${malaProgress} / 108` : `Bead: ${malaProgress} / 108`}</span>
         </div>
 
         {streak > 0 && (

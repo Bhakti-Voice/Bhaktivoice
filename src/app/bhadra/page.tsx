@@ -14,22 +14,29 @@ export const revalidate = 300;
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const now = new Date();
-  const dateFormatted = new Intl.DateTimeFormat(isHi ? "hi-IN" : "en-IN", {
+  const dateFormatted = new Intl.DateTimeFormat(isTe ? "te-IN" : isHi ? "hi-IN" : "en-IN", {
     day: "numeric",
     month: "long",
     year: "numeric",
   }).format(now);
 
   return localizedMetadata({
-    title: isHi
+    title: isTe
+      ? `నేడు భద్ర ఎప్పుడు ఉంది (${dateFormatted}) — భద్రా కాలం సమయాలు, వాసం & ముఖ-పుచ్ఛ విచారం`
+      : isHi
       ? `भद्रा कब है आज (${dateFormatted}) — आज भद्रा कब से कब तक है? भद्रा वास व मुख-पुच्छ समय`
       : `Bhadra Timings Today (${dateFormatted}) — Aaj Bhadra Kab Hai? Live Status, Vaas & Mukha Puchha`,
-    description: isHi
+    description: isTe
+      ? `ఈరోజు ${dateFormatted} భద్రా కాలం ఎప్పటి నుండి ఎప్పటి వరకు ఉంది? భద్రా వాసం (స్వర్గం, పాతాళం, పృథ్వి), ముఖ మరియు పుచ్ఛ కాలాల సమయం, మరియు రక్షాబంధన్, హోలికా దహన నియమాలను మీ నగరం ప్రకారం తెలుసుకోండి.`
+      : isHi
       ? `आज ${dateFormatted} को भद्रा कब से कब तक है? जानें आज भद्रा है या नहीं, भद्रा का वास (स्वर्ग, पाताल, पृथ्वी), मुख और पुच्छ काल का सटीक समय, और रक्षाबंधन व होलिका दहन के शास्त्रीय नियम। 120+ शहरों अनुसार लाइव समय सारणी।`
       : `Is Bhadra active today (${dateFormatted})? Check exact Bhadra start and end timings, Bhadra Vaas (Swarga, Prithvi, Patala), Mukha & Puchha kaal, and Raksha Bandhan festival rules across 120+ cities.`,
     path: PATHS.bhadra,
-    keywords: isHi
+    keywords: isTe
+      ? ["భద్రా కాలం", "నేడు భద్ర ఉందా", "భద్రా వాసం", "విష్టి కరణం", "భద్ర ముఖ పుచ్ఛం", "రాఖీ కట్టే ముహూర్తం"]
+      : isHi
       ? [
           "भद्रा कब है",
           "आज भद्रा कब से कब तक है",
@@ -90,6 +97,24 @@ const BHADRA_FAQS_EN = [
   },
 ];
 
+const BHADRA_FAQS_TE = [
+  {
+    question: "భద్ర అంటే ఎవరు మరియు వైదిక జ్యోతిష్యంలో దీని ప్రాముఖ్యత ఏమిటి?",
+    answer:
+      "పౌరాణిక విశ్వాసాల ప్రకారం భద్ర సూర్యదేవుడు మరియు ఛాయాదేవిల పుత్రిక, శనిదేవుని సోదరి. జ్యోతిష్యంలో 'విష్టి కరణం'నే భద్ర అని పిలుస్తారు. ఆమె ఉగ్ర స్వభావం కారణంగా భద్రా కాలంలో శుభ మరియు మాంగలిక కార్యాలు పూర్తిగా నిషిద్ధం.",
+  },
+  {
+    question: "భద్రా వాసం అంటే ఏమిటి మరియు భూమిపై దీని ప్రభావం ఎలా ఉంటుంది?",
+    answer:
+      "చంద్రుని రాశిని బట్టి భద్ర మూడు లోకాలలో నివసిస్తుంది: 1. స్వర్గ లోకం (మేషం, వృషభం, మిథునం, వృశ్చికం) — భూమిపై శుభం; 2. పాతాళ లోకం (ధనుస్సు, మకరం, కుంభం, మీనం) — వ్యాపార ధనలాభాలకు అనుకూలం; 3. మృత్యులోకం / భూమి (కర్కాటకం, సింహం, కన్య, తుల) — అత్యంత హానికరం, ఇందులో సమస్త శుభ కార్యాలు వర్జ్యం.",
+  },
+  {
+    question: "భద్రా పుచ్ఛ కాలంలో శుభ కార్యం చేయవచ్చా?",
+    answer:
+      "అవును. అత్యవసర పరిస్థితులలో పనులను వాయిదా వేయడం సాధ్యం కానప్పుడు భద్ర యొక్క పుచ్ఛ భాగంలో కార్యాన్ని పూర్తి చేయవచ్చు. అయితే భద్ర ముఖ కాలంలో పనులు చేయడం వల్ల సర్వనాశన భయం ఉంటుందని శాస్త్రాలు చెబుతున్నాయి.",
+  },
+];
+
 const BHADRA_FAQS_HI = [
   {
     question: "भद्रा कौन हैं और वैदिक ज्योतिष में इसका क्या महत्व है?",
@@ -108,10 +133,13 @@ const BHADRA_FAQS_HI = [
   },
 ];
 
+
+
 export default async function BhadraPage() {
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
   const isHi = locale === "hi";
-  const faqs = isHi ? BHADRA_FAQS_HI : BHADRA_FAQS_EN;
+  const isTe = locale === "te";
+  const faqs = isTe ? BHADRA_FAQS_TE : isHi ? BHADRA_FAQS_HI : BHADRA_FAQS_EN;
 
   return (
     <div>
@@ -119,10 +147,16 @@ export default async function BhadraPage() {
         data={{
           "@context": "https://schema.org",
           "@type": "WebApplication",
-          name: isHi ? "भद्रा काल कैलकुलेटर — भक्ति वॉइस" : "Bhadra Timings Calculator — BhaktiVoice",
+          name: isTe
+            ? "భద్రా కాలం కాలిక్యులేటర్ — భక్తి వాయిస్"
+            : isHi
+            ? "भद्रा काल कैलकुलेटर — भक्ति वॉइस"
+            : "Bhadra Timings Calculator — BhaktiVoice",
           applicationCategory: "LifestyleApplication",
           operatingSystem: "All",
-          description: isHi
+          description: isTe
+            ? "నేడు భద్ర ఎప్పుడు ఉంది? భద్రా వాసం, ముఖ-పుచ్ఛ సమయం మరియు శాస్త్రీయ నియమాలు."
+            : isHi
             ? "आज भद्रा कब से कब तक है? भद्रा वास, मुख-पुच्छ समय व शास्त्रीय नियम।"
             : "Live Bhadra timings calculator, Bhadra Vaas, Mukha-Puchha timings, and classical festival rules.",
           offers: {
@@ -153,23 +187,40 @@ export default async function BhadraPage() {
       />
 
       <PageHero
-        title={isHi ? "भद्रा कब है — आज की भद्रा स्थिति व समय सारणी" : "Bhadra Timings Today (आज भद्रा कब है)"}
+        title={
+          isTe
+            ? "నేడు భద్ర ఎప్పుడు ఉంది — నేటి భద్రా స్థితి & సమయ పట్టిక"
+            : isHi
+            ? "भद्रा कब है — आज की भद्रा स्थिति व समय सारणी"
+            : "Bhadra Timings Today (आज भद्रा कब है)"
+        }
         subtitle={
-          isHi
+          isTe
+            ? "ఈరోజు భద్ర ఎప్పటి నుండి ఎప్పటి వరకు ఉంది? భద్రా వాసం (స్వర్గం, పృథ్వి, పాతాళం), ముఖ మరియు పుచ్ఛ సమయాలు మరియు రక్షాబంధన్ శాస్త్రీయ నియమాలు తెలుసుకోండి."
+            : isHi
             ? "आज भद्रा कब से कब तक है? जानें भद्रा वास (स्वर्ग, पृथ्वी, पाताल), मुख एवं पुच्छ समय तथा रक्षाबंधन के विशेष शास्त्रीय नियम।"
             : "Is Bhadra active today? Discover exact start & end timings, Bhadra Vaas in 3 realms, Mukha-Puchha windows, and festival guidelines."
         }
         hub="spirituality"
         crumbs={localizedCrumbs(
           t.homeName,
-          [isHi ? "शुभ मुहूर्त" : "Muhurat", PATHS.muhurat],
-          [isHi ? "भद्रा विचार" : "Bhadra", PATHS.bhadra],
+          [isTe ? "శుభ ముహూర్తాలు" : isHi ? "शुभ मुहूर्त" : "Muhurat", PATHS.muhurat],
+          [isTe ? "భద్రా విచారం" : isHi ? "भद्रा विचार" : "Bhadra", PATHS.bhadra],
         )}
       />
 
       <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8 space-y-8">
         <BhadraView />
-        <FaqList faqs={faqs} title={isHi ? "भद्रा से संबंधित अक्सर पूछे जाने वाले प्रश्न" : "Frequently Asked Questions"} />
+        <FaqList
+          faqs={faqs}
+          title={
+            isTe
+              ? "భద్రకు సంబంధించిన తరచుగా అడిగే ప్రశ్నలు"
+              : isHi
+              ? "भद्रा से संबंधित अक्सर पूछे जाने वाले प्रश्न"
+              : "Frequently Asked Questions"
+          }
+        />
       </div>
     </div>
   );

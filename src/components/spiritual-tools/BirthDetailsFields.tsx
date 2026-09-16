@@ -51,6 +51,7 @@ export function BirthDetailsFields({
 }) {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const [query, setQuery] = useState(place.name);
   const [isOpen, setIsOpen] = useState(false);
@@ -84,7 +85,7 @@ export function BirthDetailsFields({
     try {
       const loc = await readDeviceLocation();
       if (loc) {
-        setQuery(isHi ? "मेरी वर्तमान लोकेशन" : "My Current Location");
+        setQuery(isTe ? "నా ప్రస్తుత ప్రదేశం" : isHi ? "मेरी वर्तमान लोकेशन" : "My Current Location");
         onPlaceChange(loc);
         setIsOpen(false);
       }
@@ -109,10 +110,10 @@ export function BirthDetailsFields({
             onChange={(event) => onNameChange(event.target.value)}
             placeholder={
               prefix === "boy"
-                ? isHi ? "वर का नाम (उदा. राहुल)" : "Groom's Name (e.g. Rahul)"
+                ? isTe ? "వరుని పేరు (ఉదా. రాహుల్)" : isHi ? "वर का नाम (उदा. राहुल)" : "Groom's Name (e.g. Rahul)"
                 : prefix === "girl"
-                ? isHi ? "कन्या का नाम (उदा. प्रिया)" : "Bride's Name (e.g. Priya)"
-                : isHi ? "पूरा नाम दर्ज करें" : "Enter Full Name"
+                ? isTe ? "వధువు పేరు (ఉదా. ప్రియ)" : isHi ? "कन्या का नाम (उदा. प्रिया)" : "Bride's Name (e.g. Priya)"
+                : isTe ? "పూర్తి పేరును నమోదు చేయండి" : isHi ? "पूरा नाम दर्ज करें" : "Enter Full Name"
             }
             className="w-full rounded-2xl border border-line bg-sand/20 py-2.5 px-3.5 text-sm text-ink placeholder:text-muted focus:border-saffron focus:bg-white focus:outline-none focus:ring-1 focus:ring-saffron transition"
             autoComplete="name"

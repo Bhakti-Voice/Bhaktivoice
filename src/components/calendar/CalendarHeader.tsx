@@ -32,16 +32,16 @@ export type CalendarHeaderProps = {
   onShare: () => void;
 };
 
-const CATEGORIES: { id: FestivalCategory; label: string; labelHi: string; icon?: string }[] = [
-  { id: "all", label: "All Days", labelHi: "सभी दिन" },
-  { id: "festival", label: "Festivals", labelHi: "पर्व / त्यौहार" },
-  { id: "vrat", label: "Vrat & Upvas", labelHi: "व्रत एवं उपवास" },
-  { id: "ekadashi", label: "Ekadashi", labelHi: "एकादशी" },
-  { id: "purnima", label: "Purnima", labelHi: "पूर्णिमा" },
-  { id: "amavasya", label: "Amavasya", labelHi: "अमावस्या" },
-  { id: "pradosh", label: "Pradosh", labelHi: "प्रदोष व्रत" },
-  { id: "sankashti", label: "Sankashti", labelHi: "संकष्टी चतुर्थी" },
-  { id: "sankranti", label: "Sankranti", labelHi: "संक्रांति" },
+const CATEGORIES: { id: FestivalCategory; label: string; labelHi: string; labelTe: string; icon?: string }[] = [
+  { id: "all", label: "All Days", labelHi: "सभी दिन", labelTe: "అన్ని రోజులు" },
+  { id: "festival", label: "Festivals", labelHi: "पर्व / त्यौहार", labelTe: "పండుగలు" },
+  { id: "vrat", label: "Vrat & Upvas", labelHi: "व्रत एवं उपवास", labelTe: "వ్రతాలు & ఉపవాసాలు" },
+  { id: "ekadashi", label: "Ekadashi", labelHi: "एकादशी", labelTe: "ఏకాదశి" },
+  { id: "purnima", label: "Purnima", labelHi: "पूर्णिमा", labelTe: "పౌర్ణమి" },
+  { id: "amavasya", label: "Amavasya", labelHi: "अमावस्या", labelTe: "అమావాస్య" },
+  { id: "pradosh", label: "Pradosh", labelHi: "प्रदोष व्रत", labelTe: "ప్రదోషం" },
+  { id: "sankashti", label: "Sankashti", labelHi: "संकष्टी चतुर्थी", labelTe: "సంకష్ట చతుర్థి" },
+  { id: "sankranti", label: "Sankranti", labelHi: "संक्रांति", labelTe: "సంక్రాంతి" },
 ];
 
 const AVAILABLE_YEARS = [2025, 2026, 2027, 2028, 2029, 2030];
@@ -62,6 +62,7 @@ export function CalendarHeader({
 }: CalendarHeaderProps) {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   function handlePrevMonth() {
     if (month === 1) {
@@ -146,14 +147,14 @@ export function CalendarHeader({
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
             </span>
-            <span>{isHi ? "आज" : "Today"}</span>
+            <span>{isTe ? "నేడు" : isHi ? "आज" : "Today"}</span>
           </button>
         </div>
 
         {/* City Selector & Action Utilities */}
         <div className="flex w-full min-w-0 items-center justify-between gap-2 border-t border-line/60 pt-2.5 sm:gap-3 md:w-auto md:border-t-0 md:pt-0">
           {/* Location Selector */}
-          <CityPickerButton city={city} onCityChange={onCityChange} isHi={isHi} variant="compact" />
+          <CityPickerButton city={city} onCityChange={onCityChange} isHi={isHi} isTe={isTe} variant="compact" />
 
           {/* Action Icons (Export, Print, Share) */}
           <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
@@ -207,7 +208,7 @@ export function CalendarHeader({
                   : "border border-line/80 bg-white/80 text-muted hover:border-saffron/50 hover:bg-cream hover:text-ink"
               }`}
             >
-              {isHi ? cat.labelHi : cat.label}{" "}
+              {isTe ? cat.labelTe : isHi ? cat.labelHi : cat.label}{" "}
               <span className="text-[10px] opacity-75">
                 ({isHi ? cat.label : cat.labelHi})
               </span>

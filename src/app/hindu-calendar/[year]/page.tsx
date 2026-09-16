@@ -1,3 +1,16 @@
+const YEAR_FAQS_TE = [
+  {
+    question: "ప్రతి సంవత్సరం హిందూ పండుగల తేదీలు ఎలా నిర్ణయించబడతాయి?",
+    answer:
+      "హిందూ పండుగల తేదీలు చంద్రుని కళలు (తిథి) మరియు సూర్యుని రాశి మార్పు (సంక్రాంతి) ఆధారంగా లెక్కించబడతాయి. చంద్ర సంవత్సరంలో 354 రోజులు మాత్రమే ఉంటాయి, ఇది సౌర సంవత్సరం (365 రోజులు) కంటే 11 రోజులు తక్కువ. ఈ వ్యత్యాసాన్ని సరిచేయడానికి ప్రతి 3 సంవత్సరాలకు ఒకసారి అధిక మాసం (మలమాసం) కలుపబడుతుంది.",
+  },
+  {
+    question: "అధిక మాసం (పురుషోత్తమ మాసం) అంటే ఏమిటి?",
+    answer:
+      "సూర్య సంక్రమణం లేని చంద్ర మాసాన్ని అధిక మాసం లేదా పురుషోత్తమ మాసం అంటారు. ఇది సుమారు ప్రతి 32.5 నెలలకు ఒకసారి వస్తుంది. ఈ పవిత్ర మాసంలో శ్రీమహావిష్ణువు ఆరాధన, భగవద్గీతా పారాయణం మరియు దానధర్మాలు అనంత పుణ్యఫలాన్ని ఇస్తాయి.",
+  },
+];
+
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CalendarView } from "@/components/calendar/CalendarView";
@@ -93,9 +106,10 @@ export default async function YearCalendarPage({ params, searchParams }: Props) 
 
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const sParams = await searchParams;
   const initialMonth = sParams.month ? Number(sParams.month) : 1;
-  const faqs = isHi ? YEAR_FAQS_HI : YEAR_FAQS_EN;
+  const faqs = isTe ? YEAR_FAQS_TE : isHi ? YEAR_FAQS_HI : YEAR_FAQS_EN;
 
   return (
     <div>

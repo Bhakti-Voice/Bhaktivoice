@@ -21,15 +21,36 @@
         <option value="draft" {% if status == "draft" %}selected{% endif %}>Draft</option>
       </select>
     </label>
+        <!-- Language Filter Tabs for Admin -->
+    <div class="lang-tab-bar" style="display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin: 0.5rem 0 1.25rem 0; padding: 0.5rem 0.75rem; background: var(--cream); border-radius: 14px; border: 1px solid var(--line);">
+      <span style="font-size: 0.82rem; font-weight: bold; color: var(--muted); margin-right: 0.25rem;">🌐 View Language:</span>
+      <button type="button" class="btn lang-filter-btn active" data-lang="all" style="padding: 0.35rem 0.85rem; font-size: 0.82rem;">All Fields</button>
+      <button type="button" class="btn ghost lang-filter-btn" data-lang="en" style="padding: 0.35rem 0.85rem; font-size: 0.82rem; background: #fff;">🇬🇧 English</button>
+      <button type="button" class="btn ghost lang-filter-btn" data-lang="hi" style="padding: 0.35rem 0.85rem; font-size: 0.82rem; background: #fff; color: #b45309;">🇮🇳 Hindi (हिंदी)</button>
+      <button type="button" class="btn ghost lang-filter-btn" data-lang="te" style="padding: 0.35rem 0.85rem; font-size: 0.82rem; background: #fff; color: #0284c7; font-weight: bold;">🚩 Telugu (తెలుగు)</button>
+    </div>
     {% for field in kind.fields %}
-      <label>{{ field.label }}
+      {% set is_te = field.name.endswith("Te") %}
+      {% set is_hi = field.name.endswith("Hi") %}
+      {% set is_en = not is_te and not is_hi %}
+      <div class="field-item-row" data-field-lang="{{ 'te' if is_te else 'hi' if is_hi else 'en' }}" style="margin-top: 0.85rem;">
+        <label style="display: flex; align-items: center; justify-content: space-between; font-weight: 600; color: var(--ink);">
+          <span>{{ field.label }}</span>
+          {% if is_te %}
+            <span style="background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; font-size: 11px; padding: 2px 8px; border-radius: 6px; font-weight: bold;">🚩 తెలుగు (Telugu)</span>
+          {% elif is_hi %}
+            <span style="background: #fef3c7; color: #b45309; border: 1px solid #fde68a; font-size: 11px; padding: 2px 8px; border-radius: 6px; font-weight: bold;">🇮🇳 हिंदी (Hindi)</span>
+          {% else %}
+            <span style="background: #f3f4f6; color: #4b5563; border: 1px solid #e5e7eb; font-size: 11px; padding: 2px 8px; border-radius: 6px; font-weight: bold;">🇬🇧 English</span>
+          {% endif %}
+        </label>
         {% if field.type == "select" %}
           <select name="{{ field.name }}">
             {% for option in field.options %}
               <option value="{{ option }}" {% if values[field.name] == option or (not values[field.name] and loop.first) %}selected{% endif %}>{{ option|capitalize }}</option>
             {% endfor %}
           </select>
-        {% elif field.type in ["sections", "paragraphs"] or field.name in ["body", "bodyHi", "sections", "sectionsHi", "introduction", "introductionHi", "story", "storyHi", "history", "historyHi", "architecture", "architectureHi", "significance", "significanceHi", "puja", "pujaHi", "whyVisit", "whyVisitHi", "description", "descriptionHi"] %}
+        {% elif field.type in ["sections", "paragraphs"] or field.name in ["body", "bodyHi", "bodyTe", "sections", "sectionsHi", "sectionsTe", "introduction", "introductionHi", "introductionTe", "story", "storyHi", "storyTe", "history", "historyHi", "historyTe", "architecture", "architectureHi", "architectureTe", "significance", "significanceHi", "significanceTe", "puja", "pujaHi", "pujaTe", "whyVisit", "whyVisitHi", "whyVisitTe", "description", "descriptionHi", "descriptionTe"] %}
           <div class="editor-toolbar" data-for="{{ field.name }}">
             <button type="button" class="editor-toolbar-btn" data-action="bold" title="Bold text (<b>)"><b>B</b> Bold</button>
             <button type="button" class="editor-toolbar-btn" data-action="italic" title="Italic text (<i>)"><i>I</i> Italic</button>
@@ -63,6 +84,7 @@
         <img class="thumb-lg" src="{{ values.get(field.name) }}" alt="" style="margin-top: 0.5rem;" />
       {% endif %}
       {% if field.hint %}<p class="hint">{{ field.hint }}</p>{% endif %}
+      </div>
     {% endfor %}
     <label>URL slug
       <input name="slug" id="slug-input" value="{{ slug }}" placeholder="vrindavan-krishna-dham-sacred-yatra-travel-guide" />
@@ -141,9 +163,14 @@
         const el = document.getElementById(id);
         if (el) el.href = enUrl;
       });
+      const teUrl = "/admin/preview?kind=" + encodeURIComponent(kindKey) + "&slug=" + encodeURIComponent(s) + "&locale=te";
       ["preview-btn-top-hi", "preview-btn-bottom-hi"].forEach(function(id) {
         const el = document.getElementById(id);
         if (el) el.href = hiUrl;
+      });
+      ["preview-btn-top-te", "preview-btn-bottom-te"].forEach(function(id) {
+        const el = document.getElementById(id);
+        if (el) el.href = teUrl;
       });
     }
     function render() {
@@ -374,5 +401,27 @@
         });
       }
     });
+  
+    // Language Tab Filter in Form
+    document.querySelectorAll(".lang-filter-btn").forEach(function(btn) {
+      btn.addEventListener("click", function() {
+        document.querySelectorAll(".lang-filter-btn").forEach(function(b) {
+          b.classList.remove("active");
+          b.classList.add("ghost");
+        });
+        btn.classList.add("active");
+        btn.classList.remove("ghost");
+        const lang = btn.getAttribute("data-lang");
+        document.querySelectorAll(".field-item-row").forEach(function(row) {
+          const rowLang = row.getAttribute("data-field-lang");
+          if (lang === "all" || rowLang === lang) {
+            row.style.display = "";
+          } else {
+            row.style.display = "none";
+          }
+        });
+      });
+    });
+
   </script>
 {% endblock %}

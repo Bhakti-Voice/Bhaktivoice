@@ -14,22 +14,38 @@ export const revalidate = 300;
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const now = new Date();
-  const dateFormatted = new Intl.DateTimeFormat(isHi ? "hi-IN" : "en-IN", {
+  const dateFormatted = new Intl.DateTimeFormat(isTe ? "te-IN" : isHi ? "hi-IN" : "en-IN", {
     day: "numeric",
     month: "long",
     year: "numeric",
   }).format(now);
 
   return localizedMetadata({
-    title: isHi
+    title: isTe
+      ? `నేటి చోఘడియా (${dateFormatted}) — పగలు & రాత్రి శుభ చోఘడియా ముహూర్తాలు`
+      : isHi
       ? `आज का चौघड़िया (${dateFormatted}) — दिन और रात का शुभ चौघड़िया मुहूर्त | Aaj Ka Choghadiya`
       : `Aaj Ka Choghadiya (आज का चौघड़िया) — Today's Choghadiya Muhurat ${dateFormatted} | Day & Night Timings`,
-    description: isHi
+    description: isTe
+      ? `నేటి ${dateFormatted} సంపూర్ణ పగలు & రాత్రి శుభ చోఘడియా ముహూర్తాలు. అమృత, శుభ, లాభ, చర, రోగ, కాల & ఉద్వేగ సమయాలు మీ నగరం ప్రకారం తెలుసుకోండి.`
+      : isHi
       ? `आज ${dateFormatted} का संपूर्ण दिन और रात का शुभ चौघड़िया मुहूर्त। अमृत, शुभ, लाभ, चर, रोग, काल और उद्वेग की सटीक समय सारणी अपने शहर अनुसार देखें। यात्रा, गृह प्रवेश व नवीन कार्य हेतु सर्वोत्तम चौघड़िया।`
       : `Check accurate Aaj Ka Choghadiya for today (${dateFormatted}). Live Day & Night Choghadiya table with Amrit, Shubh, Labh timings, Rahu Kaal, and Shubh Muhurat for 120+ Indian and global cities.`,
     path: PATHS.choghadiya,
-    keywords: isHi
+    keywords: isTe
+      ? [
+          "నేటి చోఘడియా",
+          "శుభ చోఘడియా ముహూర్తం",
+          "పగటి చోఘడియా",
+          "రాత్రి చోఘడియా",
+          "అమృత చోఘడియా సమయం",
+          "లాభ చోఘడియా సమయం",
+          "చోఘడియా పట్టిక 2026",
+          "తెలుగు చోఘడియా",
+        ]
+      : isHi
       ? [
           "आज का चौघड़िया",
           "आज का शुभ चौघड़िया मुहूर्त",
@@ -89,6 +105,29 @@ const CHOGHADIYA_FAQS_EN = [
   },
 ];
 
+const CHOGHADIYA_FAQS_TE = [
+  {
+    question: "చోఘడియా అంటే ఏమిటి మరియు దీనిని ఎలా లెక్కిస్తారు?",
+    answer:
+      "చోఘడియా అనేది వైదిక ముహూర్త కాల విభజన పద్ధతి. ఇందులో సూర్యోదయం నుండి సూర్యాస్తమయం వరకు పగటి సమయాన్ని 8 సమాన భాగాలుగా, సూర్యాస్తమయం నుండి మరుసటి సూర్యోదయం వరకు రాత్రి సమయాన్ని 8 సమాన భాగాలుగా విభజిస్తారు. ప్రతి భాగం సుమారు 90 నిమిషాల (3.75 ఘడియలు) పాటు ఉంటుంది.",
+  },
+  {
+    question: "శుభ కార్యాలకు ఏ చోఘడియా శ్రేష్ఠమైనది?",
+    answer:
+      "మాంగలిక కార్యాలు, నూతన వ్యాపార ప్రారంభం, గృహ ప్రవేశం మరియు ప్రయాణాలకు 'అమృత', 'శుభ' మరియు 'లాభ' చోఘడియాలను అత్యుత్తమమైనవిగా భావిస్తారు. వాహన కొనుగోలు లేదా చలన కార్యకలాపాలకు 'చర' చోఘడియా కూడా అనుకూలమైనది.",
+  },
+  {
+    question: "ఏ చోఘడియాలలో శుభ కార్యాలు చేయకూడదు?",
+    answer:
+      "'రోగ', 'కాల' మరియు 'ఉద్వేగ'లను అశుభ చోఘడియాలుగా పరిగణిస్తారు. వీటిలో ప్రారంభించిన పనులలో ఆటంకాలు, నష్టాలు మరియు మానసిక ఆందోళనలు కలిగే అవకాశం ఉన్నందున వీటిని నివారించాలి.",
+  },
+  {
+    question: "వివిధ నగరాల్లో చోఘడియా సమయాలు మారుతాయా?",
+    answer:
+      "అవును. చోఘడియా గణన స్థానిక సూర్యోదయం మరియు సూర్యాస్తమయాల ఆధారంగా జరుగుతుంది కాబట్టి, నగరాల అక్షాంశ-రేఖాంశాలను బట్టి కొన్ని నిమిషాల తేడా ఉంటుంది.",
+  },
+];
+
 const CHOGHADIYA_FAQS_HI = [
   {
     question: "चौघड़िया क्या होता है और इसकी गणना कैसे की जाती है?",
@@ -119,8 +158,9 @@ export default async function ChoghadiyaPage({
 }) {
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const params = await searchParams;
-  const faqs = isHi ? CHOGHADIYA_FAQS_HI : CHOGHADIYA_FAQS_EN;
+  const faqs = isTe ? CHOGHADIYA_FAQS_TE : isHi ? CHOGHADIYA_FAQS_HI : CHOGHADIYA_FAQS_EN;
 
   return (
     <div>
@@ -162,23 +202,25 @@ export default async function ChoghadiyaPage({
       />
 
       <PageHero
-        title={isHi ? "आज का चौघड़िया (दिन एवं रात)" : "Today's Choghadiya Muhurat"}
+        title={isTe ? "నేటి చోఘడియా (పగలు & రాత్రి)" : isHi ? "आज का चौघड़िया (दिन एवं रात)" : "Today's Choghadiya Muhurat"}
         subtitle={
-          isHi
+          isTe
+            ? "ఖచ్చితమైన వైదిక గణన ప్రకారం నేటి అమృత, శుభ, లాభ, చర, రోగ, కాల మరియు ఉద్వేగ ముహూర్తాలు. మీ నగరం ప్రకారం తనిఖీ చేయండి."
+            : isHi
             ? "सटीक वैदिक गणना अनुसार आज का अमृत, शुभ, लाभ, चर, रोग, काल एवं उद्वेग मुहूर्त। अपने शहर अनुसार तुरंत देखें।"
             : "Accurate Day & Night Choghadiya timings with Amrit, Shubh, Labh, Char, Rog, Kaal, and Udveg for your city."
         }
         hub="spirituality"
         crumbs={localizedCrumbs(
           t.homeName,
-          [isHi ? "शुभ मुहूर्त" : "Muhurat", PATHS.muhurat],
-          [isHi ? "आज का चौघड़िया" : "Choghadiya", PATHS.choghadiya],
+          [isTe ? "శుభ ముహూర్తాలు" : isHi ? "शुभ मुहूर्त" : "Muhurat", PATHS.muhurat],
+          [isTe ? "నేటి చోఘడియా" : isHi ? "आज का चौघड़िया" : "Choghadiya", PATHS.choghadiya],
         )}
       />
 
       <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8 space-y-8">
         <ChoghadiyaView initialCityId={params.city} />
-        <FaqList faqs={faqs} title={isHi ? "चौघड़िया से संबंधित प्रश्नोत्तरी" : "Frequently Asked Questions"} />
+        <FaqList faqs={faqs} title={isTe ? "చోఘడియా గురించి తరచుగా అడిగే ప్రశ్నలు" : isHi ? "चौघड़िया से संबंधित प्रश्नोत्तरी" : "Frequently Asked Questions"} />
       </div>
     </div>
   );

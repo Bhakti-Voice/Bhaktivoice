@@ -23,6 +23,7 @@ export function AddToCartButton({
   const router = useRouter();
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
@@ -31,7 +32,7 @@ export function AddToCartButton({
     return (
       <div className="rounded-2xl border border-line bg-sand/40 p-4 text-center">
         <p className="font-serif text-sm font-bold text-stone-700">
-          {isHi ? "यह सामग्री वर्तमान में स्टॉक में नहीं है" : "Currently Out of Stock"}
+          {isTe ? "ప్రస్తుతం ఈ వస్తువు స్టాక్ లో లేదు" : isHi ? "यह सामग्री वर्तमान में स्टॉक में नहीं है" : "Currently Out of Stock"}
         </p>
         <p className="mt-1 text-xs text-muted">
           {isHi
@@ -116,12 +117,12 @@ export function AddToCartButton({
           {added ? (
             <>
               <Check className="h-4 w-4" />
-              <span>{isHi ? "कार्ट में जोड़ा गया!" : "Added to Cart!"}</span>
+              <span>{isTe ? "కార్ట్‌కు జోడించబడింది!" : isHi ? "कार्ट में जोड़ा गया!" : "Added to Cart!"}</span>
             </>
           ) : (
             <>
               <ShoppingBag className="h-4 w-4" />
-              <span>{isHi ? "कार्ट में जोड़ें" : "Add to Cart"}</span>
+              <span>{isTe ? "కార్ట్‌కు జోడించండి" : isHi ? "कार्ट में जोड़ें" : "Add to Cart"}</span>
             </>
           )}
         </button>
@@ -134,7 +135,7 @@ export function AddToCartButton({
         className="flex w-full items-center justify-center gap-2 rounded-2xl bg-saffron py-3.5 px-4 text-sm font-bold text-white shadow-xs transition hover:bg-saffron-deep active:scale-98"
       >
         <Zap className="h-4 w-4 fill-white" />
-        <span>{isHi ? "तुरंत ऑर्डर करें (Buy Now)" : "Buy Now"}</span>
+        <span>{isTe ? "ఇప్పుడే కొనండి (Buy Now)" : isHi ? "तुरंत ऑर्डर करें (Buy Now)" : "Buy Now"}</span>
       </button>
     </div>
   );

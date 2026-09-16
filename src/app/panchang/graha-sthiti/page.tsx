@@ -1,3 +1,26 @@
+const GRAHA_STHITI_FAQS_TE = [
+  {
+    question: "గ్రహ స్థితి (Graha Sthiti) అంటే ఏమిటి?",
+    answer:
+      "దైనందిన గ్రహ స్థితి అనేది ఆకాశంలో నిర్దిష్ట సమయంలో (ఉదయం 05:30 లేదా మధ్యాహ్నం) సూర్యుడు, చంద్రుడు, కుజుడు, బుధుడు, గురువు, శుక్రుడు, శని, రాహువు మరియు కేతువుల నిరయన (Sidereal) రాశులు మరియు ఖచ్చితమైన అంశలు (డిగ్రీలు, నిమిషాలు, సెకన్లు) తెలిపే శాస్త్రీయ వివరణ.",
+  },
+  {
+    question: "వక్రీ గ్రహం (Retrograde - R) యొక్క జ్యోతిష్య ప్రాముఖ్యత ఏమిటి?",
+    answer:
+      "వక్రీ గతి అంటే భూమికి సంబంధించి గ్రహం వెనుకకు ప్రయాణిస్తున్నట్లు కనిపించడం. వైదిక జ్యోతిష్యంలో వక్రీ గ్రహాలు 'చేష్టా బలం' కలిగినవిగా పరిగణించబడతాయి. ఇవి గత కర్మల పునఃసమీక్ష మరియు ఊహించని తీవ్రమైన ఫలితాలకు సంకేతం.",
+  },
+  {
+    question: "గ్రహ అస్తమయం (Combustion) ఎప్పుడు జరుగుతుంది?",
+    answer:
+      "ఏదైనా గ్రహం సూర్యునికి అత్యంత సమీపంలోకి వచ్చినప్పుడు (ఉదా. బుధుడు 12°, శుక్రుడు 8°-10°, కుజుడు 17°), సూర్యుని తీవ్రమైన కాంతి కిరణాల ప్రభావం వల్ల ఆ గ్రహం అస్తమిస్తుంది. అస్తమించిన గ్రహం యొక్క బాహ్య భౌతిక ఫలితాలు బలహీనపడతాయి.",
+  },
+  {
+    question: "భక్తి వాయిస్‌లో ఏ అయనాంశను ఉపయోగించారు?",
+    answer:
+      "మేము భారత ప్రభుత్వం సిఫార్సు చేసిన ప్రామాణిక లాహిరి అయనాంశ (Chitrapaksha Lahiri Ayanamsha)ను ఉపయోగిస్తున్నాము, ఇది అంతర్జాతీయ నాసా JPL ఖగోళ గణనలకు అనుగుణంగా అత్యంత ఖచ్చితమైన ఫలితాలను ఇస్తుంది.",
+  },
+];
+
 import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -14,12 +37,17 @@ export const revalidate = 3600;
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
-  const title = isHi
+  const title = isTe
+    ? "దైనందిన గ్రహ స్థితి (Graha Sthiti Ephemeris) — 9 వైదిక గ్రహాలు, రాశి అంశలు, వక్రీ & అస్తంగత వివరాలు"
+    : isHi
     ? "दैनिक ग्रह स्थिति (Graha Sthiti Ephemeris) — ९ वैदिक ग्रह, अंश-कला-विकला, वक्री व अस्त"
     : "Daily Planetary Ephemeris (Graha Sthiti) — Vedic Lahiri Degrees, Vakri, Combust & Pada";
 
-  const description = isHi
+  const description = isTe
+    ? "లాహిరి (చిత్రపక్ష) అయనాంశ ఆధారిత దైనందిన 9 వైదిక నవగ్రహాల ఖచ్చితమైన స్థితి. రాశి, డిగ్రీలు, కళలు, వికళలు, నక్షత్ర పాదం, వక్రీ (R) మరియు అస్తంగత (Combust) గతుల సంపూర్ణ నివేదిక."
+    : isHi
     ? "प्रामाणिक लाहिरी (चित्रापक्ष) अयनांश आधारित दैनिक ९ वैदिक ग्रहों एवं आधुनिक ग्रहों की स्पष्ट स्थिति। राशि, अंश, कला, विकला, नक्षत्र पाद, वक्री (R) व अस्त (Combust) गति का सम्पूर्ण विवरण।"
     : "High-precision Daily Planetary Ephemeris (Graha Sthiti) based on Lahiri (Chitrapaksha) Ayanamsha. Real-time Sidereal degrees, minutes, seconds, Nakshatra Pada, retrograde (Vakri), combust status, and planetary dignities.";
 
@@ -56,14 +84,15 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function GrahaSthitiPage() {
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const breadcrumbs = localizedCrumbs(
     t.homeName,
-    [isHi ? "पंचांग" : "Panchang", PATHS.panchang],
-    [isHi ? "दैनिक ग्रह स्थिति" : "Planetary Ephemeris", `${PATHS.panchang}/graha-sthiti`]
+    [isTe ? "పంచాంగం" : isHi ? "पंचांग" : "Panchang", PATHS.panchang],
+    [isTe ? "దైనందిన గ్రహ స్థితి" : isHi ? "दैनिक ग्रह स्थिति" : "Planetary Ephemeris", `${PATHS.panchang}/graha-sthiti`]
   );
 
-  const faqs = isHi
+  const faqs = isTe ? GRAHA_STHITI_FAQS_TE : isHi
     ? [
         {
           question: "ग्रह स्थिति (Graha Sthiti) क्या होती है?",
@@ -109,11 +138,15 @@ export default async function GrahaSthitiPage() {
         },
       ];
 
-  const pageTitle = isHi
+  const pageTitle = isTe
+    ? "దైనందిన గ్రహ స్థితి (Graha Sthiti Ephemeris)"
+    : isHi
     ? "दैनिक ग्रह स्थिति (Graha Sthiti Ephemeris)"
     : "Daily Planetary Ephemeris (Graha Sthiti)";
 
-  const subtitle = isHi
+  const subtitle = isTe
+    ? "లాహిరి అయనాంశం ఆధారంగా 9 వైదిక గ్రహాలు, రాశి డిగ్రీలు, నక్షత్ర పాదం, వక్రీ మరియు అస్తంగత గతులు"
+    : isHi
     ? "लाहिरी अयनांश पर आधारित ९ वैदिक ग्रह, राशि अंश-कला, नक्षत्र पाद, वक्री व अस्त गति"
     : "High-precision Sidereal Lahiri positions for 9 Vedic Grahas with Retrograde & Combustion status";
 
@@ -129,7 +162,7 @@ export default async function GrahaSthitiPage() {
         <GrahaSthitiPageView />
 
         <div className="mt-12">
-          <FaqList faqs={faqs} title={isHi ? "ग्रह स्थिति से जुड़े मुख्य प्रश्न" : "Frequently Asked Questions"} />
+          <FaqList faqs={faqs} title={isTe ? "గ్రహ స్థితికి సంబంధించిన తరచుగా అడిగే ప్రశ్నలు" : isHi ? "ग्रह स्थिति से जुड़े मुख्य प्रश्न" : "Frequently Asked Questions"} />
         </div>
       </div>
 

@@ -29,6 +29,7 @@ export type FestivalDetailViewProps = {
 export function FestivalDetailView({ festival, isModal = false, onClose }: FestivalDetailViewProps) {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
 
@@ -57,7 +58,7 @@ export function FestivalDetailView({ festival, isModal = false, onClose }: Festi
         {isModal && onClose && (
           <button
             onClick={onClose}
-            aria-label={isHi ? "बंद करें" : "Close"}
+            aria-label={isTe ? "మూసివేయండి" : isHi ? "बंद करें" : "Close"}
             className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 text-muted shadow-xs transition hover:bg-white hover:text-ink active:scale-95"
           >
             <X className="h-4 w-4" />

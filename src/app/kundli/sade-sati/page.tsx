@@ -58,11 +58,12 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function SadeSatiPage() {
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const breadcrumbs = localizedCrumbs(
     t.homeName,
-    [isHi ? "कुंडली" : "Kundli", PATHS.kundli],
-    [isHi ? "शनि साढ़े साती कैलकुलेटर" : "Shani Sade Sati Calculator", `${PATHS.kundli}/sade-sati`]
+    [isTe ? "కుండలి" : isHi ? "कुंडली" : "Kundli", PATHS.kundli],
+    [isTe ? "ఏలినాటి శని కాలిక్యులేటర్" : isHi ? "शनि साढ़े साती कैलकुलेटर" : "Shani Sade Sati Calculator", `${PATHS.kundli}/sade-sati`]
   );
 
   const faqs = isHi

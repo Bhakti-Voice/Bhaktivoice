@@ -7,32 +7,33 @@ import { useLocale } from "@/lib/i18n/client";
 export function ProductTrustBadges() {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const badges = [
     {
       icon: Sparkles,
-      title: isHi ? "100% प्रामाणिक एवं शुद्ध" : "100% Pure & Authentic",
+      title: isTe ? "100% ప్రామాణిక & స్వచ్ఛమైనవి" : isHi ? "100% प्रामाणिक एवं शुद्ध" : "100% Pure & Authentic",
       desc: isHi
         ? "प्राकृतिक तुलसी, रुद्राक्ष एवं शुद्ध धातु"
         : "Genuine natural beads, pure metals & organic materials",
     },
     {
       icon: PackageCheck,
-      title: isHi ? "पवित्र एवं सुरक्षित पैकिंग" : "Sanctified Packaging",
+      title: isTe ? "పవిత్ర & సురక్షిత ప్యాకింగ్" : isHi ? "पवित्र एवं सुरक्षित पैकिंग" : "Sanctified Packaging",
       desc: isHi
         ? "पूजन सामग्री के सम्मान अनुसार सुरक्षित डिब्बे"
         : "Handled with respect and packed in secure boxes",
     },
     {
       icon: HeartHandshake,
-      title: isHi ? "साधना हेतु यथार्थ भाव" : "True Sadhana Purpose",
+      title: isTe ? "నిత్య సాధనకు అనువైనది" : isHi ? "साधना हेतु यथार्थ भाव" : "True Sadhana Purpose",
       desc: isHi
         ? "बिना किसी अंधविश्वास व चमत्कारी दावों के"
         : "Practical spiritual tools without false promises",
     },
     {
       icon: Truck,
-      title: isHi ? "अखिल भारतीय सुरक्षित डिलीवरी" : "Pan-India Safe Delivery",
+      title: isTe ? "భారతదేశమంతటా సురక్షిత డెలివరీ" : isHi ? "अखिल भारतीय सुरक्षित डिलीवरी" : "Pan-India Safe Delivery",
       desc: isHi
         ? "त्वरित प्रेषण एवं विश्वसनीय ट्रैकिंग"
         : "Dispatched promptly with end-to-end tracking",

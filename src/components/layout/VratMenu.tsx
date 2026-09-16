@@ -11,6 +11,7 @@ interface VratMenuItem {
   href: string;
   labelEn: string;
   labelHi: string;
+  labelTe: string;
 }
 
 // 3 Columns covering all Vrats
@@ -18,31 +19,31 @@ const VRAT_COLUMNS: { items: VratMenuItem[] }[] = [
   // Column 1
   {
     items: [
-      { href: "/vrat-upavas#ekadashi-vrat", labelEn: "Ekadashi Vrat & Parana", labelHi: "एकादशी व्रत एवं पारण" },
-      { href: "/vrat-upavas#pradosh-vrat", labelEn: "Pradosh Vrat (Shiva)", labelHi: "प्रदोष व्रत (त्रयोदशी)" },
-      { href: "/vrat-upavas#sankashti-chaturthi", labelEn: "Sankashti Chaturthi", labelHi: "संकष्टी चतुर्थी (गणेश)" },
-      { href: "/vrat-upavas#masik-shivratri", labelEn: "Masik Shivratri", labelHi: "मासिक शिवरात्रि व्रत" },
-      { href: "/vrat-upavas#purnima-vrat", labelEn: "Purnima & Satyanarayan", labelHi: "पूर्णिमा व्रत व कथा" },
+      { href: "/vrat-upavas#ekadashi-vrat", labelEn: "Ekadashi Vrat & Parana", labelHi: "एकादशी व्रत एवं पारण", labelTe: "ఏకాదశి వ్రతం & పారణ" },
+      { href: "/vrat-upavas#pradosh-vrat", labelEn: "Pradosh Vrat (Shiva)", labelHi: "प्रदोष व्रत (त्रयोदशी)", labelTe: "ప్రదోష వ్రతం (శివారాధన)" },
+      { href: "/vrat-upavas#sankashti-chaturthi", labelEn: "Sankashti Chaturthi", labelHi: "संकष्टी चतुर्थी (गणेश)", labelTe: "సంకష్ట చతుర్థి (గణపతి)" },
+      { href: "/vrat-upavas#masik-shivratri", labelEn: "Masik Shivratri", labelHi: "मासिक शिवरात्रि व्रत", labelTe: "మాస శివరాత్రి వ్రతం" },
+      { href: "/vrat-upavas#purnima-vrat", labelEn: "Purnima & Satyanarayan", labelHi: "पूर्णिमा व्रत व कथा", labelTe: "పౌర్ణమి & సత్యనారాయణ వ్రతం" },
     ],
   },
   // Column 2
   {
     items: [
-      { href: "/vrat-upavas#amavasya-tarpan", labelEn: "Amavasya & Pitru Tarpan", labelHi: "अमावस्या एवं पितृ तर्पण" },
-      { href: "/vrat-upavas#navratri-vrat", labelEn: "Navratri 9 Days Vrat", labelHi: "नवरात्रि ९ दिवसीय व्रत" },
-      { href: "/vrat-upavas#rohini-vrat", labelEn: "Rohini Vrat & Jain", labelHi: "रोहिणी व्रत एवं पच्चक्खाण" },
-      { href: "/vrat-upavas#sawan-somwar", labelEn: "Sawan Somwar Vrat", labelHi: "सावन सोमवार व्रत" },
-      { href: "/vrat-upavas#skanda-sashti", labelEn: "Skanda Sashti Vrat", labelHi: "स्कंद षष्ठी (कार्तिकेय)" },
+      { href: "/vrat-upavas#amavasya-tarpan", labelEn: "Amavasya & Pitru Tarpan", labelHi: "अमावस्या एवं पितृ तर्पण", labelTe: "అమావాస్య & పితృ తర్పణం" },
+      { href: "/vrat-upavas#navratri-vrat", labelEn: "Navratri 9 Days Vrat", labelHi: "नवरात्रि ९ दिवसीय व्रत", labelTe: "శరన్నవరాత్రి 9 రోజుల వ్రతం" },
+      { href: "/vrat-upavas#rohini-vrat", labelEn: "Rohini Vrat & Jain", labelHi: "रोहिणी व्रत एवं पच्चक्खाण", labelTe: "రోహిణి వ్రతం & పచ్చక్ఖాణ్" },
+      { href: "/vrat-upavas#sawan-somwar", labelEn: "Sawan Somwar Vrat", labelHi: "सावन सोमवार व्रत", labelTe: "శ్రావణ సోమవార వ్రతం" },
+      { href: "/vrat-upavas#skanda-sashti", labelEn: "Skanda Sashti Vrat", labelHi: "स्कंद षष्ठी (कार्तिकेय)", labelTe: "స్కంద షష్ఠి (సుబ్రహ్మణ్య)" },
     ],
   },
   // Column 3
   {
     items: [
-      { href: "/vrat-upavas#varalakshmi-vrat", labelEn: "Varalakshmi Vrat", labelHi: "वरलक्ष्मी व्रत" },
-      { href: "/vrat-upavas#karwa-chauth", labelEn: "Karwa Chauth Vrat", labelHi: "करवा चौथ व्रत" },
-      { href: "/vrat-upavas#ahar-niyam", labelEn: "Vrat Ahar Rules (Phalahar)", labelHi: "व्रत आहार नियम (फलाहार)" },
-      { href: "/vrat-upavas#sankalp-vidhi", labelEn: "Vrat Sankalp Vidhi", labelHi: "व्रत संकल्प एवं उद्यापन" },
-      { href: "/vrat-upavas#all-vrats", labelEn: "Full 2026 Vrat Calendar", labelHi: "सम्पूर्ण व्रत कैलेंडर 2026" },
+      { href: "/vrat-upavas#varalakshmi-vrat", labelEn: "Varalakshmi Vrat", labelHi: "वरलक्ष्मी व्रत", labelTe: "వరలక్ష్మీ వ్రతం" },
+      { href: "/vrat-upavas#karwa-chauth", labelEn: "Karwa Chauth Vrat", labelHi: "करवा चौथ व्रत", labelTe: "కర్వా చౌత్ వ్రతం" },
+      { href: "/vrat-upavas#ahar-niyam", labelEn: "Vrat Ahar Rules (Phalahar)", labelHi: "व्रत आहार नियम (फलाहार)", labelTe: "వ్రత ఆహార నియమాలు (ఫలాహారం)" },
+      { href: "/vrat-upavas#sankalp-vidhi", labelEn: "Vrat Sankalp Vidhi", labelHi: "व्रत संकल्प एवं उद्यापन", labelTe: "వ్రత సంకల్పం & ఉద్యాపన" },
+      { href: "/vrat-upavas#all-vrats", labelEn: "Full 2026 Vrat Calendar", labelHi: "सम्पूर्ण व्रत कैलेंडर 2026", labelTe: "సంపూర్ణ వ్రత క్యాలెండర్ 2026" },
     ],
   },
 ];
@@ -108,7 +109,7 @@ export function VratMenu({
               onClick={onNavigate}
               className="truncate rounded-xl px-2.5 py-1.5 text-xs text-ink/80 hover:bg-cream hover:text-saffron-deep"
             >
-              {locale === "hi" ? item.labelHi : item.labelEn}
+              {locale === "te" ? item.labelTe : locale === "hi" ? item.labelHi : item.labelEn}
             </LocaleLink>
           ))}
         </div>
@@ -171,7 +172,7 @@ export function VratMenu({
                       className="block rounded-xl px-3 py-2 text-center text-xs font-semibold tracking-wide transition-all duration-150 border border-[#edd8c4] bg-[#fbf3e7] text-ink hover:bg-[#fae7cf] hover:border-saffron hover:text-saffron-deep hover:shadow-xs hover:-translate-y-0.5 active:translate-y-0 shadow-xs"
                     >
                       <span className="block truncate">
-                        {locale === "hi" ? item.labelHi : item.labelEn}
+                        {locale === "te" ? item.labelTe : locale === "hi" ? item.labelHi : item.labelEn}
                       </span>
                     </LocaleLink>
                   );

@@ -31,6 +31,7 @@ import { useLocale, useMessages } from "@/lib/i18n/client";
 export function ManglikTool() {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const t = useMessages();
 
   const [name, setName] = useState("");

@@ -9,6 +9,7 @@ import { useLocale } from "@/lib/i18n/client";
 export function AshtakavargaTable({ chart }: { chart: KundliChart }) {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const [viewMode, setViewMode] = useState<"house" | "rashi">("house");
 
   const result = useMemo(() => calculateAshtakavarga(chart), [chart]);

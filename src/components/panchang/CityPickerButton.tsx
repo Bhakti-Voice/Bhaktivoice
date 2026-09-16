@@ -9,6 +9,7 @@ export interface CityPickerButtonProps {
   city: CityConfig;
   onCityChange: (city: CityConfig) => void;
   isHi?: boolean;
+  isTe?: boolean;
   className?: string;
   variant?: "default" | "compact" | "pill";
 }
@@ -17,6 +18,7 @@ export function CityPickerButton({
   city,
   onCityChange,
   isHi = false,
+  isTe = false,
   className = "",
   variant = "default",
 }: CityPickerButtonProps) {
@@ -34,7 +36,7 @@ export function CityPickerButton({
             ? "border-line bg-white px-3 py-1.5 text-xs font-semibold text-ink hover:border-saffron shadow-xs"
             : "border-line bg-white/95 px-4 py-2 text-xs sm:text-sm font-semibold text-ink hover:border-saffron hover:bg-white shadow-xs"
         } ${className}`}
-        title={isHi ? "स्थान बदलें (100,000+ नगर व तीर्थ)" : "Change location (100,000+ cities & temples)"}
+        title={isTe ? "ప్రాంతాన్ని మార్చండి (100,000+ నగరాలు & పుణ్యక్షేత్రాలు)" : isHi ? "स्थान बदलें (100,000+ नगर व तीर्थ)" : "Change location (100,000+ cities & temples)"}
       >
         <div className="flex items-center gap-2 overflow-hidden text-left">
           <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-saffron/15 text-saffron group-hover:bg-saffron group-hover:text-white transition">
@@ -62,6 +64,7 @@ export function CityPickerButton({
         selectedCity={city}
         onSelectCity={onCityChange}
         isHi={isHi}
+        isTe={isTe}
       />
     </>
   );

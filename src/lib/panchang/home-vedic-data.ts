@@ -49,12 +49,15 @@ function formatTime(d: Date | string | null | undefined): string {
 
 export function getHomeVedicData(locale: string): HomeVedicData {
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const now = new Date();
   const panchang = getPanchang(now, DEFAULT_CITY);
   const monthCalendar = getMonthCalendar(now.getFullYear(), now.getMonth() + 1, DEFAULT_CITY);
   const rashifalList = getDailyRashifal(now);
 
-  const formattedToday = new Intl.DateTimeFormat(isHi ? "hi-IN" : "en-IN", {
+  const loc = isTe ? "te-IN" : isHi ? "hi-IN" : "en-IN";
+
+  const formattedToday = new Intl.DateTimeFormat(loc, {
     weekday: "long",
     day: "numeric",
     month: "short",
@@ -62,7 +65,7 @@ export function getHomeVedicData(locale: string): HomeVedicData {
     timeZone: "Asia/Kolkata",
   }).format(now);
 
-  const monthLabel = new Intl.DateTimeFormat(isHi ? "hi-IN" : "en-IN", {
+  const monthLabel = new Intl.DateTimeFormat(loc, {
     month: "long",
     year: "numeric",
     timeZone: "Asia/Kolkata",
@@ -73,9 +76,10 @@ export function getHomeVedicData(locale: string): HomeVedicData {
   const upcomingObservances: { name: string; dateNumber: number }[] = [];
   for (const d of futureDays) {
     for (const obs of d.observances) {
-      if (upcomingObservances.length < 2 && !upcomingObservances.some((o) => o.name === (isHi ? obs.nameHi || obs.name : obs.name))) {
+      const obsName = isTe ? ((obs as any).nameTe || obs.nameHi || obs.name) : isHi ? obs.nameHi || obs.name : obs.name;
+      if (upcomingObservances.length < 2 && !upcomingObservances.some((o) => o.name === obsName)) {
         upcomingObservances.push({
-          name: isHi ? obs.nameHi || obs.name : obs.name,
+          name: obsName,
           dateNumber: d.dayNumber,
         });
       }
@@ -88,7 +92,7 @@ export function getHomeVedicData(locale: string): HomeVedicData {
     isCurrentMonth: day.isCurrentMonth,
     isToday: day.isToday,
     hasFast: day.hasEkadashi || day.hasPurnima || day.hasAmavasya || day.hasPradosh,
-    observanceTitle: day.observances.map((o) => (isHi ? o.nameHi || o.name : o.name)).join(", "),
+    observanceTitle: day.observances.map((o) => (isTe ? ((o as any).nameTe || o.nameHi || o.name) : isHi ? o.nameHi || o.name : o.name)).join(", "),
   }));
 
   const abhijitTime = panchang.abhijitMuhurat

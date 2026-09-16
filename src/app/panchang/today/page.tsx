@@ -14,22 +14,42 @@ export const revalidate = 1800;
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const now = new Date();
-  const dateFormatted = new Intl.DateTimeFormat(isHi ? "hi-IN" : "en-IN", {
+  const dateFormatted = new Intl.DateTimeFormat(isTe ? "te-IN" : isHi ? "hi-IN" : "en-IN", {
     day: "numeric",
     month: "long",
     year: "numeric",
   }).format(now);
 
   return localizedMetadata({
-    title: isHi
+    title: isTe
+      ? `నేటి పంచాంగం (${dateFormatted}) — నేటి తిథి, శుభ చోఘడియా ముహూర్తం, నక్షత్రం & రాహుకాలం`
+      : isHi
       ? `आज का पंचांग (${dateFormatted}) — आज की तिथि, शुभ चौघड़िया मुहूर्त, नक्षत्र व राहु काल`
       : `Aaj Ka Panchang (${dateFormatted}) — Today's Panchang, Tithi, Shubh Muhurat & Choghadiya`,
-    description: isHi
+    description: isTe
+      ? `నేటి ${dateFormatted} సంపూర్ణ వైదిక పంచాంగం. నేటి తిథి, నక్షత్రం, యోగం, కరణం, సూర్యోదయం-సూర్యాస్తమయం, రాహుకాలం, అభిజిత్ ముహూర్తం మరియు పగలు-రాత్రి శుభ చోఘడియా. 120+ నగరాల ఖచ్చితమైన వివరాలు.`
+      : isHi
       ? `आज ${dateFormatted} का संपूर्ण वैदिक पंचांग। आज की तिथि, नक्षत्र, योग, करण, सूर्योदय-सूर्यास्त, राहु काल, अभिजित मुहूर्त और दिन-रात का शुभ चौघड़िया। 120+ नगरों अनुसार सटीक गणना।`
       : `Get accurate Aaj Ka Panchang for today (${dateFormatted}). Live Tithi, Nakshatra, Yoga, Karana, Sunrise & Sunset, Abhijit Muhurat, Rahu Kaal, and Day-Night Choghadiya across 120+ cities. Top Hindu Vedic Panchang.`,
     path: PATHS.panchangToday,
-    keywords: isHi
+    keywords: isTe
+      ? [
+          "నేటి పంచాంగం",
+          "నేటి తిథి",
+          "నేటి శుభ ముహూర్తం",
+          "నేటి చోఘడియా",
+          "రాహుకాలం సమయం",
+          "అభిజిత్ ముహూర్తం",
+          "దిన పంచాంగం 2026",
+          "సూర్యోదయం సమయం",
+          "నేటి నక్షత్రం",
+          "నేటి పక్షం",
+          "తెలుగు పంచాంగం",
+          "దృక్ పంచాంగం",
+        ]
+      : isHi
       ? [
           "आज का पंचांग",
           "आज की तिथि",
@@ -88,6 +108,24 @@ const TODAY_FAQS_EN = [
   },
 ];
 
+const TODAY_FAQS_TE = [
+  {
+    question: "నేటి పంచాంగం అంటే ఏమిటి?",
+    answer:
+      "దిన పంచాంగం వైదిక జ్యోతిష్యంలోని ఐదు ప్రధాన అంగాలైన తిథి, వారం, నక్షత్రం, యోగం మరియు కరణాలను సూచిస్తుంది. ఇది నేటి శుభ-అశుభ ముహూర్తాలు, సూర్యోదయం, సూర్యాస్తమయం, చంద్రోదయం మరియు రాహుకాలం వేళలను ఖచ్చితంగా తెలియజేస్తుంది.",
+  },
+  {
+    question: "ఈరోజు అత్యంత శుభ ముహూర్తం ఏది?",
+    answer:
+      "ఈరోజు అభిజిత్ ముహూర్తం (బుధవారం మినహా మధ్యాహ్న సమయం), బ్రహ్మ ముహూర్తం (సూర్యోదయానికి ముందు) మరియు అమృత కాలం ఏదైనా నూతన లేదా శుభ కార్యాన్ని ప్రారంభించడానికి అత్యంత శ్రేష్ఠమైనవి.",
+  },
+  {
+    question: "ఈరోజు రాహుకాలం ఎప్పుడు మరియు అందులో ఏమి చేయకూడదు?",
+    answer:
+      "రాహుకాలం ప్రతిరోజూ దాదాపు 90 నిమిషాల పాటు ఉండే అశుభ సమయం. ఈ సమయంలో గృహ ప్రవేశం, కొత్త వ్యాపార ప్రారంభం, ధన పెట్టుబడులు లేదా శుభ ప్రయాణాలు ప్రారంభించడం నిషిద్ధం.",
+  },
+];
+
 const TODAY_FAQS_HI = [
   {
     question: "आज का पंचांग क्या होता है?",
@@ -113,8 +151,9 @@ export default async function PanchangTodayPage({
 }) {
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const params = await searchParams;
-  const faqs = isHi ? TODAY_FAQS_HI : TODAY_FAQS_EN;
+  const faqs = isTe ? TODAY_FAQS_TE : isHi ? TODAY_FAQS_HI : TODAY_FAQS_EN;
 
   return (
     <div>
@@ -122,8 +161,10 @@ export default async function PanchangTodayPage({
         data={{
           "@context": "https://schema.org",
           "@type": "WebPage",
-          name: isHi ? "आज का पंचांग — दैनिक वैदिक ज्योतिष एवं मुहूर्त" : "Today's Panchang — Daily Vedic Astrology & Muhurat",
-          description: isHi
+          name: isTe ? "నేటి పంచాంగం — దిన వైదిక జ్యోతిష్యం & ముహూర్తం" : isHi ? "आज का पंचांग — दैनिक वैदिक ज्योतिष एवं मुहूर्त" : "Today's Panchang — Daily Vedic Astrology & Muhurat",
+          description: isTe
+            ? "తిథి, నక్షత్రం, సూర్యోదయం, సూర్యాస్తమయం, చోఘడియా మరియు శుభ ముహూర్తాలతో దిన పంచాంగం."
+            : isHi
             ? "तिथि, नक्षत्र, सूर्योदय, सूर्यास्त, चौघड़िया और शुभ मुहूर्त के साथ दैनिक पंचांग।"
             : "Live daily Hindu Panchang with Tithi, Nakshatra, Sunrise, Sunset, Choghadiya, and Shubh Muhurat.",
           publisher: {
@@ -135,9 +176,11 @@ export default async function PanchangTodayPage({
       />
 
       <PageHero
-        title={isHi ? "आज का पंचांग एवं शुभ मुहूर्त" : "Today's Panchang & Muhurat"}
+        title={isTe ? "నేటి పంచాంగం & శుభ ముహూర్తం" : isHi ? "आज का पंचांग एवं शुभ मुहूर्त" : "Today's Panchang & Muhurat"}
         subtitle={
-          isHi
+          isTe
+            ? "నేటి దిన వైదిక పంచాంగం. మీ నగరం ప్రకారం ఖచ్చితమైన తిథి, నక్షత్రం, యోగం, కరణం, చోఘడియా, రాహుకాలం మరియు శుభ ముహూర్తాలను తెలుసుకోండి."
+            : isHi
             ? "आज का दैनिक वैदिक पंचांग। अपने नगर के अनुसार सटीक तिथि, नक्षत्र, योग, करण, चौघड़िया, राहु काल और शुभ मुहूर्त देखें।"
             : "Live Vedic Panchang for today. Accurate Tithi, Nakshatra, Yoga, Karana, Choghadiya, Rahu Kaal, and Auspicious Muhurats for your city."
         }
@@ -145,8 +188,8 @@ export default async function PanchangTodayPage({
         crumbs={localizedCrumbs(
           t.homeName,
           [t.nav.spiritualTools, PATHS.spiritualTools],
-          [isHi ? "पंचांग" : "Panchang", PATHS.panchang],
-          [isHi ? "आज का पंचांग" : "Today's Panchang", PATHS.panchangToday]
+          [isTe ? "పంచాంగం" : isHi ? "पंचांग" : "Panchang", PATHS.panchang],
+          [isTe ? "నేటి పంచాంగం" : isHi ? "आज का पंचांग" : "Today's Panchang", PATHS.panchangToday]
         )}
       />
 
@@ -155,7 +198,7 @@ export default async function PanchangTodayPage({
       <div className="mx-auto max-w-4xl px-4 py-12 lg:px-8">
         <FaqList
           faqs={faqs}
-          title={isHi ? "आज के पंचांग से जुड़े मुख्य प्रश्नोत्तर (FAQs)" : "Frequently Asked Questions about Today's Panchang"}
+          title={isTe ? "నేటి పంచాంగం గురించి తరచుగా అడిగే ప్రశ్నలు (FAQs)" : isHi ? "आज के पंचांग से जुड़े मुख्य प्रश्नोत्तर (FAQs)" : "Frequently Asked Questions about Today's Panchang"}
         />
       </div>
     </div>

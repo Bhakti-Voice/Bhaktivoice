@@ -45,9 +45,13 @@ export function AdminPreviewBar() {
   }
 
   const isHindi = pathname.startsWith("/hi");
-  const alternatePath = isHindi
-    ? pathname.replace(/^\/hi/, "") || "/"
-    : `/hi${pathname}`;
+  const isTelugu = pathname.startsWith("/te");
+  const cleanPath = pathname.replace(/^\/(hi|te)/, "") || "/";
+  const alternatePath = isTelugu
+    ? cleanPath
+    : isHindi
+    ? `/te${cleanPath}`
+    : `/hi${cleanPath}`;
 
   return (
     <aside
@@ -90,9 +94,9 @@ export function AdminPreviewBar() {
             <Link
               href={`${alternatePath}?preview=true`}
               className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-amber-100 transition-colors text-[11px] font-medium"
-              title={`Switch to ${isHindi ? "English" : "Hindi"} preview`}
+              title="Switch preview language"
             >
-              {isHindi ? "🇬🇧 English" : "🇮🇳 हिंदी"}
+              {isTelugu ? "🇬🇧 English" : isHindi ? "🚩 తెలుగు" : "🇮🇳 हिंदी"}
             </Link>
 
             <a

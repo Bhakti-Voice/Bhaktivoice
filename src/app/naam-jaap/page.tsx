@@ -24,13 +24,14 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function NaamJaapPage() {
   const t = await getMessages();
   const locale = await getLocale();
+  const isTe = locale === "te";
   const isHi = locale === "hi";
 
   // WebApplication Schema for SEO
   const appSchema = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: isHi ? "भक्ति वॉइस डिजिटल नाम जप काउंटर" : "Bhakti Voice Digital Naam Jaap Counter",
+    name: isTe ? "భక్తి వాయిస్ డిజిటల్ నామ జప కౌంటర్" : isHi ? "भक्ति वॉइस डिजिटल नाम जप काउंटर" : "Bhakti Voice Digital Naam Jaap Counter",
     url: absoluteUrl(PATHS.naamJaap),
     applicationCategory: "LifestyleApplication",
     operatingSystem: "All",
@@ -39,7 +40,9 @@ export default async function NaamJaapPage() {
       price: "0",
       priceCurrency: "INR",
     },
-    description: isHi
+    description: isTe
+      ? "ఉచిత ఆన్‌లైన్ 108 మాల జప కౌంటర్ — రాధే రాధే, రామ నామం, హరే కృష్ణ మహామంత్రం మరియు ఓం నమః శివాయ శాంతమైన జపం."
+      : isHi
       ? "मुफ़्त ऑनलाइन १०८ माला जप काउंटर — राधे राधे, राम नाम, हरे कृष्ण महामंत्र एवं ॐ नमः शिवाय का शांत व भावपूर्ण जप।"
       : "Free online 108 Mala Jaap counter for Radhe Radhe, Ram Naam, Hare Krishna Mahamantra and Om Namah Shivaya with daily streak tracking and sound cues.",
     aggregateRating: {
@@ -110,14 +113,16 @@ export default async function NaamJaapPage() {
       <div className="mt-3 mb-2">
         <div className="flex items-center gap-2 mb-2">
           <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-orange-100/90 text-orange-900 border border-orange-200">
-            📿 {isHi ? "दैनिक आध्यात्मिक साधना" : "Daily Sadhana"}
+            📿 {isTe ? "దైవిక సాధన" : isHi ? "दैनिक आध्यात्मिक साधना" : "Daily Sadhana"}
           </span>
         </div>
         <h1 className="font-serif text-3xl text-ink sm:text-4xl lg:text-5xl font-bold tracking-tight">
           {t.jaap.counter}
         </h1>
         <p className="mt-1.5 text-xs sm:text-sm text-muted max-w-2xl leading-relaxed">
-          {isHi
+          {isTe
+            ? "రాధే రాధే, రామ నామం, హరే కృష్ణ మరియు ఓం నమః శివాయ ప్రశాంత 108 జప కౌంటర్. మీ దినచర్య మాలను సాధన చేయండి."
+            : isHi
             ? "राधे राधे, राम नाम, हरे कृष्ण एवं ॐ नमः शिवाय का शांत १०८ जप काउंटर। अपनी दैनिक माला और श्रृंखला बनाए रखें।"
             : "A peaceful digital jaap counter for Radhe Radhe, Ram naam, Hare Krishna, and Om Namah Shivaya. Count a mala of 108, sustain your daily streak, and experience stillness."}
         </p>
@@ -133,7 +138,7 @@ export default async function NaamJaapPage() {
       </div>
 
       {/* Rich Editorial Guide for High SEO Rank */}
-      <JaapSeoGuide isHi={isHi} />
+      <JaapSeoGuide isHi={isHi} isTe={isTe} />
 
       <HubSeoBlock id="naam-jaap" collapsible />
       <FaqList faqs={[...t.jaap.faqs]} title={t.jaap.faqTitle} />

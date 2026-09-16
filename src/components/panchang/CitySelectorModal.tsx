@@ -47,6 +47,7 @@ export interface CitySelectorModalProps {
   onSelectCity: (city: CityConfig) => void;
   selectedCity: CityConfig;
   isHi?: boolean;
+  isTe?: boolean;
 }
 
 export function CitySelectorModal({
@@ -55,6 +56,7 @@ export function CitySelectorModal({
   onSelectCity,
   selectedCity,
   isHi = false,
+  isTe = false,
 }: CitySelectorModalProps) {
   const [activeTab, setActiveTab] = useState<"search" | "custom">("search");
   const [searchQuery, setSearchQuery] = useState("");
@@ -222,9 +224,13 @@ export function CitySelectorModal({
         setGpsLoading(false);
         setGpsError(
           err.code === 1
-            ? isHi
+            ? isTe
+              ? "స్థాన అనుమతి నిరాకరించబడింది. దయచేసి బ్రౌజర్ సెట్టింగ్స్‌లో అనుమతి ఇవ్వండి."
+              : isHi
               ? "स्थान अनुमति अस्वीकृत। कृपया ब्राउज़र सेटिंग्स में अनुमति दें।"
               : "Location permission denied. Please allow access in browser."
+            : isTe
+            ? "మీ స్థానాన్ని పొందడం సాధ్యం కాలేదు. దయచేసి మళ్లీ ప్రయత్నించండి."
             : isHi
             ? "स्थान प्राप्त करने में असमर्थ। कृपया पुनः प्रयास करें।"
             : "Unable to retrieve your location. Please try again."
@@ -244,11 +250,11 @@ export function CitySelectorModal({
     const elev = parseFloat(customElevation) || 0;
 
     if (isNaN(lat) || lat < -90 || lat > 90) {
-      setCustomError(isHi ? "मान्य अक्षांश (-90 से +90) दर्ज करें।" : "Enter valid latitude (-90 to +90).");
+      setCustomError(isTe ? "సరైన అక్షాంశం (-90 నుండి +90) నమోదు చేయండి." : isHi ? "मान्य अक्षांश (-90 से +90) दर्ज करें।" : "Enter valid latitude (-90 to +90).");
       return;
     }
     if (isNaN(lon) || lon < -180 || lon > 180) {
-      setCustomError(isHi ? "मान्य देशांतर (-180 से +180) दर्ज करें।" : "Enter valid longitude (-180 to +180).");
+      setCustomError(isTe ? "సరైన రేఖాంశం (-180 నుండి +180) నమోదు చేయండి." : isHi ? "मान्य देशांतर (-180 से +180) दर्ज करें।" : "Enter valid longitude (-180 to +180).");
       return;
     }
 
@@ -283,10 +289,12 @@ export function CitySelectorModal({
             </div>
             <div>
               <h2 id={dialogTitleId} className="text-base sm:text-lg font-bold text-ink">
-                {isHi ? "स्थान चुनें (100,000+ विश्व नगर व तीर्थ)" : "Select Location (100,000+ Global Cities & Tirthas)"}
+                {isTe ? "ప్రాంతాన్ని ఎంచుకోండి (100,000+ నగరాలు & పుణ్యక్షేత్రాలు)" : isHi ? "स्थान चुनें (100,000+ विश्व नगर व तीर्थ)" : "Select Location (100,000+ Global Cities & Tirthas)"}
               </h2>
               <p className="text-xs text-muted">
-                {isHi
+                {isTe
+                  ? "ఖచ్చితమైన సూర్యోదయం, సూర్యాస్తమయం & పంచాంగం కోసం నగరాన్ని శోధించండి లేదా జీపీఎస్ ఉపయోగించండి"
+                  : isHi
                   ? "सटीक सूर्योदय, सूर्यास्त व पंचांग हेतु स्थान खोजें या जीपीएस उपयोग करें"
                   : "Search any city worldwide, use GPS, or enter custom coordinates"}
               </p>
@@ -295,7 +303,7 @@ export function CitySelectorModal({
           <button
             type="button"
             onClick={onClose}
-            aria-label={isHi ? "बंद करें" : "Close"}
+            aria-label={isTe ? "మూసివేయండి" : isHi ? "बंद करें" : "Close"}
             className="flex h-8 w-8 items-center justify-center rounded-full text-muted hover:bg-black/5 hover:text-ink transition"
           >
             <X className="h-5 w-5" />
@@ -314,7 +322,7 @@ export function CitySelectorModal({
             }`}
           >
             <Search className="h-4 w-4" />
-            {isHi ? "शहर / तीर्थ खोजें" : "Search Cities & Tirthas"}
+            {isTe ? "నగరం / తీర్థం శోధించండి" : isHi ? "शहर / तीर्थ खोजें" : "Search Cities & Tirthas"}
           </button>
           <button
             type="button"
@@ -326,7 +334,7 @@ export function CitySelectorModal({
             }`}
           >
             <Sliders className="h-4 w-4" />
-            {isHi ? "कस्टम अक्षांश / देशांतर" : "Custom Coordinates"}
+            {isTe ? "కస్టమ్ అక్షాంశం / రేఖాంశం" : isHi ? "कस्टम अक्षांश / देशांतर" : "Custom Coordinates"}
           </button>
         </div>
 
@@ -344,7 +352,9 @@ export function CitySelectorModal({
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder={
-                    isHi
+                    isTe
+                      ? "నగరం, జిల్లా, పుణ్యక్షేత్రం పేరును శోధించండి (ఉదా. తిరుపతి, హైదరాబాద్, వారణాసి)..."
+                      : isHi
                       ? "शहर, जिला, तीर्थ का नाम लिखें (उदा. वाराणसी, Edison, Udupi)..."
                       : "Search any city, town, or temple (e.g. Varanasi, Edison, Udupi)..."
                   }
@@ -373,7 +383,7 @@ export function CitySelectorModal({
                 ) : (
                   <Navigation className="h-4 w-4" />
                 )}
-                <span>{isHi ? "मेरा स्थान (GPS)" : "Detect GPS"}</span>
+                <span>{isTe ? "నా స్థానం (GPS)" : isHi ? "मेरा स्थान (GPS)" : "Detect GPS"}</span>
               </button>
             </div>
 
@@ -388,7 +398,7 @@ export function CitySelectorModal({
             {!searchQuery && (
               <div>
                 <span className="text-[11px] font-semibold text-muted uppercase tracking-wider block mb-1.5">
-                  {isHi ? "प्रमुख तीर्थ एवं लोकप्रिय नगर:" : "Popular Tirthas & Metros:"}
+                  {isTe ? "ప్రముఖ పుణ్యక్షేత్రాలు & నగరాలు:" : isHi ? "प्रमुख तीर्थ एवं लोकप्रिय नगर:" : "Popular Tirthas & Metros:"}
                 </span>
                 <div className="flex flex-wrap gap-1.5">
                   {POPULAR_CITIES.map((c) => (
@@ -414,7 +424,7 @@ export function CitySelectorModal({
               <div>
                 <span className="text-[11px] font-semibold text-muted uppercase tracking-wider flex items-center gap-1 mb-1.5">
                   <History className="h-3 w-3" />
-                  {isHi ? "हाल ही में देखे गए स्थान:" : "Recently Selected:"}
+                  {isTe ? "ఇటీవల చూసిన ప్రాంతాలు:" : isHi ? "हाल ही में देखे गए स्थान:" : "Recently Selected:"}
                 </span>
                 <div className="flex flex-wrap gap-1.5">
                   {recentCities.map((c) => (
@@ -436,7 +446,7 @@ export function CitySelectorModal({
               {isLoading && (
                 <div className="flex items-center justify-center py-6 text-xs text-muted gap-2">
                   <Loader2 className="h-4 w-4 animate-spin text-saffron" />
-                  <span>{isHi ? "वैश्विक डेटाबेस में खोज रहे हैं..." : "Searching 100,000+ global locations..."}</span>
+                  <span>{isTe ? "ప్రపంచ డేటాబేస్‌లో శోధిస్తోంది..." : isHi ? "वैश्विक डेटाबेस में खोज रहे हैं..." : "Searching 100,000+ global locations..."}</span>
                 </div>
               )}
 
@@ -444,10 +454,12 @@ export function CitySelectorModal({
                 <div className="text-center py-10 text-muted">
                   <Globe className="h-8 w-8 mx-auto mb-2 text-muted/50" />
                   <p className="text-xs sm:text-sm font-medium">
-                    {isHi ? "कोई स्थान नहीं मिला।" : "No locations found."}
+                    {isTe ? "ఎటువంటి ప్రాంతం కనుగొనబడలేదు." : isHi ? "कोई स्थान नहीं मिला।" : "No locations found."}
                   </p>
                   <p className="text-xs text-muted/80 mt-1">
-                    {isHi
+                    {isTe
+                      ? "మీరు 'కస్టమ్ అక్షాంశం / రేఖాంశం' ట్యాబ్‌లో నేరుగా నమోదు చేయవచ్చు."
+                      : isHi
                       ? "आप 'कस्टम अक्षांश / देशांतर' टैब में जाकर सीधे निर्देशांक दर्ज कर सकते हैं।"
                       : "You can enter exact coordinates in the 'Custom Coordinates' tab."}
                   </p>
@@ -524,14 +536,14 @@ export function CitySelectorModal({
 
             <div>
               <label htmlFor={customNameId} className="block text-xs font-semibold text-ink mb-1">
-                {isHi ? "स्थान का नाम (वैकल्पिक)" : "Location Name (Optional)"}
+                {isTe ? "ప్రాంతం పేరు (ఐచ్ఛికం)" : isHi ? "स्थान का नाम (वैकल्पिक)" : "Location Name (Optional)"}
               </label>
               <input
                 id={customNameId}
                 type="text"
                 value={customName}
                 onChange={(e) => setCustomName(e.target.value)}
-                placeholder={isHi ? "उदा. मेरा घर, आश्रम, गाँव" : "e.g. Home, My Ashram, Hometown"}
+                placeholder={isTe ? "ఉదా. మా ఊరు, నివాసం, ఆశ్రమం" : isHi ? "उदा. मेरा घर, आश्रम, गाँव" : "e.g. Home, My Ashram, Hometown"}
                 className="w-full rounded-2xl border border-line bg-white px-3.5 py-2 text-sm text-ink focus:border-saffron focus:outline-hidden"
               />
             </div>
@@ -539,7 +551,7 @@ export function CitySelectorModal({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label htmlFor={customLatId} className="block text-xs font-semibold text-ink mb-1">
-                  {isHi ? "अक्षांश (Latitude: -90.00 to +90.00)" : "Latitude (-90.00 to +90.00) *"}
+                  {isTe ? "అక్షాంశం (Latitude: -90.00 to +90.00) *" : isHi ? "अक्षांश (Latitude: -90.00 to +90.00)" : "Latitude (-90.00 to +90.00) *"}
                 </label>
                 <input
                   id={customLatId}
@@ -555,7 +567,7 @@ export function CitySelectorModal({
 
               <div>
                 <label htmlFor={customLonId} className="block text-xs font-semibold text-ink mb-1">
-                  {isHi ? "देशांतर (Longitude: -180.00 to +180.00)" : "Longitude (-180.00 to +180.00) *"}
+                  {isTe ? "రేఖాంశం (Longitude: -180.00 to +180.00) *" : isHi ? "देशांतर (Longitude: -180.00 to +180.00)" : "Longitude (-180.00 to +180.00) *"}
                 </label>
                 <input
                   id={customLonId}
@@ -573,7 +585,7 @@ export function CitySelectorModal({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label htmlFor={customElevId} className="block text-xs font-semibold text-ink mb-1">
-                  {isHi ? "समुद्र तल से ऊंचाई (मीटर)" : "Elevation (Meters)"}
+                  {isTe ? "సముద్ర మట్టం నుండి ఎత్తు (మీటర్లు)" : isHi ? "समुद्र तल से ऊंचाई (मीटर)" : "Elevation (Meters)"}
                 </label>
                 <input
                   id={customElevId}
@@ -587,7 +599,7 @@ export function CitySelectorModal({
 
               <div>
                 <label htmlFor={customTzId} className="block text-xs font-semibold text-ink mb-1">
-                  {isHi ? "समय क्षेत्र (Timezone) *" : "Timezone (IANA) *"}
+                  {isTe ? "సమయ మండలం (Timezone) *" : isHi ? "समय क्षेत्र (Timezone) *" : "Timezone (IANA) *"}
                 </label>
                 <select
                   id={customTzId}
@@ -610,13 +622,13 @@ export function CitySelectorModal({
                 onClick={() => setActiveTab("search")}
                 className="rounded-2xl border border-line px-4 py-2 text-xs font-semibold text-muted hover:text-ink"
               >
-                {isHi ? "रद्द करें" : "Cancel"}
+                {isTe ? "రద్దు చేయండి" : isHi ? "रद्द करें" : "Cancel"}
               </button>
               <button
                 type="submit"
                 className="rounded-2xl bg-saffron px-5 py-2 text-xs sm:text-sm font-bold text-white shadow-xs hover:bg-saffron/90 transition"
               >
-                {isHi ? "पंचांग गणना करें" : "Apply & Calculate Panchang"}
+                {isTe ? "పంచాంగం లెక్కించండి" : isHi ? "पंचांग गणना करें" : "Apply & Calculate Panchang"}
               </button>
             </div>
           </form>
@@ -625,12 +637,12 @@ export function CitySelectorModal({
         {/* Footer info bar */}
         <div className="border-t border-line/80 bg-ivory/80 px-5 py-2.5 text-[11px] text-muted flex items-center justify-between">
           <span>
-            {isHi ? "वर्तमान चयनित स्थान:" : "Current Location:"}{" "}
+            {isTe ? "ప్రస్తుతం ఎంచుకున్న ప్రాంతం:" : isHi ? "वर्तमान चयनित स्थान:" : "Current Location:"}{" "}
             <strong className="text-ink">{isHi ? selectedCity.nameHi : selectedCity.name}</strong> (
             {selectedCity.timeZone})
           </span>
           <span className="hidden sm:inline text-saffron font-medium">
-            {isHi ? "100% सटीक वैदिक गणित" : "100% Accurate Vedic Astronomy"}
+            {isTe ? "100% ఖచ్చితమైన వైదిక గణితం" : isHi ? "100% सटीक वैदिक गणित" : "100% Accurate Vedic Astronomy"}
           </span>
         </div>
       </div>

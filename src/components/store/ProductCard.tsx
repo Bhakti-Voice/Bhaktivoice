@@ -36,6 +36,7 @@ export function ProductCard({
 }: ProductCardProps) {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const [added, setAdded] = useState(false);
 
   const finalMrp = mrpInr || Math.round(priceInr * 1.35);
@@ -88,11 +89,11 @@ export function ProductCard({
         <div className="absolute top-3 left-3 flex flex-col gap-1.5">
           {outOfStock ? (
             <span className="rounded-full bg-stone-900/80 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur-xs">
-              {isHi ? "स्टॉक समाप्त" : "Out of Stock"}
+              {isTe ? "స్టాక్ పూర్తయింది" : isHi ? "स्टॉक समाप्त" : "Out of Stock"}
             </span>
           ) : discountPercent > 0 ? (
             <span className="rounded-full bg-saffron-deep px-2.5 py-1 text-[11px] font-bold text-white shadow-xs">
-              {discountPercent}% {isHi ? "छूट" : "OFF"}
+              {discountPercent}% {isTe ? "రాయితీ" : isHi ? "छूट" : "OFF"}
             </span>
           ) : null}
         </div>
@@ -142,7 +143,7 @@ export function ProductCard({
               )}
             </div>
             <p className="text-[10px] text-emerald-700 font-semibold">
-              {isHi ? "मुफ्त पवित्र पैकेजिंग" : "Free Sacred Packaging"}
+              {isTe ? "ఉచిత పవిత్ర ప్యాకేజింగ్" : isHi ? "मुफ्त पवित्र पैकेजिंग" : "Free Sacred Packaging"}
             </p>
           </div>
 
@@ -166,12 +167,12 @@ export function ProductCard({
               {added ? (
                 <>
                   <Check className="h-3.5 w-3.5" />
-                  <span>{isHi ? "जोड़ा गया!" : "Added!"}</span>
+                  <span>{isTe ? "జోడించబడింది!" : isHi ? "जोड़ा गया!" : "Added!"}</span>
                 </>
               ) : (
                 <>
                   <ShoppingBag className="h-3.5 w-3.5" />
-                  <span>{isHi ? "कार्ट" : "Add"}</span>
+                  <span>{isTe ? "జోడించండి" : isHi ? "कार्ट" : "Add"}</span>
                 </>
               )}
             </button>

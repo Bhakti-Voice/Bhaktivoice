@@ -15,7 +15,7 @@ import {
   calculateGocharReport,
   type GocharReport,
 } from "@/lib/panchang/gochar-engine";
-import { RASI_NAMES, RASI_NAMES_HI } from "@/lib/panchang/names";
+import { RASI_NAMES, RASI_NAMES_HI, RASI_NAMES_TE } from "@/lib/panchang/names";
 import { useLocale } from "@/lib/i18n/client";
 
 const RASHI_SYMBOLS = [
@@ -26,6 +26,7 @@ const RASHI_SYMBOLS = [
 export function GocharCalendarView() {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const [dateStr, setDateStr] = useState<string>(() => {
     return new Date().toISOString().split("T")[0];
@@ -63,7 +64,7 @@ export function GocharCalendarView() {
           <button
             onClick={handlePrevDay}
             className="flex h-9 w-9 items-center justify-center rounded-xl border border-sand bg-sand/40 text-ink transition hover:bg-sand hover:text-saffron-deep"
-            title={isHi ? "पिछला दिन" : "Previous Day"}
+            title={isTe ? "మునుపటి రోజు" : isHi ? "पिछला दिन" : "Previous Day"}
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
@@ -81,7 +82,7 @@ export function GocharCalendarView() {
           <button
             onClick={handleNextDay}
             className="flex h-9 w-9 items-center justify-center rounded-xl border border-sand bg-sand/40 text-ink transition hover:bg-sand hover:text-saffron-deep"
-            title={isHi ? "अगला दिन" : "Next Day"}
+            title={isTe ? "తరువాతి రోజు" : isHi ? "अगला दिन" : "Next Day"}
           >
             <ChevronRight className="h-5 w-5" />
           </button>
@@ -90,7 +91,7 @@ export function GocharCalendarView() {
             onClick={handleToday}
             className="rounded-xl border border-saffron/30 bg-saffron/10 px-3 py-1.5 text-xs font-bold text-saffron-deep transition hover:bg-saffron hover:text-white"
           >
-            {isHi ? "आज" : "Today"}
+            {isTe ? "నేడు" : isHi ? "आज" : "Today"}
           </button>
         </div>
 

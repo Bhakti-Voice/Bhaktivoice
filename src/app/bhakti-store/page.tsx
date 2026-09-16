@@ -24,6 +24,7 @@ export default async function StorePage() {
     getMessages(),
     getLocale(),
   ]);
+  const isTe = locale === "te";
   const isHi = locale === "hi";
 
   const faqs = isHi ? [...t.listingFaqs.store] : [...t.listingFaqs.store];
@@ -31,16 +32,18 @@ export default async function StorePage() {
   return (
     <div>
       <PageHero
-        title={isHi ? "भक्ति स्टोर — प्रामाणिक साधना एवं पूजा सामग्री" : t.hubs.store.h1}
+        title={isTe ? "భక్తి స్టోర్ — ప్రామాణిక సాధన & పూజా సామగ్రి" : isHi ? "भक्ति स्टोर — प्रामाणिक साधना एवं पूजा सामग्री" : t.hubs.store.h1}
         subtitle={
-          isHi
+          isTe
+            ? "దైనందిన నామ జపం మరియు పూజల కోసం 100% స్వచ్ఛమైన తులసి మాలలు, రుద్రాక్షలు, ఇత్తడి దీపాలు మరియు సిద్ధ యంత్రాలు."
+            : isHi
             ? "दैनिक नाम जप एवं पूजन हेतु 100% शुद्ध तुलसी माला, रुद्राक्ष, पीतल दीपक एवं सिद्ध यंत्र।"
             : "Authentic tulsi malas, rudraksha, brass diyas, and sacred yantras for your daily devotional sadhana."
         }
         hub="store"
         crumbs={localizedCrumbs(
           t.homeName,
-          [isHi ? "स्टोर" : t.nav.store, PATHS.store],
+          [isTe ? "భక్తి స్టోర్" : isHi ? "स्टोर" : t.nav.store, PATHS.store],
         )}
       />
 
@@ -62,10 +65,12 @@ export default async function StorePage() {
         <section>
           <div className="mb-6 flex flex-col gap-1">
             <h2 className="font-serif text-2xl font-bold text-ink sm:text-3xl">
-              {isHi ? "दैनिक साधना सामग्री संग्रह" : "Sacred Sadhana Essentials"}
+              {isTe ? "పవిత్ర సాధనా సామగ్రి సేకరణ" : isHi ? "दैनिक साधना सामग्री संग्रह" : "Sacred Sadhana Essentials"}
             </h2>
             <p className="text-xs text-muted sm:text-sm">
-              {isHi
+              {isTe
+                ? "సహజ సిద్ధమైన పవిత్ర ద్రవ్యాలతో తయారైన పూజా మరియు జప సామగ్రి."
+                : isHi
                 ? "शुद्ध प्राकृतिक तत्वों से निर्मित, पूजा और जप हेतु उपयुक्त सामग्री।"
                 : "Handcrafted, natural, and respectful companions for your shrine and daily chanting."}
             </p>
@@ -85,7 +90,7 @@ export default async function StorePage() {
         </section>
 
         <HubSeoBlock id="store" hideFaqs />
-        <FaqList faqs={faqs} title={isHi ? "भक्ति स्टोर से संबंधित सामान्य प्रश्न" : t.common.faqTitle} />
+        <FaqList faqs={faqs} title={isTe ? "భక్తి స్టోర్ గురించి తరచుగా అడిగే ప్రశ్నలు (FAQs)" : isHi ? "भक्ति स्टोर से संबंधित सामान्य प्रश्न" : t.common.faqTitle} />
       </div>
     </div>
   );

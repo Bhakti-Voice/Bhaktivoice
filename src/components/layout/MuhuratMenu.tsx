@@ -11,6 +11,7 @@ interface MuhuratMenuItem {
   href: string;
   labelEn: string;
   labelHi: string;
+  labelTe: string;
 }
 
 // 3 Columns matching user reference screenshot
@@ -18,33 +19,33 @@ const MUHURAT_COLUMNS: { items: MuhuratMenuItem[] }[] = [
   // Column 1
   {
     items: [
-      { href: "/choghadiya", labelEn: "Choghadiya (Day & Night)", labelHi: "चौघड़िया (दिन-रात)" },
-      { href: "/hora", labelEn: "Planetary Hora", labelHi: "दैनिक ग्रह होरा" },
-      { href: "/bhadra", labelEn: "Bhadra Timings", labelHi: "भद्रा काल विचार" },
-      { href: "/panchak", labelEn: "Panchak 2026 Calendar", labelHi: "पंचक विचार एवं 2026 तारीखें" },
-      { href: "/shubh-dates/vivah-muhurat", labelEn: "Vivah Muhurat", labelHi: "विवाह मुहूर्त 2026 (कैलेंडर)" },
-      { href: "/shubh-dates/griha-pravesh", labelEn: "Griha Pravesh", labelHi: "गृह प्रवेश मुहूर्त (कैलेंडर)" },
+      { href: "/choghadiya", labelEn: "Choghadiya (Day & Night)", labelHi: "चौघड़िया (दिन-रात)", labelTe: "చోఘడియా (పగలు & రాత్రి)" },
+      { href: "/hora", labelEn: "Planetary Hora", labelHi: "दैनिक ग्रह होरा", labelTe: "దైనందిన గ్రహ హోరా" },
+      { href: "/bhadra", labelEn: "Bhadra Timings", labelHi: "भद्रा काल विचार", labelTe: "భద్రా కాల విచారం" },
+      { href: "/panchak", labelEn: "Panchak 2026 Calendar", labelHi: "पंचक विचार एवं 2026 तारीखें", labelTe: "పంచక విచారం 2026" },
+      { href: "/shubh-dates/vivah-muhurat", labelEn: "Vivah Muhurat", labelHi: "विवाह मुहूर्त 2026 (कैलेंडर)", labelTe: "వివాహ ముహూర్తాలు 2026" },
+      { href: "/shubh-dates/griha-pravesh", labelEn: "Griha Pravesh", labelHi: "गृह प्रवेश मुहूर्त (कैलेंडर)", labelTe: "గృహ ప్రవేశ ముహూర్తాలు" },
     ],
   },
   // Column 2
   {
     items: [
-      { href: "/shubh-dates/property-purchase", labelEn: "Property Purchase", labelHi: "संपत्ति क्रय मुहूर्त (कैलेंडर)" },
-      { href: "/shubh-dates/vehicle-purchase", labelEn: "Vehicle Purchase", labelHi: "वाहन क्रय मुहूर्त (कैलेंडर)" },
-      { href: "/shubh-dates/business-opening", labelEn: "Business Opening", labelHi: "व्यापार/दुकान उद्घाटन (कैलेंडर)" },
-      { href: "/shubh-dates/gold-buying", labelEn: "Gold Buying Muhurat", labelHi: "सोना/चांदी क्रय मुहूर्त" },
-      { href: "/shubh-dates/naamkaran", labelEn: "Naamkaran Muhurat", labelHi: "नामकरण संस्कार मुहूर्त" },
-      { href: "/shubh-dates/mundan", labelEn: "Mundan Muhurat", labelHi: "मुंडन संस्कार मुहूर्त" },
+      { href: "/shubh-dates/property-purchase", labelEn: "Property Purchase", labelHi: "संपत्ति क्रय मुहूर्त (कैलेंडर)", labelTe: "ఆస్తి కొనుగోలు ముహూర్తం" },
+      { href: "/shubh-dates/vehicle-purchase", labelEn: "Vehicle Purchase", labelHi: "वाहन क्रय मुहूर्त (कैलेंडर)", labelTe: "వాహన కొనుగోలు ముహూర్తం" },
+      { href: "/shubh-dates/business-opening", labelEn: "Business Opening", labelHi: "व्यापार/दुकान उद्घाटन (कैलेंडर)", labelTe: "వ్యాపార ప్రారంభ ముహూర్తం" },
+      { href: "/shubh-dates/gold-buying", labelEn: "Gold Buying Muhurat", labelHi: "सोना/चांदी क्रय मुहूर्त", labelTe: "బంగారం కొనుగోలు ముహూర్తం" },
+      { href: "/shubh-dates/naamkaran", labelEn: "Naamkaran Muhurat", labelHi: "नामकरण संस्कार मुहूर्त", labelTe: "నామకరణ సంస్కార ముహూర్తం" },
+      { href: "/shubh-dates/mundan", labelEn: "Mundan Muhurat", labelHi: "मुंडन संस्कार मुहूर्त", labelTe: "పుట్టువెండ్రుకల ముహూర్తం" },
     ],
   },
   // Column 3
   {
     items: [
-      { href: "/shubh-dates/vidyarambha", labelEn: "Vidyarambha", labelHi: "विद्यारंभ संस्कार मुहूर्त" },
-      { href: "/shubh-dates/karnavedha", labelEn: "Karnavedha Muhurat", labelHi: "कर्णवेध संस्कार मुहूर्त" },
-      { href: "/muhurat#auspicious-yoga", labelEn: "Auspicious Yoga", labelHi: "सर्वार्थ व अमृत सिद्धि योग" },
-      { href: "/muhurat#panchaka-rahita", labelEn: "Panchaka Rahita", labelHi: "पंचक रहित मुहूर्त" },
-      { href: "/muhurat#abhijit-muhurat", labelEn: "Abhijit Muhurat", labelHi: "अभिजित मुहूर्त" },
+      { href: "/shubh-dates/vidyarambha", labelEn: "Vidyarambha", labelHi: "विद्यारंभ संस्कार मुहूर्त", labelTe: "అక్షరాభ్యాస ముహూర్తం" },
+      { href: "/shubh-dates/karnavedha", labelEn: "Karnavedha Muhurat", labelHi: "कर्णवेध संस्कार मुहूर्त", labelTe: "కర్ణవేధ (చెవులు కుట్టే) ముహూర్తం" },
+      { href: "/muhurat#auspicious-yoga", labelEn: "Auspicious Yoga", labelHi: "सर्वार्थ व अमृत सिद्धि योग", labelTe: "సర్వార్థ & అమృత సిద్ధి యోగం" },
+      { href: "/muhurat#panchaka-rahita", labelEn: "Panchaka Rahita", labelHi: "पंचक रहित मुहूर्त", labelTe: "పంచక రహిత ముహూర్తం" },
+      { href: "/muhurat#abhijit-muhurat", labelEn: "Abhijit Muhurat", labelHi: "अभिजित मुहूर्त", labelTe: "అభిజిత్ ముహూర్తం" },
     ],
   },
 ];
@@ -110,7 +111,7 @@ export function MuhuratMenu({
               onClick={onNavigate}
               className="truncate rounded-xl px-2.5 py-1.5 text-xs text-ink/80 hover:bg-cream hover:text-saffron-deep"
             >
-              {locale === "hi" ? item.labelHi : item.labelEn}
+              {locale === "te" ? item.labelTe : locale === "hi" ? item.labelHi : item.labelEn}
             </LocaleLink>
           ))}
         </div>
@@ -133,7 +134,7 @@ export function MuhuratMenu({
         aria-expanded={open}
         aria-haspopup="true"
       >
-        <span>{locale === "hi" ? "मुहूर्त" : "Muhurat"}</span>
+        <span>{locale === "te" ? "ముహూర్తం" : locale === "hi" ? "मुहूर्त" : "Muhurat"}</span>
         <ChevronDown
           className={`h-3.5 w-3.5 transition-transform duration-200 ${open ? "rotate-180 text-saffron" : ""}`}
         />
@@ -173,7 +174,7 @@ export function MuhuratMenu({
                       className="block rounded-xl px-3 py-2 text-center text-xs font-semibold tracking-wide transition-all duration-150 border border-[#edd8c4] bg-[#fbf3e7] text-ink hover:bg-[#fae7cf] hover:border-saffron hover:text-saffron-deep hover:shadow-xs hover:-translate-y-0.5 active:translate-y-0 shadow-xs"
                     >
                       <span className="block truncate">
-                        {locale === "hi" ? item.labelHi : item.labelEn}
+                        {locale === "te" ? item.labelTe : locale === "hi" ? item.labelHi : item.labelEn}
                       </span>
                     </LocaleLink>
                   );

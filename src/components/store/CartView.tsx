@@ -31,6 +31,7 @@ export type CartItem = {
 export function CartView() {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const [items, setItems] = useState<CartItem[]>([]);
   const [mounted, setMounted] = useState(false);
@@ -111,7 +112,7 @@ export function CartView() {
           <ShoppingBag className="h-10 w-10" />
         </div>
         <h2 className="mt-6 font-serif text-2xl font-bold text-ink sm:text-3xl">
-          {isHi ? "आपकी पूजा थाल अभी रिक्त है" : "Your Devotional Cart is Empty"}
+          {isTe ? "మీ పూజా తాంబూలం ప్రస్తుతం ఖాళీగా ఉంది" : isHi ? "आपकी पूजा थाल अभी रिक्त है" : "Your Devotional Cart is Empty"}
         </h2>
         <p className="mt-2 max-w-md text-sm text-muted leading-relaxed">
           {isHi
@@ -122,7 +123,7 @@ export function CartView() {
           href={PATHS.store}
           className="mt-6 flex items-center gap-2 rounded-2xl bg-saffron px-6 py-3 text-sm font-bold text-white shadow-xs transition hover:bg-saffron-deep active:scale-95"
         >
-          <span>{isHi ? "भक्ति स्टोर देखें" : "Explore Bhakti Store"}</span>
+          <span>{isTe ? "భక్తి స్టోర్ చూడండి" : isHi ? "भक्ति स्टोर देखें" : "Explore Bhakti Store"}</span>
           <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
@@ -135,14 +136,14 @@ export function CartView() {
       <div className="space-y-4 lg:col-span-8">
         <div className="flex items-center justify-between border-b border-line pb-4">
           <h2 className="font-serif text-xl font-bold text-ink sm:text-2xl">
-            {isHi ? "साधना सामग्री थाल" : "Your Sadhana Cart"} ({items.length})
+            {isTe ? "మీ సాధనా తాంబూలం" : isHi ? "साधना सामग्री थाल" : "Your Sadhana Cart"} ({items.length})
           </h2>
           <button
             type="button"
             onClick={() => saveItems([])}
             className="text-xs font-semibold text-rose-600 hover:text-rose-700"
           >
-            {isHi ? "थाल रिक्त करें" : "Clear All"}
+            {isTe ? "అన్నీ తీసివేయండి" : isHi ? "थाल रिक्त करें" : "Clear All"}
           </button>
         </div>
 
@@ -234,7 +235,7 @@ export function CartView() {
       <div className="space-y-5 lg:col-span-4">
         <div className="rounded-3xl border border-line bg-white p-5 shadow-xs sm:p-6">
           <h3 className="font-serif text-lg font-bold text-ink sm:text-xl">
-            {isHi ? "ऑर्डर मूल्य विवरण" : "Order Summary"}
+            {isTe ? "ఆర్డర్ వివరాలు" : isHi ? "ऑर्डर मूल्य विवरण" : "Order Summary"}
           </h3>
 
           {/* Promo Code Form */}
@@ -246,7 +247,7 @@ export function CartView() {
                   type="text"
                   value={promoCode}
                   onChange={(e) => setPromoCode(e.target.value)}
-                  placeholder={isHi ? "कूपन कोड (BHAKTI10)" : "Promo code (BHAKTI10)"}
+                  placeholder={isTe ? "కూపన్ కోడ్ (BHAKTI10)" : isHi ? "कूपन कोड (BHAKTI10)" : "Promo code (BHAKTI10)"}
                   className="w-full rounded-xl border border-line bg-sand/20 py-2 pr-3 pl-8 text-xs font-semibold uppercase text-ink placeholder:normal-case placeholder:text-muted focus:border-saffron focus:bg-white focus:outline-none"
                 />
               </div>
@@ -254,7 +255,7 @@ export function CartView() {
                 type="submit"
                 className="rounded-xl bg-ink px-3 py-2 text-xs font-bold text-white transition hover:bg-ink/80"
               >
-                {isHi ? "लागू" : "Apply"}
+                {isTe ? "వర్తింపజేయండి" : isHi ? "लागू" : "Apply"}
               </button>
             </div>
             {promoSuccess && (
@@ -272,7 +273,7 @@ export function CartView() {
           {/* Price Breakdown */}
           <dl className="mt-5 divide-y divide-line/60 text-xs sm:text-sm">
             <div className="flex justify-between py-2.5">
-              <dt className="text-muted">{isHi ? "कुल सामग्री मूल्य" : "Item Subtotal"}</dt>
+              <dt className="text-muted">{isTe ? "మొత్తం వస్తువుల ధర" : isHi ? "कुल सामग्री मूल्य" : "Item Subtotal"}</dt>
               <dd className="font-semibold text-ink">₹{subtotal.toLocaleString("en-IN")}</dd>
             </div>
 

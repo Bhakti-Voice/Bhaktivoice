@@ -12,10 +12,20 @@ import { SITE } from "@/lib/seo/site";
 export const revalidate = 86400;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const title =
-    "Kaal Sarp Dosha Calculator — 12 Types of Kaal Sarp Yoga, Udit/Anudit Check & Vedic Remedies";
-  const description =
-    "Calculate Kaal Sarp Dosha online with 100% astronomical accuracy. Identify all 12 classical Kaal Sarp Yogas (Anant to Sheshnag), Udit vs Anudit Gola direction, Purna vs Anshik enclosure, life milestones, and authentic Shastric remedies.";
+  const locale = await getLocale();
+  const isTe = locale === "te";
+  const isHi = locale === "hi";
+
+  const title = isTe
+    ? "కాల సర్ప దోష కాలిక్యులేటర్ — 12 రకాల కాల సర్ప యోగాలు & వైదిక నివారణలు"
+    : isHi
+    ? "काल सर्प दोष कैलकुलेटर — 12 प्रकार के काल सर्प योग, उदित/अनुदित एवं वैदिक उपाय"
+    : "Kaal Sarp Dosha Calculator — 12 Types of Kaal Sarp Yoga, Udit/Anudit Check & Vedic Remedies";
+  const description = isTe
+    ? "100% ఖచ్చితమైన వైదిక గణనతో కాల సర్ప దోషాన్ని ఆన్‌లైన్‌లో లెక్కించండి. అనంత నుండి శేషనాగ వరకు 12 రకాల కాల సర్ప యోగాలు, పూర్ణ/ఆంశిక ప్రభావం మరియు ప్రామాణిక శాస్త్ర నివారణలు."
+    : isHi
+    ? "100% सटीक वैदिक गणना द्वारा काल सर्प दोष की ऑनलाइन जांच करें। अनंत से शेषनाग तक 12 प्रकार के काल सर्प योग, पूर्ण व आंशिक प्रभाव एवं प्रामाणिक शास्त्रीय उपाय।"
+    : "Calculate Kaal Sarp Dosha online with 100% astronomical accuracy. Identify all 12 classical Kaal Sarp Yogas (Anant to Sheshnag), Udit vs Anudit Gola direction, Purna vs Anshik enclosure, life milestones, and authentic Shastric remedies.";
 
   return localizedMetadata({
     title,
@@ -39,11 +49,12 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function KaalSarpDoshaPage() {
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const breadcrumbs = localizedCrumbs(
     t.homeName,
-    [isHi ? "कुंडली" : "Kundli", PATHS.kundli],
-    [isHi ? "काल सर्प दोष कैलकुलेटर" : "Kaal Sarp Dosha Calculator", PATHS.kaalSarpDosha]
+    [isTe ? "కుండలి" : isHi ? "कुंडली" : "Kundli", PATHS.kundli],
+    [isTe ? "కాల సర్ప దోష కాలిక్యులేటర్" : isHi ? "काल सर्प दोष कैलकुलेटर" : "Kaal Sarp Dosha Calculator", PATHS.kaalSarpDosha]
   );
 
   const faqs = [

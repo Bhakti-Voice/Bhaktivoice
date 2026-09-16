@@ -29,6 +29,7 @@ export function KundliMilanTool() {
   const t = useMessages();
   const copy = t.spiritualTools.milan;
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const [boy, setBoy] = useState<BirthFormState>(() => emptyBirth("boy"));
   const [girl, setGirl] = useState<BirthFormState>(() => emptyBirth("girl"));
@@ -43,8 +44,8 @@ export function KundliMilanTool() {
       const engine = await loadMilanEngine();
       setResult(
         engine.calculateMilan(
-          { name: boy.name.trim() || (isHi ? "वर" : "Groom"), date: boy.date, time: boy.time, place: boy.place },
-          { name: girl.name.trim() || (isHi ? "कन्या" : "Bride"), date: girl.date, time: girl.time, place: girl.place },
+          { name: boy.name.trim() || (isTe ? "వరుడు" : isHi ? "वर" : "Groom"), date: boy.date, time: boy.time, place: boy.place },
+          { name: girl.name.trim() || (isTe ? "వధువు" : isHi ? "कन्या" : "Bride"), date: girl.date, time: girl.time, place: girl.place },
         ),
       );
     } finally {

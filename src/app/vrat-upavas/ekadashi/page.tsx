@@ -1,3 +1,26 @@
+const EKADASHI_FAQS_TE = [
+  {
+    question: "ఏకాదశి వ్రత పారణ ఎప్పుడు చేయాలి?",
+    answer:
+      "ఏకాదశి వ్రత పారణ మరుసటి రోజు అనగా ద్వాదశి తిథి నాడు సూర్యోదయం తర్వాత, ద్వాదశి ముగియక ముందే చేయాలి. అలాగే పారణ సమయం హరివాసర కాలంలో లేకుండా జాగ్రత్త వహించాలి.",
+  },
+  {
+    question: "హరివాసరం అంటే ఏమిటి మరియు ఇందులో పారణ ఎందుకు నిషిద్ధం?",
+    answer:
+      "ద్వాదశి తిథి మొదటి 25% (నాల్గవ భాగం) భాగాన్ని 'హరివాసరం' అంటారు. పద్మపురాణం ప్రకారం హరివాసరంలో భోజనం చేయడం వల్ల ఏకాదశి వ్రత ఫలితం నశిస్తుంది. కాబట్టి హరివాసరం ముగిసిన తర్వాతే పారణ చేయాలి.",
+  },
+  {
+    question: "స్మార్త మరియు వైష్ణవ ఏకాదశి తేదీల్లో తేడా ఎందుకు వస్తుంది?",
+    answer:
+      "స్మార్త గృహస్థ సంప్రదాయంలో సూర్యోదయానికి ముందు అరుణోదయ వేళ దశమి తిథి ఉన్నప్పటికీ ఆ రోజే వ్రతం ఆచరిస్తారు. అయితే వైష్ణవ మరియు ఇస్కాన్ సంప్రదాయంలో సంపూర్ణ శుద్ధ ఏకాదశినే ఆచరిస్తారు, దీనివల్ల ఒక్కోసారి రెండు సంప్రదాయాల మధ్య ఒక రోజు తేడా వస్తుంది.",
+  },
+  {
+    question: "ఒకవేళ ద్వాదశి తిథి సూర్యోదయానికి ముందే ముగిసిపోతే పారణ ఎలా చేయాలి?",
+    answer:
+      "శాస్త్రాల ప్రకారం ఒకవేళ ద్వాదశి తిథి సూర్యోదయానికి ముందే ముగిసిపోతే, సూర్యోదయం అయిన వెంటనే పారణ చేయాలి, ఎందుకంటే సూర్యోదయానికి ముందు పారణ చేయడం శాస్త్ర విరుద్ధం.",
+  },
+];
+
 import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -14,9 +37,12 @@ export const revalidate = 3600;
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const currentYear = new Date().getFullYear();
 
-  const title = isHi
+  const title = isTe
+    ? `ఏకాదశి వ్రతం & పారణ సమయాలు ${currentYear} — స్మార్త & వైష్ణవ తేదీలు, హరివాసర సమాప్తి & శుభ ముహూర్తం`
+    : isHi
     ? `एकादशी व्रत एवं पारणा समय ${currentYear} — स्मार्त व वैष्णव तारीखें, हरिवासर समाप्ति व मुहूर्त`
     : `Ekadashi Vrat & Parana Timings ${currentYear} — Accurate Smarta & Vaishnava Parana Windows`;
 
@@ -59,9 +85,10 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function EkadashiPage() {
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const currentYear = new Date().getFullYear();
 
-  const faqs = isHi
+  const faqs = isTe ? EKADASHI_FAQS_TE : isHi
     ? [
         {
           question: "एकादशी व्रत का पारणा कब करना चाहिए?",

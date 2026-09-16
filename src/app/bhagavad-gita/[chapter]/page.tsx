@@ -39,9 +39,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!chapter) return { title: "Chapter Not Found | Bhakti Voice" };
 
   const locale = await getLocale();
+  const isTe = locale === "te";
   const isHi = locale === "hi";
 
-  const title = isHi
+  const title = isTe
+    ? `శ్రీమద్భగవద్గీత అధ్యాయం ${chapter.chapter}: ${chapter.nameHindi || chapter.name} — సంపూర్ణ శ్లోకాలు మరియు తాత్పర్యం`
+    : isHi
     ? `श्रीमद्भगवद्गीता अध्याय ${chapter.chapter}: ${chapter.nameHindi || chapter.name} — सम्पूर्ण श्लोक व अर्थ`
     : `Bhagavad Gita Chapter ${chapter.chapter}: ${chapter.name} — All Verses, Meaning & Summary`;
 
@@ -82,6 +85,7 @@ export default async function GitaChapterPage({ params }: Props) {
 
   if (!chapter) notFound();
 
+  const isTe = locale === "te";
   const isHi = locale === "hi";
   const verses = chapter.verses || [];
   const prevChapter = num > 1 ? num - 1 : null;
@@ -107,10 +111,12 @@ export default async function GitaChapterPage({ params }: Props) {
   });
 
   const breadcrumbs = [
-    { name: isHi ? "होम" : "Home", href: "/" },
-    { name: isHi ? "श्रीमद्भगवद्गीता" : "Bhagavad Gita", href: "/bhagavad-gita" },
+    { name: isTe ? "హోమ్" : isHi ? "होम" : "Home", href: "/" },
+    { name: isTe ? "శ్రీమద్భగవద్గీత" : isHi ? "श्रीमद्भगवद्गीता" : "Bhagavad Gita", href: "/bhagavad-gita" },
     {
-      name: isHi
+      name: isTe
+        ? `అధ్యాయం ${chapter.chapter}: ${chapter.nameHindi || chapter.name}`
+        : isHi
         ? `अध्याय ${chapter.chapter}: ${chapter.nameHindi || chapter.name}`
         : `Chapter ${chapter.chapter}: ${chapter.name}`,
       href: `/bhagavad-gita/chapter-${num}`,
@@ -130,10 +136,10 @@ export default async function GitaChapterPage({ params }: Props) {
             <div className="flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-saffron/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-saffron-deep border border-saffron/20">
                 <ScrollText className="h-3.5 w-3.5" />
-                {isHi ? `अध्याय ${chapter.chapter}` : `Chapter ${chapter.chapter} of 18`}
+                {isTe ? `అధ్యాయం ${chapter.chapter}` : isHi ? `अध्याय ${chapter.chapter}` : `Chapter ${chapter.chapter} of 18`}
               </span>
               <span className="rounded-full bg-sand/60 px-3 py-1 text-xs font-medium text-muted">
-                {chapter.versesCount || verses.length} {isHi ? "श्लोक" : "Verses"}
+                {chapter.versesCount || verses.length} {isTe ? "శ్లోకాలు" : isHi ? "श्लोक" : "Verses"}
               </span>
             </div>
 
@@ -157,7 +163,7 @@ export default async function GitaChapterPage({ params }: Props) {
             <div className="chapter-summary mt-6 rounded-2xl bg-[#fffdf9] p-5 sm:p-6 border border-[#f0e4d2]">
               <div className="flex items-center gap-2 text-saffron font-semibold text-sm">
                 <Sparkles className="h-4 w-4" />
-                <span>{isHi ? "अध्याय का आध्यात्मिक सार" : "Chapter Overview & Spiritual Essence"}</span>
+                <span>{isTe ? "అధ్యాయం యొక్క ఆధ్యాత్మిక సారాంశం" : isHi ? "अध्याय का आध्यात्मिक सार" : "Chapter Overview & Spiritual Essence"}</span>
               </div>
               <p className="mt-3 text-[15px] sm:text-base leading-relaxed text-ink/80">
                 {isHi ? chapter.summaryHindi || chapter.summary : chapter.summary}
@@ -171,13 +177,13 @@ export default async function GitaChapterPage({ params }: Props) {
                 className="inline-flex items-center gap-2 rounded-full bg-saffron px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-saffron-deep transition-colors"
               >
                 <BookOpen className="h-4 w-4" />
-                {isHi ? "3D गीता पुस्तक में पढ़ें" : "Read in 3D Sacred Book"}
+                {isTe ? "3D గీతా పుస్తకంలో చదవండి" : isHi ? "3D गीता पुस्तक में पढ़ें" : "Read in 3D Sacred Book"}
               </Link>
               <Link
                 href="/bhagavad-gita"
                 className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-5 py-3 text-sm font-medium text-ink hover:bg-sand/40 transition-colors"
               >
-                {isHi ? "सभी 18 अध्याय देखें" : "View All 18 Chapters"}
+                {isTe ? "అన్ని 18 అధ్యాయాలు చూడండి" : isHi ? "सभी 18 अध्याय देखें" : "View All 18 Chapters"}
               </Link>
             </div>
           </div>
@@ -187,10 +193,10 @@ export default async function GitaChapterPage({ params }: Props) {
         <section className="mt-10">
           <div className="flex items-center justify-between">
             <h2 className="font-serif text-2xl font-bold text-ink">
-              {isHi ? `अध्याय ${chapter.chapter} के श्लोक` : `Verses in Chapter ${chapter.chapter}`}
+              {isTe ? `అధ్యాయం ${chapter.chapter} శ్లోకాలు` : isHi ? `अध्याय ${chapter.chapter} के श्लोक` : `Verses in Chapter ${chapter.chapter}`}
             </h2>
             <span className="text-xs sm:text-sm text-muted">
-              {verses.length} {isHi ? "श्लोक उपलब्ध" : "Shlokas available"}
+              {verses.length} {isTe ? "శ్లోకాలు లభ్యం" : isHi ? "श्लोक उपलब्ध" : "Shlokas available"}
             </span>
           </div>
 
@@ -204,7 +210,7 @@ export default async function GitaChapterPage({ params }: Props) {
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0">
                     <span className="inline-block rounded-md bg-saffron/10 px-2.5 py-0.5 text-xs font-bold text-saffron-deep">
-                      {isHi ? `श्लोक ${chapter.chapter}.${v.verse}` : `Verse ${chapter.chapter}.${v.verse}`}
+                      {isTe ? `శ్లోకం ${chapter.chapter}.${v.verse}` : isHi ? `श्लोक ${chapter.chapter}.${v.verse}` : `Verse ${chapter.chapter}.${v.verse}`}
                     </span>
                     <p className="mt-2.5 font-serif text-base sm:text-lg text-ink font-medium leading-relaxed group-hover:text-saffron-deep transition-colors">
                       {v.sanskrit}
@@ -224,7 +230,7 @@ export default async function GitaChapterPage({ params }: Props) {
                   href={`/bhagavad-gita?chapter=${num}&verse=11`}
                   className="inline-flex items-center gap-2 rounded-full border-2 border-saffron bg-white px-6 py-2.5 text-sm font-semibold text-saffron-deep hover:bg-saffron hover:text-white transition-colors"
                 >
-                  {isHi ? `शेष सभी ${verses.length - 10} श्लोक पढ़ें` : `Read all ${verses.length} verses in Reader`}
+                  {isTe ? `మిగిలిన ${verses.length - 10} శ్లోకాలు చదవండి` : isHi ? `शेष सभी ${verses.length - 10} श्लोक पढ़ें` : `Read all ${verses.length} verses in Reader`}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -241,7 +247,7 @@ export default async function GitaChapterPage({ params }: Props) {
             >
               <ChevronLeft className="h-5 w-5 text-saffron shrink-0" />
               <div className="text-left min-w-0">
-                <span className="text-xs text-muted">{isHi ? "पिछला अध्याय" : "Previous Chapter"}</span>
+                <span className="text-xs text-muted">{isTe ? "మునుపటి అధ్యాయం" : isHi ? "पिछला अध्याय" : "Previous Chapter"}</span>
                 <p className="font-serif text-sm sm:text-base font-semibold text-ink truncate">
                   {allChapters[prevChapter - 1]?.name || `Chapter ${prevChapter}`}
                 </p>
@@ -255,7 +261,7 @@ export default async function GitaChapterPage({ params }: Props) {
               className="flex items-center justify-end gap-3 rounded-2xl border border-line bg-white p-4 hover:border-saffron/40 transition-colors text-right"
             >
               <div className="text-right min-w-0">
-                <span className="text-xs text-muted">{isHi ? "अगला अध्याय" : "Next Chapter"}</span>
+                <span className="text-xs text-muted">{isTe ? "తరువాతి అధ్యాయం" : isHi ? "अगला अध्याय" : "Next Chapter"}</span>
                 <p className="font-serif text-sm sm:text-base font-semibold text-ink truncate">
                   {allChapters[nextChapter - 1]?.name || `Chapter ${nextChapter}`}
                 </p>
@@ -270,7 +276,7 @@ export default async function GitaChapterPage({ params }: Props) {
           <div className="mt-12">
             <FaqList
               faqs={relevantFaqs}
-              title={isHi ? "भगवद्गीता से जुड़े महत्वपूर्ण प्रश्नोत्तर" : "Frequently Asked Questions"}
+              title={isTe ? "భగవద్గీత గురించి తరచుగా అడిగే ప్రశ్నలు" : isHi ? "भगवद्गीता से जुड़े महत्वपूर्ण प्रश्नोत्तर" : "Frequently Asked Questions"}
               jsonLd={true}
             />
           </div>

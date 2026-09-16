@@ -1,3 +1,26 @@
+const CALENDAR_FAQS_TE = [
+  {
+    question: "హిందూ చంద్ర క్యాలెండర్ (పంచాంగం) ఎలా పనిచేస్తుంది?",
+    answer:
+      "హిందూ క్యాలెండర్ అనేది సూర్యుడు మరియు చంద్రుని ఖగోళ గతులపై ఆధారపడిన చంద్ర-సౌర (లూనిసోలార్) వ్యవస్థ. ఇందులో 5 ముఖ్య భాగాలు (పంచ-అంగాలు) ఉంటాయి: తిథి, నక్షత్రం, యోగం, కరణం మరియు వారం. వీటి ఆధారంగానే శుభ-అశుభ ముహూర్తాలు, పండుగలు నిర్ణయించబడతాయి.",
+  },
+  {
+    question: "వివిధ నగరాల్లో తిథి సమయాలు ఎందుకు మారుతాయి?",
+    answer:
+      "సూర్యుడు-చంద్రుల మధ్య కోణీయ దూరం ఏ క్షణంలోనైనా విశ్వమంతటా ఒకే విధంగా మారినప్పటికీ, స్థానిక సూర్యోదయం సమయం ప్రతి నగర అక్షాంశ, రేఖాంశాల ప్రకారం మారుతుంది. చాలావరకు హిందూ వ్రతాలు, పండుగలు సూర్యోదయ సమయంలో ఉండే ఉదయ తిథి ఆధారంగా ఆచరించబడతాయి.",
+  },
+  {
+    question: "పూర్ణిమాంత మరియు అమాంత పంచాంగాల మధ్య తేడా ఏమిటి?",
+    answer:
+      "ఉత్తర భారతదేశంలో పూర్ణిమాంత పద్ధతి అమలులో ఉంటుంది, ఇక్కడ నెల పౌర్ణమితో ముగుస్తుంది. ఆంధ్రప్రదేశ్, తెలంగాణ, కర్ణాటక, మహారాష్ట్ర, గుజరాత్‌లలో అమాంత పద్ధతి పాటించబడుతుంది, ఇక్కడ నెల అమావాస్యతో ముగుస్తుంది. శుక్ల మరియు కృష్ణ పక్షాల తిథులు రెండింటిలోనూ ఒకే విధంగా ఉంటాయి.",
+  },
+  {
+    question: "పూజలు మరియు నూతన ప్రారంభాలకు ఏ ముహూర్తాలు అత్యంత శుభప్రదమైనవి?",
+    answer:
+      "బ్రహ్మ ముహూర్తం (సూర్యోదయానికి 96 నుండి 48 నిమిషాల ముందు), అభిజిత్ ముహూర్తం (మధ్యాహ్నం వేళ, బుధవారం మినహా), గోధూళి ముహూర్తం మరియు అమృత కాలం ఏదైనా నూతన కార్యం, సాధన, ప్రయాణం లేదా పూజకు అత్యంత శ్రేష్ఠమైనవి.",
+  },
+];
+
 import type { Metadata } from "next";
 import { Printer, Sparkles } from "lucide-react";
 import { CalendarView } from "@/components/calendar/CalendarView";
@@ -118,13 +141,14 @@ export default async function HinduCalendarPage({
 }) {
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const params = await searchParams;
   const initialYear = params.year ? Number(params.year) : undefined;
   const initialMonth = params.month ? Number(params.month) : undefined;
 
   const currentYear = new Date().getFullYear();
   const displayYear = initialYear || currentYear;
-  const faqs = isHi ? CALENDAR_FAQS_HI : CALENDAR_FAQS_EN;
+  const faqs = isTe ? CALENDAR_FAQS_TE : isHi ? CALENDAR_FAQS_HI : CALENDAR_FAQS_EN;
 
   return (
     <div>
@@ -132,10 +156,14 @@ export default async function HinduCalendarPage({
         data={{
           "@context": "https://schema.org",
           "@type": "WebPage",
-          name: isHi
+          name: isTe
+            ? `హిందూ క్యాలెండర్ ${displayYear} & దిన పంచాంగం`
+            : isHi
             ? `हिन्दू कैलेंडर ${displayYear} एवं दैनिक पंचांग`
             : `Hindu Calendar ${displayYear} & Daily Panchang`,
-          description: isHi
+          description: isTe
+            ? "ఖచ్చితమైన తిథి, నక్షత్రం, శుభ ముహూర్తాలు, రాహుకాలం, ఏకాదశి మరియు హిందూ పండుగల దిన పంచాంగం."
+            : isHi
             ? "सटीक तिथि, नक्षत्र, शुभ मुहूर्त, राहु काल, एकादशी और हिन्दू त्यौहारों के साथ दैनिक पंचांग।"
             : "Production Hindu Calendar and Vedic Panchang with Tithi, Nakshatra, Auspicious Muhurats, Ekadashi, and Festivals.",
           publisher: {

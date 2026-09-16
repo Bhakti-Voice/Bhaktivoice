@@ -7,6 +7,7 @@ import type { DailyEphemerisReport, PlanetEphemeris } from "@/lib/panchang/ephem
 export interface GrahaSthitiTableProps {
   ephemeris: DailyEphemerisReport;
   isHi?: boolean;
+  isTe?: boolean;
   className?: string;
   showAllPlanetsDefault?: boolean;
 }
@@ -14,6 +15,7 @@ export interface GrahaSthitiTableProps {
 export function GrahaSthitiTable({
   ephemeris,
   isHi = false,
+  isTe = false,
   className = "",
   showAllPlanetsDefault = false,
 }: GrahaSthitiTableProps) {
@@ -37,10 +39,12 @@ export function GrahaSthitiTable({
           </div>
           <div>
             <h3 className="text-sm sm:text-base font-bold text-ink">
-              {isHi ? "दैनिक ग्रह स्थिति (Planetary Ephemeris)" : "Daily Planetary Ephemeris (Graha Sthiti)"}
+              {isTe ? "దైనందిన గ్రహ స్థితి (Planetary Ephemeris)" : isHi ? "दैनिक ग्रह स्थिति (Planetary Ephemeris)" : "Daily Planetary Ephemeris (Graha Sthiti)"}
             </h3>
             <p className="text-[11px] text-muted">
-              {isHi
+              {isTe
+                ? `అయనాంశం: ${ephemeris.ayanamsaFormatted} • దైనందిన గతి, వక్ర & అస్తంగత స్థితి`
+                : isHi
                 ? `अयनंश: ${ephemeris.ayanamsaFormatted} • दैनिक गति, वक्र एवं अस्त स्थिति`
                 : `Ayanamsa: ${ephemeris.ayanamsaFormatted} • Exact degrees, Vakri (R) & Combust`}
             </p>
@@ -55,8 +59,8 @@ export function GrahaSthitiTable({
             className="rounded-xl border border-line bg-white px-3 py-1.5 font-medium text-muted hover:border-saffron hover:text-ink transition shadow-2xs"
           >
             {showOuterPlanets
-              ? isHi ? "केवल नवग्रह (9 Grahas)" : "Show 9 Grahas Only"
-              : isHi ? "सभी ग्रह (+अरुण, वरुण, यम)" : "Show Outer Planets (+Uranus, Neptune)"}
+              ? isTe ? "కేవలం నవగ్రహాలు (9 Grahas)" : isHi ? "केवल नवग्रह (9 Grahas)" : "Show 9 Grahas Only"
+              : isTe ? "అన్ని గ్రహాలు (+యూరేనస్, నెప్ట్యూన్)" : isHi ? "सभी ग्रह (+अरुण, वरुण, यम)" : "Show Outer Planets (+Uranus, Neptune)"}
           </button>
         </div>
       </div>
@@ -66,12 +70,12 @@ export function GrahaSthitiTable({
         <table className="w-full text-left text-xs sm:text-sm">
           <thead>
             <tr className="border-b border-line bg-ivory/60 text-muted font-semibold">
-              <th className="py-3 px-4">{isHi ? "ग्रह (Planet)" : "Planet"}</th>
-              <th className="py-3 px-4">{isHi ? "राशि (Zodiac Sign)" : "Rashi (Sign)"}</th>
-              <th className="py-3 px-4 font-mono">{isHi ? "अंश (Degrees)" : "Degrees in Sign"}</th>
-              <th className="py-3 px-4">{isHi ? "नक्षत्र एवं पाद" : "Nakshatra & Pada"}</th>
-              <th className="py-3 px-4">{isHi ? "गति (Speed)" : "Speed (Deg/Day)"}</th>
-              <th className="py-3 px-4">{isHi ? "स्थिति (Status)" : "Motion & Combustion"}</th>
+              <th className="py-3 px-4">{isTe ? "గ్రహం (Planet)" : isHi ? "ग्रह (Planet)" : "Planet"}</th>
+              <th className="py-3 px-4">{isTe ? "రాశి (Zodiac Sign)" : isHi ? "राशि (Zodiac Sign)" : "Rashi (Sign)"}</th>
+              <th className="py-3 px-4 font-mono">{isTe ? "అంశలు (Degrees)" : isHi ? "अंश (Degrees)" : "Degrees in Sign"}</th>
+              <th className="py-3 px-4">{isTe ? "నక్షత్రం & పాదం" : isHi ? "नक्षत्र एवं पाद" : "Nakshatra & Pada"}</th>
+              <th className="py-3 px-4">{isTe ? "గతి (Speed)" : isHi ? "गति (Speed)" : "Speed (Deg/Day)"}</th>
+              <th className="py-3 px-4">{isTe ? "స్థితి (Status)" : isHi ? "स्थिति (Status)" : "Motion & Combustion"}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-line/60">

@@ -36,13 +36,14 @@ export function SelectedDatePanel({
 }: SelectedDatePanelProps) {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const [showChoghadiya, setShowChoghadiya] = useState(false);
   const [choghadiyaTab, setChoghadiyaTab] = useState<"day" | "night">("day");
   const [copied, setCopied] = useState(false);
 
   function formatTime(d: Date | null): string {
     if (!d) return "--:--";
-    return new Intl.DateTimeFormat(isHi ? "hi-IN" : "en-IN", {
+    return new Intl.DateTimeFormat(isTe ? "te-IN" : isHi ? "hi-IN" : "en-IN", {
       timeZone: panchang.city.timeZone,
       hour: "numeric",
       minute: "2-digit",
@@ -51,7 +52,9 @@ export function SelectedDatePanel({
   }
 
   function handleCopySummary() {
-    const text = isHi
+    const text = isTe
+      ? `🕉️ హిందూ పంచాంగం (${panchang.gregorianLabel})\n📍 ప్రాంతం: ${panchang.city.name}\n\n• తిథి: ${panchang.tithiAtSunrise.name} (${panchang.tithiAtSunrise.paksha === "shukla" ? "శుక్ల పక్షం" : "కృష్ణ పక్షం"})\n• నక్షత్రం: ${panchang.nakshatra.name} (పాదము ${panchang.nakshatra.pada})\n• యోగం: ${panchang.yoga.name} | కరణం: ${panchang.karana.name}\n• సూర్యోదయం: ${formatTime(panchang.sunrise)} | సూర్యాస్తమయం: ${formatTime(panchang.sunset)}\n• రాహు కాలం: ${formatTime(panchang.rahuKaal.start)} - ${formatTime(panchang.rahuKaal.end)}\n• అభిజిత్ ముహూర్తం: ${panchang.abhijitMuhurat ? `${formatTime(panchang.abhijitMuhurat.start)} - ${formatTime(panchang.abhijitMuhurat.end)}` : "ఏదీ లేదు"}\n\nసంపూర్ణ వైదిక పంచాంగం BhaktiVoice.com లో చూడండి`
+      : isHi
       ? `🕉️ हिन्दू पंचांग (${panchang.gregorianLabelHi})\n📍 स्थान: ${panchang.city.nameHi}\n\n• तिथि: ${panchang.tithiAtSunrise.nameHi} (${panchang.tithiAtSunrise.paksha === "shukla" ? "शुक्ल पक्ष" : "कृष्ण पक्ष"})\n• नक्षत्र: ${panchang.nakshatra.nameHi} (पाद ${panchang.nakshatra.pada})\n• योग: ${panchang.yoga.nameHi} | करण: ${panchang.karana.nameHi}\n• सूर्योदय: ${formatTime(panchang.sunrise)} | सूर्यास्त: ${formatTime(panchang.sunset)}\n• राहु काल: ${formatTime(panchang.rahuKaal.start)} - ${formatTime(panchang.rahuKaal.end)}\n• अभिजित: ${panchang.abhijitMuhurat ? `${formatTime(panchang.abhijitMuhurat.start)} - ${formatTime(panchang.abhijitMuhurat.end)}` : "कोई नहीं"}\n\nसम्पूर्ण वैदिक पंचांग BhaktiVoice.com पर देखें`
       : `🕉️ Hindu Panchang (${panchang.gregorianLabel})\n📍 City: ${panchang.city.name}\n\n• Tithi: ${panchang.tithiAtSunrise.name} (${panchang.tithiAtSunrise.paksha === "shukla" ? "Shukla" : "Krishna"} Paksha)\n• Nakshatra: ${panchang.nakshatra.name} (Pada ${panchang.nakshatra.pada})\n• Yoga: ${panchang.yoga.name} | Karana: ${panchang.karana.name}\n• Sunrise: ${formatTime(panchang.sunrise)} | Sunset: ${formatTime(panchang.sunset)}\n• Rahu Kaal: ${formatTime(panchang.rahuKaal.start)} - ${formatTime(panchang.rahuKaal.end)}\n• Abhijit: ${panchang.abhijitMuhurat ? `${formatTime(panchang.abhijitMuhurat.start)} - ${formatTime(panchang.abhijitMuhurat.end)}` : "None"}\n\nExplore complete Vedic Calendar on BhaktiVoice.com`;
 
@@ -419,7 +422,7 @@ export function SelectedDatePanel({
                   choghadiyaTab === "day" ? "bg-white shadow-xs text-ink" : "text-muted"
                 }`}
               >
-                {isHi ? "दिन का चौघड़िया" : "Day Choghadiya"}
+                {isTe ? "పగటి చోఘడియా" : isHi ? "दिन का चौघड़िया" : "Day Choghadiya"}
               </button>
               <button
                 onClick={() => setChoghadiyaTab("night")}

@@ -156,7 +156,8 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
   const locale = useLocale();
   const router = useRouter();
   const isHi = locale === "hi";
-  const countLocale = isHi ? "hi-IN" : "en-IN";
+  const isTe = locale === "te";
+  const countLocale = isTe ? "te-IN" : isHi ? "hi-IN" : "en-IN";
 
   const [hydrated, setHydrated] = useState(false);
   const [mantra, setMantra] = useState<JaapMantraSlug>("radhe-radhe");
@@ -517,7 +518,7 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
         playSacredChime();
         const newMalaNum = Math.floor(nextCount / 108);
         setMilestoneNotice(
-          isHi ? `🎉 बधाई! ${newMalaNum} माला पूर्ण हुई। जय श्री राम!` : `🎉 Blessed! Completed Mala #${newMalaNum}!`,
+          isTe ? `🎉 అభినందనలు! ${newMalaNum}వ మాల పూర్తయింది. జై శ్రీ రామ్!` : isHi ? `🎉 बधाई! ${newMalaNum} माला पूर्ण हुई। जय श्री राम!` : `🎉 Blessed! Completed Mala #${newMalaNum}!`,
         );
         setTimeout(() => setMilestoneNotice(null), 4000);
       }
@@ -915,7 +916,7 @@ export function JaapCounter({ mode = "counter" }: { mode?: "counter" | "mala" })
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-serif text-xl font-bold text-ink">{t.jaap.malaBeads} (108)</h2>
             <span className="text-xs font-semibold text-saffron bg-orange-50 px-3 py-1 rounded-full border border-orange-200">
-              {malaProgress} / 108 {isHi ? "मनके पूर्ण" : "Beads Done"}
+              {malaProgress} / 108 {isTe ? "పూసలు పూర్తయ్యాయి" : isHi ? "मनके पूर्ण" : "Beads Done"}
             </span>
           </div>
           <div className="grid grid-cols-12 gap-2 sm:gap-2.5">

@@ -14,22 +14,29 @@ export const revalidate = 300;
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const now = new Date();
-  const dateFormatted = new Intl.DateTimeFormat(isHi ? "hi-IN" : "en-IN", {
+  const dateFormatted = new Intl.DateTimeFormat(isTe ? "te-IN" : isHi ? "hi-IN" : "en-IN", {
     day: "numeric",
     month: "long",
     year: "numeric",
   }).format(now);
 
   return localizedMetadata({
-    title: isHi
+    title: isTe
+      ? `నేటి శుభ హోరా (${dateFormatted}) — 24 దిన గ్రహ హోరా చక్రం | పగలు & రాత్రి శుభ ముహూర్తం`
+      : isHi
       ? `आज की शुभ होरा (${dateFormatted}) — 24 दैनिक ग्रह होरा चक्र | दिन व रात का शुभ मुहूर्त`
       : `Aaj Ki Hora (${dateFormatted}) — Planetary Hora Today, Day & Night Shubh Hora Timings`,
-    description: isHi
+    description: isTe
+      ? `నేటి ${dateFormatted} 24 దిన గ్రహ హోరాల ఖచ్చితమైన సమయం. సూర్య, శుక్ర, బుధ, చంద్ర, శని, గురు మరియు కుజ హోరాల ఫలితాలు, వ్యాపారం, ప్రయాణం & పూజా కార్యాల కొరకు శుభ హోరా సమయ పట్టిక.`
+      : isHi
       ? `आज ${dateFormatted} की 24 दैनिक ग्रह होरा का सटीक समय। सूर्य, शुक्र, बुध, चंद्र, शनि, गुरु और मंगल होरा के शुभ फल, व्यापार, यात्रा, गृह प्रवेश व नवीन कार्य आरम्भ हेतु शुभ होरा मुहूर्त सारणी।`
       : `Check accurate Aaj Ki Hora for today (${dateFormatted}). Complete 24-hour planetary hora table (Sun, Venus, Mercury, Moon, Saturn, Jupiter, Mars) with auspicious timings for wealth, travel, business, and Puja across 120+ cities.`,
     path: PATHS.hora,
-    keywords: isHi
+    keywords: isTe
+      ? ["నేటి హోరా", "శుభ హోరా ముహూర్తం", "గ్రహ హోరా చక్రం", "గురు హోరా సమయం", "శుక్ర హోరా సమయం", "పగలు రాత్రి హోరా", "బంగారం కొనుగోలు హోరా"]
+      : isHi
       ? [
           "आज की होरा",
           "शुभ होरा मुहूर्त आज",
@@ -89,6 +96,24 @@ const HORA_FAQS_EN = [
   },
 ];
 
+const HORA_FAQS_TE = [
+  {
+    question: "గ్రహ హోరా అంటే ఏమిటి?",
+    answer:
+      "వైదిక కాల గణనలో సూర్యోదయం నుండి మరుసటి సూర్యోదయం వరకు 24 గంటలను 24 హోరాలుగా (12 పగటి హోరాలు, 12 రాత్రి హోరాలు) విభజిస్తారు. 'అహోరాత్ర' పదం నుండే 'హోరా' మరియు ఆంగ్లంలోని 'Hour' పదం ఉద్భవించాయి. ప్రతి హోరాపై సప్త గ్రహాలలో ఒకదాని ఆధిపత్యం ఉంటుంది.",
+  },
+  {
+    question: "ధనలాభం, వ్యాపారం మరియు మాంగలిక పనులకు ఏ హోరా శ్రేష్ఠమైనది?",
+    answer:
+      "గురు (బృహస్పతి) హోరా మరియు శుక్ర హోరాలు సమస్త మాంగలిక కార్యాలు, వివాహ సంబంధాలు, ధన సంచయం మరియు ఆభరణాల కొనుగోలుకు పరమ శుభప్రదమైనవి. బుధ హోరా వ్యాపార ఒప్పందాలు మరియు విద్యకు అత్యుత్తమం.",
+  },
+  {
+    question: "రోజులో మొదటి హోరా ఎలా నిర్ణయించబడుతుంది?",
+    answer:
+      "సూర్యోదయ సమయంలో ప్రారంభమయ్యే రోజులోని మొదటి హోరా ఎల్లప్పుడూ ఆ వారపు అధిపతి గ్రహానికి చెందినదై ఉంటుంది (ఉదాహరణకు: ఆదివారం సూర్య హోరా, సోమవారం చంద్ర హోరా, మంగళవారం కుజ హోరా మొదలైనవి).",
+  },
+];
+
 const HORA_FAQS_HI = [
   {
     question: "ग्रह होरा क्या होती है?",
@@ -114,8 +139,9 @@ export default async function HoraPage({
 }) {
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const params = await searchParams;
-  const faqs = isHi ? HORA_FAQS_HI : HORA_FAQS_EN;
+  const faqs = isTe ? HORA_FAQS_TE : isHi ? HORA_FAQS_HI : HORA_FAQS_EN;
 
   return (
     <div>
@@ -166,7 +192,7 @@ export default async function HoraPage({
         hub="spirituality"
         crumbs={localizedCrumbs(
           t.homeName,
-          [isHi ? "शुभ मुहूर्त" : "Muhurat", PATHS.muhurat],
+          [isTe ? "శుభ ముహూర్తాలు" : isHi ? "शुभ मुहूर्त" : "Muhurat", PATHS.muhurat],
           [isHi ? "ग्रह होरा" : "Planetary Hora", PATHS.hora],
         )}
       />

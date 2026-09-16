@@ -36,6 +36,7 @@ export function KundliTool() {
   const t = useMessages();
   const copy = t.spiritualTools.kundli;
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const [name, setName] = useState("");
   const [date, setDate] = useState("1995-06-15");
@@ -54,7 +55,7 @@ export function KundliTool() {
       const engine = await loadKundliEngine();
       setChart(
         engine.generateKundli({
-          name: name.trim() || (isHi ? "जातक" : "Devotee"),
+          name: name.trim() || (isTe ? "జాతకుడు" : isHi ? "जातक" : "Devotee"),
           date,
           time,
           place,
@@ -140,7 +141,7 @@ export function KundliTool() {
               <div className="flex items-center gap-2">
                 <span className="flex items-center gap-1.5 rounded-full bg-saffron/10 px-3 py-0.5 text-xs font-bold uppercase tracking-wider text-saffron-deep">
                   <Sparkles className="h-3.5 w-3.5" />
-                  {isHi ? "वैदिक जन्म पत्रिका" : "Vedic Birth Horoscope"}
+                  {isTe ? "వైదిక జన్మ పత్రిక" : isHi ? "वैदिक जन्म पत्रिका" : "Vedic Birth Horoscope"}
                 </span>
                 <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-[11px] font-bold text-emerald-800">
                   Lahiri Ayanamsa

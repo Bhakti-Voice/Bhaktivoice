@@ -65,6 +65,9 @@
                   {% if row.preview_url_hi %}
                     <a class="btn ghost preview-btn preview-hi-btn" href="{{ row.preview_url_hi }}" target="_blank" rel="noopener noreferrer nofollow" title="Preview Hindi page (Untracked &amp; Noindex)">HI</a>
                   {% endif %}
+                  {% if row.preview_url_te %}
+                    <a class="btn ghost preview-btn preview-hi-btn" href="{{ row.preview_url_te }}" target="_blank" rel="noopener noreferrer nofollow" title="Preview Telugu page (Untracked &amp; Noindex)">TE</a>
+                  {% endif %}
                 </div>
                 <a class="btn ghost" href="/admin/{{ kind.key }}/{{ row.id }}/edit">Edit</a>
                 <a class="btn ghost" href="/admin/{{ kind.key }}/{{ row.id }}/json">Edit JSON</a>

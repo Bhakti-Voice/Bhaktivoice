@@ -28,6 +28,7 @@ export type ChoghadiyaViewProps = {
 export function ChoghadiyaView({ initialCityId }: ChoghadiyaViewProps) {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const [city, setCity] = useState<CityConfig>(() => getCityById(initialCityId));
   const [tab, setTab] = useState<"day" | "night">("day");
@@ -71,7 +72,7 @@ export function ChoghadiyaView({ initialCityId }: ChoghadiyaViewProps) {
   }, [targetDate, city]);
 
   const formatTime = (d: Date) => {
-    return new Intl.DateTimeFormat(isHi ? "hi-IN" : "en-IN", {
+    return new Intl.DateTimeFormat(isTe ? "te-IN" : isHi ? "hi-IN" : "en-IN", {
       timeZone: city.timeZone,
       hour: "numeric",
       minute: "2-digit",
@@ -112,7 +113,7 @@ export function ChoghadiyaView({ initialCityId }: ChoghadiyaViewProps) {
       return (
         <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">
           <ShieldCheck className="h-3.5 w-3.5" />
-          {isHi ? "शुभ (श्रेष्ठ)" : "Auspicious"}
+          {isTe ? "శుభం (శ్రేష్ఠం)" : isHi ? "शुभ (श्रेष्ठ)" : "Auspicious"}
         </span>
       );
     }
@@ -120,14 +121,14 @@ export function ChoghadiyaView({ initialCityId }: ChoghadiyaViewProps) {
       return (
         <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-800">
           <Info className="h-3.5 w-3.5" />
-          {isHi ? "मध्यम (सामान्य)" : "Moderate"}
+          {isTe ? "మధ్యమం (సాధారణం)" : isHi ? "मध्यम (सामान्य)" : "Moderate"}
         </span>
       );
     }
     return (
       <span className="inline-flex items-center gap-1 rounded-full bg-rose-100 px-2.5 py-0.5 text-xs font-semibold text-rose-800">
         <AlertTriangle className="h-3.5 w-3.5" />
-        {isHi ? "अशुभ (त्याज्य)" : "Inauspicious"}
+        {isTe ? "అశుభం (విసర్జించాలి)" : isHi ? "अशुभ (त्याज्य)" : "Inauspicious"}
       </span>
     );
   };
@@ -145,7 +146,7 @@ export function ChoghadiyaView({ initialCityId }: ChoghadiyaViewProps) {
                 dateOffset === -1 ? "bg-maroon text-white shadow-xs" : "bg-white text-ink hover:bg-sand/40 border border-line"
               }`}
             >
-              {isHi ? "कल (बीता हुआ)" : "Yesterday"}
+              {isTe ? "నిన్న" : isHi ? "कल (बीता हुआ)" : "Yesterday"}
             </button>
             <button
               onClick={() => setDateOffset(0)}
@@ -153,7 +154,7 @@ export function ChoghadiyaView({ initialCityId }: ChoghadiyaViewProps) {
                 dateOffset === 0 ? "bg-maroon text-white shadow-xs" : "bg-white text-ink hover:bg-sand/40 border border-line"
               }`}
             >
-              {isHi ? "आज" : "Today"}
+              {isTe ? "ఈరోజు" : isHi ? "आज" : "Today"}
             </button>
             <button
               onClick={() => setDateOffset(1)}
@@ -161,7 +162,7 @@ export function ChoghadiyaView({ initialCityId }: ChoghadiyaViewProps) {
                 dateOffset === 1 ? "bg-maroon text-white shadow-xs" : "bg-white text-ink hover:bg-sand/40 border border-line"
               }`}
             >
-              {isHi ? "कल (आने वाला)" : "Tomorrow"}
+              {isTe ? "రేపు" : isHi ? "कल (आने वाला)" : "Tomorrow"}
             </button>
           </div>
 
@@ -172,21 +173,21 @@ export function ChoghadiyaView({ initialCityId }: ChoghadiyaViewProps) {
         {/* Date & Sun Timings Summary */}
         <div className="mt-5 grid grid-cols-2 gap-3 border-t border-line/60 pt-4 sm:grid-cols-4">
           <div>
-            <span className="text-[11px] text-muted">{isHi ? "तारीख" : "Date"}</span>
+            <span className="text-[11px] text-muted">{isTe ? "తేదీ" : isHi ? "तारीख" : "Date"}</span>
             <div className="font-serif text-sm font-bold text-ink">
               {isHi ? panchang.gregorianLabelHi : panchang.gregorianLabel}
             </div>
           </div>
           <div>
-            <span className="text-[11px] text-muted">{isHi ? "सूर्योदय" : "Sunrise"}</span>
+            <span className="text-[11px] text-muted">{isTe ? "సూర్యోదయం" : isHi ? "सूर्योदय" : "Sunrise"}</span>
             <div className="font-serif text-sm font-bold text-amber-700">{formatTime(panchang.sunrise)}</div>
           </div>
           <div>
-            <span className="text-[11px] text-muted">{isHi ? "सूर्यास्त" : "Sunset"}</span>
+            <span className="text-[11px] text-muted">{isTe ? "సూర్యాస్తమయం" : isHi ? "सूर्यास्त" : "Sunset"}</span>
             <div className="font-serif text-sm font-bold text-orange-700">{formatTime(panchang.sunset)}</div>
           </div>
           <div>
-            <span className="text-[11px] text-muted">{isHi ? "वार / दिनमान" : "Weekday / Duration"}</span>
+            <span className="text-[11px] text-muted">{isTe ? "వారం / దినప్రమాణం" : isHi ? "वार / दिनमान" : "Weekday / Duration"}</span>
             <div className="font-serif text-sm font-bold text-ink">
               {isHi ? panchang.weekdayNameHi : panchang.weekdayName} ({panchang.dayDuration})
             </div>
@@ -221,7 +222,7 @@ export function ChoghadiyaView({ initialCityId }: ChoghadiyaViewProps) {
               <div>
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-bold uppercase tracking-wider text-muted">
-                    {isHi ? "अभी सक्रिय चौघड़िया" : "Currently Active Choghadiya"}
+                    {isTe ? "ప్రస్తుతం నడుస్తున్న చోఘడియా" : isHi ? "अभी सक्रिय चौघड़िया" : "Currently Active Choghadiya"}
                   </span>
                   {getStatusBadge(currentChoghadiya.nature)}
                 </div>
@@ -239,7 +240,7 @@ export function ChoghadiyaView({ initialCityId }: ChoghadiyaViewProps) {
               className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-line bg-white px-4 py-2 text-xs font-semibold text-ink shadow-2xs hover:bg-sand/30"
             >
               {copied ? <Check className="h-4 w-4 text-emerald-600" /> : <Copy className="h-4 w-4" />}
-              {copied ? (isHi ? "कॉपी हो गया!" : "Copied!") : (isHi ? "शेयर करें" : "Copy / Share")}
+              {copied ? (isTe ? "కాపీ అయింది!" : isHi ? "कॉपी हो गया!" : "Copied!") : (isTe ? "కాపీ / షేర్" : isHi ? "शेयर करें" : "Copy / Share")}
             </button>
           </div>
         </div>
@@ -251,7 +252,7 @@ export function ChoghadiyaView({ initialCityId }: ChoghadiyaViewProps) {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-line pb-5">
           <div>
             <h2 className="font-serif text-2xl font-bold text-ink">
-              {isHi ? "दैनिक चौघड़िया समय सारणी" : "Choghadiya Timings Table"}
+              {isTe ? "దిన చోఘడియా సమయ పట్టిక" : isHi ? "दैनिक चौघड़िया समय सारणी" : "Choghadiya Timings Table"}
             </h2>
             <p className="text-xs text-muted">
               {isHi
@@ -268,7 +269,7 @@ export function ChoghadiyaView({ initialCityId }: ChoghadiyaViewProps) {
               }`}
             >
               <Sun className="h-4 w-4 text-amber-500" />
-              {isHi ? "दिन का चौघड़िया" : "Day Choghadiya"}
+              {isTe ? "పగటి చోఘడియా" : isHi ? "दिन का चौघड़िया" : "Day Choghadiya"}
             </button>
             <button
               onClick={() => setTab("night")}
@@ -277,7 +278,7 @@ export function ChoghadiyaView({ initialCityId }: ChoghadiyaViewProps) {
               }`}
             >
               <Moon className="h-4 w-4 text-indigo-500" />
-              {isHi ? "रात का चौघड़िया" : "Night Choghadiya"}
+              {isTe ? "రాత్రి చోఘడియా" : isHi ? "रात का चौघड़िया" : "Night Choghadiya"}
             </button>
           </div>
         </div>

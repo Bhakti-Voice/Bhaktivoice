@@ -49,6 +49,7 @@ export function JaapShareModal({
       : `https://www.bhaktivoice.com${locale === "hi" ? "/hi" : ""}/naam-jaap`;
 
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const shareTitle = isHi
     ? `🙏 आज का पावन नाम जप | भक्ति वॉइस`
@@ -149,7 +150,7 @@ export function JaapShareModal({
         <div className="flex items-center gap-2 mb-4">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-900 border border-amber-300">
             <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-            {isHi ? "साधना प्रसाद एवं साझा करें" : "Share Sadhana Blessing"}
+            {isTe ? "సాధనా ప్రసాదం & షేర్ చేయండి" : isHi ? "साधना प्रसाद एवं साझा करें" : "Share Sadhana Blessing"}
           </span>
         </div>
 
@@ -181,13 +182,13 @@ export function JaapShareModal({
 
           <div className="mt-4 pt-4 border-t border-amber-500/20 grid grid-cols-2 gap-2 text-center">
             <div className="bg-white/5 rounded-xl p-2.5 backdrop-blur-xs">
-              <span className="block text-[11px] text-amber-200/70">{isHi ? "आज का जप" : "Today's Count"}</span>
+              <span className="block text-[11px] text-amber-200/70">{isTe ? "నేటి జపం" : isHi ? "आज का जप" : "Today's Count"}</span>
               <span className="font-serif text-2xl font-bold text-white tracking-tight">
                 {count.toLocaleString()}
               </span>
             </div>
             <div className="bg-white/5 rounded-xl p-2.5 backdrop-blur-xs">
-              <span className="block text-[11px] text-amber-200/70">{isHi ? "माला पूर्ण" : "Mala Completed"}</span>
+              <span className="block text-[11px] text-amber-200/70">{isTe ? "మాల పూర్తయింది" : isHi ? "माला पूर्ण" : "Mala Completed"}</span>
               <span className="font-serif text-2xl font-bold text-amber-300 tracking-tight">
                 {malas} <span className="text-xs font-normal text-amber-200/80">({malas * 108})</span>
               </span>
@@ -236,7 +237,7 @@ export function JaapShareModal({
             className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-medium text-white bg-[#25D366] hover:bg-[#20ba59] active:scale-[0.99] transition shadow-md shadow-emerald-600/20"
           >
             <MessageCircle className="w-5 h-5 fill-current" />
-            <span>{isHi ? "व्हाट्सएप पर साझा करें" : "Share on WhatsApp"}</span>
+            <span>{isTe ? "వాట్సాప్‌లో షేర్ చేయండి" : isHi ? "व्हाट्सएप पर साझा करें" : "Share on WhatsApp"}</span>
           </button>
 
           <div className="grid grid-cols-2 gap-2">
@@ -253,7 +254,7 @@ export function JaapShareModal({
               ) : (
                 <>
                   <Copy className="w-4 h-4 text-saffron" />
-                  <span className="text-xs sm:text-sm">{isHi ? "पूरा संदेश कॉपी" : "Copy Message"}</span>
+                  <span className="text-xs sm:text-sm">{isTe ? "సందేశం కాపీ చేయండి" : isHi ? "पूरा संदेश कॉपी" : "Copy Message"}</span>
                 </>
               )}
             </button>

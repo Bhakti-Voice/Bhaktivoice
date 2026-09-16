@@ -19,6 +19,7 @@ import { useLocale } from "@/lib/i18n/client";
 export function BhadraView() {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const [copied, setCopied] = useState(false);
   const now = useMemo(() => new Date(), []);
@@ -77,7 +78,7 @@ export function BhadraView() {
             <div>
               <div className="flex flex-wrap items-center gap-2">
                 <span className="text-xs font-bold uppercase tracking-wider text-muted">
-                  {isHi ? "वर्तमान भद्रा स्थिति" : "Current Bhadra Status"}
+                  {isTe ? "ప్రస్తుత భద్రా స్థితి" : isHi ? "वर्तमान भद्रा स्थिति" : "Current Bhadra Status"}
                 </span>
                 <span
                   className={`rounded-full px-3 py-0.5 text-xs font-bold ${
@@ -117,7 +118,7 @@ export function BhadraView() {
             className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-xl border border-line bg-white px-4 py-2 text-xs font-semibold text-ink shadow-2xs hover:bg-sand/30"
           >
             {copied ? <Check className="h-4 w-4 text-emerald-600" /> : <Copy className="h-4 w-4" />}
-            {copied ? (isHi ? "कॉपी हो गया!" : "Copied!") : (isHi ? "शेयर करें" : "Copy Status")}
+            {copied ? (isTe ? "కాపీ అయింది!" : isHi ? "कॉपी हो गया!" : "Copied!") : (isTe ? "కాపీ / షేర్" : isHi ? "शेयर करें" : "Copy Status")}
           </button>
         </div>
 

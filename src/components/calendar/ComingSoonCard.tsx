@@ -7,6 +7,7 @@ import { useLocale } from "@/lib/i18n/client";
 export function ComingSoonCard() {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
 
@@ -21,10 +22,12 @@ export function ComingSoonCard() {
       <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-center">
         <div className="max-w-xl space-y-2">
           <div className="inline-flex items-center gap-1.5 rounded-full bg-saffron/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-saffron-deep">
-            <Sparkles className="h-3.5 w-3.5" /> {isHi ? "शीघ्र उपलब्ध" : "Coming Soon"}
+            <Sparkles className="h-3.5 w-3.5" /> {isTe ? "త్వరలో రాబోతోంది" : isHi ? "शीघ्र उपलब्ध" : "Coming Soon"}
           </div>
           <h3 className="font-serif text-xl font-bold text-ink sm:text-2xl">
-            {isHi
+            {isTe
+              ? "వ్యక్తిగత ఏకాదశి & వ్రత నోటిఫికేషన్లు"
+              : isHi
               ? "व्यक्तिगत एकादशी एवं व्रत की सूचनाएं"
               : "Personalized Ekadashi & Vrat Notifications"}
           </h3>
@@ -56,7 +59,7 @@ export function ComingSoonCard() {
                 type="submit"
                 className="shrink-0 rounded-2xl bg-saffron px-4 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-saffron-deep active:scale-95 sm:text-sm"
               >
-                {isHi ? "सूचित करें" : "Notify Me"}
+                {isTe ? "సమాచారం ఇవ్వండి" : isHi ? "सूचित करें" : "Notify Me"}
               </button>
             </form>
           )}

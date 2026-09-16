@@ -11,11 +11,13 @@ interface ToolMenuItem {
   href: string;
   labelEn: string;
   labelHi: string;
+  labelTe: string;
 }
 
 interface ToolColumn {
   categoryEn: string;
   categoryHi: string;
+  categoryTe: string;
   items: ToolMenuItem[];
 }
 
@@ -24,35 +26,38 @@ const TOOL_COLUMNS: ToolColumn[] = [
   {
     categoryEn: "Astrology & Kundli",
     categoryHi: "ज्योतिष व कुंडली",
+    categoryTe: "జ్యోతిష్యం & కుండలి",
     items: [
-      { href: "/kundli", labelEn: "Free Janam Kundli", labelHi: "मुफ्त जन्म कुंडली" },
-      { href: "/kundli-milan", labelEn: "Kundli Milan (36 Guna)", labelHi: "३६ गुण कुंडली मिलान" },
-      { href: "/baby-names", labelEn: "Baby Names by Nakshatra", labelHi: "नक्षत्र अनुसार नामकरण" },
-      { href: "/panchang/chandrabalam", labelEn: "Chandrabalam Finder", labelHi: "दैनिक चंद्रबलम" },
-      { href: "/panchang/nakshatra", labelEn: "Nakshatra Calculator", labelHi: "नक्षत्र एवं राशि फल" },
+      { href: "/kundli", labelEn: "Free Janam Kundli", labelHi: "मुफ्त जन्म कुंडली", labelTe: "ఉచిత జన్మ కుండలి" },
+      { href: "/kundli-milan", labelEn: "Kundli Milan (36 Guna)", labelHi: "३६ गुण कुंडली मिलान", labelTe: "కుండలి మిలన్ (36 గుణాలు)" },
+      { href: "/baby-names", labelEn: "Baby Names by Nakshatra", labelHi: "नक्षत्र अनुसार नामकरण", labelTe: "నక్షత్ర నామకరణం" },
+      { href: "/panchang/chandrabalam", labelEn: "Chandrabalam Finder", labelHi: "दैनिक चंद्रबलम", labelTe: "చంద్రబలం" },
+      { href: "/panchang/nakshatra", labelEn: "Nakshatra Calculator", labelHi: "नक्षत्र एवं राशि फल", labelTe: "నక్షత్ర & రాశి ఫలాలు" },
     ],
   },
   // Column 2: Sadhana & Chanting
   {
     categoryEn: "Daily Sadhana & Jap",
     categoryHi: "नित्य साधना व जप",
+    categoryTe: "నిత్య సాధన & జపం",
     items: [
-      { href: "/naam-jaap", labelEn: "Digital Naam Jaap", labelHi: "डिजिटल नाम जप" },
-      { href: "/naam-jaap/mala", labelEn: "108 Jap Mala Counter", labelHi: "१०८ जप माला काउंटर" },
-      { href: "/daily-sadhana/sankalp", labelEn: "Daily Sankalp Vidhi", labelHi: "दैनिक संकल्प विधि" },
-      { href: "/daily-sadhana/diary", labelEn: "Bhakti Sadhana Diary", labelHi: "नित्य साधना डायरी" },
+      { href: "/naam-jaap", labelEn: "Digital Naam Jaap", labelHi: "डिजिटल नाम जप", labelTe: "డిజిటల్ నామ జపం" },
+      { href: "/naam-jaap/mala", labelEn: "108 Jap Mala Counter", labelHi: "१०८ जप माला काउंटर", labelTe: "108 జప మాల కౌంటర్" },
+      { href: "/daily-sadhana/sankalp", labelEn: "Daily Sankalp Vidhi", labelHi: "दैनिक संकल्प विधि", labelTe: "దిన సంకల్ప విధి" },
+      { href: "/daily-sadhana/diary", labelEn: "Bhakti Sadhana Diary", labelHi: "नित्य साधना डायरी", labelTe: "భక్తి సాధన డైరీ" },
     ],
   },
   // Column 3: Utilities & Media
   {
     categoryEn: "Creative & Utilities",
     categoryHi: "उपयोगी टूल्स व मीडिया",
+    categoryTe: "ఉపయోగకరమైన సాధనాలు & మీడియా",
     items: [
-      { href: "/printable-calendar", labelEn: "Printable Wall Calendar (PDF)", labelHi: "दीवार कैलेंडर प्रिंट / PDF" },
-      { href: "/suvichar-card-maker", labelEn: "Suvichar Status Maker", labelHi: "सुविचार स्टेटस मेकर" },
-      { href: "/sacred-yatra-guides/planner", labelEn: "Tirth Yatra Planner", labelHi: "तीर्थ यात्रा प्लानर" },
-      { href: "/panchang/panchang-utilities", labelEn: "Panchang Utilities", labelHi: "पंचांग टूल्स एवं गणना" },
-      { href: "/spiritual-tools", labelEn: "All Spiritual Tools (Hub)", labelHi: "सम्पूर्ण टूल्स हब" },
+      { href: "/printable-calendar", labelEn: "Printable Wall Calendar (PDF)", labelHi: "दीवार कैलेंडर प्रिंट / PDF", labelTe: "క్యాలెండర్ ప్రింట్ / PDF" },
+      { href: "/suvichar-card-maker", labelEn: "Suvichar Status Maker", labelHi: "सुविचार स्टेटस मेकर", labelTe: "సువిచార్ స్టేటస్ మేకర్" },
+      { href: "/sacred-yatra-guides/planner", labelEn: "Tirth Yatra Planner", labelHi: "तीर्थ यात्रा प्लानर", labelTe: "తీర్థ యాత్ర ప్లానర్" },
+      { href: "/panchang/panchang-utilities", labelEn: "Panchang Utilities", labelHi: "पंचांग टूल्स एवं गणना", labelTe: "పంచాంగ సాధనాలు" },
+      { href: "/spiritual-tools", labelEn: "All Spiritual Tools (Hub)", labelHi: "सम्पूर्ण टूल्स हब", labelTe: "అన్ని సాధనాల హబ్" },
     ],
   },
 ];
@@ -113,7 +118,7 @@ export function SpiritualToolsMenu({
       <div className="space-y-1">
         <div className="flex items-center justify-between px-3 pt-2">
           <p className="text-xs font-semibold uppercase tracking-wide text-muted">
-            {locale === "hi" ? "आध्यात्मिक एवं वैदिक उपकरण" : "Spiritual Tools & Utilities"}
+            {locale === "te" ? "ఆధ్యాత్మిక & వైదిక సాధనాలు" : locale === "hi" ? "आध्यात्मिक एवं वैदिक उपकरण" : "Spiritual Tools & Utilities"}
           </p>
         </div>
         <LocaleLink
@@ -122,7 +127,7 @@ export function SpiritualToolsMenu({
           className="flex items-center gap-2 rounded-xl bg-saffron/10 px-3 py-2 text-xs font-semibold text-saffron-deep"
         >
           <Sparkles className="h-3.5 w-3.5 text-saffron" />
-          <span>{locale === "hi" ? "सम्पूर्ण टूल्स हब देखें" : "Explore All Spiritual Tools"}</span>
+          <span>{locale === "te" ? "అన్ని సాధనాల హబ్ చూడండి" : locale === "hi" ? "सम्पूर्ण टूल्स हब देखें" : "Explore All Spiritual Tools"}</span>
         </LocaleLink>
         <div className="grid grid-cols-2 gap-1 px-1">
           {ALL_ITEMS.map((item) => {
@@ -138,7 +143,7 @@ export function SpiritualToolsMenu({
                     : "text-ink/80 hover:bg-cream hover:text-saffron-deep"
                 }`}
               >
-                {locale === "hi" ? item.labelHi : item.labelEn}
+                {locale === "te" ? item.labelTe : locale === "hi" ? item.labelHi : item.labelEn}
               </LocaleLink>
             );
           })}
@@ -162,7 +167,7 @@ export function SpiritualToolsMenu({
         aria-expanded={open}
         aria-haspopup="true"
       >
-        <span>{locale === "hi" ? "आध्यात्मिक उपकरण" : "Spiritual Tools"}</span>
+        <span>{locale === "te" ? "ఆధ్యాత్మిక సాధనాలు" : locale === "hi" ? "आध्यात्मिक उपकरण" : "Spiritual Tools"}</span>
         <ChevronDown
           className={`h-3.5 w-3.5 transition-transform duration-200 ${open ? "rotate-180 text-saffron" : ""}`}
         />
@@ -177,7 +182,7 @@ export function SpiritualToolsMenu({
             <div className="flex items-center gap-2">
               <span className="inline-block h-2 w-2 rounded-full bg-saffron animate-pulse" />
               <span className="font-bold tracking-wider text-maroon uppercase text-[11px]">
-                {locale === "hi" ? "वैदिक एवं आध्यात्मिक साधन" : "Vedic & Spiritual Utility Tools"}
+                {locale === "te" ? "వైదిక & ఆధ్యాత్మిక సాధనాలు" : locale === "hi" ? "वैदिक एवं आध्यात्मिक साधन" : "Vedic & Spiritual Utility Tools"}
               </span>
             </div>
             <LocaleLink
@@ -185,7 +190,7 @@ export function SpiritualToolsMenu({
               onClick={() => setOpen(false)}
               className="font-bold text-saffron-deep hover:text-maroon underline decoration-saffron decoration-2 underline-offset-4 transition-colors"
             >
-              {locale === "hi" ? "सम्पूर्ण टूल्स हब →" : "All Spiritual Tools →"}
+              {locale === "te" ? "అన్ని సాధనాల హబ్ →" : locale === "hi" ? "सम्पूर्ण टूल्स हब →" : "All Spiritual Tools →"}
             </LocaleLink>
           </div>
 
@@ -194,7 +199,7 @@ export function SpiritualToolsMenu({
             {TOOL_COLUMNS.map((col, colIdx) => (
               <div key={colIdx} className="space-y-1.5">
                 <div className="text-[10px] font-bold text-maroon/75 uppercase tracking-wider px-1 pb-0.5 text-center">
-                  {locale === "hi" ? col.categoryHi : col.categoryEn}
+                  {locale === "te" ? col.categoryTe : locale === "hi" ? col.categoryHi : col.categoryEn}
                 </div>
                 {col.items.map((item) => {
                   const active =
@@ -212,7 +217,7 @@ export function SpiritualToolsMenu({
                       }`}
                     >
                       <span className="block truncate">
-                        {locale === "hi" ? item.labelHi : item.labelEn}
+                        {locale === "te" ? item.labelTe : locale === "hi" ? item.labelHi : item.labelEn}
                       </span>
                     </LocaleLink>
                   );
@@ -224,7 +229,9 @@ export function SpiritualToolsMenu({
           {/* Bottom subtle banner */}
           <div className="mt-3 pt-2.5 border-t border-line text-[11px] text-muted flex items-center justify-between px-1">
             <span>
-              {locale === "hi"
+              {locale === "te"
+                ? "100% ఉచితం మరియు సురక్షితం — డేటా మీ బ్రౌజర్‌లోనే భద్రంగా ఉంటుంది"
+                : locale === "hi"
                 ? "100% निःशुल्क एवं सुरक्षित — डेटा सीधे आपके ब्राउज़र में सुरक्षित रहता है"
                 : "100% Free, Private & Secure — Client-side Vedic tools, zero server logs"}
             </span>

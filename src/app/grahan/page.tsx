@@ -23,12 +23,17 @@ export const revalidate = 1800;
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
-  const title = isHi
+  const title = isTe
+    ? "సూర్య & చంద్ర గ్రహణాలు 2026 — సూతక కాలం, మోక్ష సమయం, గర్భిణీ స్త్రీల నియమాలు & మంత్రాలు"
+    : isHi
     ? "सूर्य एवं चंद्र ग्रहण 2026 — सूतक काल, मोक्ष समय, गर्भवती महिलाओं के नियम व मंत्र"
     : "Surya & Chandra Grahan 2026 — Solar & Lunar Eclipse Timings, Sutak Rules & Mantras";
 
-  const description = isHi
+  const description = isTe
+    ? "2026 సంవత్సరపు అన్ని సూర్య గ్రహణాలు మరియు చంద్ర గ్రహణాల ఖచ్చితమైన తేదీలు. సూతక కాలం సమయం, స్పర్శ మరియు మోక్ష కాలాలు, గర్భిణుల జాగ్రత్తలు మరియు గ్రహణ కాల జప మంత్రాలు."
+    : isHi
     ? "2026 के सभी सूर्य ग्रहण और चंद्र ग्रहण की सटीक तिथियाँ। सूतक काल का समय, स्पर्श और मोक्ष काल, गर्भवती महिलाओं के लिए सावधानियां और ग्रहण कालीन जप मंत्र।"
     : "Comprehensive guide to 2026 Solar and Lunar Eclipses. Precise Sutak Kaal start & end timings, Sparsha & Moksha periods, do's & don'ts, and sacred mantras for maximum spiritual merit.";
 
@@ -36,7 +41,16 @@ export async function generateMetadata(): Promise<Metadata> {
     title,
     description,
     path: PATHS.grahan,
-    keywords: isHi
+    keywords: isTe
+      ? [
+          "సూర్య గ్రహణం 2026",
+          "చంద్ర గ్రహణం 2026",
+          "సూతక కాలం సమయం",
+          "గ్రహణ నియమాలు",
+          "గర్భిణీ స్త్రీలు గ్రహణంలో ఏమి చేయాలి",
+          "గ్రహణ మోక్ష సమయం",
+        ]
+      : isHi
       ? [
           "सूर्य ग्रहण 2026",
           "चंद्र ग्रहण 2026",
@@ -56,6 +70,24 @@ export async function generateMetadata(): Promise<Metadata> {
         ],
   });
 }
+
+const FAQS_TE = [
+  {
+    question: "సూతక కాలం ఎప్పుడు ప్రారంభమవుతుంది మరియు దాని నియమాలు ఏమిటి?",
+    answer:
+      "సూర్య గ్రహణంలో సూతక కాలం గ్రహణ స్పర్శకు 12 గంటల (4 ప్రహరాలు) ముందు, చంద్ర గ్రహణంలో 9 గంటల (3 ప్రహరాలు) ముందు ప్రారంభమవుతుంది. సూతక కాలంలో విగ్రహ స్పర్శ, వంట చేయడం మరియు శుభ కార్యాలు నిషిద్ధం. పిల్లలు, వృద్ధులు మరియు రోగులకు ఈ నియమాలలో సడలింపు ఉంటుంది.",
+  },
+  {
+    question: "గ్రహణ కాలంలో ఏ మంత్రాలను జపించడం వల్ల విశేష ఫలితం లభిస్తుంది?",
+    answer:
+      "గ్రహణ సమయంలో చేసే మంత్ర జపం సాధారణ రోజుల కంటే లక్ష రెట్లు అధిక ఫలితాన్ని ఇస్తుంది. మహా మృత్యుంజయ మంత్రం, గాయత్రీ మంత్రం మరియు 'ఓం నమో భగవతే వాసుదేవాయ' జపించడం వల్ల గ్రహణ ప్రతికూల కిరణాల నుండి రక్షణ లభిస్తుంది.",
+  },
+  {
+    question: "గ్రహణ ముగింపు (మోక్షం) తర్వాత ఏమి చేయడం తప్పనిసరి?",
+    answer:
+      "గ్రహణ మోక్షం వెంటనే గంగాజలం కలిపిన నీటితో స్నానం చేయాలి. ఇంటి పూజా గదిలో గంగాజలం చల్లి శుద్ధి చేసి, తాజా సాత్విక ఆహారాన్ని వండుకోవాలి మరియు పేదలకు ధాన్యం లేదా వస్త్రాలను దానం చేయాలి.",
+  },
+];
 
 const FAQS_HI = [
   {
@@ -96,16 +128,17 @@ const FAQS_EN = [
 export default async function GrahanPage() {
   const locale = await getLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const crumbs = localizedCrumbs(
-    isHi ? "होम" : "Home",
-    [isHi ? "सूर्य व चंद्र ग्रहण" : "Solar & Lunar Eclipses", PATHS.grahan]
+    isTe ? "హోమ్" : isHi ? "होम" : "Home",
+    [isTe ? "సూర్య & చంద్ర గ్రహణాలు" : isHi ? "सूर्य व चंद्र ग्रहण" : "Solar & Lunar Eclipses", PATHS.grahan]
   );
 
   return (
     <div className="min-h-screen bg-[#faf6f0] text-ink pb-16">
       <PageHero
-        title={isHi ? "सूर्य एवं चंद्र ग्रहण मार्गदर्शिका 2026" : "Solar & Lunar Eclipse (Grahan) Guide 2026"}
+        title={isTe ? "సూర్య & చంద్ర గ్రహణాల మార్గదర్శి 2026" : isHi ? "सूर्य एवं चंद्र ग्रहण मार्गदर्शिका 2026" : "Solar & Lunar Eclipse (Grahan) Guide 2026"}
         crumbs={crumbs}
         ornament
       >
@@ -235,7 +268,7 @@ export default async function GrahanPage() {
           <h2 className="font-serif text-lg font-bold text-ink sm:text-xl mb-4">
             {isHi ? "ग्रहण से जुड़े प्रमुख प्रश्नोत्तरी (FAQ)" : "Frequently Asked Questions about Eclipses"}
           </h2>
-          <FaqList faqs={isHi ? FAQS_HI : FAQS_EN} jsonLd />
+          <FaqList faqs={isTe ? FAQS_TE : isHi ? FAQS_HI : FAQS_EN} jsonLd />
         </section>
       </main>
     </div>

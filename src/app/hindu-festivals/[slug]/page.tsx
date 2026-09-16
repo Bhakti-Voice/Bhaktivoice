@@ -35,6 +35,7 @@ export default async function FestivalDetailPage({ params }: Props) {
 
   const locale = await getLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const hasDateNote = Boolean(page.dateNote && page.dateNote.trim().length > 0);
   const hasMonthHint = Boolean(page.monthHint && page.monthHint.trim().length > 0);
@@ -71,7 +72,7 @@ export default async function FestivalDetailPage({ params }: Props) {
           {!storyHasHeading ? (
             <div className="mb-4">
               <h2 className="font-serif text-2xl font-bold text-ink sm:text-3xl">
-                {isHi ? "कथा एवं पौराणिक महत्व" : "The story & significance"}
+                {isTe ? "కథ మరియు పౌరాణిక ప్రాముఖ్యత" : isHi ? "कथा एवं पौराणिक महत्व" : "The story & significance"}
               </h2>
               <div className="mt-2 h-0.5 w-12 bg-gradient-to-r from-saffron to-amber-300 rounded-full" />
             </div>
@@ -105,7 +106,7 @@ export default async function FestivalDetailPage({ params }: Props) {
         <section className="mt-10 rounded-3xl border border-[#eedec9] bg-gradient-to-br from-[#fffdf9] to-[#fff8ef] p-6 sm:p-8 shadow-xs">
           <div className="mb-4">
             <h2 className="font-serif text-2xl font-bold text-ink sm:text-3xl">
-              {isHi ? "त्योहार की मुख्य परंपराएं एवं नियम" : "Traditions & Sacred Customs"}
+              {isTe ? "పండుగ యొక్క ముఖ్య సంప్రదాయాలు & ఆచారాలు" : isHi ? "त्योहार की मुख्य परंपराएं एवं नियम" : "Traditions & Sacred Customs"}
             </h2>
             <div className="mt-2 h-0.5 w-12 bg-gradient-to-r from-saffron to-amber-300 rounded-full" />
           </div>
@@ -128,7 +129,7 @@ export default async function FestivalDetailPage({ params }: Props) {
           {!pujaHasHeading ? (
             <div className="mb-4">
               <h2 className="font-serif text-2xl font-bold text-ink sm:text-3xl">
-                {isHi ? "घर पर सरल पूजा विधि" : "Puja Vidhi & Rituals at Home"}
+                {isTe ? "ఇంట్లో సులభమైన పూజా విధానం" : isHi ? "घर पर सरल पूजा विधि" : "Puja Vidhi & Rituals at Home"}
               </h2>
               <div className="mt-2 h-0.5 w-12 bg-gradient-to-r from-saffron to-amber-300 rounded-full" />
             </div>

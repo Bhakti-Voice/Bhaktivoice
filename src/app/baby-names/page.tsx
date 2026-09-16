@@ -13,13 +13,18 @@ export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
+  const isTe = locale === "te";
   const isHi = locale === "hi";
 
   return localizedMetadata({
-    title: isHi
+    title: isTe
+      ? "నక్షత్రం ప్రకారం శిశువుల పేర్లు 2026 — 108 పాద నామాక్షరాలు, 12 రాశుల వైదిక & ఆధునిక పేర్లు"
+      : isHi
       ? "नक्षत्र अनुसार बच्चों के नाम 2026 — 108 पाद नामाक्षर, 12 राशि के आधुनिक व वैदिक नाम"
       : "Baby Names by Nakshatra & Pada 2026 (नक्षत्र अनुसार नाम) — 108 Vedic Namkaran Syllables & Modern Names",
-    description: isHi
+    description: isTe
+      ? "27 నక్షత్రాల 108 పాద నామాక్షరాలు మరియు 12 రాశుల ఆధారంగా నవజాత బాలురు, బాలికలకు శ్రేష్ఠమైన వైదిక & ఆధునిక పేర్లు. సంస్కృత అర్థాలు మరియు నామకరణ పద్ధతి."
+      : isHi
       ? "27 नक्षत्रों के 108 पाद नामाक्षर (1, 2, 3, 4 पाद) और 12 राशियों के अनुसार नवजात बालकों और बालिकाओं के सर्वश्रेष्ठ वैदिक व आधुनिक नाम। सुंदर संस्कृत अर्थ, कुलदेवी-देवता एवं शास्त्रसम्मत नामकरण विधि।"
       : "Find auspicious Hindu baby names by Nakshatra and Pada (1, 2, 3, 4) in 2026. Complete 108 sacred Vedic syllables, 12 Rashi letters, boy & girl names with Sanskrit meanings, deities, and Namkaran rules.",
     path: PATHS.babyNames,
@@ -89,6 +94,29 @@ const FAQS_EN = [
   },
 ];
 
+const FAQS_TE = [
+  {
+    question: "జన్మ నక్షత్ర పాదం ప్రకారం శిశువు పేరును ఎందుకు నిర్ణయించాలి?",
+    answer:
+      "వైదిక జ్యోతిష్య శాస్త్రం ప్రకారం, శిశువు జన్మించిన సమయంలో చంద్రుడు సంచరించే నక్షత్రం మరియు చరణం (పాదం) ఒక పవిత్రమైన ధ్వని తరంగాన్ని (నామాక్షరం) ఉత్పత్తి చేస్తాయి. ఈ బీజాక్షరంతో పేరు ప్రారంభించడం వల్ల శిశువు ఆరోగ్యం, మేధస్సు మరియు గ్రహానుకూలత చక్కగా సమకూరుతాయి.",
+  },
+  {
+    question: "రాశి అక్షరాలకు, నక్షత్ర నామాక్షరాలకు తేడా ఏమిటి?",
+    answer:
+      "ఒక రాశిలో రెండుంబావు నక్షత్రాలు (9 పాదాలు) ఉంటాయి. రాశి అక్షరాలు సాధారణ అక్షర సమూహాన్ని సూచిస్తాయి (ఉదాహరణకు మేష రాశికి అ, ల, ఇ), కానీ నక్షత్ర పాదం అనేది జనన సమయానికి అత్యంత ఖచ్చితమైన నామాక్షరాన్ని అందిస్తుంది (ఉదాహరణకు అశ్విని 1వ పాదానికి 'చు', 2వ పాదానికి 'చే'). వైదిక సంప్రదాయంలో నక్షత్ర పాదాక్షరానికే ప్రథమ ప్రాధాన్యత ఇవ్వబడుతుంది.",
+  },
+  {
+    question: "నామకరణ సంస్కారాన్ని ఏ రోజు మరియు ముహూర్తంలో జరపాలి?",
+    answer:
+      "గృహ్య సూత్రాల ప్రకారం, శిశువు జన్మించిన 10వ, 11వ, 12వ లేదా 16వ రోజున సూతక విముక్తి తర్వాత నామకరణం నిర్వహిస్తారు. దీనికి స్థిర నక్షత్రాలు (రోహిణి, ఉత్తర ఫల్గుణి, ఉత్తరాషాఢ, ఉత్తరాభాద్ర), పుష్యమి, హస్త, అనురాధ మరియు రిక్త తిథులు (4, 9, 14, అమావాస్య) మినహాయించి శుభ తిథులు శ్రేష్ఠమైనవి.",
+  },
+  {
+    question: "సనాతన సంప్రదాయంలో శిశువుకు నిర్ణయించే 4 పేర్లు ఏమిటి?",
+    answer:
+      "శాస్త్రాల ప్రకారం 4 రకాల పేర్ల విధానం కలదు: (1) నక్షత్ర నామం (జన్మ నక్షత్రం ఆధారంగా రహస్య నామం), (2) దేవతా నామం (కులదైవం లేదా ఇష్టదైవం పేరు), (3) మాస నామం (జన్మించిన చాంద్రమాస విష్ణు నామం), మరియు (4) వ్యవహారిక నామం (సమాజంలో, పాఠశాలలో పిలిచే అందమైన పేరు).",
+  },
+];
+
 const FAQS_HI = [
   {
     question: "जन्म नक्षत्र के पाद अनुसार नामकरण क्यों करना चाहिए?",
@@ -114,8 +142,9 @@ const FAQS_HI = [
 
 export default async function BabyNamesPage() {
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
+  const isTe = locale === "te";
   const isHi = locale === "hi";
-  const faqs = isHi ? FAQS_HI : FAQS_EN;
+  const faqs = isTe ? FAQS_TE : isHi ? FAQS_HI : FAQS_EN;
 
   return (
     <div>
@@ -139,12 +168,16 @@ export default async function BabyNamesPage() {
 
       <PageHero
         title={
-          isHi
+          isTe
+            ? "నక్షత్రం & రాశి ప్రకారం శిశువుల పేర్లు"
+            : isHi
             ? "नक्षत्र एवं राशि अनुसार बच्चों के नाम"
             : "Vedic Baby Names by Nakshatra & Rashi"
         }
         subtitle={
-          isHi
+          isTe
+            ? "27 నక్షత్రాల 108 పాద నామాక్షరాలు, 12 రాశులు మరియు లోతైన అర్థాలతో కూడిన వైదిక శిశు నామాల ప్రామాణిక సమాహారం."
+            : isHi
             ? "27 नक्षत्रों के 108 पाद नामाक्षर, 12 राशियां और आध्यात्मिक अर्थों से युक्त दिव्य बाल नामों की प्रामाणिक सूची।"
             : "Discover authentic Hindu baby names curated by 108 Nakshatra Pada syllables, Rashi letters, deities, and profound Vedic meanings."
         }
@@ -152,7 +185,7 @@ export default async function BabyNamesPage() {
         crumbs={localizedCrumbs(
           t.homeName,
           [t.nav.spiritualTools, PATHS.spiritualTools],
-          [isHi ? "वैदिक नामकरण" : "Vedic Baby Names", PATHS.babyNames]
+          [isTe ? "నక్షత్ర నామకరణం" : isHi ? "वैदिक नामकरण" : "Vedic Baby Names", PATHS.babyNames]
         )}
       />
 
@@ -163,7 +196,9 @@ export default async function BabyNamesPage() {
           <FaqList
             faqs={faqs}
             title={
-              isHi
+              isTe
+                ? "వైదిక నామకరణం గురించి తరచుగా అడిగే ప్రశ్నలు (FAQs)"
+                : isHi
                 ? "वैदिक नामकरण से जुड़े महत्वपूर्ण प्रश्नोत्तर (FAQs)"
                 : "Frequently Asked Questions about Vedic Baby Names"
             }

@@ -28,8 +28,13 @@ function SocialMark({ path, label, href }: { path: string; label: string; href?:
   );
 }
 
+import { getLocale } from "@/lib/i18n/server";
+
 export async function Footer() {
-  const t = await getMessages();
+  const [t, locale] = await Promise.all([getMessages(), getLocale()]);
+  const isTe = locale === "te";
+  const isHi = locale === "hi";
+
   const columns = [
     {
       title: t.footerCols.quickLinks,
@@ -38,8 +43,8 @@ export async function Footer() {
         { href: PATHS.naamJaap, label: t.nav.naamJaap },
         { href: PATHS.katha, label: t.nav.katha },
         { href: PATHS.yatra, label: t.nav.yatra },
-        { href: PATHS.babyNames, label: "Vedic Baby Names (नामकरण)" },
-        { href: PATHS.printableCalendar, label: "Printable Wall Calendar (PDF)" },
+        { href: PATHS.babyNames, label: isTe ? "నక్షత్ర నామకరణం" : isHi ? "वैदिक नामकरण" : "Vedic Baby Names (नामकरण)" },
+        { href: PATHS.printableCalendar, label: isTe ? "ప్రింట్ క్యాలెండర్ (PDF)" : isHi ? "प्रिंट योग्य कैलेंडर (PDF)" : "Printable Wall Calendar (PDF)" },
       ],
     },
     {

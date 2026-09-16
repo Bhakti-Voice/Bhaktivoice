@@ -32,124 +32,361 @@ interface QuickLinkCategory {
 
 export function HomeQuickLinksCard({ locale }: HomeQuickLinksCardProps) {
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const categories: QuickLinkCategory[] = [
     // 1. Shubh Muhurats & Choghadiya
     {
-      title: isHi ? "शुभ मुहूर्त एवं चौघड़िया (Muhurat Hub)" : "Auspicious Muhurat & Timings",
+      title: isTe
+        ? "శుభ ముహూర్తాలు & చోఘడియా (ముహూర్త కేంద్రం)"
+        : isHi
+        ? "शुभ मुहूर्त एवं चौघड़िया (Muhurat Hub)"
+        : "Auspicious Muhurat & Timings",
       icon: <Clock className="h-4 w-4 text-amber-600" />,
-      badge: isHi ? "शुभ वेला" : "Auspicious",
+      badge: isTe ? "శుభ వేళ" : isHi ? "शुभ वेला" : "Auspicious",
       links: [
-        { href: PATHS.choghadiya, label: isHi ? "आज का चौघड़िया (Day/Night)" : "Choghadiya (Day & Night)", featured: true },
-        { href: PATHS.hora, label: isHi ? "शुभ ग्रह होरा चक्र" : "Shubha Planetary Hora", featured: true },
-        { href: PATHS.bhadra, label: isHi ? "भद्रा काल एवं वास विचार" : "Bhadra Timings & Vaas", featured: true },
-        { href: PATHS.panchak, label: isHi ? "पंचक विचार एवं 2026 कैलेंडर" : "Panchak Status & 2026 Dates", featured: true },
-        { href: PATHS.shubhDates("vivah-muhurat"), label: isHi ? "शुभ विवाह मुहूर्त 2026 (कैलेंडर)" : "Vivah Muhurat (Wedding Calendar)", featured: true },
-        { href: PATHS.shubhDates("griha-pravesh"), label: isHi ? "गृह प्रवेश एवं वास्तु मुहूर्त" : "Griha Pravesh Calendar" },
-        { href: PATHS.shubhDates("property-purchase"), label: isHi ? "संपत्ति एवं भूमि रजिस्ट्री मुहूर्त" : "Property Purchase Calendar" },
-        { href: PATHS.shubhDates("vehicle-purchase"), label: isHi ? "वाहन क्रय मुहूर्त (कार/बाइक कैलेंडर)" : "Vehicle Purchase Calendar", featured: true },
-        { href: PATHS.shubhDates("business-opening"), label: isHi ? "व्यापार एवं दुकान उद्घाटन मुहूर्त" : "Business Opening Muhurat" },
-        { href: PATHS.shubhDates("gold-buying"), label: isHi ? "सोना व चांदी खरीद मुहूर्त (पुष्य योग)" : "Gold Buying Muhurat" },
-        { href: PATHS.shubhDates("vidyarambha"), label: isHi ? "विद्यारंभ व अक्षरारंभ संस्कार" : "Vidyarambha Muhurat" },
-        { href: PATHS.shubhDates("naamkaran"), label: isHi ? "नामकरण संस्कार शुभ मुहूर्त" : "Naamkaran Samskara Muhurat" },
-        { href: PATHS.shubhDates("mundan"), label: isHi ? "मुंडन (चूड़ाकरण) मुहूर्त 2026" : "Mundan Ceremony Muhurat" },
-        { href: PATHS.shubhDates("karnavedha"), label: isHi ? "कर्णवेध (कान छेदन) मुहूर्त" : "Karnavedha Muhurat" },
-        { href: PATHS.regionalPanchang("panchang-utilities"), label: isHi ? "राहु काल एवं यमगण्ड समय" : "Rahu Kala & Inauspicious Hours" },
-        { href: PATHS.regionalPanchang("dainik-panchang"), label: isHi ? "अभिजित मुहूर्त (दैनिक श्रेष्ठ काल)" : "Abhijit Muhurat (Daily Best Time)" },
-        { href: PATHS.regionalPanchang("chandrabalam"), label: isHi ? "चंद्रबलम एवं गोचर शुद्धि" : "Chandrabalam & Lunar Transit" },
-        { href: PATHS.regionalPanchang("vinchudo"), label: isHi ? "विंछुड़ो विचार एवं परिहार" : "Vinchudo Dosha & Timing" },
-        { href: PATHS.regionalPanchang("nakshatra"), label: isHi ? "नक्षत्र ताराबल एवं शुभाशुभ फल" : "Nakshatra Tarabalam Grid" },
-        { href: PATHS.regionalPanchang("panchang-utilities"), label: isHi ? "सप्ताह के दिशाशूल एवं उपाय" : "Dishashool Directional Rules" },
+        {
+          href: PATHS.choghadiya,
+          label: isTe ? "నేటి చోఘడియా (పగలు & రాత్రి)" : isHi ? "आज का चौघड़िया (Day/Night)" : "Choghadiya (Day & Night)",
+          featured: true,
+        },
+        {
+          href: PATHS.hora,
+          label: isTe ? "శుభ గ్రహ హోరా చక్రం" : isHi ? "शुभ ग्रह होरा चक्र" : "Shubha Planetary Hora",
+          featured: true,
+        },
+        {
+          href: PATHS.bhadra,
+          label: isTe ? "భద్రా కాలం & వాస విచారం" : isHi ? "भद्रा काल एवं वास विचार" : "Bhadra Timings & Vaas",
+          featured: true,
+        },
+        {
+          href: PATHS.panchak,
+          label: isTe ? "పంచక విచారం & 2026 తేదీలు" : isHi ? "पंचक विचार एवं 2026 कैलेंडर" : "Panchak Status & 2026 Dates",
+          featured: true,
+        },
+        {
+          href: PATHS.shubhDates("vivah-muhurat"),
+          label: isTe ? "శుభ వివాహ ముహూర్తాలు 2026 (క్యాలెండర్)" : isHi ? "शुभ विवाह मुहूर्त 2026 (कैलेंडर)" : "Vivah Muhurat (Wedding Calendar)",
+          featured: true,
+        },
+        {
+          href: PATHS.shubhDates("griha-pravesh"),
+          label: isTe ? "గృహ ప్రవేశ & వాస్తు ముహూర్తం" : isHi ? "गृह प्रवेश एवं वास्तु मुहूर्त" : "Griha Pravesh Calendar",
+        },
+        {
+          href: PATHS.shubhDates("property-purchase"),
+          label: isTe ? "ఆస్తి & భూమి రిజిస్ట్రేషన్ ముహూర్తం" : isHi ? "संपत्ति एवं भूमि रजिस्ट्री मुहूर्त" : "Property Purchase Calendar",
+        },
+        {
+          href: PATHS.shubhDates("vehicle-purchase"),
+          label: isTe ? "వాహన కొనుగోలు ముహూర్తం (కారు/బైక్)" : isHi ? "वाहन क्रय मुहूर्त (कार/बाइक कैलेंडर)" : "Vehicle Purchase Calendar",
+          featured: true,
+        },
+        {
+          href: PATHS.shubhDates("business-opening"),
+          label: isTe ? "వ్యాపార ప్రారంభ & దుకాణ ముహూర్తం" : isHi ? "व्यापार एवं दुकान उद्घाटन मुहूर्त" : "Business Opening Muhurat",
+        },
+        {
+          href: PATHS.shubhDates("gold-buying"),
+          label: isTe ? "బంగారం & వెండి కొనుగోలు ముహూర్తం" : isHi ? "सोना व चांदी खरीद मुहूर्त (पुष्य योग)" : "Gold Buying Muhurat",
+        },
+        {
+          href: PATHS.shubhDates("vidyarambha"),
+          label: isTe ? "విద్యారంభ & అక్షరాభ్యాస సంస్కారం" : isHi ? "विद्यारंभ व अक्षरारंभ संस्कार" : "Vidyarambha Muhurat",
+        },
+        {
+          href: PATHS.shubhDates("naamkaran"),
+          label: isTe ? "నామకరణ సంస్కార శుభ ముహూర్తం" : isHi ? "नामकरण संस्कार शुभ मुहूर्त" : "Naamkaran Samskara Muhurat",
+        },
+        {
+          href: PATHS.shubhDates("mundan"),
+          label: isTe ? "పుట్టువెంట్రుకల ముహూర్తం (చూడాకరణం)" : isHi ? "मुंडन (चूड़ाकरण) मुहूर्त 2026" : "Mundan Ceremony Muhurat",
+        },
+        {
+          href: PATHS.shubhDates("karnavedha"),
+          label: isTe ? "కర్ణవేధ (చెవులు కుట్టే) ముహూర్తం" : isHi ? "कर्णवेध (कान छेदन) मुहूर्त" : "Karnavedha Muhurat",
+        },
+        {
+          href: PATHS.regionalPanchang("panchang-utilities"),
+          label: isTe ? "రాహు కాలం & యమగండం వేళలు" : isHi ? "राहु काल एवं यमगण्ड समय" : "Rahu Kala & Inauspicious Hours",
+        },
+        {
+          href: PATHS.regionalPanchang("dainik-panchang"),
+          label: isTe ? "అభిజిత్ ముహూర్తం (రోజువారీ శ్రేష్ఠ కాలం)" : isHi ? "अभिजित मुहूर्त (दैनिक श्रेष्ठ काल)" : "Abhijit Muhurat (Daily Best Time)",
+        },
+        {
+          href: PATHS.regionalPanchang("chandrabalam"),
+          label: isTe ? "చంద్రబలం & గోచార శుద్ధి" : isHi ? "चंद्रबलम एवं गोचर शुद्धि" : "Chandrabalam & Lunar Transit",
+        },
+        {
+          href: PATHS.regionalPanchang("vinchudo"),
+          label: isTe ? "వృశ్చిక రాశి వింఛుడో విచారం & పరిహారం" : isHi ? "विंछुड़ो विचार एवं परिहार" : "Vinchudo Dosha & Timing",
+        },
+        {
+          href: PATHS.regionalPanchang("nakshatra"),
+          label: isTe ? "నక్షత్ర తారాబలం & శుభాశుభ ఫలితాలు" : isHi ? "नक्षत्र ताराबल एवं शुभाशुभ फल" : "Nakshatra Tarabalam Grid",
+        },
+        {
+          href: PATHS.regionalPanchang("panchang-utilities"),
+          label: isTe ? "వార దిశాశూల & నివారణోపాయాలు" : isHi ? "सप्ताह के दिशाशूल एवं उपाय" : "Dishashool Directional Rules",
+        },
       ],
     },
 
     // 2. Vrat, Upavas & Sacred Observances
     {
-      title: isHi ? "सनातन व्रत एवं उपवास (Vrat & Upavas)" : "Sacred Vrats & Fasting Days",
+      title: isTe
+        ? "సనాతన వ్రతాలు & ఉపవాసాలు (Vrat & Upavas)"
+        : isHi
+        ? "सनातन व्रत एवं उपवास (Vrat & Upavas)"
+        : "Sacred Vrats & Fasting Days",
       icon: <Flame className="h-4 w-4 text-orange-600" />,
-      badge: isHi ? "तप व पुण्य" : "Devotion",
+      badge: isTe ? "భక్తి & తపస్సు" : isHi ? "तप व पुण्य" : "Devotion",
       links: [
-        { href: PATHS.festivals, label: isHi ? "एकादशी व्रत एवं पारण समय (२४ एकादशी)" : "Ekadashi Vrat & Parana Dates", featured: true },
-        { href: PATHS.festivals, label: isHi ? "प्रदोष व्रत (त्रयोदशी शिव पूजा)" : "Pradosh Vrat (Shiva Twilight)" },
-        { href: PATHS.festivals, label: isHi ? "संकष्टी चतुर्थी (चंद्रोदय गणेश पूजा)" : "Sankashti Chaturthi Dates" },
-        { href: PATHS.festivals, label: isHi ? "मासिक शिवरात्रि व्रत विधान" : "Masik Shivratri Vrat" },
-        { href: PATHS.festivals, label: isHi ? "पूर्णिमा व्रत एवं श्री सत्यनारायण कथा" : "Purnima Vrat & Satyanarayan Puja", featured: true },
-        { href: PATHS.festivals, label: isHi ? "अमावस्या एवं पितृ तर्पण श्राद्ध" : "Amavasya Pitru Tarpan Dates" },
-        { href: PATHS.festivals, label: isHi ? "शारदीय व चैत्र नवरात्रि उपवास" : "Navratri 9 Days Vrat & Ghatasthapana" },
-        { href: PATHS.calendar, label: isHi ? "रोहिणी व्रत एवं जैन पच्चक्खाण" : "Rohini Vrat & Ascetic Observances" },
-        { href: PATHS.calendar, label: isHi ? "सम्पूर्ण मासिक व्रत-पर्व कैलेंडर 2026" : "Monthly Vrat & Festival Calendar 2026" },
+        {
+          href: PATHS.festivals,
+          label: isTe ? "ఏకాదశి వ్రతం & పారణ సమయాలు (24 ఏకాదశులు)" : isHi ? "एकादशी व्रत एवं पारण समय (२४ एकादशी)" : "Ekadashi Vrat & Parana Dates",
+          featured: true,
+        },
+        {
+          href: PATHS.festivals,
+          label: isTe ? "ప్రదోష వ్రతం (త్రయోదశి శివ పూజ)" : isHi ? "प्रदोष व्रत (त्रयोदशी शिव पूजा)" : "Pradosh Vrat (Shiva Twilight)",
+        },
+        {
+          href: PATHS.festivals,
+          label: isTe ? "సంకష్టహర చతుర్థి (చంద్రోదయ గణపతి పూజ)" : isHi ? "संकष्टी चतुर्थी (चंद्रोदय गणेश पूजा)" : "Sankashti Chaturthi Dates",
+        },
+        {
+          href: PATHS.festivals,
+          label: isTe ? "మాస శివరాత్రి వ్రత విధానం" : isHi ? "मासिक शिवरात्रि व्रत विधान" : "Masik Shivratri Vrat",
+        },
+        {
+          href: PATHS.festivals,
+          label: isTe ? "పౌర్ణమి వ్రతం & శ్రీ సత్యనారాయణ స్వామి కథ" : isHi ? "पूर्णिमा व्रत एवं श्री सत्यनारायण कथा" : "Purnima Vrat & Satyanarayan Puja",
+          featured: true,
+        },
+        {
+          href: PATHS.festivals,
+          label: isTe ? "అమావాస్య & పితృ తర్పణ శ్రాద్ధం" : isHi ? "अमावस्या एवं पितृ तर्पण श्राद्ध" : "Amavasya Pitru Tarpan Dates",
+        },
+        {
+          href: PATHS.festivals,
+          label: isTe ? "శారదీయ & చైత్ర నవరాత్రి వ్రతాలు" : isHi ? "शारदीय व चैत्र नवरात्रि उपवास" : "Navratri 9 Days Vrat & Ghatasthapana",
+        },
+        {
+          href: PATHS.calendar,
+          label: isTe ? "రోహిణి వ్రతం & జైన పచ్చక్ఖాణ్" : isHi ? "रोहिणी व्रत एवं जैन पच्चक्खाण" : "Rohini Vrat & Ascetic Observances",
+        },
+        {
+          href: PATHS.calendar,
+          label: isTe ? "సంపూర్ణ నెలవారీ వ్రత-పండుగల క్యాలెండర్ 2026" : isHi ? "सम्पूर्ण मासिक व्रत-पर्व कैलेंडर 2026" : "Monthly Vrat & Festival Calendar 2026",
+        },
       ],
     },
 
     // 3. Panchang & Vedic Calendars
     {
-      title: isHi ? "वैदिक पंचांग एवं क्षेत्रीय पंजिका" : "Panchang & Regional Calendars",
+      title: isTe
+        ? "వైదిక పంచాంగం & ప్రాంతీయ క్యాలెండర్లు"
+        : isHi
+        ? "वैदिक पंचांग एवं क्षेत्रीय पंजिका"
+        : "Panchang & Regional Calendars",
       icon: <Sun className="h-4 w-4 text-amber-700" />,
-      badge: isHi ? "लाइव काल" : "Ephemeris",
+      badge: isTe ? "లైవ్ పంచాంగం" : isHi ? "लाइव काल" : "Ephemeris",
       links: [
-        { href: PATHS.panchangToday, label: isHi ? "आज का दैनिक पंचांग (Live)" : "Today's Panchang (Live)", featured: true },
-        { href: PATHS.panchangTomorrow, label: isHi ? "कल का अग्रिम पंचांग" : "Tomorrow's Advance Panchang" },
-        { href: PATHS.panchangYesterday, label: isHi ? "बीते दिवस का पंचांग" : "Yesterday's Panchang Record" },
-        { href: PATHS.calendar, label: isHi ? "हिन्दू कैलेंडर 2026 (संवत्सर)" : "Hindu Calendar 2026 (Vikram Samvat)", featured: true },
-        { href: PATHS.tithi, label: isHi ? "आज की तिथि एवं चंद्र कला" : "Aaj Ki Tithi & Lunar Phase" },
-        { href: PATHS.regionalPanchang("month-panchang"), label: isHi ? "मासिक पंचांग (पूर्णिमान्त/अमान्त)" : "Month Panchang (Full Grid)" },
-        { href: PATHS.regionalPanchang("dainik-panchang"), label: isHi ? "दैनिक पंचांग ५ अंग विवरण" : "Dainik Panchang 5 Limbs" },
-        { href: PATHS.regionalPanchang("gujarati-panchang"), label: isHi ? "गुजराती पंचांग (विक्रम संवत)" : "Gujarati Panchang" },
-        { href: PATHS.regionalPanchang("marathi-panchang"), label: isHi ? "मराठी पंचांग (शालिवाहन शक)" : "Marathi Panchang" },
-        { href: PATHS.regionalPanchang("bengali-panjika"), label: isHi ? "बंगाली पंजिका (सूर्याब्द)" : "Bengali Panjika" },
-        { href: PATHS.regionalPanchang("tamil-panchangam"), label: isHi ? "तमिल पंचांगम (सौर मास)" : "Tamil Panchangam" },
-        { href: PATHS.regionalPanchang("iskcon-panchang"), label: isHi ? "इस्कॉन वैष्णव कैलेंडर (गौराब्द)" : "ISKCON Gaurabda Calendar" },
+        {
+          href: PATHS.panchangToday,
+          label: isTe ? "నేటి దిన పంచాంగం (Live)" : isHi ? "आज का दैनिक पंचांग (Live)" : "Today's Panchang (Live)",
+          featured: true,
+        },
+        {
+          href: PATHS.panchangTomorrow,
+          label: isTe ? "రేపటి ముందస్తు పంచాంగం" : isHi ? "कल का अग्रिम पंचांग" : "Tomorrow's Advance Panchang",
+        },
+        {
+          href: PATHS.panchangYesterday,
+          label: isTe ? "నిన్నటి పంచాంగ వివరాలు" : isHi ? "बीते दिवस का पंचांग" : "Yesterday's Panchang Record",
+        },
+        {
+          href: PATHS.calendar,
+          label: isTe ? "హిందూ క్యాలెండర్ 2026 (సంవత్సరం)" : isHi ? "हिन्दू कैलेंडर 2026 (संवत्सर)" : "Hindu Calendar 2026 (Vikram Samvat)",
+          featured: true,
+        },
+        {
+          href: PATHS.tithi,
+          label: isTe ? "నేటి తిథి & చంద్ర కళలు" : isHi ? "आज की तिथि एवं चंद्र कला" : "Aaj Ki Tithi & Lunar Phase",
+        },
+        {
+          href: PATHS.regionalPanchang("month-panchang"),
+          label: isTe ? "నెలవారీ పంచాంగం (అమాంత/పూర్ణిమాంత)" : isHi ? "मासिक पंचांग (पूर्णिमान्त/अमान्त)" : "Month Panchang (Full Grid)",
+        },
+        {
+          href: PATHS.regionalPanchang("dainik-panchang"),
+          label: isTe ? "దిన పంచాంగం 5 అంగాల వివరాలు" : isHi ? "दैनिक पंचांग ५ अंग विवरण" : "Dainik Panchang 5 Limbs",
+        },
+        {
+          href: PATHS.regionalPanchang("gujarati-panchang"),
+          label: isTe ? "గుజరాతీ పంచాంగం" : isHi ? "गुजराती पंचांग (विक्रम संवत)" : "Gujarati Panchang",
+        },
+        {
+          href: PATHS.regionalPanchang("marathi-panchang"),
+          label: isTe ? "మరాఠీ పంచాంగం (శాలివాహన శక)" : isHi ? "मराठी पंचांग (शालिवाहन शक)" : "Marathi Panchang",
+        },
+        {
+          href: PATHS.regionalPanchang("bengali-panjika"),
+          label: isTe ? "బెంగాలీ పంజిక" : isHi ? "बंगाली पंजिका (सूर्याब्द)" : "Bengali Panjika",
+        },
+        {
+          href: PATHS.regionalPanchang("tamil-panchangam"),
+          label: isTe ? "తమిళ పంచాంగం (సౌర మానం)" : isHi ? "तमिल पंचांगम (सौर मास)" : "Tamil Panchangam",
+        },
+        {
+          href: PATHS.regionalPanchang("iskcon-panchang"),
+          label: isTe ? "ఇస్కాన్ వైష్ణవ క్యాలెండర్ (గౌరాబ్ద)" : isHi ? "इस्कॉन वैष्णव कैलेंडर (गौराब्द)" : "ISKCON Gaurabda Calendar",
+        },
       ],
     },
 
     // 4. Spiritual Sadhana, Mantras & Sacred Gita
     {
-      title: isHi ? "साधना, नाम जप एवं श्रीमद्भगवद्गीता" : "Sadhana, Mantras & Gita",
+      title: isTe
+        ? "సాధన, నామ జపం & శ్రీమద్భగవద్గీత"
+        : isHi
+        ? "साधना, नाम जप एवं श्रीमद्भगवद्गीता"
+        : "Sadhana, Mantras & Gita",
       icon: <BookOpen className="h-4 w-4 text-emerald-700" />,
-      badge: isHi ? "आत्मोद्धार" : "Spiritual",
+      badge: isTe ? "ఆత్మోద్ధరణ" : isHi ? "आत्मोद्धार" : "Spiritual",
       links: [
-        { href: PATHS.gita, label: isHi ? "श्रीमद्भगवद्गीता (१८ अध्याय, ७०० श्लोक)" : "Srimad Bhagavad Gita (18 Chapters)", featured: true },
-        { href: PATHS.naamJaap, label: isHi ? "ऑनलाइन नाम जप काउंटर" : "Online Naam Jaap Counter", featured: true },
-        { href: PATHS.mala, label: isHi ? "१०८ मनकों की डिजिटल जप माला" : "108 Japa Mala Digital Counter" },
-        { href: PATHS.sadhana, label: isHi ? "दैनिक आध्यात्मिक साधना कक्ष" : "Daily Sadhana Sanctuary" },
-        { href: PATHS.sankalp, label: isHi ? "पावन वैदिक संकल्प पत्र" : "Sacred Vedic Sankalp" },
-        { href: PATHS.diary, label: isHi ? "दैनिक भक्ति डायरी" : "Devotional Spiritual Diary" },
-        { href: PATHS.mantras, label: isHi ? "महामंत्र संग्रह (हरे कृष्ण, ॐ नमः शिवाय)" : "Sacred Mahamantra Collection", featured: true },
-        { href: PATHS.spirituality, label: isHi ? "सनातन आध्यात्मिक ज्ञान एवं दर्शन" : "Sanatana Spiritual Wisdom" },
+        {
+          href: PATHS.gita,
+          label: isTe ? "శ్రీమద్భగవద్గీత (18 అధ్యాయాలు, 700 శ్లోకాలు)" : isHi ? "श्रीमद्भगवद्गीता (१८ अध्याय, ७०० श्लोक)" : "Srimad Bhagavad Gita (18 Chapters)",
+          featured: true,
+        },
+        {
+          href: PATHS.naamJaap,
+          label: isTe ? "ఆన్‌లైన్ నామ జప కౌంటర్" : isHi ? "ऑनलाइन नाम जप काउंटर" : "Online Naam Jaap Counter",
+          featured: true,
+        },
+        {
+          href: PATHS.mala,
+          label: isTe ? "108 మణుల డిజిటల్ జపమాల" : isHi ? "१०८ मनकों की डिजिटल जप माला" : "108 Japa Mala Digital Counter",
+        },
+        {
+          href: PATHS.sadhana,
+          label: isTe ? "నిత్య ఆధ్యాత్మిక సాధన మందిరం" : isHi ? "दैनिक आध्यात्मिक साधना कक्ष" : "Daily Sadhana Sanctuary",
+        },
+        {
+          href: PATHS.sankalp,
+          label: isTe ? "పవిత్ర వైదిక సంకల్ప పత్రం" : isHi ? "पावन वैदिक संकल्प पत्र" : "Sacred Vedic Sankalp",
+        },
+        {
+          href: PATHS.diary,
+          label: isTe ? "భక్తి సాధన డైరీ" : isHi ? "दैनिक भक्ति डायरी" : "Devotional Spiritual Diary",
+        },
+        {
+          href: PATHS.mantras,
+          label: isTe ? "మహామంత్రాల సంగ్రహం (హరే కృష్ణ, ఓం నమః శివాయ)" : isHi ? "महामंत्र संग्रह (हरे कृष्ण, ॐ नमः शिवाय)" : "Sacred Mahamantra Collection",
+          featured: true,
+        },
+        {
+          href: PATHS.spirituality,
+          label: isTe ? "సనాతన ఆధ్యాత్మిక జ్ఞానం & తత్వ దర్శనం" : isHi ? "सनातन आध्यात्मिक ज्ञान एवं दर्शन" : "Sanatana Spiritual Wisdom",
+        },
       ],
     },
 
     // 5. Katha, Temples & Sacred Yatra
     {
-      title: isHi ? "कथा, मंदिर दर्शन एवं तीर्थ यात्रा" : "Katha, Temples & Yatra",
+      title: isTe
+        ? "గాథలు, పుణ్యక్షేత్రాలు & తీర్థయాత్ర"
+        : isHi
+        ? "कथा, मंदिर दर्शन एवं तीर्थ यात्रा"
+        : "Katha, Temples & Yatra",
       icon: <Landmark className="h-4 w-4 text-rose-700" />,
-      badge: isHi ? "तीर्थ दर्शन" : "Pilgrimage",
+      badge: isTe ? "తీర్థ దర్శనం" : isHi ? "तीर्थ दर्शन" : "Pilgrimage",
       links: [
-        { href: PATHS.katha, label: isHi ? "पौराणिक कथाएं एवं व्रत कथा संग्रह" : "Puranic Katha & Vrat Katha", featured: true },
-        { href: PATHS.temples, label: isHi ? "भारत के प्रमुख दिव्य मन्दिर" : "Sacred Hindu Temples Directory" },
-        { href: PATHS.festivals, label: isHi ? "प्रमुख हिन्दू पर्व एवं उत्सव 2026" : "All Hindu Festivals 2026", featured: true },
-        { href: PATHS.yatra, label: isHi ? "चार धाम एवं ज्योतिर्लिंग यात्रा गाइड" : "Char Dham & Jyotirlinga Guides" },
-        { href: PATHS.yatraPlanner, label: isHi ? "तीर्थ यात्रा मार्ग एवं बजट प्लानर" : "Yatra Route & Budget Planner" },
-        { href: PATHS.blog, label: isHi ? "भक्ति वॉइस आध्यात्मिक ब्लॉग" : "Bhakti Voice Spiritual Blog" },
-        { href: PATHS.community, label: isHi ? "विश्वव्यापी भक्त समुदाय" : "Global Devotee Community" },
-        { href: PATHS.store, label: isHi ? "पवित्र भक्ति स्टोर (पूजा सामग्री व पुस्तकें)" : "Bhakti Store (Pooja Items & Books)" },
+        {
+          href: PATHS.katha,
+          label: isTe ? "పౌరాణిక కథలు & వ్రత కథల సంగ్రహం" : isHi ? "पौराणिक कथाएं एवं व्रत कथा संग्रह" : "Puranic Katha & Vrat Katha",
+          featured: true,
+        },
+        {
+          href: PATHS.temples,
+          label: isTe ? "భారతదేశ ప్రముఖ పుణ్యక్షేత్రాలు & దర్శనం" : isHi ? "भारत के प्रमुख दिव्य मन्दिर" : "Sacred Hindu Temples Directory",
+        },
+        {
+          href: PATHS.festivals,
+          label: isTe ? "ప్రముఖ హిందూ పండుగలు & ఉత్సవాలు 2026" : isHi ? "प्रमुख हिन्दू पर्व एवं उत्सव 2026" : "All Hindu Festivals 2026",
+          featured: true,
+        },
+        {
+          href: PATHS.yatra,
+          label: isTe ? "చార్ ధామ్ & జ్యోతిర్లింగ యాత్రా మార్గదర్శి" : isHi ? "चार धाम एवं ज्योतिर्लिंग यात्रा गाइड" : "Char Dham & Jyotirlinga Guides",
+        },
+        {
+          href: PATHS.yatraPlanner,
+          label: isTe ? "తీర్థయాత్ర రూట్ & బడ్జెట్ ప్లానర్" : isHi ? "तीर्थ यात्रा मार्ग एवं बजट प्लानर" : "Yatra Route & Budget Planner",
+        },
+        {
+          href: PATHS.blog,
+          label: isTe ? "భక్తి వాయిస్ ఆధ్యాత్మిక బ్లాగ్" : isHi ? "भक्ति वॉइस आध्यात्मिक ब्लॉग" : "Bhakti Voice Spiritual Blog",
+        },
+        {
+          href: PATHS.community,
+          label: isTe ? "ప్రపంచవ్యాప్త భక్త సమాజం" : isHi ? "विश्वव्यापी भक्त समुदाय" : "Global Devotee Community",
+        },
+        {
+          href: PATHS.store,
+          label: isTe ? "పవిత్ర భక్తి స్టోర్ (పూజా సామగ్రి & పుస్తకాలు)" : isHi ? "पवित्र भक्ति स्टोर (पूजा सामग्री व पुस्तकें)" : "Bhakti Store (Pooja Items & Books)",
+        },
       ],
     },
 
     // 6. Aarti, Chalisa, Bhajans & Vedic Astrology Tools
     {
-      title: isHi ? "आरती, चालीसा, भजन एवं ज्योतिष टूल्स" : "Aarti, Chalisa, Bhajan & Tools",
+      title: isTe
+        ? "హారతులు, చాలీసా, భజనలు & జ్యోతిష్యం"
+        : isHi
+        ? "आरती, चालीसा, भजन एवं ज्योतिष टूल्स"
+        : "Aarti, Chalisa, Bhajan & Tools",
       icon: <Sparkles className="h-4 w-4 text-purple-700" />,
-      badge: isHi ? "स्तुति व टूल्स" : "Devotion & Tools",
+      badge: isTe ? "స్తుతి & టూల్స్" : isHi ? "स्तुति व टूल्स" : "Devotion & Tools",
       links: [
-        { href: PATHS.aarti, label: isHi ? "सम्पूर्ण नित्य आरती संग्रह" : "Complete Aarti Sangrah", featured: true },
-        { href: PATHS.chalisa, label: isHi ? "चालीसा संग्रह (हनुमान, शिव, दुर्गा)" : "Chalisa Sangrah (Hanuman, Shiva)" },
-        { href: PATHS.bhajan, label: isHi ? "मधुर भजन, संकीर्तन एवं लिरिक्स" : "Bhajans, Kirtan & Lyrics" },
-        { href: PATHS.quotes, label: isHi ? "दैनिक प्रेरक सुविचार एवं श्लोक" : "Daily Spiritual Quotes & Thoughts" },
-        { href: PATHS.suvicharMaker, label: isHi ? "सुविचार कार्ड व स्टेटस मेकर" : "Suvichar Status & Card Maker", featured: true },
-        { href: PATHS.kundli, label: isHi ? "मुफ्त वैदिक जन्म कुंडली" : "Free Vedic Kundli Horoscope" },
-        { href: PATHS.kundliMilan, label: isHi ? "३६ गुण अष्टकूट मिलान" : "36 Guna Kundli Milan" },
-        { href: PATHS.spiritualTools, label: isHi ? "सभी वैदिक व आध्यात्मिक उपकरण →" : "All Vedic Spiritual Tools →" },
+        {
+          href: PATHS.aarti,
+          label: isTe ? "సంపూర్ణ నిత్య హారతుల సంగ్రహం" : isHi ? "सम्पूर्ण नित्य आरती संग्रह" : "Complete Aarti Sangrah",
+          featured: true,
+        },
+        {
+          href: PATHS.chalisa,
+          label: isTe ? "చాలీసా సంగ్రహం (హనుమాన్, శివ, దుర్గ)" : isHi ? "चालीसा संग्रह (हनुमान, शिव, दुर्गा)" : "Chalisa Sangrah (Hanuman, Shiva)",
+        },
+        {
+          href: PATHS.bhajan,
+          label: isTe ? "మధుర భజనలు, సంకీర్తన & లిరిక్స్" : isHi ? "मधुर भजन, संकीर्तन एवं लिरिक्स" : "Bhajans, Kirtan & Lyrics",
+        },
+        {
+          href: PATHS.quotes,
+          label: isTe ? "దైవిక సువిచారాలు & సూక్తులు" : isHi ? "दैनिक प्रेरक सुविचार एवं श्लोक" : "Daily Spiritual Quotes & Thoughts",
+        },
+        {
+          href: PATHS.suvicharMaker,
+          label: isTe ? "సువిచార కార్డ్ & స్టేటస్ మేకర్" : isHi ? "सुविचार कार्ड व स्टेटस मेकर" : "Suvichar Status & Card Maker",
+          featured: true,
+        },
+        {
+          href: PATHS.kundli,
+          label: isTe ? "ఉచిత వైదిక జన్మ కుండలి" : isHi ? "मुफ्त वैदिक जन्म कुंडली" : "Free Vedic Kundli Horoscope",
+        },
+        {
+          href: PATHS.kundliMilan,
+          label: isTe ? "36 గుణ అష్టకూట మిలనం (వివాహ పొంతన)" : isHi ? "३६ गुण अष्टकूट मिलान" : "36 Guna Kundli Milan",
+        },
+        {
+          href: PATHS.spiritualTools,
+          label: isTe ? "అన్ని వైదిక & ఆధ్యాత్మిక టూల్స్ →" : isHi ? "सभी वैदिक व आध्यात्मिक उपकरण →" : "All Vedic Spiritual Tools →",
+        },
       ],
     },
   ];
@@ -165,10 +402,16 @@ export function HomeQuickLinksCard({ locale }: HomeQuickLinksCardProps) {
             </div>
             <div>
               <h2 className="font-serif text-lg font-bold text-ink sm:text-xl">
-                {isHi ? "त्वरित नेविगेशन हब (Quick Navigation Hub) — सम्पूर्ण सनातन डायरेक्टरी" : "Quick Navigation Hub — Complete Sanatana Directory"}
+                {isTe
+                  ? "త్వరిత నావిగేషన్ హబ్ (Quick Navigation Hub) — సంపూర్ణ సనాతన డైరెక్టరీ"
+                  : isHi
+                  ? "त्वरित नेविगेशन हब (Quick Navigation Hub) — सम्पूर्ण सनातन डायरेक्टरी"
+                  : "Quick Navigation Hub — Complete Sanatana Directory"}
               </h2>
               <p className="mt-0.5 text-xs text-muted sm:text-sm">
-                {isHi
+                {isTe
+                  ? "శుభ ముహూర్తాలు, దిన పంచాంగం, ఏకాదశి-ప్రదోష వ్రతాలు, భగవద్గీత, నామ జపం, ఆలయాలు, హారతులు & వైదిక జ్యోతిష్యానికి ప్రామాణిక వేదిక"
+                  : isHi
                   ? "शुभ मुहूर्त, दैनिक पंचांग, एकादशी-प्रदोष व्रत, श्रीमद्भगवद्गीता, नाम जप, मंदिर, आरती एवं वैदिक ज्योतिष का प्रामाणिक प्रवेश द्वार"
                   : "Direct access to Auspicious Muhurat, Daily Panchang, Ekadashi Vrats, Bhagavad Gita, Naam Jaap, Temples & Vedic Astrology Tools"}
               </p>
@@ -177,7 +420,13 @@ export function HomeQuickLinksCard({ locale }: HomeQuickLinksCardProps) {
 
           <div className="flex items-center gap-1.5 rounded-full bg-amber-500/10 px-4 py-1.5 text-xs font-semibold text-amber-800">
             <Sparkles className="h-3.5 w-3.5 text-saffron" />
-            <span>{isHi ? "60+ प्रामाणिक वैदिक सेवाएं व पृष्ठ" : "60+ Authentic Vedic Services & Pages"}</span>
+            <span>
+              {isTe
+                ? "60+ ప్రామాణిక వైదిక సేవలు & పేజీలు"
+                : isHi
+                ? "60+ प्रामाणिक वैदिक सेवाएं व पृष्ठ"
+                : "60+ Authentic Vedic Services & Pages"}
+            </span>
           </div>
         </div>
 
@@ -215,10 +464,10 @@ export function HomeQuickLinksCard({ locale }: HomeQuickLinksCardProps) {
                       </span>
                       {link.featured ? (
                         <span className="shrink-0 rounded-md bg-amber-50 px-2 py-0.5 text-[10.5px] font-bold text-amber-800 ring-1 ring-amber-300/60">
-                          {isHi ? "दिव्य" : "Featured"}
+                          {isTe ? "ప్రత్యేకం" : isHi ? "दिव्य" : "Featured"}
                         </span>
                       ) : (
-                        <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-muted/40 opacity-0 transition group-hover:text-saffron group-hover:opacity-100" />
+                        <ArrowUpRight className="h-3 w-3 text-stone-300 opacity-0 transition group-hover:text-saffron group-hover:opacity-100" />
                       )}
                     </LocaleLink>
                   </li>
@@ -231,7 +480,91 @@ export function HomeQuickLinksCard({ locale }: HomeQuickLinksCardProps) {
         {/* Rich SEO Foundational Article & Long-Form Guide: Eliminating Thin Content & Ranking Top on Google */}
         <article className="mt-8 border-t border-amber-500/15 pt-6 text-ink/80">
           <div className="rounded-2xl bg-amber-50/40 p-5 ring-1 ring-amber-400/20 sm:p-7">
-            {isHi ? (
+            {isTe ? (
+              <div>
+                <h3 className="font-serif text-xl font-bold text-ink sm:text-2xl leading-snug">
+                  సనాతన వైదిక పంచాంగం, శుభ ముహూర్తం మరియు వ్రత నిర్ణయం యొక్క వైజ్ఞానిక సంప్రదాయం — సమగ్ర మార్గదర్శి
+                </h3>
+                <p className="mt-3 text-sm sm:text-base leading-relaxed text-ink/85">
+                  సనాతన ధర్మంలో కాలం అనేది కేవలం క్షణాల గడియారం కాదు, అదొక దివ్యమైన మరియు చేతన శక్తి. మన ప్రాచీన మహర్షులు ఆకాశమండలంలోని సూర్యుడు, చంద్రుడు, 27 నక్షత్రాలు మరియు నవగ్రహాల సంచారాన్ని పరిశీలించి <strong>కాల-విజ్ఞానం (జ్యోతిష శాస్త్రం)</strong> యొక్క అద్భుతమైన గణితాన్ని రూపొందించారు. భక్తి వాయిస్ యొక్క ఈ <strong>త్వరిత నావిగేషన్ హబ్ (Quick Navigation Hub)</strong> యొక్క ముఖ్య ఉద్దేశ్యం ప్రతి సాధకుడికి, గృహస్థునికి మరియు పరిశోధకుడికి ఖచ్చితమైన, స్వచ్ఛమైన మరియు ప్రామాణికమైన వైదిక విజ్ఞానాన్ని అందించడమే.
+                </p>
+
+                <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
+                  <div className="rounded-2xl bg-white p-5 shadow-2xs ring-1 ring-amber-500/10">
+                    <h4 className="flex items-center gap-2 font-serif text-base sm:text-lg font-bold text-amber-950">
+                      <Clock className="h-5 w-5 text-saffron" />
+                      ౧. శుభ ముహూర్తం యొక్క ప్రాముఖ్యత &amp; శుభాశుభ కాల చక్రం
+                    </h4>
+                    <p className="mt-2.5 text-sm sm:text-[15px] leading-relaxed text-ink/80">
+                      శాస్త్రాలలో చెప్పబడినట్లు: <em>&apos;ముహూర్తం చాప్యనుకూలం యత్కర్మ తత్సిద్ధిభాజనమ్&apos;</em> — శుభ ముహూర్తంలో ప్రారంభించిన ఏ కార్యమైనా ఎలాంటి ఆటంకాలు లేకుండా శీఘ్ర సిద్ధిని మరియు విజయాన్ని అందిస్తుంది.
+                    </p>
+                    <ul className="mt-3.5 space-y-2.5 text-sm sm:text-[14.5px] leading-relaxed text-ink/80">
+                      <li><strong>చోఘడియా చక్రం:</strong> పగలు మరియు రాత్రిని 8 సమ భాగాలుగా విభజించి అమృత, శుభ, లాభ, చర (శుభకరమైనవి) మరియు రోగ, కాల, ఉద్వేగ (వర్జించదగినవి) సమయాలను నిర్ణయించడం.</li>
+                      <li><strong>అభిజిత్ ముహూర్తం:</strong> పగటివేళ 8వ ముహూర్త కాలం సాక్షాత్తూ శ్రీమహావిష్ణువు యొక్క ఆశీస్సులతో కూడినది. ఇది సకల దోషాలను హరించి సకల కార్యాలలో విజయాన్ని చేకూరుస్తుంది.</li>
+                      <li><strong>గ్రహ హోరా చక్రం:</strong> సూర్యోదయం నుండి మరుసటి సూర్యోదయం వరకు 24 గంటలలో ప్రతి గంటకు ఒక అధిపతి గ్రహం ఉంటుంది. విద్యాభ్యాసానికి గురు హోరా, వ్యాపారానికి శుక్ర హోరా అత్యంత శ్రేష్ఠమైనవి.</li>
+                      <li><strong>వివాహ &amp; గృహ ప్రవేశ ముహూర్తాలు:</strong> త్రిబల శుద్ధి (సూర్య, చంద్ర, గురు బలాలు), శుద్ధ లగ్నం మరియు బాణ దోష రహిత శుభ తిథుల ఎంపిక అత్యంత ఆవశ్యకం.</li>
+                    </ul>
+                  </div>
+
+                  <div className="rounded-2xl bg-white p-5 shadow-2xs ring-1 ring-amber-500/10">
+                    <h4 className="flex items-center gap-2 font-serif text-base sm:text-lg font-bold text-amber-950">
+                      <Flame className="h-5 w-5 text-orange-600" />
+                      ౨. సనాతన వ్రతాలు, ఏకాదశి &amp; ఉపవాస నియమాలు
+                    </h4>
+                    <p className="mt-2.5 text-sm sm:text-[15px] leading-relaxed text-ink/80">
+                      ఉపవాసం అంటే కేవలం భోజనం మానడం మాత్రమే కాదు; &apos;ఉప + వాస&apos; అనగా పరమాత్మకు అత్యంత సమీపంలో నివసించడం.
+                    </p>
+                    <ul className="mt-3.5 space-y-2.5 text-sm sm:text-[14.5px] leading-relaxed text-ink/80">
+                      <li><strong>24 ఏకాదశి వ్రతాలు:</strong> సంవత్సరంలోని ప్రతి ఏకాదశి (నిర్జల, మోక్షద, శయన, ప్రబోధిని మొదలైనవి) మానసిక మాలిన్యాలను పోగొట్టి మోక్ష మార్గాన్ని సుగమం చేస్తాయి. హరివాసర మరియు ద్వాదశి పారణ సమయం పాటించడం అత్యంత ముఖ్యం.</li>
+                      <li><strong>ప్రదోష వ్రతం:</strong> ప్రతి పక్ష త్రయోదశి నాడు ప్రదోష కాలంలో (సూర్యాస్తమయ సమయం) పరమశివుడు మరియు పార్వతీదేవిని ఆరాధించడం వల్ల సమస్త పాపాలు, రుణ బాధలు నశిస్తాయి.</li>
+                      <li><strong>సంకష్ట చతుర్థి:</strong> విఘ్నేశ్వరుడైన గణపతి వ్రతం, చంద్రోదయ సమయంలో అర్ఘ్యం సమర్పించి పూర్తిచేస్తారు. సంకటాల నివారణకు ఇది అత్యద్భుతమైన వ్రతం.</li>
+                      <li><strong>పౌర్ణమి &amp; సత్యనారాయణ వ్రతం:</strong> చంద్రుని సంపూర్ణ శోభతో ప్రకాశించే పౌర్ణమి నాడు శ్రీ సత్యనారాయణ స్వామి వ్రతం మరియు దీపారాధన కుటుంబంలో సుఖసంతోషాలను నింపుతాయి.</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="mt-6 rounded-2xl bg-white p-5 shadow-2xs ring-1 ring-amber-500/10">
+                  <h4 className="flex items-center gap-2 font-serif text-base sm:text-lg font-bold text-amber-950">
+                    <ShieldCheck className="h-5 w-5 text-emerald-600" />
+                    ౩. పంచాంగం యొక్క 5 మూల అంగాలు (పంచాంగ విజ్ఞానం)
+                  </h4>
+                  <p className="mt-2 text-sm sm:text-[15px] leading-relaxed text-ink/80">
+                    వైదిక కాల గణనలో ఐదు ముఖ్యమైన అంగాలు ఉంటాయి:
+                  </p>
+                  <div className="mt-3.5 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-5">
+                    <div className="rounded-xl border border-amber-200/80 bg-white/90 p-3.5 shadow-2xs">
+                      <span className="block font-bold text-ink text-sm sm:text-base">౧. తిథి (Tithi)</span>
+                      <p className="mt-1.5 text-xs sm:text-[13px] leading-relaxed text-ink/75">సూర్య-చంద్రుల మధ్య 12° కోణీయ అంతరం తిథిని నిర్ధారిస్తుంది, ఇది మానసిక శక్తిని మరియు సంకల్పాన్ని నియంత్రిస్తుంది.</p>
+                    </div>
+                    <div className="rounded-xl border border-amber-200/80 bg-white/90 p-3.5 shadow-2xs">
+                      <span className="block font-bold text-ink text-sm sm:text-base">౨. వారం (Vara)</span>
+                      <p className="mt-1.5 text-xs sm:text-[13px] leading-relaxed text-ink/75">ఆదివారం నుండి శనివారం వరకు ఏడు రోజుల అధిపతి గ్రహాలు మానవ ఆరోగ్యాన్ని, ఆయుష్షును ప్రభావితం చేస్తాయి.</p>
+                    </div>
+                    <div className="rounded-xl border border-amber-200/80 bg-white/90 p-3.5 shadow-2xs">
+                      <span className="block font-bold text-ink text-sm sm:text-base">౩. నక్షత్రం (Nakshatra)</span>
+                      <p className="mt-1.5 text-xs sm:text-[13px] leading-relaxed text-ink/75">27 నక్షత్రాలలో చంద్రుని సంచారం మానవ మనస్తత్వాన్ని, స్వభావాన్ని మరియు తారాబలాన్ని నిర్దేశిస్తుంది.</p>
+                    </div>
+                    <div className="rounded-xl border border-amber-200/80 bg-white/90 p-3.5 shadow-2xs">
+                      <span className="block font-bold text-ink text-sm sm:text-base">౪. యోగం (Yoga)</span>
+                      <p className="mt-1.5 text-xs sm:text-[13px] leading-relaxed text-ink/75">సూర్య-చంద్రుల స్పష్ట రేఖాంశాల కలయికతో ఏర్పడే 27 యోగాలు శరీర ప్రాణ శక్తిని మరియు సంబంధాలను ప్రభావితం చేస్తాయి.</p>
+                    </div>
+                    <div className="rounded-xl border border-amber-200/80 bg-white/90 p-3.5 shadow-2xs">
+                      <span className="block font-bold text-ink text-sm sm:text-base">౫. కరణం (Karana)</span>
+                      <p className="mt-1.5 text-xs sm:text-[13px] leading-relaxed text-ink/75">తిథిలో సగభాగాన్ని కరణం అంటారు (11 కరణాలు), ఇది ఏ పనికైనా తక్షణ విజయం లేదా ఆటంకాలను నిర్ణయిస్తుంది.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-5 flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm text-ink/70">
+                  <p>
+                    <strong>ముఖ్యమైన శోధనలు:</strong> నేటి పంచాంగం, శుభ వివాహ ముహూర్తాలు 2026, చోఘడియా పట్టిక, ఏకాదశి పారణ సమయం, రాహుకాలం, గృహ ప్రవేశ ముహూర్తం, ప్రదోష వ్రతం, శ్రీమద్భగవద్గీత శ్లోకాలు తాత్పర్యంతో.
+                  </p>
+                  <LocaleLink href={PATHS.spiritualTools} className="inline-flex items-center gap-1 font-semibold text-saffron-deep hover:underline">
+                    అన్ని వైదిక సాధనాలు చూడండి <ArrowUpRight className="h-4 w-4" />
+                  </LocaleLink>
+                </div>
+              </div>
+            ) : isHi ? (
               <div>
                 <h3 className="font-serif text-xl font-bold text-ink sm:text-2xl leading-snug">
                   सनातन वैदिक पंचांग, शुभ मुहूर्त एवं व्रत निर्णय की वैज्ञानिक परंपरा — विस्तृत दिग्दर्शिका
@@ -402,8 +735,32 @@ export function HomeQuickLinksCard({ locale }: HomeQuickLinksCardProps) {
             )}
           </div>
         </article>
+
+        {/* Footer info ribbon */}
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-amber-500/10 pt-4 text-xs text-muted">
+          <div className="flex items-center gap-2">
+            <ShieldCheck className="h-4 w-4 text-emerald-600" />
+            <span>
+              {isTe
+                ? "శ్రీ సనాతన ధర్మ ప్రామాణిక గ్రంథాలు, దృక్-సిద్ధాంత పంచాంగం & పురాణ శాస్త్రాల ఆధారంగా నిర్మించబడినది"
+                : isHi
+                ? "श्री सनातन धर्म प्रामाणिक ग्रंथ, दृక్-सिद्धांत पंचांग एवं पौराणिक शास्त्रों के आधार पर निर्मित"
+                : "Curated strictly in accordance with classical Drik-Ganita astronomy & Vedic scriptures."}
+            </span>
+          </div>
+          <div className="flex items-center gap-3 font-semibold text-saffron-deep">
+            <LocaleLink href={PATHS.panchangToday} className="hover:underline">
+              {isTe ? "దిన పంచాంగం →" : isHi ? "दैनिक पंचांग →" : "Daily Panchang →"}
+            </LocaleLink>
+            <LocaleLink href={PATHS.muhurat} className="hover:underline">
+              {isTe ? "ముహూర్త కేంద్రం →" : isHi ? "मुहूर्त हब →" : "Muhurat Hub →"}
+            </LocaleLink>
+            <LocaleLink href={PATHS.calendar} className="hover:underline">
+              {isTe ? "క్యాలెండర్ 2026 →" : isHi ? "कैलेंडर 2026 →" : "Calendar 2026 →"}
+            </LocaleLink>
+          </div>
+        </div>
       </div>
     </section>
   );
 }
-

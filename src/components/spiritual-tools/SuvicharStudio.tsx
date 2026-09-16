@@ -53,6 +53,7 @@ const CATEGORY_TABS: { id: SuvicharCategory; labelHi: string; labelEn: string; i
 export function SuvicharStudio() {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const searchParams = useSearchParams();
   const initialCategoryParam = searchParams?.get("category") as SuvicharCategory | null;
@@ -464,7 +465,7 @@ export function SuvicharStudio() {
           className="inline-flex items-center gap-2 rounded-xl bg-amber-600 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-amber-700 active:scale-95 sm:text-sm"
         >
           <Shuffle className="h-4 w-4" />
-          {isHi ? "रैंडम सुविचार बदलें" : "Shuffle Random Quote"}
+          {isTe ? "వేరే సువిచారాన్ని ఎంచుకోండి" : isHi ? "रैंडम सुविचार बदलें" : "Shuffle Random Quote"}
         </button>
       </div>
 
@@ -481,7 +482,7 @@ export function SuvicharStudio() {
                   1
                 </span>
                 <h3 className="font-serif text-lg font-bold text-ink">
-                  {isHi ? "श्रेणी व परंपरा चुनें" : "Select Sacred Category & Tradition"}
+                  {isTe ? "వర్గం & సంప్రదాయాన్ని ఎంచుకోండి" : isHi ? "श्रेणी व परंपरा चुनें" : "Select Sacred Category & Tradition"}
                 </h3>
               </div>
 
@@ -618,7 +619,7 @@ export function SuvicharStudio() {
                 2
               </span>
               <h3 className="font-serif text-lg font-bold text-ink">
-                {isHi ? "नाम, स्थान एवं फोटो जोड़ें" : "Add Your Name, City & Photo"}
+                {isTe ? "మీ పేరు, ఊరు & ఫోటోను జతచేయండి" : isHi ? "नाम, स्थान एवं फोटो जोड़ें" : "Add Your Name, City & Photo"}
               </h3>
             </div>
 
@@ -626,7 +627,7 @@ export function SuvicharStudio() {
               {/* Devotee Name */}
               <div>
                 <label className="block text-xs font-semibold text-ink">
-                  {isHi ? "आपका नाम / परिवार का नाम" : "Your Name / Family Name"}
+                  {isTe ? "మీ పేరు / కుటుంబం పేరు" : isHi ? "आपका नाम / परिवार का नाम" : "Your Name / Family Name"}
                 </label>
                 <input
                   type="text"

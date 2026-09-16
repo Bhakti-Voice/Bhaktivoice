@@ -26,6 +26,7 @@ import { useLocale } from "@/lib/i18n/client";
 export function GrahanView() {
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   const [selectedYear, setSelectedYear] = useState<number>(2026);
   const [filter, setFilter] = useState<"all" | "solar" | "lunar" | "india">("all");
@@ -74,7 +75,7 @@ export function GrahanView() {
                 : "border border-sand bg-white text-muted hover:text-ink"
             }`}
           >
-            {isHi ? "सभी ग्रहण" : "All Eclipses"}
+            {isTe ? "అన్ని గ్రహణాలు" : isHi ? "सभी ग्रहण" : "All Eclipses"}
           </button>
           <button
             onClick={() => setFilter("solar")}

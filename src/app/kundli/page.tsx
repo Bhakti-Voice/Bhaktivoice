@@ -11,6 +11,7 @@ import { SITE } from "@/lib/seo/site";
 import {
   SPIRITUAL_TOOL_FAQS,
   SPIRITUAL_TOOL_FAQS_HI,
+  SPIRITUAL_TOOL_FAQS_TE,
   SPIRITUAL_TOOL_KEYWORDS,
 } from "@/lib/spiritual-tools/seo-content";
 
@@ -19,12 +20,17 @@ export const revalidate = 86400;
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
 
   return localizedMetadata({
-    title: isHi
+    title: isTe
+      ? "ఉచిత జన్మ కుండలి ఆన్‌లైన్ — 16 వర్గ కుండలులు (నవాంశ D-9, దశమాంశ D-10) & అష్టకవర్గ కాలిక్యులేటర్"
+      : isHi
       ? "मुफ्त जन्म कुंडली ऑनलाइन — 16 वर्ग कुंडलियां (नवांश D-9, दशमांश D-10) एवं अष्टाकवर्ग कैलकुलेटर"
       : "Free Janam Kundli Online (जन्म कुंडली) — 16 Divisional Charts (D9, D10) & Ashtakavarga Calculator",
-    description: isHi
+    description: isTe
+      ? "100% ఖచ్చితమైన వైదిక జన్మ కుండలిని ఉచితంగా ఆన్‌లైన్‌లో పొందండి. 16 వర్గ కుండలులు (D-1 నుండి D-60), నవాంశ (D-9), అష్టకవర్గ (337 బిందువులు), దక్షిణ/ఉత్తర భారత చార్ట్ శైలులు, మాంగ్లిక్ విచారం మరియు వింశోత్తరి మహాదశ."
+      : isHi
       ? "सटीक वैदिक जन्म कुंडली 100% मुफ्त ऑनलाइन बनाएं। 16 वर्ग कुंडलियां (D-1 से D-60), नवांश (D-9), महर्षि पराशर अष्टाकवर्ग (337 बिंदु तालिका), उत्तर/दक्षिण/पूर्व भारतीय चार्ट, मांगलिक दोष एवं विंशोत्तरी महादशा। 100% सुरक्षित और गोपनीय।"
       : "Generate your free, 100% accurate Vedic Janam Kundli online. Detailed Shodashvarga (16 divisional charts: D-1 to D-60), Parashari Ashtakavarga (337 SAV Bindus), North/South/East chart styles, Lagna, Manglik Dosha & Vimshottari Dasha.",
     path: PATHS.kundli,
@@ -35,7 +41,8 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function KundliPage() {
   const [t, locale] = await Promise.all([getMessages(), getLocale()]);
   const isHi = locale === "hi";
-  const faqs = isHi ? [...SPIRITUAL_TOOL_FAQS_HI.kundli] : [...SPIRITUAL_TOOL_FAQS.kundli];
+  const isTe = locale === "te";
+  const faqs = isTe ? [...SPIRITUAL_TOOL_FAQS_TE.kundli] : isHi ? [...SPIRITUAL_TOOL_FAQS_HI.kundli] : [...SPIRITUAL_TOOL_FAQS.kundli];
 
   return (
     <div>

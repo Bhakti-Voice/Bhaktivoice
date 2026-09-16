@@ -12,6 +12,7 @@ interface PanchangMenuItem {
   href: string;
   labelEn: string;
   labelHi: string;
+  labelTe: string;
 }
 
 // 4 Columns exactly matching user screenshot
@@ -19,42 +20,42 @@ const PANCHANG_COLUMNS: { titleEn?: string; titleHi?: string; items: PanchangMen
   // Column 1
   {
     items: [
-      { slug: "month-panchang", href: "/panchang/month-panchang", labelEn: "Month Panchang", labelHi: "मासिक पंचांग" },
-      { slug: "dainik-panchang", href: "/panchang/dainik-panchang", labelEn: "Dainik Panchang", labelHi: "दैनिक पंचांग" },
-      { slug: "assamese-panjika", href: "/panchang/assamese-panjika", labelEn: "Assamese Panjika", labelHi: "असमिया पंजिका" },
-      { slug: "bengali-panjika", href: "/panchang/bengali-panjika", labelEn: "Bengali Panjika", labelHi: "बंगाली पंजिका" },
-      { slug: "tamil-panchangam", href: "/panchang/tamil-panchangam", labelEn: "Tamil Panchangam", labelHi: "तमिल पंचांगम" },
+      { slug: "month-panchang", href: "/panchang/month-panchang", labelEn: "Month Panchang", labelHi: "मासिक पंचांग", labelTe: "మాస పంచాంగం" },
+      { slug: "dainik-panchang", href: "/panchang/dainik-panchang", labelEn: "Dainik Panchang", labelHi: "दैनिक पंचांग", labelTe: "దిన పంచాంగం" },
+      { slug: "assamese-panjika", href: "/panchang/assamese-panjika", labelEn: "Assamese Panjika", labelHi: "असमिया पंजिका", labelTe: "అస్సామీ పంజికా" },
+      { slug: "bengali-panjika", href: "/panchang/bengali-panjika", labelEn: "Bengali Panjika", labelHi: "बंगाली पंजिका", labelTe: "బెంగాలీ పంజికా" },
+      { slug: "tamil-panchangam", href: "/panchang/tamil-panchangam", labelEn: "Tamil Panchangam", labelHi: "तमिल पंचांगम", labelTe: "తమిళ పంచాంగం" },
     ],
   },
   // Column 2
   {
     items: [
-      { slug: "odia-panji", href: "/panchang/odia-panji", labelEn: "Odia Panji", labelHi: "ओड़िया पांजी" },
-      { slug: "malayalam-panchangam", href: "/panchang/malayalam-panchangam", labelEn: "Malayalam Panchangam", labelHi: "मलयालम पंचांगम" },
-      { slug: "marathi-panchang", href: "/panchang/marathi-panchang", labelEn: "Marathi Panchang", labelHi: "मराठी पंचांग" },
-      { slug: "gujarati-panchang", href: "/panchang/gujarati-panchang", labelEn: "Gujarati Panchang", labelHi: "गुजराती पंचांग" },
-      { slug: "kannada-panchang", href: "/panchang/kannada-panchang", labelEn: "Kannada Panchang", labelHi: "कन्नड़ पंचांग" },
+      { slug: "odia-panji", href: "/panchang/odia-panji", labelEn: "Odia Panji", labelHi: "ओड़िया पांजी", labelTe: "ఒడియా పంజీ" },
+      { slug: "malayalam-panchangam", href: "/panchang/malayalam-panchangam", labelEn: "Malayalam Panchangam", labelHi: "मलयालम पंचांगम", labelTe: "మలయాళ పంచాంగం" },
+      { slug: "marathi-panchang", href: "/panchang/marathi-panchang", labelEn: "Marathi Panchang", labelHi: "मराठी पंचांग", labelTe: "మరాఠీ పంచాంగం" },
+      { slug: "gujarati-panchang", href: "/panchang/gujarati-panchang", labelEn: "Gujarati Panchang", labelHi: "गुजराती पंचांग", labelTe: "గుజరాతీ పంచాంగం" },
+      { slug: "kannada-panchang", href: "/panchang/kannada-panchang", labelEn: "Kannada Panchang", labelHi: "कन्नड़ पंचांग", labelTe: "కన్నడ పంచాంగం" },
     ],
   },
   // Column 3
   {
     items: [
-      { slug: "telugu-panchangam", href: "/panchang/telugu-panchangam", labelEn: "Telugu Panchangam", labelHi: "तेलुगु पंचांगम" },
-      { slug: "nepali-patro", href: "/panchang/nepali-patro", labelEn: "Nepali Patro", labelHi: "नेपाली पात्रो" },
-      { slug: "iskcon-panchang", href: "/panchang/iskcon-panchang", labelEn: "ISKCON Panchang", labelHi: "इस्कॉन पंचांग" },
-      { slug: "chandrabalam", href: "/panchang/chandrabalam", labelEn: "Chandrabalam", labelHi: "चंद्रबलम" },
-      { slug: "panchang-utilities", href: "/panchang/panchang-utilities", labelEn: "Panchang Utilities", labelHi: "पंचांग टूल्स" },
+      { slug: "telugu-panchangam", href: "/panchang/telugu-panchangam", labelEn: "Telugu Panchangam", labelHi: "तेलुगु पंचांगम", labelTe: "తెలుగు పంచాంగం" },
+      { slug: "nepali-patro", href: "/panchang/nepali-patro", labelEn: "Nepali Patro", labelHi: "नेपाली पात्रो", labelTe: "నేపాలీ పాత్రో" },
+      { slug: "iskcon-panchang", href: "/panchang/iskcon-panchang", labelEn: "ISKCON Panchang", labelHi: "इस्कॉन पंचांग", labelTe: "ఇస్కాన్ పంచాంగం" },
+      { slug: "chandrabalam", href: "/panchang/chandrabalam", labelEn: "Chandrabalam", labelHi: "चंद्रबलम", labelTe: "చంద్రబలం" },
+      { slug: "panchang-utilities", href: "/panchang/panchang-utilities", labelEn: "Panchang Utilities", labelHi: "पंचांग टूल्स", labelTe: "పంచాంగ పరికరాలు" },
     ],
   },
   // Column 4
   {
     items: [
-      { slug: "choghadiya", href: "/choghadiya", labelEn: "Choghadiya", labelHi: "चौघड़िया (दिन-रात)" },
-      { slug: "panchak", href: "/panchak", labelEn: "Panchak Calendar", labelHi: "पंचक विचार 2026" },
-      { slug: "bhadra", href: "/bhadra", labelEn: "Bhadra Timings", labelHi: "भद्रा काल विचार" },
-      { slug: "hora", href: "/hora", labelEn: "Planetary Hora", labelHi: "ग्रह होरा चक्र" },
-      { slug: "vinchudo", href: "/panchang/vinchudo", labelEn: "Vinchudo", labelHi: "विंछुड़ो विचार" },
-      { slug: "nakshatra", href: "/panchang/nakshatra", labelEn: "Nakshatra", labelHi: "नक्षत्र फल" },
+      { slug: "choghadiya", href: "/choghadiya", labelEn: "Choghadiya", labelHi: "चौघड़िया (दिन-रात)", labelTe: "చోఘడియా (పగలు-రాత్రి)" },
+      { slug: "panchak", href: "/panchak", labelEn: "Panchak Calendar", labelHi: "पंचक विचार 2026", labelTe: "పంచక విచారం 2026" },
+      { slug: "bhadra", href: "/bhadra", labelEn: "Bhadra Timings", labelHi: "भद्रा काल विचार", labelTe: "భద్రా కాల విచారం" },
+      { slug: "hora", href: "/hora", labelEn: "Planetary Hora", labelHi: "ग्रह होरा चक्र", labelTe: "గ్రహ హోరా చక్రం" },
+      { slug: "vinchudo", href: "/panchang/vinchudo", labelEn: "Vinchudo", labelHi: "विंछुड़ो विचार", labelTe: "వింఛుడో విచారం" },
+      { slug: "nakshatra", href: "/panchang/nakshatra", labelEn: "Nakshatra", labelHi: "नक्षत्र फल", labelTe: "నక్షత్ర ఫలం" },
     ],
   },
 ];
@@ -107,7 +108,7 @@ export function PanchangMenu({
       <div className="space-y-1">
         <div className="flex items-center justify-between px-3 pt-2">
           <p className="text-xs font-semibold uppercase tracking-wide text-muted">
-            {locale === "hi" ? "पंचांग एवं कैलेंडर" : "Panchang & Calendars"}
+            {locale === "te" ? "పంచాంగం & క్యాలెండర్లు" : locale === "hi" ? "पंचांग एवं कैलेंडर" : "Panchang & Calendars"}
           </p>
         </div>
         <LocaleLink
@@ -116,7 +117,7 @@ export function PanchangMenu({
           className="flex items-center gap-2 rounded-xl bg-saffron/10 px-3 py-2 text-xs font-semibold text-saffron-deep"
         >
           <Sun className="h-3.5 w-3.5" />
-          <span>{locale === "hi" ? "आज का पंचांग (Live)" : "Today's Panchang (Live)"}</span>
+          <span>{locale === "te" ? "నేటి పంచాంగం (లైవ్)" : locale === "hi" ? "आज का पंचांग (Live)" : "Today's Panchang (Live)"}</span>
         </LocaleLink>
         <div className="grid grid-cols-2 gap-1 pt-1">
           {ALL_ITEMS.map((item) => {
@@ -132,7 +133,7 @@ export function PanchangMenu({
                     : "text-ink/80 hover:bg-cream hover:text-saffron-deep"
                 }`}
               >
-                {locale === "hi" ? item.labelHi : item.labelEn}
+                {locale === "te" ? item.labelTe : locale === "hi" ? item.labelHi : item.labelEn}
               </LocaleLink>
             );
           })}
@@ -156,7 +157,7 @@ export function PanchangMenu({
         aria-expanded={open}
         aria-haspopup="true"
       >
-        <span>{locale === "hi" ? "पंचांग" : "Panchang"}</span>
+        <span>{locale === "te" ? "పంచాంగం" : locale === "hi" ? "पंचांग" : "Panchang"}</span>
         <ChevronDown
           className={`h-3.5 w-3.5 transition-transform duration-200 ${open ? "rotate-180 text-saffron" : ""}`}
         />
@@ -171,7 +172,7 @@ export function PanchangMenu({
             <div className="flex items-center gap-2">
               <span className="inline-block h-2 w-2 rounded-full bg-saffron animate-pulse" />
               <span className="font-bold tracking-wider text-maroon uppercase text-[11px]">
-                {locale === "hi" ? "सम्पूर्ण वैदिक एवं क्षेत्रीय पंचांग" : "Vedic & Regional Panchang Systems"}
+                {locale === "te" ? "సంపూర్ణ వైదిక & ప్రాంతీయ పంచాంగాలు" : locale === "hi" ? "सम्पूर्ण वैदिक एवं क्षेत्रीय पंचांग" : "Vedic & Regional Panchang Systems"}
               </span>
             </div>
             <div className="flex items-center gap-3">
@@ -180,14 +181,14 @@ export function PanchangMenu({
                 onClick={() => setOpen(false)}
                 className="font-bold text-saffron-deep hover:text-maroon underline decoration-saffron decoration-2 underline-offset-4 transition-colors"
               >
-                {locale === "hi" ? "आज का पंचांग →" : "Today's Panchang →"}
+                {locale === "te" ? "నేటి పంచాంగం →" : locale === "hi" ? "आज का पंचांग →" : "Today's Panchang →"}
               </LocaleLink>
               <LocaleLink
                 href="/hindu-calendar"
                 onClick={() => setOpen(false)}
                 className="font-medium text-muted hover:text-maroon transition-colors"
               >
-                {locale === "hi" ? "हिन्दू कैलेंडर" : "Hindu Calendar"}
+                {locale === "te" ? "హిందూ క్యాలెండర్" : locale === "hi" ? "हिन्दू कैलेंडर" : "Hindu Calendar"}
               </LocaleLink>
             </div>
           </div>
@@ -210,7 +211,7 @@ export function PanchangMenu({
                       }`}
                     >
                       <span className="block truncate">
-                        {locale === "hi" ? item.labelHi : item.labelEn}
+                        {locale === "te" ? item.labelTe : locale === "hi" ? item.labelHi : item.labelEn}
                       </span>
                     </LocaleLink>
                   );
@@ -222,7 +223,9 @@ export function PanchangMenu({
           {/* Bottom subtle banner */}
           <div className="mt-3 pt-2.5 border-t border-line text-[11px] text-muted flex items-center justify-between px-1">
             <span>
-              {locale === "hi"
+              {locale === "te"
+                ? "ప్రామాణిక దృక్ సిద్ధాంతం మరియు ఖచ్చితమైన గ్రహ-నక్షత్ర కాల గణన"
+                : locale === "hi"
                 ? "प्रामाणिक दृक सिद्धांत एवं सटीक गृह-नक्षत्र काल गणना"
                 : "100% Accurate Drik Ganita, Sidereal Longitudes & Muhurat"}
             </span>

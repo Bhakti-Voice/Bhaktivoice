@@ -12,6 +12,7 @@ export function JaapSidebar() {
   const t = useMessages();
   const locale = useLocale();
   const isHi = locale === "hi";
+  const isTe = locale === "te";
   const current = stripLocale(pathname);
 
   const links = [
@@ -30,11 +31,11 @@ export function JaapSidebar() {
         <div className="flex items-center gap-2">
           <Flame className="w-4 h-4 text-orange-600 fill-orange-500" />
           <span className="text-xs font-semibold text-orange-950 font-serif">
-            {isHi ? "दैनिक नाम सुमिरन" : "Daily Remembrance"}
+            {isTe ? "దైవిక నామ స్మరణ" : isHi ? "दैनिक नाम सुमिरन" : "Daily Remembrance"}
           </span>
         </div>
         <p className="text-[11px] text-orange-900/80 mt-1 leading-snug font-sans">
-          {isHi ? "मन को शांत रखें, 108 नाम जपें।" : "Pause, sit, and chant 108 divine names."}
+          {isTe ? "మనస్సును ప్రశాంతంగా ఉంచి, 108 దివ్య నామాలను జపించండి." : isHi ? "मन को शांत रखें, 108 नाम जपें।" : "Pause, sit, and chant 108 divine names."}
         </p>
       </div>
 
