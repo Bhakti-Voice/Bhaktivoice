@@ -1,5 +1,5 @@
 import { withHindi } from "@/lib/i18n/hi-route";
-import EnDefault, { generateMetadata as enMeta } from "@/app/vrat-upavas/ekadashi/page";
+import EnDefault, { generateMetadata as enMeta } from "@/app/(en)/vrat-upavas/ekadashi/page";
 
 export const revalidate = 3600;
 export const generateMetadata = withHindi(enMeta);

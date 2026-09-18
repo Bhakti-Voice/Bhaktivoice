@@ -1,5 +1,5 @@
 import { withTelugu } from "@/lib/i18n/te-route";
-import EnDefault, { generateMetadata as enMeta } from "../../../shubh-dates/[slug]/page";
+import EnDefault, { generateMetadata as enMeta } from "@/app/(en)/shubh-dates/[slug]/page";
 
 export const revalidate = 3600;
 

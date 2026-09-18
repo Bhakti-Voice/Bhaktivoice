@@ -2,7 +2,7 @@ import { withHindi } from "@/lib/i18n/hi-route";
 import EnDefault, {
   generateMetadata as enMeta,
   generateStaticParams as enStaticParams,
-} from "@/app/panchang/festivals/[slug]/page";
+} from "@/app/(en)/panchang/festivals/[slug]/page";
 
 export const revalidate = 86400;
 

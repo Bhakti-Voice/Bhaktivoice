@@ -4,6 +4,7 @@ import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { ProseText } from "@/components/content/SectionBody";
 import { BlogSaveButton } from "@/components/blog/BlogSaveButton";
 import type { BlogPost } from "@/lib/content/types";
+import type { BlogPostSummary } from "@/lib/content/blog-summary";
 import { PATHS } from "@/lib/seo/paths";
 
 export function BlogPostCard({
@@ -13,7 +14,7 @@ export function BlogPostCard({
   savedLabel,
   authorFallback,
 }: {
-  post: BlogPost;
+  post: BlogPost | BlogPostSummary;
   readMore: string;
   saveLabel: string;
   savedLabel: string;

@@ -1,5 +1,5 @@
 import { withHindi } from "@/lib/i18n/hi-route";
-import EnDefault, { generateMetadata as enMeta } from "../../sacred-yatra-guides/page";
+import EnDefault, { generateMetadata as enMeta } from "@/app/(en)/sacred-yatra-guides/page";
 
 export const revalidate = 1800;
 

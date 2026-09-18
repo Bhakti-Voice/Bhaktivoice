@@ -1,5 +1,5 @@
 import { withHindi } from "@/lib/i18n/hi-route";
-import EnDefault, { generateMetadata as enMeta } from "@/app/hindu-calendar/page";
+import EnDefault, { generateMetadata as enMeta } from "@/app/(en)/hindu-calendar/page";
 
 export const revalidate = 3600;
 

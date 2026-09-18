@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { ChevronRight, Clock, Sparkles } from "lucide-react";
 import { BlogPostCard } from "@/components/blog/BlogPostCard";
 import { ListingSearch } from "@/components/content/ListingSearch";
+import { ListingPager } from "@/components/content/ListingPager";
 import { PageHero } from "@/components/layout/PageHero";
 import { CoverMedia } from "@/components/media/CoverMedia";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
@@ -12,11 +13,13 @@ import { BlogSaveButton } from "@/components/blog/BlogSaveButton";
 import { matchesListingQuery } from "@/lib/content/listing-search";
 import { useMessages } from "@/lib/i18n/client";
 import type { BlogPost, BreadcrumbItem } from "@/lib/content/types";
+import type { BlogPostSummary } from "@/lib/content/blog-summary";
 import type { HubHeroId } from "@/lib/media/hub-heroes";
 import { PATHS } from "@/lib/seo/paths";
 
 export function BlogListing({
   posts,
+  categories: passedCategories,
   title,
   subtitle,
   crumbs,
@@ -25,8 +28,13 @@ export function BlogListing({
   saveLabel,
   savedLabel,
   authorFallback,
+  page = 1,
+  pages = 1,
+  basePath = PATHS.blog,
+  showFeatured = true,
 }: {
-  posts: BlogPost[];
+  posts: (BlogPost | BlogPostSummary)[];
+  categories?: string[];
   title: string;
   subtitle: string;
   crumbs: BreadcrumbItem[];
@@ -35,6 +43,10 @@ export function BlogListing({
   saveLabel: string;
   savedLabel: string;
   authorFallback: string;
+  page?: number;
+  pages?: number;
+  basePath?: string;
+  showFeatured?: boolean;
 }) {
   const t = useMessages();
   const [query, setQuery] = useState("");
@@ -42,12 +54,15 @@ export function BlogListing({
   const [expandedTags, setExpandedTags] = useState(false);
 
   const categories = useMemo(() => {
+    if (passedCategories && passedCategories.length > 0) {
+      return passedCategories;
+    }
     const set = new Set<string>();
     for (const post of posts) {
       if (post.category?.trim()) set.add(post.category.trim());
     }
     return Array.from(set);
-  }, [posts]);
+  }, [posts, passedCategories]);
 
   const visible = useMemo(() => {
     return posts.filter((post) => {
@@ -70,7 +85,7 @@ export function BlogListing({
   }, [posts, query, activeCategory]);
 
   const isFiltering = Boolean(query.trim() || activeCategory);
-  const featuredPost = !isFiltering && visible.length > 0 ? visible[0] : null;
+  const featuredPost = showFeatured && !isFiltering && visible.length > 0 ? visible[0] : null;
   const gridPosts = featuredPost ? visible.slice(1) : visible;
 
   const INITIAL_TAGS_LIMIT = 3;
@@ -237,6 +252,19 @@ export function BlogListing({
               Clear filters
             </button>
           </div>
+        ) : null}
+
+        {/* Pagination Controls */}
+        {pages > 1 ? (
+          <ListingPager
+            page={page}
+            pages={pages}
+            basePath={basePath}
+            previousLabel={t.common.previous}
+            nextLabel={t.common.next}
+            pageOf={t.common.pageOf}
+            variant="path"
+          />
         ) : null}
       </div>
     </>

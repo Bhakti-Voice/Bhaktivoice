@@ -2,7 +2,7 @@ import { withHindi } from "@/lib/i18n/hi-route";
 import EnDefault, {
   generateMetadata as enMeta,
   generateStaticParams as enStaticParams,
-} from "@/app/panchang/[system]/page";
+} from "@/app/(en)/panchang/[system]/page";
 
 export const revalidate = 1800;
 

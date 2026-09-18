@@ -48,10 +48,23 @@ const HIGH_PRIORITY_PATHS = [
   ...Array.from({ length: 18 }, (_, i) => `/hi/bhagavad-gita/chapter-${i + 1}`),
   "/hi/suvichar-card-maker",
   "/hi/kundli",
+  "/hi/kundli-milan",
   "/hi/naam-jaap",
   "/hi/chalisa",
   "/hi/aarti-chants",
   "/hi/hindu-calendar",
+  "/hi/vrat-upavas",
+  // Telugu paths
+  "/te",
+  "/te/choghadiya",
+  "/te/panchang/today",
+  "/te/aaj-ki-tithi",
+  "/te/bhagavad-gita",
+  "/te/spiritual-tools",
+  "/te/kundli",
+  "/te/kundli-milan",
+  "/te/hindu-calendar",
+  "/te/vrat-upavas",
 ];
 
 const urlsToPing = HIGH_PRIORITY_PATHS.map((p) => `${SITE_URL}${p}`);

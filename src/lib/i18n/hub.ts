@@ -1,5 +1,6 @@
 import { PATHS } from "@/lib/seo/paths";
 import { buildMetadata, type BuildMetaInput } from "@/lib/seo/metadata";
+import { HUB_KEYWORDS } from "@/lib/seo/hub-keywords";
 import { messages } from "./messages";
 import { getLocale } from "./server";
 
@@ -32,10 +33,12 @@ export type HubKey = keyof typeof HUB_PATHS;
 export async function hubMetadata(hub: HubKey, extra?: Partial<BuildMetaInput>) {
   const locale = await getLocale();
   const copy = messages[locale].hubs[hub];
+  const defaultKeywords = HUB_KEYWORDS[locale]?.[hub] || [];
   return buildMetadata({
     title: copy.title,
     description: copy.description,
     path: extra?.path ?? HUB_PATHS[hub],
+    keywords: extra?.keywords ?? defaultKeywords,
     locale,
     ...extra,
   });
