@@ -355,6 +355,7 @@ export function tithiPageGraph(
     endDate: data.isoDate,
     eventStatus: "https://schema.org/EventScheduled",
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    image: [absoluteUrl(SITE.ogHome)],
     location: {
       "@type": "Place",
       name: "Delhi",
@@ -365,6 +366,23 @@ export function tithiPageGraph(
       },
     },
     description: `Hindu observance on ${data.currentTithi}, ${data.currentPaksha} of ${data.currentMasa}. Panchang times are for Delhi IST.`,
+    offers: {
+      "@type": "Offer",
+      url,
+      price: "0",
+      priceCurrency: "INR",
+      availability: "https://schema.org/InStock",
+      validFrom: `${data.isoDate}T00:00:00+05:30`,
+    },
+    performer: {
+      "@type": "PerformingGroup",
+      name: "Devotees",
+    },
+    organizer: {
+      "@type": "Organization",
+      name: SITE.name,
+      url: SITE.url,
+    },
   }));
 
   return {

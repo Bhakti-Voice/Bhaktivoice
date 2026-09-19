@@ -8,7 +8,7 @@ import { getMessages } from "@/lib/i18n/server";
 import { localizedCrumbs } from "@/lib/seo/crumbs";
 import { localizedMetadata } from "@/lib/seo/metadata";
 import { PATHS } from "@/lib/seo/paths";
-import { SITE } from "@/lib/seo/site";
+import { SITE, absoluteUrl } from "@/lib/seo/site";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -50,6 +50,7 @@ export default async function FestivalSlugPage({ params }: Props) {
   const t = await getMessages();
 
   // Event Schema and FAQ Schema
+  const eventUrl = absoluteUrl(`/panchang/festivals/${festival.slug}`);
   const eventSchema = {
     "@context": "https://schema.org",
     "@type": "Event",
@@ -58,6 +59,7 @@ export default async function FestivalSlugPage({ params }: Props) {
     endDate: `${festival.dateString2026}T23:59:00+05:30`,
     eventStatus: "https://schema.org/EventScheduled",
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    image: [absoluteUrl(SITE.ogHome)],
     location: {
       "@type": "Place",
       name: "India",
@@ -67,6 +69,18 @@ export default async function FestivalSlugPage({ params }: Props) {
       },
     },
     description: festival.shortDescription,
+    offers: {
+      "@type": "Offer",
+      url: eventUrl,
+      price: "0",
+      priceCurrency: "INR",
+      availability: "https://schema.org/InStock",
+      validFrom: `${festival.dateString2026}T00:00:00+05:30`,
+    },
+    performer: {
+      "@type": "Person",
+      name: festival.deity || "Devotees",
+    },
     organizer: {
       "@type": "Organization",
       name: "BhaktiVoice",
