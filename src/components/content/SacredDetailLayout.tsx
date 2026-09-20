@@ -56,7 +56,6 @@ export type SacredDetailLayoutProps = {
   authorRole?: string;
   publishedAt?: string;
   updatedAt?: string;
-  views?: string;
   heroImage?: string;
   heroImageAlt?: string;
   heroOverlayQuote?: string;
@@ -124,7 +123,6 @@ export function SacredDetailLayout({
   authorRole = "Writer & Research Team",
   publishedAt,
   updatedAt,
-  views = "12.4K views",
   heroImage,
   heroImageAlt,
   heroOverlayQuote = "Where History Touches the Divine",
@@ -266,15 +264,7 @@ export function SacredDetailLayout({
                 </div>
               ) : null}
 
-              {views ? (
-                <>
-                  <div className="hidden sm:block h-6 w-px bg-[#ebdccb]" />
-                  <div className="flex items-center gap-1.5 text-[#706456]">
-                    <Sparkles className="h-3.5 w-3.5 text-[#d97706]" />
-                    <span>{views}</span>
-                  </div>
-                </>
-              ) : null}
+
             </div>
           </div>
 
