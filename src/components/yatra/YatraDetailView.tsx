@@ -1,13 +1,8 @@
-import { MapPin, Navigation, Sparkles } from "lucide-react";
-import { CoverMedia } from "@/components/media/CoverMedia";
-import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
-import { ContextualCta } from "@/components/seo/ContextualCta";
-import { RelatedLinksCard } from "@/components/seo/RelatedLinksCard";
-import { ExpandableSection } from "@/components/seo/ExpandableSection";
-import { FaqList } from "@/components/seo/FaqList";
+import { Sparkles } from "lucide-react";
 import { ProseText } from "@/components/content/SectionBody";
-import { YouTubeEmbed } from "@/components/content/YouTubeEmbed";
 import type { YatraPage } from "@/lib/content/types";
+import { PATHS } from "@/lib/seo/paths";
+import { SacredDetailLayout } from "@/components/content/SacredDetailLayout";
 
 export function YatraDetailView({ page }: { page: YatraPage }) {
   const subtitle =
@@ -19,146 +14,139 @@ export function YatraDetailView({ page }: { page: YatraPage }) {
           ? `${page.destination} · arrive as a guest`
           : `${page.state} · ${(page.filters ?? []).slice(0, 2).join(" · ")}`;
 
+  const relatedPosts = (page.relatedContent ?? []).map((item) => ({
+    title: item.text,
+    url: item.href,
+    readingTime: "10 min read",
+  }));
+
+  const highlights = [
+    { icon: "temple", title: page.bestTime ? `Best: ${page.bestTime}` : "Sacred Pilgrimage" },
+    { icon: "wonder", title: page.state || "Spiritual Bharat" },
+    { icon: "sacred", title: page.destination || "Holy Dhama" },
+    { icon: "heritage", title: `${page.places?.length || 0} Sacred Shrines` },
+  ];
+
   return (
-    <article className="mx-auto max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
-      <Breadcrumbs items={page.breadcrumbs} />
-      <header className="mt-4">
-        <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-saffron/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-saffron-deep border border-saffron/20">
-            <Navigation className="h-3.5 w-3.5" />
-            <span>Sacred Yatra Guide</span>
-          </span>
-          {page.state ? (
-            <span className="inline-flex items-center gap-1 rounded-full bg-sand px-2.5 py-0.5 text-xs font-medium text-muted">
-              <MapPin className="h-3 w-3 text-saffron" />
-              {page.state}
-            </span>
-          ) : null}
-        </div>
-        <h1 className="mt-2.5 font-serif text-3xl font-bold text-ink sm:text-4xl lg:text-5xl">{page.h1}</h1>
-        <p className="mt-2 text-base sm:text-lg text-muted">{subtitle}</p>
-      </header>
+    <SacredDetailLayout
+      title={page.title}
+      h1={page.h1}
+      subtitle={subtitle}
+      category="Sacred Yatra"
+      readingTime="10 min read"
+      breadcrumbs={page.breadcrumbs}
+      path={`${PATHS.yatra}/${page.slug}`}
+      author={page.author}
+      publishedAt={page.publishedAt}
+      updatedAt={page.updatedAt}
+      heroImage={page.heroImage}
+      heroImageAlt={page.heroImageAlt || page.title}
+      heroImageLocation={page.destination || page.state}
+      introduction={page.introduction}
+      highlights={highlights}
+      tags={page.tags || page.filters || []}
+      faqs={page.faqs}
+      youtubeUrl={page.youtubeUrl}
+      relatedPosts={relatedPosts}
+      cta={page.cta}
+    >
+      <div className="space-y-6">
+        {page.whyVisit && (
+          <section className="rounded-2xl border border-[#EDE3D4] bg-white p-6 shadow-2xs">
+            <h2 className="font-serif text-2xl font-bold text-[#1A1613] mb-3">Why visit</h2>
+            <ProseText text={page.whyVisit} className="text-[#5A524A] leading-relaxed" />
+          </section>
+        )}
 
-      <CoverMedia
-        src={page.heroImage}
-        alt={page.heroImageAlt || page.title}
-        className="mt-6 flex justify-center px-1 sm:px-2"
-        fit="contain"
-        priority
-        sizes="(max-width: 1280px) 100vw, 1200px"
-      />
+        {page.significance && (
+          <section className="rounded-2xl border border-[#EDE3D4] bg-white p-6 shadow-2xs">
+            <h2 className="font-serif text-2xl font-bold text-[#1A1613] mb-3">Significance</h2>
+            <ProseText text={page.significance} className="text-[#5A524A] leading-relaxed" />
+          </section>
+        )}
 
-      <dl className="mt-6 grid gap-3 sm:grid-cols-3">
-        {[
-          { label: "Best Time to Visit", value: page.bestTime },
-          { label: "Sacred State", value: page.state },
-          { label: "Why Devotees Visit", value: page.whyVisit },
-        ].map((item) => (
-          <div key={item.label} className="card-spiritual rounded-3xl bg-white p-5 shadow-2xs ring-1 ring-[#e8dfd2]">
-            <dt className="text-[11px] font-bold uppercase tracking-wider text-saffron-deep">{item.label}</dt>
-            <dd className="mt-2">
-              <ProseText text={item.value} className="line-clamp-2 text-xs sm:text-sm leading-relaxed text-muted" />
-            </dd>
-          </div>
-        ))}
-      </dl>
-
-      <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
-        <div className="min-w-0">
-          <ExpandableSection title="Overview" className="mt-0" collapsible={false}>
-            <div className="space-y-6 text-base leading-relaxed text-ink">
-              <ProseText text={page.introduction} />
-              <section>
-                <h2 className="font-serif text-2xl font-bold text-ink">Why visit</h2>
-                <ProseText text={page.whyVisit} className="mt-3 text-muted leading-relaxed" />
-              </section>
-              <section>
-                <h2 className="font-serif text-2xl font-bold text-ink">Significance</h2>
-                <ProseText text={page.significance} className="mt-3 text-muted leading-relaxed" />
-              </section>
-            </div>
-          </ExpandableSection>
-
-          <ExpandableSection title="Sacred Places" collapsible={false}>
+        {/* Sacred Places */}
+        {page.places && page.places.length > 0 && (
+          <section className="rounded-2xl border border-[#EDE3D4] bg-white p-6 shadow-2xs">
+            <h2 className="font-serif text-2xl font-bold text-[#1A1613] mb-4">Sacred Places</h2>
             <ul className="space-y-3.5">
-              {(page.places ?? []).map((place) => (
-                <li key={place.name} className="card-spiritual rounded-3xl bg-white p-5 ring-1 ring-[#eedec9]">
-                  <h2 className="font-serif text-lg sm:text-xl font-bold text-ink flex items-center gap-2">
-                    <Sparkles className="h-4 w-4 text-saffron" />
+              {page.places.map((place) => (
+                <li key={place.name} className="rounded-xl border border-[#F5EDE1] bg-[#FFFBF7] p-4">
+                  <h3 className="font-serif text-lg font-bold text-[#1A1613] flex items-center gap-2">
+                    <Sparkles className="h-4 w-4 text-[#B85014]" />
                     <span>{place.name}</span>
-                  </h2>
-                  <ProseText text={place.note} className="mt-2 text-sm leading-relaxed text-muted" />
+                  </h3>
+                  <ProseText text={place.note} className="mt-1.5 text-sm leading-relaxed text-[#5A524A]" />
                 </li>
               ))}
             </ul>
-          </ExpandableSection>
+          </section>
+        )}
 
-          <ExpandableSection title="Pilgrimage Itinerary" collapsible={false}>
+        {/* Pilgrimage Itinerary */}
+        {page.itinerary && page.itinerary.length > 0 && (
+          <section className="rounded-2xl border border-[#EDE3D4] bg-white p-6 shadow-2xs">
+            <h2 className="font-serif text-2xl font-bold text-[#1A1613] mb-4">Pilgrimage Itinerary</h2>
             <ol className="space-y-3.5">
-              {(page.itinerary ?? []).map((item) => (
-                <li key={item.day} className="rounded-3xl bg-white p-5 ring-1 ring-[#eedec9] shadow-2xs">
-                  <p className="text-xs font-bold uppercase tracking-wider text-saffron-deep">{item.day}</p>
-                  <ProseText text={item.plan} className="mt-2 text-sm leading-relaxed text-ink/85" />
+              {page.itinerary.map((item) => (
+                <li key={item.day} className="rounded-xl border border-[#F5EDE1] bg-[#FFFBF7] p-4">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#B85014]">{item.day}</span>
+                  <ProseText text={item.plan} className="mt-1.5 text-sm leading-relaxed text-[#2C241B]/90" />
                 </li>
               ))}
             </ol>
-          </ExpandableSection>
+          </section>
+        )}
 
-          <ExpandableSection title="Travel & Stay Guide" collapsible={false}>
-            <div className="space-y-4 text-sm leading-relaxed text-muted bg-white p-5 sm:p-6 rounded-3xl ring-1 ring-[#eedec9]">
+        {/* Travel & Stay Guide */}
+        <section className="rounded-2xl border border-[#EDE3D4] bg-white p-6 shadow-2xs">
+          <h2 className="font-serif text-2xl font-bold text-[#1A1613] mb-4">Travel & Stay Guide</h2>
+          <div className="space-y-3 text-sm leading-relaxed text-[#5A524A]">
+            {page.howToReach && (
               <p>
-                <strong className="text-ink">How to reach: </strong>
+                <strong className="text-[#1A1613]">How to reach: </strong>
                 <ProseText as="span" text={page.howToReach} />
               </p>
+            )}
+            {page.stay && (
               <p>
-                <strong className="text-ink">Where to stay: </strong>
+                <strong className="text-[#1A1613]">Where to stay: </strong>
                 <ProseText as="span" text={page.stay} />
               </p>
+            )}
+            {page.food && (
               <p>
-                <strong className="text-ink">Prasad & Food: </strong>
+                <strong className="text-[#1A1613]">Prasad & Food: </strong>
                 <ProseText as="span" text={page.food} />
               </p>
+            )}
+            {page.nearby && page.nearby.length > 0 && (
               <p>
-                <strong className="text-ink">Nearby holy shrines: </strong>
-                {(page.nearby ?? []).join(" · ")}
+                <strong className="text-[#1A1613]">Nearby holy shrines: </strong>
+                {page.nearby.join(" · ")}
               </p>
-            </div>
-          </ExpandableSection>
+            )}
+          </div>
+        </section>
 
-          <ExpandableSection title="Yatra Tips & Advice" collapsible={false}>
-            <ul className="space-y-3">
-              {(page.tips ?? []).map((tip) => (
+        {/* Yatra Tips */}
+        {page.tips && page.tips.length > 0 && (
+          <section className="rounded-2xl border border-[#EDE3D4] bg-white p-6 shadow-2xs">
+            <h2 className="font-serif text-2xl font-bold text-[#1A1613] mb-4">Yatra Tips & Advice</h2>
+            <ul className="space-y-2.5">
+              {page.tips.map((tip) => (
                 <ProseText
                   as="li"
                   key={tip}
                   text={tip}
-                  className="rounded-2xl bg-[#fffdf9] p-4 text-sm text-ink ring-1 ring-[#eedec9]"
+                  className="rounded-xl bg-[#FFFBF7] p-3 text-sm text-[#2C241B] border border-[#F5EDE1]"
                 />
               ))}
             </ul>
-          </ExpandableSection>
-
-          <FaqList faqs={page.faqs ?? []} />
-        </div>
-        <div className="h-fit space-y-5 lg:sticky lg:top-24">
-          <ContextualCta
-            title={page.cta.title}
-            body={page.cta.body}
-            href={page.cta.href}
-            label={page.cta.label}
-            tone="navy"
-          />
-          <YouTubeEmbed url={page.youtubeUrl} title={page.h1} compact />
-          <RelatedLinksCard
-            relatedLink={page.relatedLink}
-            relatedPosts={(page.relatedContent ?? []).map((item) => ({
-              title: item.text,
-              url: item.href,
-            }))}
-          />
-        </div>
+          </section>
+        )}
       </div>
-    </article>
+    </SacredDetailLayout>
   );
 }
 

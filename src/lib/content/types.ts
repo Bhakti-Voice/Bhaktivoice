@@ -48,6 +48,7 @@ export type SeoPage = {
   relatedFestivals: RelatedLink[];
   relatedKatha: RelatedLink[];
   relatedContent?: { text: string; href: string }[];
+  tags?: string[];
   /** When false/undefined, Related Reading sidebar is not rendered. */
   relatedLink?: boolean;
   faqs: Faq[];
