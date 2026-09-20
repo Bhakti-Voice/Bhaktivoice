@@ -125,7 +125,7 @@ export function SacredDetailLayout({
   updatedAt,
   heroImage,
   heroImageAlt,
-  heroOverlayQuote = "Where History Touches the Divine",
+  heroOverlayQuote,
   heroLocation,
   heroImageLocation,
   introduction,
@@ -170,12 +170,6 @@ export function SacredDetailLayout({
             subtitle: "Living Faith & Wisdom",
           },
         ];
-
-  // Default devotional quote if none provided
-  const displayQuote = quote ?? {
-    text: "Faith sees what is invisible, but engineering and devotion at sacred temples show that ancient wisdom also knew the possible.",
-    author: "A Devotee",
-  };
 
   // Generate Table of Contents from sections
   const toc = activeSections.filter((s) => Boolean(s.heading));
@@ -293,11 +287,13 @@ export function SacredDetailLayout({
               />
 
               {/* Overlay Quote Badge */}
-              <div className="pointer-events-none absolute top-4 sm:top-5 left-4 sm:left-5 max-w-[240px]">
-                <p className="font-serif italic text-white/95 text-base sm:text-lg lg:text-xl leading-snug drop-shadow-md">
-                  {heroOverlayQuote}
-                </p>
-              </div>
+              {heroOverlayQuote ? (
+                <div className="pointer-events-none absolute top-4 sm:top-5 left-4 sm:left-5 max-w-[240px]">
+                  <p className="font-serif italic text-white/95 text-base sm:text-lg lg:text-xl leading-snug drop-shadow-md">
+                    {heroOverlayQuote}
+                  </p>
+                </div>
+              ) : null}
 
               {/* Location or Category Pin Badge */}
               <div className="absolute bottom-4 right-4 inline-flex items-center gap-1.5 rounded-full bg-black/60 backdrop-blur-md px-3 py-1 text-[11px] font-medium text-white/90 border border-white/20 shadow-sm">
@@ -575,23 +571,25 @@ export function SacredDetailLayout({
               </div>
             ) : null}
 
-            {/* Widget 4: Devotional Quote Callout */}
-            <div className="relative rounded-3xl bg-gradient-to-br from-[#fffdfa] to-[#fff6eb] p-6 border border-[#ebdcc9] shadow-xs">
-              <span
-                aria-hidden="true"
-                className="text-4xl font-serif text-[#d97706]/40 leading-none select-none block mb-1"
-              >
-                “
-              </span>
-              <p className="font-serif italic text-sm sm:text-[14.5px] leading-relaxed text-[#3b3127]">
-                {displayQuote.text}
-              </p>
-              {displayQuote.author ? (
-                <p className="mt-2 text-right text-xs font-semibold text-[#8c7967]">
-                  — {displayQuote.author}
+            {/* Widget 4: Devotional Quote Callout (only if explicitly provided) */}
+            {quote ? (
+              <div className="relative rounded-3xl bg-gradient-to-br from-[#fffdfa] to-[#fff6eb] p-6 border border-[#ebdcc9] shadow-xs">
+                <span
+                  aria-hidden="true"
+                  className="text-4xl font-serif text-[#d97706]/40 leading-none select-none block mb-1"
+                >
+                  “
+                </span>
+                <p className="font-serif italic text-sm sm:text-[14.5px] leading-relaxed text-[#3b3127]">
+                  {quote.text}
                 </p>
-              ) : null}
-            </div>
+                {quote.author ? (
+                  <p className="mt-2 text-right text-xs font-semibold text-[#8c7967]">
+                    — {quote.author}
+                  </p>
+                ) : null}
+              </div>
+            ) : null}
 
             {/* Widget 5: You may also like (Related guides) */}
             {relatedPosts.length > 0 ? (
