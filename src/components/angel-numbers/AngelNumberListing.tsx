@@ -245,9 +245,18 @@ export function AngelNumberListing({ items, locale, content: propContent }: Ange
                 className="group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 rounded-2xl bg-white border border-[#ebdccb] hover:border-amber-400/90 shadow-xs hover:shadow-md transition-all"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-amber-100 to-rose-100 flex items-center justify-center font-serif text-2xl font-bold text-[#2d1b14] shrink-0">
-                    {item.number || item.slug.replace(/[^0-9]/g, "") || "★"}
+                  <div className="relative w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center font-serif text-2xl font-bold text-[#fffdf2] shrink-0 border border-[#ebdccb] bg-[#070b18]">
+                    <img
+                      src="/images/angel-numbers/celestial-moon-gold.webp"
+                      alt="Celestial moon background"
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-115"
+                    />
+                    <div className="absolute inset-0 bg-black/10" />
+                    <span className="relative z-10 drop-shadow-[0_0_8px_rgba(254,240,138,0.95)] drop-shadow-[0_0_16px_rgba(251,191,36,0.8)]">
+                      {item.number || item.slug.replace(/[^0-9]/g, "") || "★"}
+                    </span>
                   </div>
+
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <span className="rounded-full bg-[#fdf0ec] px-2 py-0.5 text-[10px] font-semibold text-[#b8532f]">

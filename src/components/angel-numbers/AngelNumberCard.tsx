@@ -35,32 +35,27 @@ function getDisplayNumber(num?: string, slug?: string, title?: string): string {
   return "777";
 }
 
-// Curated ethereal celestial palettes matching the reference screenshot
+// Curated celestial moon themes matching target mockup
 const CELESTIAL_THEMES = [
   {
-    bg: "from-[#fceddf] via-[#fff4ea] to-[#f4dccb]",
-    accent: "#b45309",
-    wingSvg: "text-amber-800/15",
+    bgImage: "/images/angel-numbers/celestial-moon-gold.webp",
+    numberColor: "text-[#fffdf2]",
+    numberGlow: "drop-shadow-[0_0_14px_rgba(254,240,138,0.95)] drop-shadow-[0_0_30px_rgba(251,191,36,0.75)] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]",
   },
   {
-    bg: "from-[#f7dbe3] via-[#fff0f4] to-[#edd0da]",
-    accent: "#be185d",
-    wingSvg: "text-rose-800/15",
+    bgImage: "/images/angel-numbers/celestial-moon-sunset.webp",
+    numberColor: "text-[#fffaf5]",
+    numberGlow: "drop-shadow-[0_0_14px_rgba(255,237,213,0.95)] drop-shadow-[0_0_30px_rgba(251,146,60,0.75)] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]",
   },
   {
-    bg: "from-[#e4dcf1] via-[#f7f3fb] to-[#d8cce8]",
-    accent: "#6d28d9",
-    wingSvg: "text-purple-800/15",
+    bgImage: "/images/angel-numbers/celestial-moon-cyan.webp",
+    numberColor: "text-[#f0f9ff]",
+    numberGlow: "drop-shadow-[0_0_14px_rgba(224,242,254,0.95)] drop-shadow-[0_0_30px_rgba(56,189,248,0.75)] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]",
   },
   {
-    bg: "from-[#dce9f2] via-[#f2f8fc] to-[#ccdfec]",
-    accent: "#0369a1",
-    wingSvg: "text-sky-800/15",
-  },
-  {
-    bg: "from-[#fceed4] via-[#fff8e7] to-[#f3dfbe]",
-    accent: "#b45309",
-    wingSvg: "text-amber-700/15",
+    bgImage: "/images/angel-numbers/celestial-moon-crescent.webp",
+    numberColor: "text-[#fff1f2]",
+    numberGlow: "drop-shadow-[0_0_14px_rgba(254,205,211,0.95)] drop-shadow-[0_0_30px_rgba(244,114,182,0.75)] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]",
   },
 ];
 
@@ -84,50 +79,25 @@ export function AngelNumberCard({
   return (
     <LocaleLink
       href={href}
-      className="group relative flex min-w-0 flex-col justify-between overflow-hidden rounded-xl bg-white border border-[#ebdccb] hover:border-amber-400/90 shadow-[0_2px_10px_rgba(217,119,6,0.04)] hover:shadow-[0_10px_24px_rgba(217,119,6,0.11)] hover:-translate-y-0.5 transition-all duration-250 select-none cursor-pointer"
+      className="group relative flex min-w-0 flex-col justify-between overflow-hidden rounded-2xl bg-white border border-[#ebdccb] hover:border-amber-400/90 shadow-[0_2px_10px_rgba(217,119,6,0.04)] hover:shadow-[0_12px_28px_rgba(217,119,6,0.12)] hover:-translate-y-1 transition-all duration-300 select-none cursor-pointer"
     >
-      {/* Top Banner: Compact Ethereal Celestial Sky with Large Centered Serif Number */}
-      <div
-        className={`relative w-full h-[88px] sm:h-[94px] overflow-hidden bg-gradient-to-r ${theme.bg} flex items-center justify-center`}
-      >
-        {heroImage ? (
-          <img
-            src={heroImage}
-            alt={title}
-            className="absolute inset-0 h-full w-full object-cover opacity-65 transition-transform duration-500 group-hover:scale-105"
-          />
-        ) : (
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/60 via-transparent to-black/5" />
-        )}
+      {/* Top Banner: Celestial Night Sky with Radiant Moon & Center Glowing Serif Number */}
+      <div className="relative w-full h-[155px] sm:h-[168px] lg:h-[175px] overflow-hidden bg-[#070b18] flex items-center justify-center">
+        {/* Celestial Moon Artwork (Smooth Slow Zoom on Card Hover) */}
+        <img
+          src={theme.bgImage}
+          alt={`Angel Number ${displayNumber} celestial moon and stars`}
+          className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-108"
+        />
 
-        {/* Delicate subtle wing curve artwork */}
-        <svg
-          className={`absolute inset-0 w-full h-full ${theme.wingSvg} pointer-events-none transition-transform duration-500 group-hover:scale-105`}
-          viewBox="0 0 240 90"
-          preserveAspectRatio="none"
-          fill="none"
+        {/* Center Glowing Number in classic Roman serif typography */}
+        <span
+          className={`relative z-10 font-serif text-[40px] sm:text-[46px] lg:text-[48px] font-bold tracking-normal ${theme.numberColor} ${theme.numberGlow} transition-transform duration-500 group-hover:scale-105 select-none`}
         >
-          <path
-            d="M15,75 C60,20 120,45 120,45 C120,45 180,20 225,75"
-            stroke="currentColor"
-            strokeWidth="1.2"
-            strokeDasharray="3 2"
-            opacity="0.6"
-          />
-          <path
-            d="M30,80 C75,32 120,52 120,52 C120,52 165,32 210,80"
-            stroke="currentColor"
-            strokeWidth="1"
-            opacity="0.4"
-          />
-          <circle cx="120" cy="36" r="20" fill="white" opacity="0.4" />
-        </svg>
-
-        {/* Large prominent serif angel number */}
-        <span className="relative z-10 font-serif text-[32px] sm:text-[36px] font-bold tracking-tight text-[#2d1b14] drop-shadow-[0_1px_1px_rgba(255,255,255,0.9)] group-hover:text-amber-950 transition-colors">
           {displayNumber}
         </span>
       </div>
+
 
       {/* Card Body with tighter, compact padding */}
       <div className="flex flex-col flex-1 p-3 sm:p-3.5">

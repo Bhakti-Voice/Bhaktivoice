@@ -10,6 +10,20 @@ export interface LibraryCollectionItem {
   iconName: "sparkles" | "compass" | "moon" | "eye";
   active: boolean;
   buttonText: string;
+  image: string;
+}
+
+export interface LibraryFeature {
+  title: string;
+  subtitle: string;
+  icon: "content" | "understand" | "growing";
+}
+
+export interface LibraryStat {
+  value: string;
+  label: string;
+  sublabel?: string;
+  icon: "book" | "topics" | "globe" | "heart";
 }
 
 export interface LibraryPageContent {
@@ -19,8 +33,27 @@ export interface LibraryPageContent {
   title: string;
   subtitle: string;
   description: string;
+  heroQuote: {
+    text: string;
+    source: string;
+  };
+  heroFeatures: LibraryFeature[];
   collections: LibraryCollectionItem[];
+  stats: LibraryStat[];
+  lotusMotto: {
+    words: string[];
+  };
   faqTitle: string;
+  faqSearchPlaceholder: string;
+  sidebarQuote: {
+    text: string;
+  };
+  sidebarCta: {
+    title: string;
+    description: string;
+    buttonText: string;
+    tagline: string;
+  };
   faqs: Faq[];
 }
 
@@ -33,17 +66,39 @@ export const LIBRARY_CONTENT: Record<Locale, LibraryPageContent> = {
     subtitle: "Sacred Wisdom, Divine Symbols & Inner Guidance",
     description:
       "Welcome to the BhaktiVoice Library. We curate sacred wisdom, recurring celestial signs, angelic synchronicities, and meditative companions designed to ground your daily life in devotion, clarity, and peace.",
+    heroQuote: {
+      text: "“Knowledge leads to devotion, and devotion leads to peace.”",
+      source: "— Bhagavad Gita",
+    },
+    heroFeatures: [
+      {
+        title: "Authentic Content",
+        subtitle: "Rooted in sacred traditions",
+        icon: "content",
+      },
+      {
+        title: "Easy to Understand",
+        subtitle: "For modern life",
+        icon: "understand",
+      },
+      {
+        title: "Always Growing",
+        subtitle: "New guides added regularly",
+        icon: "growing",
+      },
+    ],
     collections: [
       {
         title: "Angel Numbers & Sacred Numerology",
         subtitle: "Divine whispers and repeating number sequences",
         description:
-          "Explore comprehensive spiritual meanings for angel numbers like 111, 444, 555, 777, and 1111. Understand synchronicities, love alignments, twin flame journeys, and life direction guided by higher consciousness.",
+          "Explore the deeper meanings behind angel numbers like 111, 444, 555, 777, and 1111. Understand synchronicities, love alignments, twin flame journeys, and divine messages for your life path.",
         href: "/library/angel-numbers",
         badge: "Active Collection",
         iconName: "sparkles",
         active: true,
         buttonText: "Explore Angel Numbers",
+        image: "/images/library/card-angel-numbers.jpg",
       },
       {
         title: "Sacred Yantras & Divine Geometry",
@@ -54,7 +109,8 @@ export const LIBRARY_CONTENT: Record<Locale, LibraryPageContent> = {
         badge: "Coming Soon",
         iconName: "compass",
         active: false,
-        buttonText: "In Preparation",
+        buttonText: "Explore Yantras",
+        image: "/images/library/card-sacred-yantras.jpg",
       },
       {
         title: "Vedic Dream Meanings (Swapna Shastra)",
@@ -65,7 +121,8 @@ export const LIBRARY_CONTENT: Record<Locale, LibraryPageContent> = {
         badge: "Coming Soon",
         iconName: "moon",
         active: false,
-        buttonText: "In Preparation",
+        buttonText: "Explore Dream Meanings",
+        image: "/images/library/card-vedic-dreams.jpg",
       },
       {
         title: "Chakra Wisdom & Energy Alignment",
@@ -76,10 +133,46 @@ export const LIBRARY_CONTENT: Record<Locale, LibraryPageContent> = {
         badge: "Coming Soon",
         iconName: "eye",
         active: false,
-        buttonText: "In Preparation",
+        buttonText: "Explore Chakras",
+        image: "/images/library/card-chakra-wisdom.jpg",
       },
     ],
+    stats: [
+      {
+        value: "100+",
+        label: "Guides & Articles",
+        icon: "book",
+      },
+      {
+        value: "50+",
+        label: "Sacred Topics",
+        icon: "topics",
+      },
+      {
+        value: "2 Languages",
+        label: "Hindi & English",
+        icon: "globe",
+      },
+      {
+        value: "Free for All",
+        label: "Knowledge for a kinder world",
+        icon: "heart",
+      },
+    ],
+    lotusMotto: {
+      words: ["Read", "Reflect", "Grow", "Repeat"],
+    },
     faqTitle: "Frequently Asked Questions About the Spiritual Library",
+    faqSearchPlaceholder: "Search questions...",
+    sidebarQuote: {
+      text: "“A curious mind always finds a path to the Divine.”",
+    },
+    sidebarCta: {
+      title: "Begin Your Journey",
+      description: "Explore timeless wisdom, sacred symbols and practical guidance — one step at a time.",
+      buttonText: "Explore Library",
+      tagline: "Knowledge today. A more peaceful tomorrow.",
+    },
     faqs: [
       {
         question: "What is the BhaktiVoice Spiritual Library and how does it help spiritual seekers?",
@@ -141,17 +234,39 @@ export const LIBRARY_CONTENT: Record<Locale, LibraryPageContent> = {
     subtitle: "पवित्र ज्ञान, दिव्य प्रतीक और आंतरिक मार्गदर्शन",
     description:
       "भक्ति वॉइस लाइब्रेरी में आपका स्वागत है। यहाँ हम प्राचीन सनातन ज्ञान, आकाशीय संकेत, एंजेल नंबर्स और आध्यात्मिक साधना पद्धतियों का ऐसा प्रामाणिक संकलन प्रस्तुत करते हैं जो आपके दैनिक जीवन में शांति, स्पष्टता और भक्ति का संचार कर सके।",
+    heroQuote: {
+      text: "“ज्ञान से भक्ति का उदय होता है, और भक्ति से परम शांति मिलती है।”",
+      source: "— श्रीमद्भगवद्गीता",
+    },
+    heroFeatures: [
+      {
+        title: "प्रामाणिक ज्ञान",
+        subtitle: "सनातन परंपराओं पर आधारित",
+        icon: "content",
+      },
+      {
+        title: "सरल और सुबोध",
+        subtitle: "आधुनिक जीवन के अनुकूल",
+        icon: "understand",
+      },
+      {
+        title: "निरंतर विस्तार",
+        subtitle: "नियमित नए विषयों का संकलन",
+        icon: "growing",
+      },
+    ],
     collections: [
       {
         title: "एंजेल नंबर्स और दिव्य अंकशास्त्र",
         subtitle: "दैवीय संकेत और बार-बार दिखने वाली संख्याएं",
         description:
-          "555, 777, 888 और 1111 जैसे एंजेल नंबर्स के गहन आध्यात्मिक अर्थ जानें। समझें कि ब्रह्मांड आपके साथ कैसे संवाद करता है, जीवन के मोड़ पर मार्गदर्शन देता है और आंतरिक चेतना को जागृत करता है।",
+          "111, 444, 555, 777 और 1111 जैसे एंजेल नंबर्स के गहन आध्यात्मिक अर्थ जानें। समझें कि ब्रह्मांड आपके साथ कैसे संवाद करता है, जीवन के मोड़ पर मार्गदर्शन देता है और आंतरिक चेतना को जागृत करता है।",
         href: "/library/angel-numbers",
         badge: "सक्रिय संग्रह",
         iconName: "sparkles",
         active: true,
         buttonText: "एंजेल नंबर्स देखें",
+        image: "/images/library/card-angel-numbers.jpg",
       },
       {
         title: "पवित्र यंत्र और दिव्य ज्यामिति",
@@ -162,7 +277,8 @@ export const LIBRARY_CONTENT: Record<Locale, LibraryPageContent> = {
         badge: "शीघ्र आ रहा है",
         iconName: "compass",
         active: false,
-        buttonText: "तैयारी जारी",
+        buttonText: "यंत्र संग्रह देखें",
+        image: "/images/library/card-sacred-yantras.jpg",
       },
       {
         title: "वैदिक स्वप्न शास्त्र (Swapna Shastra)",
@@ -173,7 +289,8 @@ export const LIBRARY_CONTENT: Record<Locale, LibraryPageContent> = {
         badge: "शीघ्र आ रहा है",
         iconName: "moon",
         active: false,
-        buttonText: "तैयारी जारी",
+        buttonText: "स्वप्न शास्त्र देखें",
+        image: "/images/library/card-vedic-dreams.jpg",
       },
       {
         title: "चक्र जागरण और ऊर्जा संतुलन",
@@ -184,10 +301,46 @@ export const LIBRARY_CONTENT: Record<Locale, LibraryPageContent> = {
         badge: "शीघ्र आ रहा है",
         iconName: "eye",
         active: false,
-        buttonText: "तैयारी जारी",
+        buttonText: "चक्र विज्ञान देखें",
+        image: "/images/library/card-chakra-wisdom.jpg",
       },
     ],
+    stats: [
+      {
+        value: "100+",
+        label: "मार्गदर्शिकाएं व लेख",
+        icon: "book",
+      },
+      {
+        value: "50+",
+        label: "पवित्र विषय",
+        icon: "topics",
+      },
+      {
+        value: "2 भाषाएँ",
+        label: "हिंदी और अंग्रेज़ी",
+        icon: "globe",
+      },
+      {
+        value: "सभी के लिए निःशुल्क",
+        label: "शांति और कल्याण हेतु ज्ञान",
+        icon: "heart",
+      },
+    ],
+    lotusMotto: {
+      words: ["पढ़ें", "चिंतन करें", "उन्नति करें", "दोहराएं"],
+    },
     faqTitle: "आध्यात्मिक लाइब्रेरी के संबंध में प्रमुख प्रश्न (FAQ)",
+    faqSearchPlaceholder: "प्रश्न खोजें...",
+    sidebarQuote: {
+      text: "“जिज्ञासु मन सदैव ईश्वर तक पहुँचने का मार्ग खोज ही लेता है।”",
+    },
+    sidebarCta: {
+      title: "अपनी यात्रा आरंभ करें",
+      description: "शाश्वत ज्ञान, पवित्र प्रतीक और व्यावहारिक मार्गदर्शन — एक-एक कदम आगे बढ़ें।",
+      buttonText: "लाइब्रेरी देखें",
+      tagline: "आज का ज्ञान, कल की परम शांति।",
+    },
     faqs: [
       {
         question: "भक्ति वॉइस आध्यात्मिक लाइब्रेरी क्या है और यह साधकों की कैसे सहायता करती है?",
@@ -249,17 +402,39 @@ export const LIBRARY_CONTENT: Record<Locale, LibraryPageContent> = {
     subtitle: "పవిత్ర జ్ఞానం, దివ్య సంకేతాలు & అంతరంగ మార్గదర్శనం",
     description:
       "భక్తి వాయిస్ లైబ్రరీకి స్వాగతం. మీ దైనందిన జీవితంలో ప్రశాంతత, స్పష్టత మరియు భక్తి భావాన్ని నింపేందుకు పవిత్ర వేద జ్ఞానం, దేవదూత సంఖ్యలు (Angel Numbers), దివ్య సంకేతాలు మరియు ఆధ్యాత్మిక సాధనా మార్గదర్శకాలను మేము ఇక్కడ అందిస్తున్నాము.",
+    heroQuote: {
+      text: "“జ్ఞానం భక్తిని కలిగిస్తుంది, మరియు భక్తి పరమ శాంతిని ప్రసాదిస్తుంది.”",
+      source: "— శ్రీమద్భగవద్గీత",
+    },
+    heroFeatures: [
+      {
+        title: "ప్రామాణిక జ్ఞానం",
+        subtitle: "సనాతన సాంప్రదాయాలపై ఆధారపడినది",
+        icon: "content",
+      },
+      {
+        title: "సులభ శైలి",
+        subtitle: "ఆధునిక జీవన విధానానికి తగినది",
+        icon: "understand",
+      },
+      {
+        title: "నిరంతర వికాసం",
+        subtitle: "నిత్యం కొత్త అంశాల జోడింపు",
+        icon: "growing",
+      },
+    ],
     collections: [
       {
         title: "దేవదూత సంఖ్యలు & పవిత్ర సంఖ్యాశాస్త్రం",
         subtitle: "దివ్య సంకేతాలు మరియు పునరావృత సంఖ్యలు",
         description:
-          "555, 777, 888 మరియు 1111 వంటి దేవదూత సంఖ్యల (Angel Numbers) లోతైన ఆధ్యాత్మిక అర్థాలను తెలుసుకోండి. విశ్వం మీకు పంపే సంకేతాలు, జీవిత గమ్యం మరియు ఆధ్యాత్మిక ఎదుగుదలను అర్థం చేసుకోండి.",
+          "111, 444, 555, 777 మరియు 1111 వంటి దేవదూత సంఖ్యల (Angel Numbers) లోతైన ఆధ్యాత్మిక అర్థాలను తెలుసుకోండి. విశ్వం మీకు పంపే సంకేతాలు, జీవిత గమ్యం మరియు ఆధ్యాత్మిక ఎదుగుదలను అర్థం చేసుకోండి.",
         href: "/library/angel-numbers",
         badge: "యాక్టివ్ కలెక్షన్",
         iconName: "sparkles",
         active: true,
         buttonText: "దేవదూత సంఖ్యలను అన్వేషించండి",
+        image: "/images/library/card-angel-numbers.jpg",
       },
       {
         title: "పవిత్ర యంత్రాలు & దివ్య జ్యామితి",
@@ -270,7 +445,8 @@ export const LIBRARY_CONTENT: Record<Locale, LibraryPageContent> = {
         badge: "త్వరలో అందుబాటులోకి",
         iconName: "compass",
         active: false,
-        buttonText: "సిద్ధమవుతోంది",
+        buttonText: "యంత్రాలను అన్వేషించండి",
+        image: "/images/library/card-sacred-yantras.jpg",
       },
       {
         title: "వేద స్వప్న శాస్త్రం (Swapna Shastra)",
@@ -281,7 +457,8 @@ export const LIBRARY_CONTENT: Record<Locale, LibraryPageContent> = {
         badge: "త్వరలో అందుబాటులోకి",
         iconName: "moon",
         active: false,
-        buttonText: "సిద్ధమవుతోంది",
+        buttonText: "స్వప్న శాస్త్రాన్ని అన్వేషించండి",
+        image: "/images/library/card-vedic-dreams.jpg",
       },
       {
         title: "చక్ర విజ్ఞానం & శక్తి సమతుల్యత",
@@ -292,10 +469,46 @@ export const LIBRARY_CONTENT: Record<Locale, LibraryPageContent> = {
         badge: "త్వరలో అందుబాటులోకి",
         iconName: "eye",
         active: false,
-        buttonText: "సిద్ధమవుతోంది",
+        buttonText: "చక్రాలను అన్వేషించండి",
+        image: "/images/library/card-chakra-wisdom.jpg",
       },
     ],
+    stats: [
+      {
+        value: "100+",
+        label: "మార్గదర్శకాలు & వ్యాసాలు",
+        icon: "book",
+      },
+      {
+        value: "50+",
+        label: "పవిత్ర విషయాలు",
+        icon: "topics",
+      },
+      {
+        value: "2 భాషలు",
+        label: "తెలుగు & ఇంగ్లీష్",
+        icon: "globe",
+      },
+      {
+        value: "అందరికీ ఉచితం",
+        label: "ప్రశాంత ప్రపంచం కోసం జ్ఞానం",
+        icon: "heart",
+      },
+    ],
+    lotusMotto: {
+      words: ["చదవండి", "ఆలోచించండి", "ఎదగండి", "పునరావృతం చేయండి"],
+    },
     faqTitle: "ఆధ్యాత్మిక లైబ్రరీ గురించి తరచుగా అడిగే ప్రశ్నలు (FAQ)",
+    faqSearchPlaceholder: "ప్రశ్నలను శోధించండి...",
+    sidebarQuote: {
+      text: "“జిజ్ఞాస గల మనస్సు ఎల్లప్పుడూ భగవంతుని చేరుకునే మార్గాన్ని కనుగొంటుంది.”",
+    },
+    sidebarCta: {
+      title: "మీ ప్రయాణాన్ని ప్రారంభించండి",
+      description: "శాశ్వత జ్ఞానం, పవిత్ర చిహ్నాలు మరియు ఆచరణాత్మక మార్గదర్శకత్వం — ఒక్కో అడుగు ముందుకు వేయండి.",
+      buttonText: "లైబ్రరీని అన్వేషించండి",
+      tagline: "నేటి జ్ఞానం, రేపటి ప్రశాంతత.",
+    },
     faqs: [
       {
         question: "భక్తి వాయిస్ ఆధ్యాత్మిక లైబ్రరీ అంటే ఏమిటి మరియు ఇది సాధకులకు ఎలా ఉపయోగపడుతుంది?",

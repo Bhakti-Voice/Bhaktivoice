@@ -40,6 +40,10 @@ export async function Footer() {
       title: t.footerCols.quickLinks,
       links: [
         { href: "/", label: t.nav.home },
+        {
+          href: PATHS.angelNumbers,
+          label: t.nav.angelNumbers || (isTe ? "దేవదూత సంఖ్యలు" : isHi ? "एंजेल नंबर्स" : "Angel Numbers"),
+        },
         { href: PATHS.naamJaap, label: t.nav.naamJaap },
         { href: PATHS.katha, label: t.nav.katha },
         { href: PATHS.yatra, label: t.nav.yatra },
