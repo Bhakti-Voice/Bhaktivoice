@@ -58,7 +58,7 @@ def empty_field_value(item: Field, kind_key: str) -> Any:
             }
         ]
     if item.type == "sections":
-        if kind_key == "blog" or item.name in {"body", "bodyHi", "bodyTe"}:
+        if kind_key in {"blog", "angel_number"} or item.name in {"body", "bodyHi", "bodyTe"}:
             return [{"heading": "", "paragraphs": [""]}]
         return [{"heading": "", "body": ""}]
     return ""

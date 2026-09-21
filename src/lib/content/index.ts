@@ -1,5 +1,6 @@
 import { getContent, listContent, searchContent } from "@/lib/cms/client";
 import type {
+  AngelNumberPage,
   BlogPost,
   CommunityGroup,
   FestivalPage,
@@ -109,6 +110,13 @@ export async function listChalisa() {
 }
 export async function getChalisa(slug: string) {
   return getContent<SpiritualityPage>("chalisa", slug);
+}
+
+export async function listAngelNumbers() {
+  return listContent<AngelNumberPage>("angel_number");
+}
+export async function getAngelNumber(slug: string) {
+  return getContent<AngelNumberPage>("angel_number", slug);
 }
 
 export async function getHubSeo(id: string) {

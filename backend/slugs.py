@@ -18,6 +18,7 @@ KIND_SLUG_TAIL = {
     "community_group": "devotee community group for naam jaap",
     "sankalp_offer": "sankalp vow for daily sadhana",
     "quotes": "daily bhakti quote",
+    "angel_number": "angel number meaning spiritual guidance",
 }
 
 MIN_WORDS = 5
@@ -52,6 +53,17 @@ def seo_slug(kind: str, *parts: str, existing: str = "") -> str:
     if kind == "hub_seo":
         raw = existing or next((part for part in parts if part), "hub")
         return join_slug(tokens_from(raw)) or "hub"
+
+    if kind == "angel_number":
+        raw = existing or next((part for part in parts if part), "")
+        words = tokens_from(raw.replace("-", " "))
+        if words:
+            if "angel" in words and "number" in words:
+                return join_slug(words)
+            digits = [w for w in words if w.isdigit()]
+            if digits:
+                return f"angel-number-{digits[0]}"
+            return join_slug(["angel", "number"] + words)
 
     gathered: list[str] = []
     if existing:

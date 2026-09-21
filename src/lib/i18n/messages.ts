@@ -46,6 +46,8 @@ export const messages = {
       myJourney: "My Journey",
       moreTitle: "More from Bhakti Voice",
       spiritualTools: "Spiritual Tools",
+      library: "Library",
+      angelNumbers: "Angel Numbers",
     },
     footerCols: {
       practice: "Practice",
@@ -211,6 +213,18 @@ export const messages = {
         description:
           "A simple directory of Bhakti Voice sections: jaap, katha, yatra, temples, festivals, mantras, store and community.",
         h1: "More",
+      },
+      library: {
+        title: "Spiritual Library — Wisdom, Scriptures & Sacred Guidance | BhaktiVoice",
+        description:
+          "Explore sacred wisdom collections, divine angel numbers, spiritual symbology, and meditative guides for your daily life journey.",
+        h1: "Spiritual Library",
+      },
+      angelNumbers: {
+        title: "Angel Numbers — Divine Messages & Sacred Guidance | BhaktiVoice",
+        description:
+          "Explore angel number meanings, repeating sequences, love and twin flame insights, and divine guidance from guardian angels.",
+        h1: "Angel Numbers",
       },
       spiritualTools: {
         title: "Free Spiritual Tools & Vedic Calculators | BhaktiVoice",
@@ -816,6 +830,8 @@ export const messages = {
       myJourney: "मेरी यात्रा",
       moreTitle: "भक्ति वॉइस से और",
       spiritualTools: "आध्यात्मिक उपकरण",
+      library: "लाइब्रेरी",
+      angelNumbers: "एंजेल नंबर्स",
     },
     footerCols: {
       practice: "साधना",
@@ -975,6 +991,16 @@ export const messages = {
         title: "भक्ति वॉइस से और",
         description: "जप, कथा, यात्रा, मंदिर, त्योहार, मंत्र, भंडार और समुदाय का सरल निर्देशिका।",
         h1: "और",
+      },
+      library: {
+        title: "आध्यात्मिक लाइब्रेरी — ज्ञान, शास्त्र और दिव्य मार्गदर्शन | BhaktiVoice",
+        description: "पवित्र ज्ञान संग्रह, दिव्य एंजेल नंबर्स, और आध्यात्मिक मार्गदर्शन की खोज करें।",
+        h1: "आध्यात्मिक लाइब्रेरी",
+      },
+      angelNumbers: {
+        title: "एंजेल नंबर्स — दिव्य संदेश और आध्यात्मिक अर्थ | BhaktiVoice",
+        description: "एंजेल नंबर्स के अर्थ, पुनरावृत्ति संख्याएं और दिव्य मार्गदर्शन का अन्वेषण करें।",
+        h1: "एंजेल नंबर्स",
       },
       spiritualTools: {
         title: "मुफ्त आध्यात्मिक उपकरण और वैदिक कैलकुलेटर | BhaktiVoice",
@@ -1578,6 +1604,8 @@ export const messages = {
       myJourney: "నా ఆధ్యాత్మిక ప్రయాణం",
       moreTitle: "భక్తి వాయిస్ మరిన్ని సేవలు",
       spiritualTools: "ఆధ్యాత్మిక పరికరాలు",
+      library: "లైబ్రరీ",
+      angelNumbers: "దేవదూత సంఖ్యలు",
     },
     footerCols: {
       practice: "సాధన",
@@ -1737,6 +1765,16 @@ export const messages = {
         title: "చాలీసాలు & స్తోత్రాలు — నిత్య పారాయణకు భక్తి స్తోత్రాలు",
         description: "హనుమాన్ చాలీసా, శివ చాలీసా మరియు ఇతర చాలీసాలు తెలుగు సాహిత్యంతో.",
         h1: "చాలీసాలు & స్తోత్రాలు",
+      },
+      library: {
+        title: "ఆధ్యాత్మిక లైబ్రరీ — జ్ఞానం మరియు దివ్య మార్గదర్శకత్వం | BhaktiVoice",
+        description: "దివ్య దేవదూత సంఖ్యలు, పవిత్ర జ్ఞాన సేకరణలు మరియు ఆధ్యాత్మిక మార్గదర్శనం.",
+        h1: "ఆధ్యాత్మిక లైబ్రరీ",
+      },
+      angelNumbers: {
+        title: "దేవదూత సంఖ్యలు (Angel Numbers) — దివ్య సంకేతాలు మరియు అర్థాలు | BhaktiVoice",
+        description: "దేవదూత సంఖ్యల దివ్య అర్థాలు, పునరావృత సంఖ్యలు మరియు ఆధ్యాత్మిక సంకేతాలు.",
+        h1: "దేవదూత సంఖ్యలు",
       },
       more: {
         title: "భక్తి వాయిస్ మరిన్ని విశేషాలు | Bhakti Voice",

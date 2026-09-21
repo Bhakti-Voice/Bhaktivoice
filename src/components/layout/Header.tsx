@@ -30,9 +30,12 @@ export function Header() {
 
   const nav = [
     { href: "/", label: t.nav.home },
-    { href: PATHS.gita, label: t.nav.gita },
+    { href: PATHS.library, label: t.nav.library || "Library" },
   ];
   const moreLinks = [
+    { href: PATHS.gita, label: t.nav.gita },
+    { href: PATHS.library, label: t.nav.library || "Library" },
+    { href: PATHS.angelNumbers, label: t.nav.angelNumbers || "Angel Numbers" },
     { href: PATHS.choghadiya, label: locale === "te" ? "నేటి చోఘడియా (పగలు & రాత్రి)" : locale === "hi" ? "आज का चौघड़िया" : "Today's Choghadiya" },
     { href: PATHS.panchak, label: locale === "te" ? "పంచక విచారం 2026" : locale === "hi" ? "पंचक विचार 2026" : "Panchak Calendar" },
     { href: PATHS.bhadra, label: locale === "te" ? "భద్రా కాల విచారం" : locale === "hi" ? "भद्रा काल विचार" : "Bhadra Timings" },

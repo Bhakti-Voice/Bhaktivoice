@@ -382,6 +382,8 @@ HUB_SEO_PATHS: dict[str, str] = {
     "community": "/devotee-community",
     "muhurat": "/muhurat",
     "quotes": "/daily-quotes",
+    "library": "/library",
+    "angel_number": "/library/angel-numbers",
 }
 
 

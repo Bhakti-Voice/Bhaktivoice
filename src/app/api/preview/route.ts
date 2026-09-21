@@ -20,6 +20,7 @@ const KIND_PATHS: Record<string, string> = {
   chalisa: "/chalisa",
   quotes: "/daily-quotes",
   muhurat_bulletin: "/muhurat",
+  angel_number: "/library/angel-numbers",
 };
 
 const HUB_SEO_PATHS: Record<string, string> = {
@@ -38,6 +39,8 @@ const HUB_SEO_PATHS: Record<string, string> = {
   community: "/devotee-community",
   muhurat: "/muhurat",
   quotes: "/daily-quotes",
+  library: "/library",
+  angel_number: "/library/angel-numbers",
 };
 
 function isTokenValid(kind: string, slug: string, locale: string, tsStr: string, token: string): boolean {

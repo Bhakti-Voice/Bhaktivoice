@@ -302,6 +302,20 @@ KINDS: dict[str, Kind] = {
             Field("doshaRemedy", "Dosha Shanti & Remedies", "textarea", rows=3),
         ),
     ),
+    "angel_number": Kind(
+        "angel_number",
+        "Angel number",
+        "Angel numbers",
+        "/library/angel-numbers",
+        fields=SEO_FIELDS
+        + (
+            Field("number", "Angel number sequence", hint="e.g. 555, 777, 500, 1111"),
+            Field("excerpt", "Excerpt", "textarea", rows=3),
+            Field("readingTime", "Reading time", hint="e.g. 4 min"),
+            Field("tags", "Tags", "tags", "Comma separated"),
+            Field("body", "Body", "sections", "## Heading then paragraphs"),
+        ),
+    ),
 }
 
 HINDI_FIELD_TYPES = {
@@ -333,6 +347,7 @@ SKIP_HINDI_NAMES = {
     "yatraCategory",
     "outOfStock",
     "related_link",
+    "number",
 }
 
 
@@ -382,6 +397,7 @@ KIND_LABEL_HI = {
     "aarti": "आरती",
     "chalisa": "चालीसा",
     "quotes": "उद्धरण",
+    "angel_number": "एंजेल नंबर्स",
 }
 
 KIND_LABEL_TE = {
@@ -397,6 +413,7 @@ KIND_LABEL_TE = {
     "aarti": "హారతి",
     "chalisa": "చాలీసా",
     "quotes": "సుభాషితం",
+    "angel_number": "దేవదూత సంఖ్యలు",
 }
 
 CTA_DEFAULTS = {
@@ -491,6 +508,7 @@ PAGE_KINDS = (
     "bhajan",
     "aarti",
     "chalisa",
+    "angel_number",
 )
 
 SEARCH_KINDS = PAGE_KINDS
@@ -503,6 +521,7 @@ RELATED_BUCKETS = {
     "blog": "relatedArticles",
     "spirituality": "relatedArticles",
     "product": "relatedArticles",
+    "angel_number": "relatedArticles",
     "page": "relatedArticles",
 }
 
@@ -716,7 +735,7 @@ def form_to_data(kind: Kind, form: dict[str, str]) -> dict[str, Any]:
         elif item.type == "episodes":
             data[item.name] = parse_episodes(raw)
         elif item.type == "sections":
-            data[item.name] = parse_blog_body(raw) if kind.key == "blog" else parse_spirituality_sections(raw)
+            data[item.name] = parse_blog_body(raw) if kind.key in {"blog", "angel_number"} else parse_spirituality_sections(raw)
         elif item.type == "paragraphs":
             data[item.name] = parse_paragraphs(raw)
         elif item.type == "number":
@@ -997,6 +1016,20 @@ def public_page(
         extras["readingTime"] = data.get("readingTime") or ""
         extras["tags"] = data.get("tags") or []
         extras["body"] = data.get("body") or []
+    if kind.key == "angel_number":
+        extras["number"] = data.get("number") or ""
+        extras["excerpt"] = data.get("excerpt") or data.get("introduction") or ""
+        extras["readingTime"] = data.get("readingTime") or ""
+        extras["tags"] = data.get("tags") or []
+        extras["body"] = data.get("body") or []
+        library_name = "లైబ్రరీ" if locale == "te" else "लाइब्रेरी" if locale == "hi" else "Library"
+        angel_name = "దేవదూత సంఖ్యలు" if locale == "te" else "एंजेल नंबर्स" if locale == "hi" else "Angel Numbers"
+        page["breadcrumbs"] = [
+            {"name": home_name, "href": "/"},
+            {"name": library_name, "href": "/library"},
+            {"name": angel_name, "href": "/library/angel-numbers"},
+            {"name": title, "href": f"/library/angel-numbers/{slug}"},
+        ]
     if kind.key == "mantra":
         extras["howToChant"] = data.get("howToChant") or []
         extras["traditionalBenefits"] = data.get("traditionalBenefits") or []

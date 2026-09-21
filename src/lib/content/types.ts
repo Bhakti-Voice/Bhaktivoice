@@ -12,6 +12,7 @@ export type RelatedLink = {
     | "blog"
     | "spirituality"
     | "product"
+    | "angel_number"
     | "page";
 };
 
@@ -123,6 +124,14 @@ export type SpiritualityPage = SeoPage & {
 };
 
 export type BlogPost = SeoPage & {
+  excerpt: string;
+  readingTime: string;
+  tags: string[];
+  body: { heading?: string; paragraphs: string[] }[];
+};
+
+export type AngelNumberPage = SeoPage & {
+  number: string;
   excerpt: string;
   readingTime: string;
   tags: string[];

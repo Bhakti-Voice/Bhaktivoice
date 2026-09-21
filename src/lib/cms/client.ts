@@ -14,7 +14,8 @@ export type ContentKind =
   | "product"
   | "bhajan"
   | "aarti"
-  | "chalisa";
+  | "chalisa"
+  | "angel_number";
 
 const PRODUCTION_ORIGIN = "https://www.bhaktivoice.com";
 
@@ -54,6 +55,9 @@ function publicCmsOrigin() {
 
 function resolveCmsUrl() {
   const raw = (process.env.CMS_API_URL || process.env.NEXT_PUBLIC_CMS_API_URL || "").replace(/\/$/, "");
+  if (!process.env.VERCEL) {
+    return raw || "http://127.0.0.1:8000";
+  }
   // Preview *.vercel.app hosts are SSO-protected, so the server gets 401 and the UI looks empty.
   if (raw && !isLoopback(raw) && !isProtectedVercelUrl(raw)) return raw;
   return publicCmsOrigin() || "http://127.0.0.1:8000";

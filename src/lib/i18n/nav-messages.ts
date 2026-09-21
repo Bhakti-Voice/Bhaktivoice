@@ -35,6 +35,8 @@ export interface NavMessages {
     myJourney: string;
     moreTitle: string;
     spiritualTools: string;
+    library: string;
+    angelNumbers: string;
   };
 }
 
@@ -74,6 +76,8 @@ export const navMessages: Record<Locale, NavMessages> = {
       myJourney: "My Journey",
       moreTitle: "More from Bhakti Voice",
       spiritualTools: "Spiritual Tools",
+      library: "Library",
+      angelNumbers: "Angel Numbers",
     },
   },
   hi: {
@@ -111,6 +115,8 @@ export const navMessages: Record<Locale, NavMessages> = {
       myJourney: "मेरी यात्रा",
       moreTitle: "भक्ति वॉइस से और",
       spiritualTools: "आध्यात्मिक उपकरण",
+      library: "लाइब्रेरी",
+      angelNumbers: "एंजेल नंबर्स",
     },
   },
   te: {
@@ -148,6 +154,8 @@ export const navMessages: Record<Locale, NavMessages> = {
       myJourney: "నా ఆధ్యాత్మిక ప్రయాణం",
       moreTitle: "భక్తి వాయిస్ మరిన్ని సేవలు",
       spiritualTools: "ఆధ్యాత్మిక పరికరాలు",
+      library: "లైబ్రరీ",
+      angelNumbers: "దేవదూత సంఖ్యలు",
     },
   },
 };

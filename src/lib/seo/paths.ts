@@ -49,5 +49,8 @@ export const PATHS = {
   tarabalam: "/panchang/tarabalam",
   manglikDosha: "/kundli/manglik-dosha",
   kaalSarpDosha: "/kundli/kaal-sarp-dosha",
+  library: "/library",
+  angelNumbers: "/library/angel-numbers",
+  angelNumberDetail: (slug: string) => `/library/angel-numbers/${slug}`,
 } as const;
 

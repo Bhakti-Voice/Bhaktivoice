@@ -200,6 +200,24 @@ export const HUB_KEYWORDS: Record<Locale, Record<HubKey, string[]>> = {
       "bhakti voice explore",
       "sanatan dharma companions",
     ],
+    library: [
+      "spiritual library",
+      "sacred knowledge repository",
+      "vedic wisdom books",
+      "spiritual scriptures guide",
+      "divine signs and guidance",
+    ],
+    angelNumbers: [
+      "angel numbers",
+      "angel numbers meaning",
+      "repeating numbers spiritual meaning",
+      "angel number 555",
+      "angel number 777",
+      "angel number 500",
+      "twin flame numbers",
+      "numerology sequences",
+      "seeing repeating numbers",
+    ],
   },
   hi: {
     naamJaap: [
@@ -392,6 +410,21 @@ export const HUB_KEYWORDS: Record<Locale, Record<HubKey, string[]>> = {
       "वैदिक कैलकुलेटर ऑनलाइन",
       "भक्ति वॉइस सुविधाएं",
     ],
+    library: [
+      "आध्यात्मिक लाइब्रेरी",
+      "धार्मिक ज्ञान संग्रह",
+      "सनातन ज्ञान भंडार",
+      "दिव्य मार्गदर्शन ग्रंथ",
+    ],
+    angelNumbers: [
+      "एंजेल नंबर्स",
+      "एंजेल नंबर का अर्थ",
+      "संख्याओं का आध्यात्मिक अर्थ",
+      "एंजेल नंबर 555",
+      "एंजेल नंबर 777",
+      "संख्या 500 का अर्थ",
+      "अंक ज्योतिष मार्गदर्शन",
+    ],
   },
   te: {
     naamJaap: [
@@ -549,6 +582,20 @@ export const HUB_KEYWORDS: Record<Locale, Record<HubKey, string[]>> = {
       "ఆధ్యాత్మిక సాధనాలు",
       "వైదిక కాలిక్యులేటర్లు",
       "భక్తి వాయిస్ విశేషాలు",
+    ],
+    library: [
+      "ఆధ్యాత్మిక లైబ్రరీ",
+      "దివ్య జ్ఞాన సంపద",
+      "వేద జ్ఞాన గ్రంథాలు",
+      "ఆధ్యాత్మిక మార్గదర్శనం",
+    ],
+    angelNumbers: [
+      "దేవదూత సంఖ్యలు",
+      "ఏంజెల్ నంబర్స్ అర్థం",
+      "పునరావృత సంఖ్యల అర్థాలు",
+      "సంఖ్యా శాస్త్రం ఆధ్యాత్మికం",
+      "ఏంజెల్ నంబర్ 555",
+      "ఏంజెల్ నంబర్ 777",
     ],
   },
 };

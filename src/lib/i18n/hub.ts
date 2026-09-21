@@ -26,6 +26,8 @@ export const HUB_PATHS = {
   aarti: PATHS.aarti,
   chalisa: PATHS.chalisa,
   more: PATHS.more,
+  library: PATHS.library,
+  angelNumbers: PATHS.angelNumbers,
 } as const;
 
 export type HubKey = keyof typeof HUB_PATHS;

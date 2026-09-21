@@ -367,6 +367,226 @@ DUMMY_ENTRIES: list[dict] = [
             "cta_label": "More chalisas",
         },
     },
+    {
+        "kind": "angel_number",
+        "slug": "angel-number-500",
+        "data": {
+            "number": "500",
+            "title": "Angel Number 500 Meaning & Spiritual Significance",
+            "titleHi": "एंजेल नंबर 500 का अर्थ एवं आध्यात्मिक महत्व",
+            "h1": "Angel Number 500 Meaning: Change, Freedom & New Beginnings",
+            "seoTitle": "Angel Number 500 Meaning, Spiritual Symbolism & Twin Flame",
+            "metaDescription": "Discover the divine message behind Angel Number 500. A powerful sign of positive transformation, freedom, spiritual evolution, and trust in the universe.",
+            "introduction": "Angel Number 500 is a celestial reminder that massive shifts and transformative opportunities are aligning in your favor. When this number appears repeatedly in your daily awareness, your spirit guides and angels are urging you to let go of self-doubt and step boldly into your personal freedom.",
+            "category": "Angel Number",
+            "author": "Bhakti Voice Spiritual Desk",
+            "publishedAt": "2026-08-11",
+            "updatedAt": "2026-08-11",
+            "excerpt": "A powerful sign of change, freedom, and new beginnings guiding your life toward divine harmony.",
+            "readingTime": "5 min",
+            "tags": ["Angel Numbers", "Numerology", "Spiritual Guidance", "500"],
+            "body": [
+                {
+                    "heading": "The Core Spiritual Meaning of Angel Number 500",
+                    "paragraphs": [
+                        "Angel Number 500 combines the adventurous, progressive vibration of the number 5 with the infinite, amplifying energy of double 0 (00). In sacred numerology, the digit 5 represents courage, adaptability, freedom, and life lessons learned through direct experience.",
+                        "Meanwhile, the number 0 resonates with eternity, wholeness, infinite cycles, and oneness with the divine Creator. When doubled as 00, it exponentially magnifies the energetic signature of the preceding number 5, signaling that life-altering transitions are being orchestrated with divine precision."
+                    ]
+                },
+                {
+                    "heading": "Love, Twin Flames & Relationships",
+                    "paragraphs": [
+                        "In heart-centered matters, seeing 500 suggests a time for honest emotional expression and breaking free from repetitive karmic cycles. If you have felt restricted in your partnerships, this number brings refreshing clarity.",
+                        "For twin flames, Angel Number 500 signifies a pivotal phase of inner preparation. True union begins when both souls acknowledge their personal sovereignty while surrendering fear to divine timing."
+                    ]
+                },
+                {
+                    "heading": "Career, Purpose & Abundance",
+                    "paragraphs": [
+                        "Professionally, 500 encourages bold innovation. If you have contemplated launching a creative pursuit, shifting your vocational trajectory, or embracing lifelong learning, the celestial realm confirms that the horizon is wide open.",
+                        "Trust your instincts over skepticism. The universe honors those who take grounded risks aligned with their higher values."
+                    ]
+                },
+                {
+                    "heading": "What To Do When You Keep Seeing 500",
+                    "paragraphs": [
+                        "1. Stay centered through prayer, meditation, or daily naam jaap to calm the thinking mind.",
+                        "2. Welcome unexpected invitations, opportunities, or synchronicities without rigid resistance.",
+                        "3. Release old habits, self-limiting agreements, and outdated environments that no longer nourish your spiritual peace."
+                    ]
+                }
+            ],
+            "faqs": [
+                {"question": "What does Angel Number 500 mean spiritually?", "answer": "Angel Number 500 spiritually symbolizes freedom, divine trust, and profound positive life shifts supported by the universal energy."},
+                {"question": "Why do I keep seeing 500 on clocks or receipts?", "answer": "Repeated sightings of 500 signify that your guardian angels are drawing your attention to embrace upcoming transitions without anxiety."},
+                {"question": "What is the numerological reduction of 500?", "answer": "5 + 0 + 0 = 5. Its core vibrational essence is the adventurous, adaptable energy of 5, magnified by the infinite divine potential of zero."}
+            ]
+        }
+    },
+    {
+        "kind": "angel_number",
+        "slug": "angel-number-499",
+        "data": {
+            "number": "499",
+            "title": "Angel Number 499 Meaning & Divine Timing",
+            "titleHi": "एंजेल नंबर 499 का अर्थ एवं दिव्य समय",
+            "h1": "Angel Number 499 Meaning: Trust Divine Timing & Soul Purpose",
+            "seoTitle": "Angel Number 499 Meaning: Complete Your Mission with Grace",
+            "metaDescription": "Angel Number 499 brings guidance to complete past chapters and trust divine timing. Learn how 4 and 9 inspire your spiritual journey.",
+            "introduction": "A message to trust divine timing and stay aligned with your soul mission. Angel Number 499 signals that a significant cycle in your life is drawing to a fruitful conclusion, creating space for elevated spiritual work.",
+            "category": "Angel Number",
+            "author": "Bhakti Voice Spiritual Desk",
+            "publishedAt": "2026-08-11",
+            "updatedAt": "2026-08-11",
+            "excerpt": "A message to trust divine timing and stay aligned with your soul mission as old chapters close peacefully.",
+            "readingTime": "4 min",
+            "tags": ["Angel Numbers", "499", "Soul Mission", "Divine Timing"],
+            "body": [
+                {
+                    "heading": "The Meaning of Digits 4 and 9",
+                    "paragraphs": [
+                        "Angel Number 499 carries the steady, disciplined foundation of the number 4 alongside the humanitarian, compassionate closure of double 9 (99). The number 4 grounds you in practical devotion, patience, and integrity.",
+                        "The double 99 signifies completion, humanitarian service, and spiritual maturity. It asks you to tie up loose ends gracefully, forgiving past grievances and blessing the path behind you."
+                    ]
+                }
+            ],
+            "faqs": [
+                {"question": "What should I do if I see 499?", "answer": "Focus on bringing unfinished endeavors to completion with pride, maintaining calm faith that higher opportunities are already preparing to greet you."}
+            ]
+        }
+    },
+    {
+        "kind": "angel_number",
+        "slug": "angel-number-498",
+        "data": {
+            "number": "498",
+            "title": "Angel Number 498 Meaning & Spiritual Support",
+            "titleHi": "एंजेल नंबर 498 का अर्थ एवं ब्रह्मांडीय संबल",
+            "h1": "Angel Number 498 Meaning: Supported Through Every Transition",
+            "seoTitle": "Angel Number 498 Meaning: Abundance & Steadfast Guidance",
+            "metaDescription": "Angel Number 498 serves as a celestial reassurance of unending support. Explore the union of 4, 9, and 8 in your spiritual journey.",
+            "introduction": "A reminder that you are supported through every transition. The angels reassure you that as you honor your duties and release fear of scarcity, the universe fulfills all practical necessities with abundance.",
+            "category": "Angel Number",
+            "author": "Bhakti Voice Spiritual Desk",
+            "publishedAt": "2026-08-11",
+            "updatedAt": "2026-08-11",
+            "excerpt": "A reminder that you are supported through every transition and life change with divine abundance.",
+            "readingTime": "4 min",
+            "tags": ["Angel Numbers", "498", "Abundance", "Support"],
+            "body": [
+                {
+                    "heading": "The Vibration of 4, 9, and 8",
+                    "paragraphs": [
+                        "In 498, the stability of 4 connects with the spiritual wisdom of 9 and the prosperous abundance of 8. This triadic vibration balances earthly effort with cosmic surrender."
+                    ]
+                }
+            ],
+            "faqs": [
+                {"question": "What does 498 mean for career?", "answer": "It signifies that your past disciplined efforts are culminating in stable rewards and renewed spiritual purpose."}
+            ]
+        }
+    },
+    {
+        "kind": "angel_number",
+        "slug": "angel-number-497",
+        "data": {
+            "number": "497",
+            "title": "Angel Number 497 Meaning & Inner Wisdom",
+            "titleHi": "एंजेल नंबर 497 का अर्थ एवं आंतरिक प्रज्ञा",
+            "h1": "Angel Number 497 Meaning: Embrace Spiritual Growth & Inner Truth",
+            "seoTitle": "Angel Number 497 Meaning: Deep Insight & Intuitive Awakening",
+            "metaDescription": "Angel Number 497 is an invitation to look within and trust your spiritual intuition as profound personal growth takes root.",
+            "introduction": "A sign to embrace spiritual growth and inner wisdom. The divine guides congratulate you on walking your path with sincerity and discernment.",
+            "category": "Angel Number",
+            "author": "Bhakti Voice Spiritual Desk",
+            "publishedAt": "2026-08-11",
+            "updatedAt": "2026-08-11",
+            "excerpt": "A sign to embrace spiritual growth, contemplation, and inner wisdom as new doors open before you.",
+            "readingTime": "4 min",
+            "tags": ["Angel Numbers", "497", "Inner Wisdom", "Spiritual Path"],
+            "body": [
+                {
+                    "heading": "Mystical Wisdom of the Number 7",
+                    "paragraphs": [
+                        "The appearance of 7 in 497 illuminates the contemplative mind. It encourages daily study of sacred texts, mindful silence, and honoring your inner compass."
+                    ]
+                }
+            ],
+            "faqs": [
+                {"question": "What is the message of 497?", "answer": "Deepen your connection to your higher self and trust the quiet knowing that guides your next decision."}
+            ]
+        }
+    },
+    {
+        "kind": "angel_number",
+        "slug": "angel-number-555",
+        "data": {
+            "number": "555",
+            "title": "Angel Number 555 Meaning & Monumental Transformation",
+            "titleHi": "एंजेल नंबर 555 का अर्थ एवं महान परिवर्तन",
+            "h1": "Angel Number 555 Meaning: Monumental Shifts & Spiritual Liberation",
+            "seoTitle": "Angel Number 555 Meaning: Major Changes, Love & Twin Flame",
+            "metaDescription": "Seeing Angel Number 555 everywhere? Discover the transformative energy of 555: major life shifts, soul growth, love, and divine readiness.",
+            "introduction": "Angel Number 555 is among the most famous and potent cosmic codes. Triple five heralds rapid transformation, personal expansion, and an awakening to living with authenticity and freedom.",
+            "category": "Angel Number",
+            "author": "Bhakti Voice Spiritual Desk",
+            "publishedAt": "2026-08-10",
+            "updatedAt": "2026-08-10",
+            "excerpt": "A monumental signal that major, positive transformations are unfolding rapidly across your life path.",
+            "readingTime": "6 min",
+            "tags": ["Angel Numbers", "555", "Spiritual Growth", "Divine Guidance", "Life Changes"],
+            "body": [
+                {
+                    "heading": "The Triple Vibration of 555",
+                    "paragraphs": [
+                        "When 5 appears three times, change is not just incremental — it is foundational. Old frameworks that no longer serve your dharma are dissolving so that authentic joy can flourish. Do not resist change with apprehension; view it as an answered prayer. The divine removes obstacles so you can spread your wings."
+                    ]
+                },
+                {
+                    "heading": "Twin Flames and Soul Connections in 555",
+                    "paragraphs": [
+                        "In twin flame numerology, 555 signifies dynamic shifts. Either an emotional breakthrough is occurring, or communication between mirrors is reaching a higher octave of mutual respect and spiritual unity."
+                    ]
+                }
+            ],
+            "faqs": [
+                {"question": "Why do I keep seeing 555 on the clock?", "answer": "Seeing 555 repeatedly on the clock is a divine synchronicity reminding you that major positive shifts are in motion and that your guardian angels are guiding every step."},
+                {"question": "What does 555 mean in love and relationships?", "answer": "In relationships, 555 brings renewal, honesty, and emotional evolution. It signifies letting go of stagnant patterns and welcoming greater soul alignment and intimacy."},
+                {"question": "Is 555 a sign to make a big life change?", "answer": "Yes, 555 is the universal green light for career, creative, or lifestyle changes. It assures you that stepping courageously into the unknown is divinely protected."}
+            ]
+        }
+    },
+    {
+        "kind": "angel_number",
+        "slug": "angel-number-777",
+        "data": {
+            "number": "777",
+            "title": "Angel Number 777 Meaning & Spiritual Awakening",
+            "titleHi": "एंजेल नंबर 777 का अर्थ एवं आध्यात्मिक जागरण",
+            "h1": "Angel Number 777 Meaning: Pure Divine Luck & Cosmic Alignment",
+            "seoTitle": "Angel Number 777 Meaning: Divine Wisdom, Awakening & Miracles",
+            "metaDescription": "Angel Number 777 is a sacred blessing of alignment and higher consciousness. Understand the mystical power of 777 in your life.",
+            "introduction": "Angel Number 777 is a radiant confirmation that you are in perfect alignment with universal wisdom. Miracles, spiritual deepening, and auspicious guidance surround you.",
+            "category": "Angel Number",
+            "author": "Bhakti Voice Spiritual Desk",
+            "publishedAt": "2026-08-09",
+            "updatedAt": "2026-08-09",
+            "excerpt": "A deeply mystical message that you are in perfect alignment with universal wisdom and divine grace.",
+            "readingTime": "5 min",
+            "tags": ["Angel Numbers", "777", "Awakening", "Miracles"],
+            "body": [
+                {
+                    "heading": "The Sacred Geometry of 777",
+                    "paragraphs": [
+                        "In spiritual traditions worldwide, seven represents completion, mystical illumination, and the bridge between human awareness and divine truth. Triple seven indicates that your inner prayers have been heard and are bearing fruit."
+                    ]
+                }
+            ],
+            "faqs": [
+                {"question": "Is 777 lucky?", "answer": "Yes, 777 is traditionally known as an extremely auspicious and blessed number indicating divine approval and alignment."}
+            ]
+        }
+    },
 ]
 
 
@@ -394,6 +614,7 @@ def seed_dummies() -> int:
     conn = get_db()
     conn.execute("DELETE FROM cms_entries WHERE slug LIKE 'local-dev-%'")
     conn.execute("DELETE FROM cms_entries WHERE kind = 'hub_seo' AND slug = 'home'")
+    conn.execute("DELETE FROM cms_entries WHERE kind = 'angel_number'")
     count = 0
     for item in DUMMY_ENTRIES:
         save_entry(item["kind"], item["data"], slug=item["slug"], status="published")
