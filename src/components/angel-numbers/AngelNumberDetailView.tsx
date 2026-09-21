@@ -1,11 +1,12 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { AngelNumberPage } from "@/lib/content/types";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { AngelNumberCard } from "./AngelNumberCard";
 import { CelestialPoster } from "./CelestialPoster";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
+import { trackEvent } from "@/components/analytics/GoogleAnalytics";
 import {
   ArrowRight,
   Briefcase,
@@ -710,6 +711,15 @@ export function AngelNumberDetailView({ page, related }: AngelNumberDetailViewPr
     { id: "faqs", label: locale === "hi" ? "अक्सर पूछे जाने वाले प्रश्न" : locale === "te" ? "ప్రశ్నోత్తరాలు" : "FAQs", icon: HelpCircle },
   ];
 
+  // Track page view event in GA4
+  useEffect(() => {
+    trackEvent("view_item", {
+      content_type: "angel_number",
+      item_id: displayNumber,
+      item_name: page.title,
+    });
+  }, [displayNumber, page.title]);
+
   // Interaction states
   const [copied, setCopied] = useState(false);
 
@@ -717,6 +727,11 @@ export function AngelNumberDetailView({ page, related }: AngelNumberDetailViewPr
     if (typeof window !== "undefined") {
       navigator.clipboard.writeText(window.location.href);
       setCopied(true);
+      trackEvent("share", {
+        method: "copy_link",
+        content_type: "angel_number",
+        item_id: displayNumber,
+      });
       setTimeout(() => setCopied(false), 2000);
     }
   };
@@ -1027,6 +1042,12 @@ export function AngelNumberDetailView({ page, related }: AngelNumberDetailViewPr
               </div>
               <LocaleLink
                 href="/naam-jaap"
+                onClick={() =>
+                  trackEvent("cta_click", {
+                    cta_name: "begin_nama_jaap",
+                    angel_number: displayNumber,
+                  })
+                }
                 className="mt-3 w-full flex items-center justify-center gap-1.5 py-2 px-4 rounded-full bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 text-white text-xs font-semibold hover:brightness-110 shadow-xs transition-all cursor-pointer"
               >
                 <span>{locale === "hi" ? "नाम जप शुरू करें" : locale === "te" ? "నామ జపం ప్రారంభించండి" : "Begin Nama Jaap"}</span>
@@ -1058,6 +1079,13 @@ export function AngelNumberDetailView({ page, related }: AngelNumberDetailViewPr
                   href={`https://api.whatsapp.com/send?text=${encodeURIComponent(page.title)}`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() =>
+                    trackEvent("share", {
+                      method: "whatsapp",
+                      content_type: "angel_number",
+                      item_id: displayNumber,
+                    })
+                  }
                   className="w-9 h-9 rounded-full bg-[#25D366] text-white flex items-center justify-center hover:opacity-90 transition-opacity"
                   title="Share on WhatsApp"
                 >
@@ -1069,6 +1097,13 @@ export function AngelNumberDetailView({ page, related }: AngelNumberDetailViewPr
                   href={`https://t.me/share/url?url=${encodeURIComponent(page.title)}`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() =>
+                    trackEvent("share", {
+                      method: "telegram",
+                      content_type: "angel_number",
+                      item_id: displayNumber,
+                    })
+                  }
                   className="w-9 h-9 rounded-full bg-[#0088cc] text-white flex items-center justify-center hover:opacity-90 transition-opacity"
                   title="Share on Telegram"
                 >
@@ -1080,6 +1115,13 @@ export function AngelNumberDetailView({ page, related }: AngelNumberDetailViewPr
                   href={`https://www.facebook.com/sharer/sharer.php`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() =>
+                    trackEvent("share", {
+                      method: "facebook",
+                      content_type: "angel_number",
+                      item_id: displayNumber,
+                    })
+                  }
                   className="w-9 h-9 rounded-full bg-[#1877f2] text-white flex items-center justify-center hover:opacity-90 transition-opacity"
                   title="Share on Facebook"
                 >
@@ -1091,6 +1133,13 @@ export function AngelNumberDetailView({ page, related }: AngelNumberDetailViewPr
                   href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(page.title)}`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() =>
+                    trackEvent("share", {
+                      method: "twitter",
+                      content_type: "angel_number",
+                      item_id: displayNumber,
+                    })
+                  }
                   className="w-9 h-9 rounded-full bg-[#000000] text-white flex items-center justify-center hover:opacity-90 transition-opacity"
                   title="Share on X"
                 >
@@ -1216,7 +1265,14 @@ export function AngelNumberDetailView({ page, related }: AngelNumberDetailViewPr
                     <button
                       key={tab.id}
                       type="button"
-                      onClick={() => scrollToSection(tab.id)}
+                      onClick={() => {
+                        scrollToSection(tab.id);
+                        trackEvent("select_content", {
+                          content_type: "angel_number_tab",
+                          item_id: tab.id,
+                          angel_number: displayNumber,
+                        });
+                      }}
                       className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all cursor-pointer ${
                         isActive
                           ? "bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-xs font-semibold"

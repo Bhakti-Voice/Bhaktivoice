@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { LayoutGrid, List, Search, Sparkles, X } from "lucide-react";
 import type { AngelNumberPage } from "@/lib/content/types";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
@@ -10,6 +10,7 @@ import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { useLocale } from "@/lib/i18n/client";
 import type { AngelNumbersPageContent } from "@/lib/library/angel-numbers-content";
 import { getAngelNumbersContent } from "@/lib/library/angel-numbers-content";
+import { trackEvent } from "@/components/analytics/GoogleAnalytics";
 
 export interface AngelNumberListingProps {
   items: AngelNumberPage[];
@@ -25,6 +26,14 @@ export function AngelNumberListing({ items, locale, content: propContent }: Ange
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [sortOrder, setSortOrder] = useState<"latest" | "num_asc" | "num_desc">("latest");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+
+  // Track listing page view in GA4
+  useEffect(() => {
+    trackEvent("view_item_list", {
+      item_list_name: "angel_numbers",
+      items_count: items.length,
+    });
+  }, [items.length]);
 
   // Breadcrumbs: strictly follow user request: Home -> Library -> Angel Numbers
   const breadcrumbs = [
@@ -151,7 +160,14 @@ export function AngelNumberListing({ items, locale, content: propContent }: Ange
           {/* Category Filter */}
           <select
             value={categoryFilter}
-            onChange={(e) => setCategoryFilter(e.target.value)}
+            onChange={(e) => {
+              const val = e.target.value;
+              setCategoryFilter(val);
+              trackEvent("filter", {
+                filter_type: "category",
+                value: val,
+              });
+            }}
             className="h-8.5 px-3 pr-7 text-xs font-medium bg-white rounded-full border border-[#ebdccb] text-[#2c1810] outline-none focus:border-amber-500 cursor-pointer shadow-2xs"
           >
             <option value="all">{c.categories.all}</option>

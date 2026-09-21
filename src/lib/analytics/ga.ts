@@ -5,5 +5,6 @@ export function getGaMeasurementId() {
     process.env.GA_MEASUREMENT_ID ||
     ""
   ).trim();
-  return /^G-[A-Z0-9]+$/i.test(raw) ? raw : "";
+  const valid = /^G-[A-Z0-9]+$/i.test(raw);
+  return valid ? raw : "";
 }
