@@ -587,6 +587,262 @@ DUMMY_ENTRIES: list[dict] = [
             ]
         }
     },
+    {
+        "kind": "angel_number",
+        "slug": "angel-number-1111",
+        "data": {
+            "number": "1111",
+            "title": "Angel Number 1111 Meaning & Spiritual Awakening Portal",
+            "titleHi": "एंजेल नंबर 1111 का अर्थ एवं आध्यात्मिक जागरण",
+            "h1": "Angel Number 1111 Meaning: A Powerful Portal for Manifestation & Spiritual Awakening",
+            "seoTitle": "Angel Number 1111 Meaning: Twin Flame, Awakening & Manifestation",
+            "metaDescription": "Keep seeing Angel Number 1111? Discover the spiritual meaning of 1111, its connection to twin flames, manifestation, and your soul purpose.",
+            "introduction": "Seeing Angel Number 1111 is a powerful wake-up call from the universe. This unique sequence of ones acts as a cosmic doorway, signaling spiritual awakening, rapid manifestation, and the alignment of your deepest desires.",
+            "category": "Awakening",
+            "author": "Bhakti Voice Spiritual Desk",
+            "publishedAt": "2026-08-15",
+            "updatedAt": "2026-08-15",
+            "excerpt": "A powerful spiritual wake-up call and manifestation portal, signaling that your thoughts are rapidly creating your reality.",
+            "readingTime": "5 min",
+            "tags": ["Angel Numbers", "1111", "Manifestation", "Spiritual Awakening", "Twin Flame"],
+            "body": [
+                {
+                    "heading": "The Awakening Portal of 1111",
+                    "paragraphs": [
+                        "Angel Number 1111 is traditionally called the master manifestation number. When you notice 11:11 or 1111, your consciousness is aligning directly with higher spiritual frequencies.",
+                        "Monitor your thoughts carefully during this time. Choose optimism and gratitude, because whatever energy you radiate is returning to you accelerated."
+                    ]
+                },
+                {
+                    "heading": "1111 in Love and Twin Flames",
+                    "paragraphs": [
+                        "In love, 1111 is celebrated as the premier twin flame synchronicity. It signifies energetic convergence, soul recognition, and mutual awakening between dual souls."
+                    ]
+                }
+            ],
+            "faqs": [
+                {"question": "What does 1111 mean spiritually?", "answer": "1111 is a direct signal of spiritual awakening, alignment with your life mission, and accelerated manifestation."},
+                {"question": "Why do I see 11:11 on clocks?", "answer": "Seeing 11:11 prompts conscious presence, encouraging you to step out of auto-pilot and align with your true inner calling."}
+            ]
+        }
+    },
+    {
+        "kind": "angel_number",
+        "slug": "angel-number-888",
+        "data": {
+            "number": "888",
+            "title": "Angel Number 888 Meaning & Infinite Abundance",
+            "titleHi": "एंजेल नंबर 888 का अर्थ एवं असीम समृद्धि",
+            "h1": "Angel Number 888 Meaning: Infinite Abundance, Karmic Reward & Success",
+            "seoTitle": "Angel Number 888 Meaning: Wealth, Karma & Spiritual Abundance",
+            "metaDescription": "Angel Number 888 is a sign of financial stability, karmic rewards, and infinite abundance. Learn what seeing 888 means for your career and spirit.",
+            "introduction": "Angel Number 888 is the sacred sequence of infinite abundance. Representing the infinity symbol standing tall, it confirms that your past efforts, spiritual dedication, and patience are manifesting rich harvests.",
+            "category": "Abundance",
+            "author": "Bhakti Voice Spiritual Desk",
+            "publishedAt": "2026-08-12",
+            "updatedAt": "2026-08-12",
+            "excerpt": "A divine confirmation of infinite abundance, prosperity, and karmic rewards flowing into your life.",
+            "readingTime": "5 min",
+            "tags": ["Angel Numbers", "888", "Abundance", "Karma", "Wealth"],
+            "body": [
+                {
+                    "heading": "The Law of Karmic Return in 888",
+                    "paragraphs": [
+                        "The number 8 governs the universal law of cause and effect. Triple eight indicates that cycles of lack or struggle are reaching completion, paving the way for material and spiritual stability."
+                    ]
+                }
+            ],
+            "faqs": [
+                {"question": "Is 888 a money number?", "answer": "Yes, 888 is strongly connected to financial abundance, successful ventures, and the fruition of disciplined effort."}
+            ]
+        }
+    },
+    {
+        "kind": "angel_number",
+        "slug": "angel-number-444",
+        "data": {
+            "number": "444",
+            "title": "Angel Number 444 Meaning & Divine Protection",
+            "titleHi": "एंजेल नंबर 444 का अर्थ एवं दैवीय सुरक्षा",
+            "h1": "Angel Number 444 Meaning: Solid Foundation, Protection & Guardian Care",
+            "seoTitle": "Angel Number 444 Meaning: Protection, Guidance & Peace",
+            "metaDescription": "Discover the comforting power of Angel Number 444. A direct sign that angels surround you with unconditional protection and guidance.",
+            "introduction": "Angel Number 444 brings peaceful reassurance that you are fully enveloped in divine protection. When fear or uncertainty strikes, 444 reminds you that your foundation is unshakeable.",
+            "category": "Protection",
+            "author": "Bhakti Voice Spiritual Desk",
+            "publishedAt": "2026-08-03",
+            "updatedAt": "2026-08-03",
+            "excerpt": "A sign of protection, stability, and divine support during times of change and testing.",
+            "readingTime": "5 min",
+            "tags": ["Angel Numbers", "444", "Protection", "Stability"],
+            "body": [
+                {
+                    "heading": "Surrounded by Celestial Guardians",
+                    "paragraphs": [
+                        "Four is the number of the compass directions, the four elements, and enduring structure. Triple 4 signals that divine guardians are standing with you through every challenge."
+                    ]
+                }
+            ],
+            "faqs": [
+                {"question": "What does 444 mean?", "answer": "444 confirms divine protection, grounding energy, and reassurance that all is well in your journey."}
+            ]
+        }
+    },
+    {
+        "kind": "angel_number",
+        "slug": "angel-number-333",
+        "data": {
+            "number": "333",
+            "title": "Angel Number 333 Meaning & Spiritual Mentorship",
+            "titleHi": "एंजेल नंबर 333 का अर्थ एवं आत्मिक मार्गदर्शन",
+            "h1": "Angel Number 333 Meaning: Growth, Creation & Ascended Masters",
+            "seoTitle": "Angel Number 333 Meaning: Creative Power & Divine Grace",
+            "metaDescription": "Seeing 333 repeatedly? Learn how Angel Number 333 connects you to spiritual guides, creative expression, and soul expansion.",
+            "introduction": "Angel Number 333 resonates with the holy trinity, creative vitality, and the loving presence of spiritual guides. It encourages you to express your authentic voice with joyful confidence.",
+            "category": "Awakening",
+            "author": "Bhakti Voice Spiritual Desk",
+            "publishedAt": "2026-08-02",
+            "updatedAt": "2026-08-02",
+            "excerpt": "A sign of expansion, creative flow, and close communion with enlightened spiritual guides.",
+            "readingTime": "5 min",
+            "tags": ["Angel Numbers", "333", "Mentors", "Creativity"],
+            "body": [
+                {
+                    "heading": "The Power of the Divine Trinity",
+                    "paragraphs": [
+                        "Three unites mind, body, and spirit. Triple three invites you to integrate your contemplation with daily action, speaking your truth without hesitation."
+                    ]
+                }
+            ],
+            "faqs": [
+                {"question": "What is the message of 333?", "answer": "333 is an affirmation of creative expansion and reassurance that enlightened mentors are guiding your path."}
+            ]
+        }
+    },
+    {
+        "kind": "angel_number",
+        "slug": "angel-number-222",
+        "data": {
+            "number": "222",
+            "title": "Angel Number 222 Meaning & Harmony in Love",
+            "titleHi": "एंजेल नंबर 222 का अर्थ एवं संबंधों में सामंजस्य",
+            "h1": "Angel Number 222 Meaning: Balance, Trust & Relationship Harmony",
+            "seoTitle": "Angel Number 222 Meaning: Love, Patience & Peaceful Alignment",
+            "metaDescription": "Angel Number 222 brings harmony and divine patience. Learn the spiritual meaning of 222 in love, relationships, and life choices.",
+            "introduction": "Angel Number 222 reminds you that everything is falling into place according to divine order. Practice patience, nurture your relationships, and maintain unwavering faith.",
+            "category": "Love & Mission",
+            "author": "Bhakti Voice Spiritual Desk",
+            "publishedAt": "2026-07-30",
+            "updatedAt": "2026-07-30",
+            "excerpt": "A gentle reminder to maintain peace, trust the process, and nurture balance in your relationships.",
+            "readingTime": "5 min",
+            "tags": ["Angel Numbers", "222", "Harmony", "Love", "Balance"],
+            "body": [
+                {
+                    "heading": "Cultivating Equanimity with 222",
+                    "paragraphs": [
+                        "The energy of 2 is cooperation, partnership, and duality resolved in peace. Triple two assures you that what you planted in faith is quietly taking root."
+                    ]
+                }
+            ],
+            "faqs": [
+                {"question": "What does 222 mean in love?", "answer": "In love, 222 signifies mutual healing, honest communication, and deep emotional harmony."}
+            ]
+        }
+    },
+    {
+        "kind": "angel_number",
+        "slug": "angel-number-111",
+        "data": {
+            "number": "111",
+            "title": "Angel Number 111 Meaning & Fresh Beginnings",
+            "titleHi": "एंजेल नंबर 111 का अर्थ एवं नई शुरुआत",
+            "h1": "Angel Number 111 Meaning: Pure Intention & Conscious Manifestation",
+            "seoTitle": "Angel Number 111 Meaning: New Beginnings & Positive Mindset",
+            "metaDescription": "Discover the manifestation power of Angel Number 111. Learn why 111 asks you to align your thoughts with your highest spiritual goals.",
+            "introduction": "Angel Number 111 represents an open cosmic gateway where your thoughts materialize rapidly. Guard your mind with sattvic positivity and embrace fresh starts.",
+            "category": "Awakening",
+            "author": "Bhakti Voice Spiritual Desk",
+            "publishedAt": "2026-07-28",
+            "updatedAt": "2026-07-28",
+            "excerpt": "A powerful sign of new beginnings, manifestation, and rapid thought creation aligning with your soul.",
+            "readingTime": "5 min",
+            "tags": ["Angel Numbers", "111", "New Beginnings", "Manifestation"],
+            "body": [
+                {
+                    "heading": "The Awakening of Number 1",
+                    "paragraphs": [
+                        "One is the seed of all numbers. Triple one marks the start of a profound personal chapter where your leadership and unique light are needed."
+                    ]
+                }
+            ],
+            "faqs": [
+                {"question": "What should I do when I see 111?", "answer": "Direct your attention toward gratitude and clear intentions, releasing worry or cynicism."}
+            ]
+        }
+    },
+    {
+        "kind": "angel_number",
+        "slug": "angel-number-999",
+        "data": {
+            "number": "999",
+            "title": "Angel Number 999 Meaning & Sacred Completion",
+            "titleHi": "एंजेल नंबर 999 का अर्थ एवं पवित्र पूर्णता",
+            "h1": "Angel Number 999 Meaning: End of a Cycle & Spiritual Graduation",
+            "seoTitle": "Angel Number 999 Meaning: Closure, Release & Higher Calling",
+            "metaDescription": "Angel Number 999 marks the completion of a major karmic cycle. Learn how to release the old and step into your higher calling.",
+            "introduction": "Angel Number 999 signals that a significant phase of your life has come to its natural completion. Welcome closure with peace and prepare for a higher octave of service.",
+            "category": "Transformation",
+            "author": "Bhakti Voice Spiritual Desk",
+            "publishedAt": "2026-07-25",
+            "updatedAt": "2026-07-25",
+            "excerpt": "A profound marker of spiritual completion, release of outworn karma, and readiness for a higher calling.",
+            "readingTime": "5 min",
+            "tags": ["Angel Numbers", "999", "Completion", "Karma"],
+            "body": [
+                {
+                    "heading": "Releasing What Has Served Its Purpose",
+                    "paragraphs": [
+                        "Nine represents the highest single digit of spiritual maturity. Triple nine encourages you to forgive the past, release resentment, and step into selflessness."
+                    ]
+                }
+            ],
+            "faqs": [
+                {"question": "Does 999 mean something bad is ending?", "answer": "No, 999 indicates a necessary and blessed graduation into higher wisdom, peace, and new purpose."}
+            ]
+        }
+    },
+    {
+        "kind": "angel_number",
+        "slug": "angel-number-1212",
+        "data": {
+            "number": "1212",
+            "title": "Angel Number 1212 Meaning & Spiritual Harmony",
+            "titleHi": "एंजेल नंबर 1212 का अर्थ एवं दिव्य संतुलन",
+            "h1": "Angel Number 1212 Meaning: Stepping Out of Comfort Zones in Faith",
+            "seoTitle": "Angel Number 1212 Meaning: Courage, Alignment & Renewal",
+            "metaDescription": "Angel Number 1212 encourages you to stay positive and pursue your divine life mission with courage and balanced faith.",
+            "introduction": "Angel Number 1212 pairs the pioneering energy of 1 with the cooperative grace of 2, duplicated twice. It encourages you to step beyond comfort zones with trust in divine timing.",
+            "category": "Love & Mission",
+            "author": "Bhakti Voice Spiritual Desk",
+            "publishedAt": "2026-07-20",
+            "updatedAt": "2026-07-20",
+            "excerpt": "A divine reminder to leave comfort zones, nurture peace, and walk steadfastly toward your higher mission.",
+            "readingTime": "5 min",
+            "tags": ["Angel Numbers", "1212", "Courage", "Alignment"],
+            "body": [
+                {
+                    "heading": "The Harmonious Dance of 1 and 2",
+                    "paragraphs": [
+                        "Twelve signifies completion of cycles (12 months, 12 zodiac signs). 1212 brings renewal, spiritual elevation, and divine teamwork."
+                    ]
+                }
+            ],
+            "faqs": [
+                {"question": "Why do I keep seeing 12:12 on clocks?", "answer": "12:12 asks you to keep your thoughts focused on your aspirations and trust that universal currents are supporting your growth."}
+            ]
+        }
+    },
 ]
 
 

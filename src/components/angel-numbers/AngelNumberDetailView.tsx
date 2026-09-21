@@ -8,7 +8,6 @@ import { CelestialPoster } from "./CelestialPoster";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
 import {
   ArrowRight,
-  Bookmark,
   Briefcase,
   Calendar,
   Check,
@@ -16,7 +15,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Clock,
-  Eye,
   Feather,
   Flower2,
   Heart,
@@ -24,7 +22,6 @@ import {
   Lightbulb,
   Link as LinkIcon,
   MessageCircle,
-  MessageSquare,
   Sparkles,
 } from "lucide-react";
 
@@ -65,9 +62,6 @@ export function AngelNumberDetailView({ page, related }: AngelNumberDetailViewPr
   const [activeTab, setActiveTab] = useState<string>("overview");
 
   // Interaction states
-  const [liked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(2410);
-  const [saved, setSaved] = useState(false);
   const [copied, setCopied] = useState(false);
 
   // Theme-based horizontal scroll state
@@ -127,10 +121,7 @@ export function AngelNumberDetailView({ page, related }: AngelNumberDetailViewPr
     }));
   };
 
-  const handleLike = () => {
-    setLiked(!liked);
-    setLikeCount((c) => (liked ? c - 1 : c + 1));
-  };
+
 
   const handleCopyLink = () => {
     if (typeof window !== "undefined") {
@@ -156,78 +147,9 @@ export function AngelNumberDetailView({ page, related }: AngelNumberDetailViewPr
     "Life Changes",
   ];
 
-  // Themed items for horizontal scroll
+  // Themed items for horizontal scroll from DB
   const themedItems = useMemo(() => {
-    const baseList =
-      related && related.length > 0
-        ? related
-        : [
-            {
-              slug: "angel-number-888",
-              number: "888",
-              title: "Angel Number 888 Meaning & Infinite Abundance",
-              excerpt: "A divine confirmation of infinite abundance, prosperity, and cosmic balance.",
-              publishedAt: "Aug 12, 2026",
-              category: "Abundance",
-            },
-            {
-              slug: "angel-number-777",
-              number: "777",
-              title: "Angel Number 777 Meaning & Spiritual Awakening",
-              excerpt: "A deeply mystical message that you are in perfect alignment with universal wisdom.",
-              publishedAt: "Aug 09, 2026",
-              category: "Awakening",
-            },
-            {
-              slug: "angel-number-444",
-              number: "444",
-              title: "Angel Number 444 Meaning & Divine Protection",
-              excerpt: "A sign of protection, stability, and divine support during times of change.",
-              publishedAt: "Aug 03, 2026",
-              category: "Protection",
-            },
-            {
-              slug: "angel-number-111",
-              number: "111",
-              title: "Angel Number 111 Meaning & New Beginnings",
-              excerpt: "A powerful sign of new beginnings, manifestation, and rapid thought creation.",
-              publishedAt: "Jul 28, 2026",
-              category: "Awakening",
-            },
-            {
-              slug: "angel-number-499",
-              number: "499",
-              title: "Angel Number 499 Meaning & Soul Mission",
-              excerpt: "A message to trust divine timing and stay aligned with your soul mission.",
-              publishedAt: "Aug 11, 2026",
-              category: "Love & Mission",
-            },
-            {
-              slug: "angel-number-498",
-              number: "498",
-              title: "Angel Number 498 Meaning & Divine Support",
-              excerpt: "A reminder that you are supported through every transition and life change.",
-              publishedAt: "Aug 11, 2026",
-              category: "Abundance",
-            },
-            {
-              slug: "angel-number-497",
-              number: "497",
-              title: "Angel Number 497 Meaning & Inner Wisdom",
-              excerpt: "A sign to embrace spiritual growth, contemplation, and inner wisdom.",
-              publishedAt: "Aug 11, 2026",
-              category: "Wisdom",
-            },
-            {
-              slug: "angel-number-500",
-              number: "500",
-              title: "Angel Number 500 Meaning & Freedom",
-              excerpt: "A powerful sign of change, freedom, and new beginnings guiding your life.",
-              publishedAt: "Aug 11, 2026",
-              category: "Transformation",
-            },
-          ];
-
+    const baseList = related || [];
     if (selectedTheme === "all") return baseList;
 
     const currentTheme = THEMES.find((t) => t.id === selectedTheme);
@@ -312,47 +234,7 @@ export function AngelNumberDetailView({ page, related }: AngelNumberDetailViewPr
                   </div>
                 </div>
 
-                {/* Bottom of Left Hero: Stats */}
-                <div className="mt-4 pt-3 border-t border-[#f2e7db]">
-                  <div className="flex items-center gap-4 text-xs text-stone-500 select-none">
-                    <span className="flex items-center gap-1.5">
-                      <Eye className="w-3.5 h-3.5 text-stone-400" />
-                      <span>125K views</span>
-                    </span>
-                    <button
-                      type="button"
-                      onClick={handleLike}
-                      className={`flex items-center gap-1.5 hover:text-rose-600 transition-colors cursor-pointer ${
-                        liked ? "text-rose-600 font-semibold" : ""
-                      }`}
-                    >
-                      <Heart
-                        className={`w-3.5 h-3.5 ${
-                          liked ? "fill-rose-600 text-rose-600" : "text-stone-400"
-                        }`}
-                      />
-                      <span>{(likeCount / 1000).toFixed(1)}K likes</span>
-                    </button>
-                    <span className="flex items-center gap-1.5">
-                      <MessageSquare className="w-3.5 h-3.5 text-stone-400" />
-                      <span>12 comments</span>
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setSaved(!saved)}
-                      className={`flex items-center gap-1 hover:text-amber-700 transition-colors ml-auto cursor-pointer ${
-                        saved ? "text-amber-700 font-semibold" : ""
-                      }`}
-                    >
-                      <Bookmark
-                        className={`w-3.5 h-3.5 ${
-                          saved ? "fill-amber-700 text-amber-700" : "text-stone-400"
-                        }`}
-                      />
-                      <span>{saved ? "Saved" : "Save"}</span>
-                    </button>
-                  </div>
-                </div>
+
               </div>
 
               {/* Right Column: Celestial Artwork Poster */}

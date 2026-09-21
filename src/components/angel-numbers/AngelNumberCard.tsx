@@ -9,6 +9,7 @@ export interface AngelNumberCardProps {
   publishedAt?: string;
   heroImage?: string;
   category?: string;
+  readMoreText?: string;
 }
 
 function formatDate(iso?: string) {
@@ -71,6 +72,7 @@ export function AngelNumberCard({
   publishedAt,
   heroImage,
   category = "Angel Number",
+  readMoreText = "Read More",
 }: AngelNumberCardProps) {
   const displayNumber = getDisplayNumber(number, slug, title);
   const href = `/library/angel-numbers/${slug}`;
@@ -151,7 +153,7 @@ export function AngelNumberCard({
 
         {/* Read More link */}
         <div className="mt-2.5 pt-2 border-t border-[#f4e9dd] flex items-center gap-1 text-[11px] font-semibold text-stone-700 group-hover:text-saffron-deep transition-colors">
-          <span>Read More</span>
+          <span>{readMoreText}</span>
           <ArrowRight className="w-3 h-3 transition-transform duration-200 group-hover:translate-x-1" />
         </div>
       </div>

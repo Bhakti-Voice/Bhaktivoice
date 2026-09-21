@@ -4,7 +4,11 @@ import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { hubMetadata } from "@/lib/i18n/hub";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { FaqList } from "@/components/seo/FaqList";
 import { PATHS } from "@/lib/seo/paths";
+import { SITE } from "@/lib/seo/site";
+import { getLocale } from "@/lib/i18n/server";
+import { getLibraryContent } from "@/lib/library/library-content";
 
 export const revalidate = 1800;
 
@@ -12,70 +16,34 @@ export async function generateMetadata(): Promise<Metadata> {
   return hubMetadata("library");
 }
 
-export default function LibraryHubPage() {
+const iconMap = {
+  sparkles: Sparkles,
+  compass: Compass,
+  moon: Moon,
+  eye: Eye,
+};
+
+export default async function LibraryHubPage() {
+  const currentLocale = await getLocale();
+  const content = getLibraryContent(currentLocale);
+
   // Breadcrumbs: strictly follow Home -> Library
   const breadcrumbs = [
-    { name: "Home", href: "/" },
-    { name: "Library", href: PATHS.library },
-  ];
-
-  const libraryCollections = [
-    {
-      title: "Angel Numbers & Sacred Numerology",
-      subtitle: "Divine whispers and repeating number sequences",
-      description:
-        "Explore comprehensive spiritual meanings for angel numbers like 500, 555, 777, and 1111. Learn how the universe communicates with you through synchronicities, love guidance, and life direction.",
-      href: PATHS.angelNumbers,
-      badge: "Active Collection",
-      icon: Sparkles,
-      active: true,
-      buttonText: "Explore Angel Numbers",
-    },
-    {
-      title: "Sacred Yantras & Divine Geometry",
-      subtitle: "Mystical diagrams for meditation and concentration",
-      description:
-        "Discover ancient sacred geometry representations of mantras and cosmic principles for household altars and mental clarity.",
-      href: "#",
-      badge: "Coming Soon",
-      icon: Compass,
-      active: false,
-      buttonText: "In Preparation",
-    },
-    {
-      title: "Vedic Dream Meanings (Swapna Shastra)",
-      subtitle: "Sacred interpretations of spiritual visions",
-      description:
-        "Understand auspicious signs, sacred animals, and temple visions experienced during sleep according to timeless Vedic traditions.",
-      href: "#",
-      badge: "Coming Soon",
-      icon: Moon,
-      active: false,
-      buttonText: "In Preparation",
-    },
-    {
-      title: "Chakra Wisdom & Energy Alignment",
-      subtitle: "Balancing the subtle body through devotion",
-      description:
-        "Gentle guides to understanding the seven sacred energy vortices, paired with japa, sacred sound vibrations, and breath awareness.",
-      href: "#",
-      badge: "Coming Soon",
-      icon: Eye,
-      active: false,
-      buttonText: "In Preparation",
-    },
+    { name: content.homeLabel, href: "/" },
+    { name: content.libraryLabel, href: PATHS.library },
   ];
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
-      {/* JSON-LD Schema */}
+      {/* JSON-LD Schema: CollectionPage */}
       <JsonLd
         data={{
           "@context": "https://schema.org",
           "@type": "CollectionPage",
-          name: "BhaktiVoice Spiritual Library",
-          description: "Explore sacred wisdom collections, divine angel numbers, and spiritual guidance.",
-          url: "https://bhaktivoice.com/library",
+          name: `BhaktiVoice ${content.title}`,
+          description: content.description,
+          url: `${SITE.url}${currentLocale === "en" ? PATHS.library : `/${currentLocale}${PATHS.library}`}`,
+          inLanguage: currentLocale,
         }}
       />
 
@@ -89,25 +57,24 @@ export default function LibraryHubPage() {
         <div className="max-w-3xl">
           <div className="inline-flex items-center gap-2 rounded-full bg-[#fdf0ec] px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-[#b8532f] border border-[#fae2da] mb-4">
             <BookOpen className="w-3.5 h-3.5" />
-            <span>Spiritual Knowledge Hub</span>
+            <span>{content.heroBadge}</span>
           </div>
           <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#2c1810]">
-            Spiritual Library
+            {content.title}
           </h1>
           <p className="mt-3 text-base sm:text-lg font-serif font-medium text-amber-900/85">
-            Sacred Wisdom, Divine Symbols & Inner Guidance
+            {content.subtitle}
           </p>
           <p className="mt-3 text-sm sm:text-base text-stone-600 leading-relaxed">
-            Welcome to the BhaktiVoice Library. We curate sacred wisdom, recurring celestial signs,
-            angelic synchronicities, and meditative companions designed to ground your daily life in devotion and clarity.
+            {content.description}
           </p>
         </div>
       </div>
 
       {/* Collections Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-        {libraryCollections.map((col, idx) => {
-          const IconComponent = col.icon;
+        {content.collections.map((col, idx) => {
+          const IconComponent = iconMap[col.iconName] || Sparkles;
           return (
             <div
               key={idx}
@@ -168,6 +135,16 @@ export default function LibraryHubPage() {
             </div>
           );
         })}
+      </div>
+
+      {/* 10 Detailed High-Rich Keyword FAQs */}
+      <div className="mt-14 border-t border-[#ebdccb]/60 pt-10">
+        <FaqList
+          faqs={content.faqs}
+          title={content.faqTitle}
+          jsonLd={true}
+          className="mt-0"
+        />
       </div>
     </div>
   );

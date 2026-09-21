@@ -1,4 +1,10 @@
-export function AngelNumberHeroCard() {
+export function AngelNumberHeroCard({
+  quote = "Numbers are whispers from the divine.",
+  quoteSub = "Learn to listen.",
+}: {
+  quote?: string;
+  quoteSub?: string;
+} = {}) {
   return (
     <div className="relative flex flex-col items-center justify-center text-center px-2 py-0.5 select-none pointer-events-none">
       {/* Angel wings SVG illustration with glowing center lotus */}
@@ -74,10 +80,10 @@ export function AngelNumberHeroCard() {
       {/* Quote matching original reference image */}
       <blockquote className="-mt-1 space-y-0.5 text-center">
         <p className="font-serif text-[13px] sm:text-[14px] font-medium text-[#7d4427] leading-snug tracking-normal">
-          &ldquo;Numbers are whispers from the divine.&rdquo;
+          &ldquo;{quote}&rdquo;
         </p>
         <p className="font-serif text-[11.5px] sm:text-[12px] italic text-[#99583b]">
-          Learn to listen.
+          {quoteSub}
         </p>
         <div className="text-amber-700/70 text-[9px] select-none pt-0.5">
           ✦

@@ -8,28 +8,29 @@ import { AngelNumberCard } from "./AngelNumberCard";
 import { AngelNumberHeroCard } from "./AngelNumberHeroCard";
 import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { useLocale } from "@/lib/i18n/client";
+import type { AngelNumbersPageContent } from "@/lib/library/angel-numbers-content";
+import { getAngelNumbersContent } from "@/lib/library/angel-numbers-content";
 
 export interface AngelNumberListingProps {
   items: AngelNumberPage[];
   locale?: string;
+  content?: AngelNumbersPageContent;
 }
 
-export function AngelNumberListing({ items }: AngelNumberListingProps) {
+export function AngelNumberListing({ items, locale, content: propContent }: AngelNumberListingProps) {
   const currentLocale = useLocale();
+  const c = propContent || getAngelNumbersContent((locale || currentLocale) as any);
+
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [sortOrder, setSortOrder] = useState<"latest" | "num_asc" | "num_desc">("latest");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   // Breadcrumbs: strictly follow user request: Home -> Library -> Angel Numbers
-  const homeLabel = currentLocale === "te" ? "హోమ్" : currentLocale === "hi" ? "होम" : "Home";
-  const libraryLabel = currentLocale === "te" ? "లైబ్రరీ" : currentLocale === "hi" ? "लाइब्रेरी" : "Library";
-  const angelLabel = currentLocale === "te" ? "దేవదూత సంఖ్యలు" : currentLocale === "hi" ? "एंजेल नंबर्स" : "Angel Numbers";
-
   const breadcrumbs = [
-    { name: homeLabel, href: "/" },
-    { name: libraryLabel, href: "/library" },
-    { name: angelLabel, href: "/library/angel-numbers" },
+    { name: c.homeLabel, href: "/" },
+    { name: c.libraryLabel, href: "/library" },
+    { name: c.angelLabel, href: "/library/angel-numbers" },
   ];
 
   // Helper to get raw numeric value
@@ -38,6 +39,14 @@ export function AngelNumberListing({ items }: AngelNumberListingProps) {
     const m = item.slug?.match(/(\d+)/) || item.title?.match(/(\d+)/);
     return m ? Number(m[1]) : 0;
   };
+
+  // Localized default category
+  const defaultCategory =
+    currentLocale === "te"
+      ? "దేవదూత సంఖ్య"
+      : currentLocale === "hi"
+      ? "एंजेल नंबर"
+      : "Angel Number";
 
   // Filtered and sorted items
   const filtered = useMemo(() => {
@@ -99,20 +108,19 @@ export function AngelNumberListing({ items }: AngelNumberListingProps) {
         {/* Left Column: Heading, Subtitle & Description */}
         <div className="max-w-xl">
           <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#2b1712]">
-            Angel Numbers
+            {c.title}
           </h1>
           <p className="mt-1 text-sm sm:text-base font-serif font-medium text-[#7d4b31]">
-            Divine messages in numbers to guide your life
+            {c.subtitle}
           </p>
           <p className="mt-1.5 text-xs sm:text-[13px] text-stone-600 max-w-lg leading-relaxed">
-            Angel numbers are repeating number sequences believed to carry guidance from the universe
-            and your guardian angels. Explore their meanings and discover the message meant for you.
+            {c.description}
           </p>
         </div>
 
         {/* Right Column: Ethereal floating wings & quote */}
         <div className="shrink-0 flex justify-center md:justify-end">
-          <AngelNumberHeroCard />
+          <AngelNumberHeroCard quote={c.heroQuote} quoteSub={c.heroQuoteSub} />
         </div>
       </div>
 
@@ -125,7 +133,7 @@ export function AngelNumberListing({ items }: AngelNumberListingProps) {
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search angel numbers..."
+            placeholder={c.searchPlaceholder}
             className="w-full h-8.5 pl-8 pr-7 text-xs bg-white rounded-full border border-[#ebdccb] text-[#2c1810] placeholder:text-stone-400 outline-none focus:border-amber-500 shadow-2xs transition-all"
           />
           {search ? (
@@ -146,9 +154,9 @@ export function AngelNumberListing({ items }: AngelNumberListingProps) {
             onChange={(e) => setCategoryFilter(e.target.value)}
             className="h-8.5 px-3 pr-7 text-xs font-medium bg-white rounded-full border border-[#ebdccb] text-[#2c1810] outline-none focus:border-amber-500 cursor-pointer shadow-2xs"
           >
-            <option value="all">All Articles</option>
-            <option value="repeating">Repeating (555, 777...)</option>
-            <option value="hundreds">3-Digit (100–999)</option>
+            <option value="all">{c.categories.all}</option>
+            <option value="repeating">{c.categories.repeating}</option>
+            <option value="hundreds">{c.categories.hundreds}</option>
           </select>
 
           {/* Sort Filter */}
@@ -157,9 +165,9 @@ export function AngelNumberListing({ items }: AngelNumberListingProps) {
             onChange={(e) => setSortOrder(e.target.value as any)}
             className="h-8.5 px-3 pr-7 text-xs font-medium bg-white rounded-full border border-[#ebdccb] text-[#2c1810] outline-none focus:border-amber-500 cursor-pointer shadow-2xs"
           >
-            <option value="latest">Latest First</option>
-            <option value="num_asc">Number: Low to High</option>
-            <option value="num_desc">Number: High to Low</option>
+            <option value="latest">{c.sortOptions.latest}</option>
+            <option value="num_asc">{c.sortOptions.numAsc}</option>
+            <option value="num_desc">{c.sortOptions.numDesc}</option>
           </select>
 
           {/* Grid / List View Toggle */}
@@ -207,7 +215,8 @@ export function AngelNumberListing({ items }: AngelNumberListingProps) {
                 excerpt={item.excerpt || item.introduction}
                 publishedAt={item.publishedAt}
                 heroImage={item.heroImage}
-                category={item.category || "Angel Number"}
+                category={item.category || defaultCategory}
+                readMoreText={c.readMore}
               />
             ))}
           </div>
@@ -226,7 +235,7 @@ export function AngelNumberListing({ items }: AngelNumberListingProps) {
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <span className="rounded-full bg-[#fdf0ec] px-2 py-0.5 text-[10px] font-semibold text-[#b8532f]">
-                        {item.category || "Angel Number"}
+                        {item.category || defaultCategory}
                       </span>
                       <span className="text-[11px] text-stone-500">
                         {item.publishedAt || "Aug 11, 2026"}
@@ -241,7 +250,7 @@ export function AngelNumberListing({ items }: AngelNumberListingProps) {
                   </div>
                 </div>
                 <div className="shrink-0 text-xs font-semibold text-stone-700 group-hover:text-saffron-deep transition-colors sm:pr-2">
-                  Read More &rarr;
+                  {c.readMore} &rarr;
                 </div>
               </LocaleLink>
             ))}
@@ -254,10 +263,10 @@ export function AngelNumberListing({ items }: AngelNumberListingProps) {
             <Sparkles className="h-6 w-6" />
           </div>
           <h3 className="font-serif text-lg font-bold text-[#2c1810]">
-            No Angel Numbers Found
+            {c.emptyTitle}
           </h3>
           <p className="mt-1 text-xs sm:text-sm text-stone-600">
-            We couldn&apos;t find any angel number matching &ldquo;{search}&rdquo;. Try searching for numbers like &ldquo;500&rdquo;, &ldquo;555&rdquo;, or &ldquo;777&rdquo;.
+            {c.emptyDesc}
           </p>
           <button
             type="button"
@@ -267,7 +276,7 @@ export function AngelNumberListing({ items }: AngelNumberListingProps) {
             }}
             className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-saffron text-white text-xs font-semibold hover:bg-saffron-deep transition-colors cursor-pointer"
           >
-            Clear Search
+            {c.clearSearch}
           </button>
         </div>
       )}
