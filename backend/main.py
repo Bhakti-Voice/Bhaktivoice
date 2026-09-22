@@ -173,6 +173,7 @@ def _parse_jaap_day(raw: object) -> str:
         parsed = date.fromisoformat(text)
     except ValueError:
         return today()
+    today_d = date.fromisoformat(today())
     if abs((parsed - today_d).days) > 1:
         return today()
     return parsed.isoformat()
