@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { KundliTool } from "@/components/spiritual-tools/KundliTool";
-import { PageHero } from "@/components/layout/PageHero";
-import { FaqList } from "@/components/seo/FaqList";
+import { KundliHero } from "@/components/spiritual-tools/KundliHero";
+import { KundliFaqSection } from "@/components/spiritual-tools/KundliFaqSection";
+import { KundliEditorialContent } from "@/components/spiritual-tools/KundliEditorialContent";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getLocale, getMessages } from "@/lib/i18n/server";
-import { localizedCrumbs } from "@/lib/seo/crumbs";
 import { localizedMetadata } from "@/lib/seo/metadata";
 import { PATHS } from "@/lib/seo/paths";
 import { SITE } from "@/lib/seo/site";
@@ -47,9 +47,11 @@ export default async function KundliPage() {
   const isHi = locale === "hi";
   const isTe = locale === "te";
   const faqs = isTe ? [...SPIRITUAL_TOOL_FAQS_TE.kundli] : isHi ? [...SPIRITUAL_TOOL_FAQS_HI.kundli] : [...SPIRITUAL_TOOL_FAQS.kundli];
+  const canonicalUrl = `${SITE.url}${isTe ? "/te" : isHi ? "/hi" : ""}${PATHS.kundli}`;
 
   return (
-    <div>
+    <div className="min-h-screen bg-[#fffdfa]">
+      {/* Schema.org WebApplication Structured Data */}
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -72,6 +74,36 @@ export default async function KundliPage() {
           },
         }}
       />
+
+      {/* Schema.org BreadcrumbList */}
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: isTe ? "హోమ్" : isHi ? "होम" : "Home",
+              item: `${SITE.url}${isTe ? "/te" : isHi ? "/hi" : ""}`,
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: isTe ? "ఆధ్యాత్మిక సాధనాలు" : isHi ? "आध्यात्मिक उपकरण" : "Spiritual Tools",
+              item: `${SITE.url}${isTe ? "/te" : isHi ? "/hi" : ""}${PATHS.spiritualTools}`,
+            },
+            {
+              "@type": "ListItem",
+              position: 3,
+              name: isTe ? "ఉచిత కుండలి" : isHi ? "मुफ्त कुंडली" : "Free Kundli",
+              item: canonicalUrl,
+            },
+          ],
+        }}
+      />
+
+      {/* Schema.org FAQPage */}
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -87,28 +119,15 @@ export default async function KundliPage() {
         }}
       />
 
-      <PageHero
-        title={isHi ? "मुफ्त ऑनलाइन जन्म कुंडली" : "Free Online Janam Kundli"}
-        subtitle={
-          isHi
-            ? "सटीक वैदिक जन्म पत्रिका, लग्न, ग्रह स्थिति, मांगलिक दोष एवं विंशोत्तरी महादशा। 100% सुरक्षित एवं निजी।"
-            : "Accurate Vedic horoscope generator with Ascendant, Moon sign, 12 Houses, Manglik analysis, and Vimshottari Dasha. 100% private."
-        }
-        hub="spirituality"
-        crumbs={localizedCrumbs(
-          t.homeName,
-          [isHi ? "आध्यात्मिक उपकरण" : t.nav.spiritualTools, PATHS.spiritualTools],
-          [isHi ? "जन्म कुंडली" : t.spiritualTools.tools.kundli.title, PATHS.kundli],
-        )}
-      />
-      <div className="mx-auto max-w-6xl px-4 py-8 lg:px-8 lg:pb-16">
-        <KundliTool />
-        <FaqList
-          faqs={faqs}
-          title={isHi ? "जन्म कुंडली से संबंधित अक्सर पूछे जाने वाले प्रश्न" : t.common.faqTitle}
-          className="mt-12"
-        />
-      </div>
+      {/* Hero Section Matching User Mockup */}
+      <KundliHero isHi={isHi} isTe={isTe} />
+
+      {/* Main Kundli Tool Container */}
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
+        <KundliTool isHi={isHi} isTe={isTe} />
+        <KundliEditorialContent isHi={isHi} isTe={isTe} />
+        <KundliFaqSection isHi={isHi} isTe={isTe} />
+      </main>
     </div>
   );
 }

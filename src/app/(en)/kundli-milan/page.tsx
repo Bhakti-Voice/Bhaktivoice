@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { KundliMilanTool } from "@/components/spiritual-tools/KundliMilanTool";
-import { PageHero } from "@/components/layout/PageHero";
-import { FaqList } from "@/components/seo/FaqList";
+import { KundliMilanHero } from "@/components/spiritual-tools/KundliMilanHero";
+import { KundliMilanFaqSection } from "@/components/spiritual-tools/KundliMilanFaqSection";
+import { KundliMilanEditorialContent } from "@/components/spiritual-tools/KundliMilanEditorialContent";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getLocale, getMessages } from "@/lib/i18n/server";
-import { localizedCrumbs } from "@/lib/seo/crumbs";
 import { localizedMetadata } from "@/lib/seo/metadata";
 import { PATHS } from "@/lib/seo/paths";
 import { SITE } from "@/lib/seo/site";
@@ -27,12 +27,12 @@ export async function generateMetadata(): Promise<Metadata> {
       ? "ఉచిత కుండలి మిలనం — 36 గుణాల జాతక పొంతన & వివాహ పొంతన ఆన్‌లైన్"
       : isHi
       ? "मुफ्त कुंडली मिलान — 36 गुण मिलान, नाड़ी दोष एवं मांगलिक मिलान ऑनलाइन"
-      : "Free Kundli Milan — 36 Guna Matching & Marriage Compatibility Online",
+      : "Free Kundli Milan Online — 36 Guna Matching & Marriage Compatibility",
     description: isTe
-      ? "వివాహం కోసం ఖచ్చితమైన 36 గుణాల అష్టకూట మిలనం ఆన్‌లైన్‌లో పొందండి. నాడీ దోషం, భకూట్ దోష నివారణ, మాంగ్లిక్ పొంతన మరియు సమగ్ర నివేదిక."
+      ? "వివాహం కోసం ఖచ్చితమైన 36 గుణాల అష్టకూట మిలనం ఆన్‌లైన్‌లో పొందండి. నాడీ దోషం, భకూట్ దోష నివారణ, మాంగ్లిక్ పొంతన మరియు సమగ్ర నివేదిక. 100% ఉచితం మరియు గోప్యమైనది."
       : isHi
-      ? "विवाह हेतु प्रामाणिक 36 गुण अष्टकूट मिलान ऑनलाइन करें। वर्ण, वश्य, तारा, योनि, ग्रह मैत्री, गण, भकूट एवं नाड़ी दोष परिहार सहित सम्पूर्ण मिलान रिपोर्ट। 100% सुरक्षित।"
-      : "Free online Kundli Milan for marriage. Accurate 36 Guna Ashtakoot matching with Nadi Dosha, Bhakoot Dosha cancellation, Manglik match, and compatibility score.",
+      ? "विवाह हेतु प्रामाणिक 36 गुण अष्टकूट मिलान ऑनलाइन करें। वर्ण, वश्य, तारा, योनि, ग्रह मैत्री, गण, भकूट एवं नाड़ी दोष परिहार सहित सम्पूर्ण मिलान रिपोर्ट। 100% सुरक्षित और गोपनीय।"
+      : "Free online Kundli Milan for marriage. Accurate 36 Guna Ashtakoot matching with Nadi Dosha, Bhakoot Dosha cancellation, Manglik match, and compatibility score. 100% free and private.",
     path: PATHS.kundliMilan,
     keywords: isTe
       ? [...SPIRITUAL_TOOL_KEYWORDS.milanTe]
@@ -47,9 +47,11 @@ export default async function KundliMilanPage() {
   const isHi = locale === "hi";
   const isTe = locale === "te";
   const faqs = isTe ? [...SPIRITUAL_TOOL_FAQS_TE.milan] : isHi ? [...SPIRITUAL_TOOL_FAQS_HI.milan] : [...SPIRITUAL_TOOL_FAQS.milan];
+  const canonicalUrl = `${SITE.url}${isTe ? "/te" : isHi ? "/hi" : ""}${PATHS.kundliMilan}`;
 
   return (
-    <div>
+    <div className="min-h-screen bg-[#fffdfa]">
+      {/* Schema.org WebApplication Structured Data */}
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -72,6 +74,36 @@ export default async function KundliMilanPage() {
           },
         }}
       />
+
+      {/* Schema.org BreadcrumbList */}
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: isTe ? "హోమ్" : isHi ? "होम" : "Home",
+              item: `${SITE.url}${isTe ? "/te" : isHi ? "/hi" : ""}`,
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: isTe ? "ఆధ్యాత్మిక సాధనాలు" : isHi ? "आध्यात्मिक उपकरण" : "Spiritual Tools",
+              item: `${SITE.url}${isTe ? "/te" : isHi ? "/hi" : ""}${PATHS.spiritualTools}`,
+            },
+            {
+              "@type": "ListItem",
+              position: 3,
+              name: isTe ? "కుండలి మిలనం" : isHi ? "कुंडली मिलान" : "Kundli Milan",
+              item: canonicalUrl,
+            },
+          ],
+        }}
+      />
+
+      {/* Schema.org FAQPage */}
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -87,28 +119,15 @@ export default async function KundliMilanPage() {
         }}
       />
 
-      <PageHero
-        title={isHi ? "36 गुण कुंडली मिलान" : "36 Guna Kundli Milan"}
-        subtitle={
-          isHi
-            ? "विवाह अनुकूलता हेतु पारंपरिक अष्टकूट गुण मिलान, नाड़ी दोष, भकूट दोष एवं मांगलिक सामंजस्य रिपोर्ट। 100% सुरक्षित।"
-            : "Traditional Vedic Ashtakoot matchmaking with 36 Gunas, Nadi & Bhakoot dosha cancellation, and Manglik harmony. 100% private."
-        }
-        hub="community"
-        crumbs={localizedCrumbs(
-          t.homeName,
-          [isHi ? "आध्यात्मिक उपकरण" : t.nav.spiritualTools, PATHS.spiritualTools],
-          [isHi ? "कुंडली मिलान" : t.spiritualTools.tools.milan.title, PATHS.kundliMilan],
-        )}
-      />
-      <div className="mx-auto max-w-6xl px-4 py-8 lg:px-8 lg:pb-16">
-        <KundliMilanTool />
-        <FaqList
-          faqs={faqs}
-          title={isHi ? "कुंडली मिलान से संबंधित अक्सर पूछे जाने वाले प्रश्न" : t.common.faqTitle}
-          className="mt-12"
-        />
-      </div>
+      {/* Hero Section Matching Premium Kundli Design */}
+      <KundliMilanHero isHi={isHi} isTe={isTe} />
+
+      {/* Main Container */}
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
+        <KundliMilanTool isHi={isHi} isTe={isTe} />
+        <KundliMilanEditorialContent isHi={isHi} isTe={isTe} />
+        <KundliMilanFaqSection isHi={isHi} isTe={isTe} />
+      </main>
     </div>
   );
 }
