@@ -140,7 +140,7 @@ export async function Footer() {
           <p>
             © {new Date().getFullYear()} Bhakti Voice. {t.footerCredit}
           </p>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <a
               href="https://www.showmysites.com"
               target="_blank"
@@ -153,6 +153,30 @@ export async function Footer() {
                 alt="ShowMySites Badge"
                 width="40"
                 height="40"
+              />
+            </a>
+            <a
+              href="https://codehype.ai/product/bhakti-voice?utm_source=codehype_badge"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center transition-opacity hover:opacity-80"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="https://codehype.ai/badges/bhakti-voice.svg?variant=find-us&v=20"
+                alt="Featured on CodeHype"
+                width="180"
+                height="65"
+                loading="lazy"
+                decoding="async"
+                style={{
+                  display: "inline-block",
+                  border: 0,
+                  width: "100%",
+                  maxWidth: "180px",
+                  height: "auto",
+                  maxHeight: "65px",
+                }}
               />
             </a>
             <p>{t.madeInIndia}</p>
