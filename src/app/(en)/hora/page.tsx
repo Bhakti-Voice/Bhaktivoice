@@ -191,9 +191,10 @@ export default async function HoraPage({
         }
         hub="spirituality"
         crumbs={localizedCrumbs(
-          t.homeName,
+          isTe ? "హోమ్" : isHi ? "होम" : t.homeName,
+          [isTe ? "ఆధ్యాత్మిక సాధనాలు" : isHi ? "आध्यात्मिक उपकरण" : t.nav.spiritualTools, PATHS.spiritualTools],
           [isTe ? "శుభ ముహూర్తాలు" : isHi ? "शुभ मुहूर्त" : "Muhurat", PATHS.muhurat],
-          [isHi ? "ग्रह होरा" : "Planetary Hora", PATHS.hora],
+          [isTe ? "గ్రహ హోరా" : isHi ? "ग्रह होरा" : "Planetary Hora", PATHS.hora],
         )}
       />
 

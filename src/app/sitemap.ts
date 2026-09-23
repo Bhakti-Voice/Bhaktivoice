@@ -29,23 +29,23 @@ const DETAILED_MONTH_YEARS = ["2026", "2027", "2028"];
 const HUBS: { path: string; changeFrequency: MetadataRoute.Sitemap[0]["changeFrequency"]; priority: number }[] = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
   { path: PATHS.gita, changeFrequency: "daily", priority: 0.95 },
-  { path: PATHS.calendar, changeFrequency: "daily", priority: 0.95 },
-  { path: PATHS.panchang, changeFrequency: "daily", priority: 0.95 },
-  { path: PATHS.panchangToday, changeFrequency: "daily", priority: 0.95 },
-  { path: PATHS.panchangTomorrow, changeFrequency: "daily", priority: 0.9 },
-  { path: PATHS.panchangYesterday, changeFrequency: "daily", priority: 0.7 },
-  { path: PATHS.spiritualTools, changeFrequency: "weekly", priority: 0.9 },
-  { path: PATHS.suvicharMaker, changeFrequency: "daily", priority: 0.85 },
-  { path: PATHS.kundli, changeFrequency: "weekly", priority: 0.85 },
-  { path: PATHS.kundliMilan, changeFrequency: "weekly", priority: 0.85 },
+  { path: PATHS.calendar, changeFrequency: "daily", priority: 0.98 },
+  { path: PATHS.panchang, changeFrequency: "daily", priority: 0.98 },
+  { path: PATHS.panchangToday, changeFrequency: "daily", priority: 1.0 },
+  { path: PATHS.panchangTomorrow, changeFrequency: "daily", priority: 0.95 },
+  { path: PATHS.panchangYesterday, changeFrequency: "daily", priority: 0.8 },
+  { path: PATHS.spiritualTools, changeFrequency: "daily", priority: 0.95 },
+  { path: PATHS.suvicharMaker, changeFrequency: "daily", priority: 0.95 },
+  { path: PATHS.kundli, changeFrequency: "daily", priority: 0.98 },
+  { path: PATHS.kundliMilan, changeFrequency: "daily", priority: 0.98 },
   { path: PATHS.muhurat, changeFrequency: "daily", priority: 0.95 },
   { path: PATHS.choghadiya, changeFrequency: "daily", priority: 0.95 },
   { path: PATHS.panchak, changeFrequency: "daily", priority: 0.95 },
   { path: PATHS.bhadra, changeFrequency: "daily", priority: 0.95 },
   { path: PATHS.hora, changeFrequency: "daily", priority: 0.95 },
   { path: PATHS.gowriPanchangam, changeFrequency: "daily", priority: 0.95 },
-  { path: PATHS.babyNames, changeFrequency: "weekly", priority: 0.9 },
-  { path: PATHS.printableCalendar, changeFrequency: "weekly", priority: 0.9 },
+  { path: PATHS.babyNames, changeFrequency: "weekly", priority: 0.95 },
+  { path: PATHS.printableCalendar, changeFrequency: "weekly", priority: 0.95 },
   { path: PATHS.grahaSthiti, changeFrequency: "daily", priority: 0.95 },
   { path: PATHS.gochar, changeFrequency: "daily", priority: 0.95 },
   { path: PATHS.sadeSati, changeFrequency: "weekly", priority: 0.95 },
@@ -54,7 +54,7 @@ const HUBS: { path: string; changeFrequency: MetadataRoute.Sitemap[0]["changeFre
   { path: PATHS.manglikDosha, changeFrequency: "weekly", priority: 0.95 },
   { path: PATHS.kaalSarpDosha, changeFrequency: "weekly", priority: 0.95 },
   { path: PATHS.vratUpavas, changeFrequency: "daily", priority: 0.95 },
-  { path: PATHS.grahan, changeFrequency: "weekly", priority: 0.85 },
+  { path: PATHS.grahan, changeFrequency: "weekly", priority: 0.95 },
   { path: PATHS.naamJaap, changeFrequency: "weekly", priority: 0.9 },
   { path: PATHS.blog, changeFrequency: "weekly", priority: 0.85 },
   { path: PATHS.katha, changeFrequency: "weekly", priority: 0.85 },
@@ -66,8 +66,8 @@ const HUBS: { path: string; changeFrequency: MetadataRoute.Sitemap[0]["changeFre
   { path: PATHS.spirituality, changeFrequency: "weekly", priority: 0.8 },
   { path: PATHS.community, changeFrequency: "weekly", priority: 0.6 },
   { path: PATHS.store, changeFrequency: "weekly", priority: 0.6 },
-  { path: PATHS.tithi, changeFrequency: "daily", priority: 0.7 },
-  { path: PATHS.quotes, changeFrequency: "weekly", priority: 0.6 },
+  { path: PATHS.tithi, changeFrequency: "daily", priority: 0.8 },
+  { path: PATHS.quotes, changeFrequency: "weekly", priority: 0.7 },
   { path: PATHS.more, changeFrequency: "monthly", priority: 0.4 },
   { path: PATHS.bhajan, changeFrequency: "weekly", priority: 0.7 },
   { path: PATHS.aarti, changeFrequency: "weekly", priority: 0.7 },
@@ -101,7 +101,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         url,
         lastModified,
         changeFrequency,
-        priority: locale === "hi" || locale === "te" ? Math.max(0.3, priority - 0.05) : priority,
+        priority: locale === "hi" || locale === "te" ? Number(Math.max(0.3, priority - 0.05).toFixed(2)) : priority,
         alternates: { languages: alts },
       });
     }
@@ -157,7 +157,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     add(`/bhagavad-gita/chapter-${i}`, today, "monthly", 0.9);
   }
 
-  // 6. CMS Dynamic Entries
+  // 8. Angel Numbers detail pages
+  try {
+    const { listAngelNumbers } = await import("@/lib/content");
+    const angelNumbers = await listAngelNumbers();
+    if (Array.isArray(angelNumbers)) {
+      for (const item of angelNumbers) {
+        if (item?.slug) {
+          add(`${PATHS.angelNumbers}/${item.slug}`, item.updatedAt || today, "weekly", 0.85);
+        }
+      }
+    }
+  } catch {
+    // Non-blocking fallback if CMS is unavailable
+  }
+
+  // 9. CMS Dynamic Entries
   const cms = await sitemapEntries();
   for (const item of cms) {
     add(item.url, item.lastModified, item.changeFrequency, item.priority);

@@ -147,9 +147,10 @@ export default async function EkadashiPage() {
       ];
 
   const crumbs = localizedCrumbs(
-    t.homeName,
-    [isHi ? "व्रत एवं उपवास" : "Vrat & Upavas", PATHS.vratUpavas],
-    [isHi ? "एकादशी व्रत व पारणा समय" : "Ekadashi Parana Timings", `${PATHS.vratUpavas}/ekadashi`]
+    isTe ? "హోమ్" : isHi ? "होम" : t.homeName,
+    [isTe ? "ఆధ్యాత్మిక సాధనాలు" : isHi ? "आध्यात्मिक उपकरण" : t.nav.spiritualTools, PATHS.spiritualTools],
+    [isTe ? "వ్రతాలు & ఉపవాసాలు" : isHi ? "व्रत एवं उपवास" : "Vrat & Upavas", PATHS.vratUpavas],
+    [isTe ? "ఏకాదశి" : isHi ? "एकादशी" : "Ekadashi", `${PATHS.vratUpavas}/ekadashi`]
   );
 
   return (
@@ -158,10 +159,16 @@ export default async function EkadashiPage() {
         data={{
           "@context": "https://schema.org",
           "@type": "WebApplication",
-          name: isHi ? "एकादशी पारणा समय कैलकुलेटर" : "Ekadashi Parana Timings Calculator",
+          name: isTe
+            ? "ఏకాదశి పారణ సమయ కాలిక్యులేటర్"
+            : isHi
+            ? "एकादशी पारणा समय कैलकुलेटर"
+            : "Ekadashi Parana Timings Calculator",
           applicationCategory: "LifestyleApplication",
           operatingSystem: "All",
-          description: isHi
+          description: isTe
+            ? "అన్ని 24 ఏకాదశులకు ఖచ్చితమైన ఉదయకాల పారణ సమయాలు, హరివాసర ముగింపు మరియు వ్రత తేదీలు."
+            : isHi
             ? "सभी २४ एकादशियों के लिए सटीक प्रातःकालीन पारणा समय, हरिवासर समाप्ति व व्रत तिथियां।"
             : "Accurate morning Parana timings, Hari Vasara end times, and fasting schedules for all 24 Ekadashis.",
           publisher: {
@@ -188,12 +195,16 @@ export default async function EkadashiPage() {
 
       <PageHero
         title={
-          isHi
+          isTe
+            ? `ఏకాదశి వ్రతం & పారణ సమయాలు ${currentYear}`
+            : isHi
             ? `एकादशी व्रत एवं पारणा समय ${currentYear}`
             : `Ekadashi Vrat & Parana Timings ${currentYear}`
         }
         subtitle={
-          isHi
+          isTe
+            ? "శాస్త్రోక్త పారణ ముహూర్తం, హరివాసర ముగింపు, ద్వాదశి సమయం మరియు స్మార్త-వైష్ణవ వ్రత సమగ్ర జాబితా."
+            : isHi
             ? "शास्त्रोक्त सटीक पारणा मुहूर्त, हरिवासर समाप्ति, द्वादशी समय एवं स्मार्त-वैष्णव व्रत सूची।"
             : "Scriptural Parana micro-windows, Hari Vasara end times, Dwadashi boundaries, and Smarta-Vaishnava schedules."
         }

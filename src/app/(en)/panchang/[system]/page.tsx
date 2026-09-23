@@ -7,6 +7,7 @@ import { LocaleLink } from "@/components/i18n/LocaleLink";
 import { getLocale } from "@/lib/i18n/server";
 import { localizedCrumbs } from "@/lib/seo/crumbs";
 import { localizedMetadata } from "@/lib/seo/metadata";
+import { PATHS } from "@/lib/seo/paths";
 import { SITE } from "@/lib/seo/site";
 import {
   ALL_REGIONAL_SLUGS,
@@ -105,35 +106,9 @@ export default async function RegionalPanchangPage({ params }: PageProps) {
     })),
   };
 
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: isHi ? "होम" : "Home",
-        item: SITE.url,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: isHi ? "पंचांग" : "Panchang",
-        item: `${SITE.url}/panchang/today`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: isHi ? sys.titleHi : sys.titleEn,
-        item: `${SITE.url}/panchang/${sys.slug}`,
-      },
-    ],
-  };
-
   return (
     <>
       <JsonLd data={faqSchema} />
-      <JsonLd data={breadcrumbSchema} />
 
       <PageHero
         title={isHi ? sys.titleHi : sys.titleEn}
@@ -146,18 +121,21 @@ export default async function RegionalPanchangPage({ params }: PageProps) {
           isTe
             ? localizedCrumbs(
                 "హోమ్",
-                ["పంచాంగం", "/panchang/today"],
+                ["ఆధ్యాత్మిక సాధనాలు", PATHS.spiritualTools],
+                ["పంచాంగం", PATHS.panchangToday],
                 [sys.slug === "telugu-panchangam" ? "తెలుగు పంచాంగం" : sys.titleEn, `/panchang/${sys.slug}`]
               )
             : isHi
             ? localizedCrumbs(
                 "होम",
-                ["पंचांग", "/panchang/today"],
+                ["आध्यात्मिक उपकरण", PATHS.spiritualTools],
+                ["पंचांग", PATHS.panchangToday],
                 [sys.titleHi, `/panchang/${sys.slug}`]
               )
             : localizedCrumbs(
                 "Home",
-                ["Panchang", "/panchang/today"],
+                ["Spiritual Tools", PATHS.spiritualTools],
+                ["Panchang", PATHS.panchangToday],
                 [sys.titleEn, `/panchang/${sys.slug}`]
               )
         }

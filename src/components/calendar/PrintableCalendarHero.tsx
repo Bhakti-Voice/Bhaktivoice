@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { LocaleLink } from "@/components/i18n/LocaleLink";
 import {
   FileText,
   MapPin,
@@ -95,20 +96,20 @@ export function PrintableCalendarHero({
           aria-label="Breadcrumb"
           className="flex items-center gap-1.5 text-xs sm:text-sm text-stone-500 mb-5"
         >
-          <Link
+          <LocaleLink
             href="/"
             className="flex items-center gap-1 hover:text-[#d9531e] transition-colors"
           >
             <Home className="h-3.5 w-3.5" />
             <span>{isTe ? "హోమ్" : isHi ? "होम" : "Home"}</span>
-          </Link>
+          </LocaleLink>
           <ChevronRight className="h-3.5 w-3.5 text-stone-400" />
-          <Link
+          <LocaleLink
             href={PATHS.spiritualTools}
             className="hover:text-[#d9531e] transition-colors"
           >
-            {isTe ? "ఆధ్యాత్మిక సాధనాలు" : isHi ? "आध्यात्मिक टूल्स" : "Spiritual Tools"}
-          </Link>
+            {isTe ? "ఆధ్యాత్మిక సాధనాలు" : isHi ? "आध्यात्मिक उपकरण" : "Spiritual Tools"}
+          </LocaleLink>
           <ChevronRight className="h-3.5 w-3.5 text-stone-400" />
           <span className="font-medium text-[#3b1812]" aria-current="page">
             {isTe ? "ప్రింట్ క్యాలెండర్" : isHi ? "प्रिंट कैलेंडर" : "Printable Calendar"}

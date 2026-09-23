@@ -173,7 +173,8 @@ export default async function MuhuratHubPage() {
 
   const crumbs = localizedCrumbs(
     isTe ? "హోమ్" : isHi ? "होम" : "Home",
-    [isTe ? "శుభ ముహూర్తాలు" : isHi ? "शुभ मुहूर्त" : "Shubh Muhurat", PATHS.muhurat]
+    [isTe ? "ఆధ్యాత్మిక సాధనాలు" : isHi ? "आध्यात्मिक उपकरण" : "Spiritual Tools", PATHS.spiritualTools],
+    [isTe ? "ముహూర్తం" : isHi ? "मुहूर्त" : "Muhurat", PATHS.muhurat]
   );
 
   return (

@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { PageHero } from "@/components/layout/PageHero";
+import { PanchangHeroBanner } from "@/components/panchang/PanchangHeroBanner";
 import { PanchangTodayView } from "@/components/panchang/PanchangTodayView";
-import { FaqList } from "@/components/seo/FaqList";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getLocale, getMessages } from "@/lib/i18n/server";
 import { localizedCrumbs } from "@/lib/seo/crumbs";
 import { localizedMetadata } from "@/lib/seo/metadata";
 import { PATHS } from "@/lib/seo/paths";
 import { SITE } from "@/lib/seo/site";
+import { faqSchema } from "@/lib/seo/schema";
 
 export const revalidate = 1800;
 
@@ -96,8 +96,9 @@ export default async function PanchangYesterdayPage({
           },
         }}
       />
+      <JsonLd data={faqSchema(faqs)} />
 
-      <PageHero
+      <PanchangHeroBanner
         title={isTe ? "నిన్నటి పంచాంగం" : isHi ? "बीते कल का पंचांग" : "Yesterday's Panchang"}
         subtitle={
           isTe
@@ -106,23 +107,16 @@ export default async function PanchangYesterdayPage({
             ? "बीते कल का ऐतिहासिक वैदिक पंचांग। अपने नगर अनुसार तिथि, नक्षत्र, योग और करण का विवरण देखें।"
             : "Historical Vedic Panchang for yesterday. Review Tithi, Nakshatra, Yoga, and solar timings."
         }
-        hub="tithi"
         crumbs={localizedCrumbs(
           t.homeName,
           [t.nav.spiritualTools, PATHS.spiritualTools],
           [isTe ? "పంచాంగం" : isHi ? "पंचांग" : "Panchang", PATHS.panchang],
           [isTe ? "నిన్నటి పంచాంగం" : isHi ? "बीते कल का पंचांग" : "Yesterday's Panchang", PATHS.panchangYesterday]
         )}
+        locale={locale}
       />
 
       <PanchangTodayView initialCityId={params.city} pageMode="yesterday" />
-
-      <div className="mx-auto max-w-4xl px-4 py-12 lg:px-8">
-        <FaqList
-          faqs={faqs}
-          title={isTe ? "నిన్నటి పంచాంగం గురించి తరచుగా అడిగే ప్రశ్నలు" : isHi ? "बीते कल के पंचांग से जुड़े प्रश्नोत्तर" : "Frequently Asked Questions for Yesterday's Panchang"}
-        />
-      </div>
     </div>
   );
 }

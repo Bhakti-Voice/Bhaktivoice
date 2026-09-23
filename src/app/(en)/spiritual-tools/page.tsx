@@ -105,96 +105,148 @@ export default async function SpiritualToolsPage() {
     },
     {
       href: PATHS.sadeSati,
-      title: isHi ? "शनि साढ़े साती कैलकुलेटर" : "Shani Sade Sati Calculator",
-      description: isHi
+      title: isTe
+        ? "శని సాడే సతి (ఏలినాటి శని) కాలిక్యులేటర్"
+        : isHi
+        ? "शनि साढ़े साती कैलकुलेटर"
+        : "Shani Sade Sati Calculator",
+      description: isTe
+        ? "మీ జన్మ చంద్ర రాశి ఆధారంగా ఏలినాటి శని 3 దశలు, కంటక & అష్టమ శని విశ్లేషణ మరియు ప్రామాణిక వైదిక నివారణలు."
+        : isHi
         ? "अपनी जन्म चंद्र राशि से साढ़े साती के तीनों चरण, कंटक व अष्टम ढैय्या एवं प्रामाणिक वैदिक उपाय।"
         : "Calculate Rising, Peak, and Setting phases of Sade Sati, Kantaka & Ashtama Dhaiya with remedies.",
       icon: "sadeSati" as const,
     },
     {
       href: PATHS.manglikDosha,
-      title: isHi ? "मांगलिक दोष कैलकुलेटर" : "Manglik Dosha Calculator",
-      description: isHi
+      title: isTe
+        ? "మాంగ్లిక్ దోష (కుజ దోష) కాలిక్యులేటర్"
+        : isHi
+        ? "मांगलिक दोष कैलकुलेटर"
+        : "Manglik Dosha Calculator",
+      description: isTe
+        ? "లగ్నం, చంద్రుడు మరియు శుక్రుని నుండి త్రిపద కుజ విచారం, 16 శాస్త్రోక్త దోష నివారణ నియమాలు మరియు సాత్విక పరిహారాలు."
+        : isHi
         ? "लग्न, चंद्र व शुक्र से सूक्ष्म त्रिपदा विचार, १६ शास्त्रीय परिहार (दोष भंग नियम) व प्रामाणिक सात्विक उपाय।"
         : "Evaluate Kuja Dosha across Lagna, Moon, and Venus with 16 classical cancellations and authentic remedies.",
       icon: "manglik" as const,
     },
     {
       href: PATHS.kaalSarpDosha,
-      title: isHi ? "काल सर्प दोष कैलकुलेटर" : "Kaal Sarp Dosha Calculator",
-      description: isHi
+      title: isTe
+        ? "కాల సర్ప దోష కాలిక్యులేటర్"
+        : isHi
+        ? "काल सर्प दोष कैलकुलेटर"
+        : "Kaal Sarp Dosha Calculator",
+      description: isTe
+        ? "అన్ని 12 రకాల కాల సర్ప యోగాలు (అనంత నుండి శేషనాగ వరకు), ఉదిత/అనుదిత గోళ దిశ, గ్రహ అక్ష విశ్లేషణ మరియు శాంతి నివారణలు."
+        : isHi
         ? "सभी १२ काल सर्प योग (अनंत से शेषनाग), उदित/अनुदित दिशा, ग्रह अक्षीय स्थिति और सात्विक शांति उपाय।"
         : "Detect all 12 classical Kaal Sarp Yogas, Udit vs. Anudit Gola direction, and Shiva shanti remedies.",
       icon: "kaalSarp" as const,
     },
     {
       href: PATHS.gochar,
-      title: isHi ? "दैनिक ग्रह गोचर फल" : "Daily Planetary Transits (Gochar)",
-      description: isHi
+      title: isTe
+        ? "దిన గ్రహ గోచార ఫలాలు"
+        : isHi
+        ? "दैनिक ग्रह गोचर फल"
+        : "Daily Planetary Transits (Gochar)",
+      description: isTe
+        ? "మీ చంద్ర రాశి ఆధారంగా 9 గ్రహాల దిన గోచారం, శుభాశుభ స్కోరు మరియు 2024-2030 ప్రధాన గ్రహ సంచార క్యాలెండర్."
+        : isHi
         ? "९ वैदिक ग्रहों का चंद्र राशि से भाव गोचर, शुभ-अशुभ स्कोर एवं २०२४-२०३० मुख्य गोचर कैलेंडर।"
         : "Real-time 9-Graha transit analysis from natal Moon sign with favorability score and 2024–2030 ingress calendar.",
       icon: "gochar" as const,
     },
     {
       href: PATHS.grahaSthiti,
-      title: isHi ? "दैनिक ग्रह स्थिति (Ephemeris)" : "Planetary Ephemeris (Graha Sthiti)",
-      description: isHi
+      title: isTe
+        ? "దిన గ్రహ స్థితి (Ephemeris)"
+        : isHi
+        ? "दैनिक ग्रह स्थिति (Ephemeris)"
+        : "Planetary Ephemeris (Graha Sthiti)",
+      description: isTe
+        ? "లాహిరి అయనాంశ ఆధారిత 9 వైదిక గ్రహాలు, రాశి, డిగ్రీలు, నిమిషాలు, నక్షత్ర పాదం, వక్ర & అస్తమయ స్థితుల ఖచ్చితమైన పట్టిక."
+        : isHi
         ? "लाहिरी अयनांश आधारित ९ वैदिक ग्रह, राशि, अंश, कला, विकला, नक्षत्र पाद, वक्री व अस्त स्थिति।"
         : "High-precision Sidereal Lahiri degrees, Nakshatra Pada, retrograde (Vakri), and combust status.",
       icon: "ephemeris" as const,
     },
     {
       href: PATHS.tarabalam,
-      title: isHi ? "ताराबलम् व चंद्रबलम्" : "Tarabalam & Chandrabalam",
-      description: isHi
+      title: isTe
+        ? "తారాబలం & చంద్రబలం"
+        : isHi
+        ? "ताराबलम् व चंद्रबलम्"
+        : "Tarabalam & Chandrabalam",
+      description: isTe
+        ? "జన్మ నక్షత్రం మరియు రాశి ద్వారా నేటి మీ వ్యక్తిగత శుభ బలాన్ని తెలుసుకోండి. 9 నవతార చక్రం మరియు అష్టమ చంద్ర విశ్లేషణ."
+        : isHi
         ? "जन्म नक्षत्र और राशि से जानें आज का दिन आपके लिए कैसा रहेगा? ९ तारा चक्र एवं अष्टम चंद्र विचार।"
         : "Evaluate your personal daily strength through the 9 Tara Chakra and Ashtama Chandra checks.",
       icon: "tarabalam" as const,
     },
     {
       href: PATHS.ekadashi,
-      title: isHi ? "एकादशी व्रत व पारणा समय" : "Ekadashi Vrat & Parana Timings",
-      description: isHi
+      title: isTe
+        ? "ఏకాదశి వ్రతం & పారణ సమయాలు"
+        : isHi
+        ? "एकादशी व्रत व पारणा समय"
+        : "Ekadashi Vrat & Parana Timings",
+      description: isTe
+        ? "సంవత్సరంలోని 24 ఏకాదశుల జాబితా, స్మార్త & వైష్ణవ తేదీలు, ఉదయకాల పారణ సమయం మరియు హరివాసర ముగింపు వివరాలు."
+        : isHi
         ? "वर्ष की सभी २४ एकादशियों की सूची, स्मार्त व वैष्णव तारीखें, प्रातःकालीन पारणा समय व हरिवासर समाप्ति।"
         : "Complete schedule of all 24 Ekadashis, Smarta vs. Vaishnava dates, and exact morning Parana windows.",
       icon: "ekadashi" as const,
     },
     {
       href: PATHS.choghadiya,
-      title: isHi ? "चौघड़िया मुहूर्त" : "Choghadiya Muhurat",
-      description: isHi
+      title: isTe ? "నేటి చోఘడియా ముహూర్తం" : isHi ? "चौघड़िया मुहूर्त" : "Choghadiya Muhurat",
+      description: isTe
+        ? "పగలు మరియు రాత్రి 8 చోఘడియా ముహూర్తాలు (శుభ, లాభ, అమృత, చర, కాల, రోగ, ఉద్వేగ) మరియు వాటి అధిపతి గ్రహాలు."
+        : isHi
         ? "दिन एवं रात के ८-८ चौघड़िया मुहूर्त (शुभ, लाभ, अमृत, चर, काल, रोग, उद्वेग) और उनके स्वामी ग्रह।"
         : "8 Day and 8 Night Choghadiya intervals with auspiciousness ratings and planetary rulers.",
       icon: "choghadiya" as const,
     },
     {
       href: PATHS.hora,
-      title: isHi ? "दैनिक होरा चक्र" : "Daily Hora Chakra",
-      description: isHi
+      title: isTe ? "దిన గ్రహ హోరా చక్రం" : isHi ? "दैनिक होरा चक्र" : "Daily Hora Chakra",
+      description: isTe
+        ? "సూర్యోదయం నుండి సూర్యాస్తమయం మరియు రాత్రి 24 హోరా కాలాలు, అధిపతి గ్రహాలు మరియు అనుకూల పనుల సమగ్ర వివరాలు."
+        : isHi
         ? "सूर्योदय से सूर्यास्त एवं रात्रि के २४ होरा काल, स्वामी ग्रह एवं अनुकूल कार्यों की जानकारी।"
         : "Hourly planetary rulers (Horas) for selecting the most auspicious hours for meetings and transactions.",
       icon: "hora" as const,
     },
     {
       href: PATHS.printableCalendar,
-      title: isHi ? "प्रिंट योग्य हिन्दू वॉल कैलेंडर" : "Printable Wall Calendar",
-      description: isHi
+      title: isTe ? "ప్రింట్ చేయగల హిందూ వాల్ క్యాలెండర్" : isHi ? "प्रिंट योग्य हिन्दू वॉल कैलेंडर" : "Printable Wall Calendar",
+      description: isTe
+        ? "ఏ నగరానికైనా సరే A4 షీట్‌లో నేరుగా ప్రింట్ లేదా PDF గా సేవ్ చేసుకోగల సాంప్రదాయ సనాతన హిందూ క్యాలెండర్."
+        : isHi
         ? "पारंपरिक हिन्दू दीवार कैलेंडर जिसे आप किसी भी शहर के लिए A4 शीट पर सीधे प्रिंट या PDF सेव कर सकते हैं।"
         : "Traditional single-sheet monthly Hindu wall calendar formatted for A4 printing and PDF export.",
       icon: "printableCalendar" as const,
     },
     {
       href: PATHS.babyNames,
-      title: isHi ? "नक्षत्र अनुसार शिशु नाम" : "Baby Names by Nakshatra",
-      description: isHi
+      title: isTe ? "నక్షత్ర ఆధారిత శిశు నామకరణం" : isHi ? "नक्षत्र अनुसार शिशु नाम" : "Baby Names by Nakshatra",
+      description: isTe
+        ? "జన్మ నక్షత్ర చరణం మరియు పాద అక్షరాల ఆధారంగా వేలాది ఆధునిక & వైదిక పవిత్ర శిశు పేర్లు."
+        : isHi
         ? "जन्म नक्षत्र के चरण और पाद के प्रारंभिक नामाक्षरों के अनुसार हजारों आधुनिक व वैदिक शिशु नाम।"
         : "Thousands of Vedic and modern baby names categorized by Janma Nakshatra Pada syllables.",
       icon: "babyNames" as const,
     },
     {
       href: PATHS.grahan,
-      title: isHi ? "सूर्य एवं चंद्र ग्रहण 2026" : "Solar & Lunar Eclipses 2026",
-      description: isHi
+      title: isTe ? "సూర్య & చంద్ర గ్రహణాలు 2026" : isHi ? "सूर्य एवं चंद्र ग्रहण 2026" : "Solar & Lunar Eclipses 2026",
+      description: isTe
+        ? "ఖచ్చితమైన ఖగోళ గ్రహణ తేదీలు, సూతక కాలం, స్పర్శ & మోక్ష సమయాలు, భారతదేశంలో దృశ్యత మరియు గర్భిణీ స్త్రీల నియమాలు."
+        : isHi
         ? "सटीक खगोलीय ग्रहण तिथियां, सूतक काल, स्पर्श व मोक्ष समय, भारत में दृश्यता एवं गर्भवती महिलाओं के नियम।"
         : "Precise astronomical eclipse dates, Sutak Kaal countdown, India visibility, and spiritual guidelines.",
       icon: "grahan" as const,
@@ -208,10 +260,14 @@ export default async function SpiritualToolsPage() {
         data={{
           "@context": "https://schema.org",
           "@type": "WebPage",
-          name: isHi
+          name: isTe
+            ? "వైదిక & ఆధ్యాత్మిక సాధనాల కేంద్రం — భక్తి వాయిస్"
+            : isHi
             ? "वैदिक एवं आध्यात्मिक उपकरण — भक्ति वॉइस"
             : "Vedic & Spiritual Tools Hub — BhaktiVoice",
-          description: isHi
+          description: isTe
+            ? "100% సురక్షితమైన వైదిక సాధనాలు — దిన పంచాంగం, హిందూ క్యాలెండర్, జన్మ కుండలి మరియు కుండలి మిలనం."
+            : isHi
             ? "100% सुरक्षित एवं निजी वैदिक उपकरण — पंचांग, हिन्दू कैलेंडर, जन्म कुंडली और कुंडली मिलान।"
             : "100% secure, client-side Vedic tools — Daily Panchang, Hindu Calendar 2026, Free Kundli, and Kundli Milan.",
           publisher: {
@@ -246,8 +302,8 @@ export default async function SpiritualToolsPage() {
             : t.spiritualTools.landingLead
         }
         hub="tithi"
-        crumbs={localizedCrumbs(t.homeName, [
-          isTe ? "ఆధ్యాత్మిక పరికరాలు" : isHi ? "आध्यात्मिक उपकरण" : t.nav.spiritualTools,
+        crumbs={localizedCrumbs(isTe ? "హోమ్" : isHi ? "होम" : t.homeName, [
+          isTe ? "ఆధ్యాత్మిక సాధనాలు" : isHi ? "आध्यात्मिक उपकरण" : t.nav.spiritualTools,
           PATHS.spiritualTools,
         ])}
       />

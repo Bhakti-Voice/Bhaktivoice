@@ -184,7 +184,7 @@ export default async function BabyNamesPage() {
         hub="tithi"
         crumbs={localizedCrumbs(
           t.homeName,
-          [t.nav.spiritualTools, PATHS.spiritualTools],
+          [isTe ? "ఆధ్యాత్మిక సాధనాలు" : isHi ? "आध्यात्मिक उपकरण" : t.nav.spiritualTools, PATHS.spiritualTools],
           [isTe ? "నక్షత్ర నామకరణం" : isHi ? "वैदिक नामकरण" : "Vedic Baby Names", PATHS.babyNames]
         )}
       />

@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { PageHero } from "@/components/layout/PageHero";
+import { PanchangHeroBanner } from "@/components/panchang/PanchangHeroBanner";
 import { PanchangTodayView } from "@/components/panchang/PanchangTodayView";
-import { FaqList } from "@/components/seo/FaqList";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getLocale, getMessages } from "@/lib/i18n/server";
 import { localizedCrumbs } from "@/lib/seo/crumbs";
 import { localizedMetadata } from "@/lib/seo/metadata";
 import { PATHS } from "@/lib/seo/paths";
 import { SITE } from "@/lib/seo/site";
+import { faqSchema } from "@/lib/seo/schema";
 
 export const revalidate = 1800;
 
@@ -112,7 +112,9 @@ export default async function PanchangTomorrowPage({
         }}
       />
 
-      <PageHero
+      <JsonLd data={faqSchema(faqs)} />
+
+      <PanchangHeroBanner
         title={isTe ? "రేపటి పంచాంగం & శుభ ముహూర్తం" : isHi ? "कल का पंचांग एवं शुभ मुहूर्त" : "Tomorrow's Panchang & Muhurat"}
         subtitle={
           isTe
@@ -121,23 +123,16 @@ export default async function PanchangTomorrowPage({
             ? "कल का अग्रिम वैदिक पंचांग। कल की तिथि, नक्षत्र, योग, करण, राहु काल और चौघड़िया देखकर अपने शुभ कार्यों की योजना बनाएं।"
             : "Plan ahead with tomorrow's Vedic Panchang. Check tomorrow's Tithi, Nakshatra, Rahu Kaal, and Auspicious Muhurats for your city."
         }
-        hub="tithi"
         crumbs={localizedCrumbs(
           t.homeName,
           [t.nav.spiritualTools, PATHS.spiritualTools],
           [isTe ? "పంచాంగం" : isHi ? "पंचांग" : "Panchang", PATHS.panchang],
           [isTe ? "రేపటి పంచాంగం" : isHi ? "कल का पंचांग" : "Tomorrow's Panchang", PATHS.panchangTomorrow]
         )}
+        locale={locale}
       />
 
       <PanchangTodayView initialCityId={params.city} pageMode="tomorrow" />
-
-      <div className="mx-auto max-w-4xl px-4 py-12 lg:px-8">
-        <FaqList
-          faqs={faqs}
-          title={isTe ? "రేపటి పంచాంగం గురించి తరచుగా అడిగే ప్రశ్నలు" : isHi ? "कल के पंचांग से जुड़े प्रश्नोत्तर" : "Frequently Asked Questions for Tomorrow's Panchang"}
-        />
-      </div>
     </div>
   );
 }

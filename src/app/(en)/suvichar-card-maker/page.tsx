@@ -373,7 +373,7 @@ export default async function SuvicharCardMakerPage() {
         hub="tithi"
         crumbs={localizedCrumbs(
           t.homeName,
-          [isHi ? "आध्यात्मिक उपकरण" : t.nav.spiritualTools, PATHS.spiritualTools],
+          [isTe ? "ఆధ్యాత్మిక సాధనాలు" : isHi ? "आध्यात्मिक उपकरण" : t.nav.spiritualTools, PATHS.spiritualTools],
           [isTe ? "సువిచార కార్డ్ మేకర్" : isHi ? "सुविचार (Suvichar)" : "Suvichar Status Studio", PATHS.suvicharMaker],
         )}
       />

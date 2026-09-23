@@ -132,6 +132,7 @@ export default async function GrahanPage() {
 
   const crumbs = localizedCrumbs(
     isTe ? "హోమ్" : isHi ? "होम" : "Home",
+    [isTe ? "ఆధ్యాత్మిక సాధనాలు" : isHi ? "आध्यात्मिक उपकरण" : "Spiritual Tools", PATHS.spiritualTools],
     [isTe ? "సూర్య & చంద్ర గ్రహణాలు" : isHi ? "सूर्य व चंद्र ग्रहण" : "Solar & Lunar Eclipses", PATHS.grahan]
   );
 

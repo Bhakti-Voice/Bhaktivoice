@@ -3,6 +3,7 @@ import { KundliTool } from "@/components/spiritual-tools/KundliTool";
 import { KundliHero } from "@/components/spiritual-tools/KundliHero";
 import { KundliFaqSection } from "@/components/spiritual-tools/KundliFaqSection";
 import { KundliEditorialContent } from "@/components/spiritual-tools/KundliEditorialContent";
+import { RelatedKundliTools } from "@/components/spiritual-tools/RelatedKundliTools";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getLocale, getMessages } from "@/lib/i18n/server";
 import { localizedMetadata } from "@/lib/seo/metadata";
@@ -85,7 +86,7 @@ export default async function KundliPage() {
               "@type": "ListItem",
               position: 1,
               name: isTe ? "హోమ్" : isHi ? "होम" : "Home",
-              item: `${SITE.url}${isTe ? "/te" : isHi ? "/hi" : ""}`,
+              item: `${SITE.url}${isTe ? "/te" : isHi ? "/hi" : "/"}`,
             },
             {
               "@type": "ListItem",
@@ -97,7 +98,6 @@ export default async function KundliPage() {
               "@type": "ListItem",
               position: 3,
               name: isTe ? "ఉచిత కుండలి" : isHi ? "मुफ्त कुंडली" : "Free Kundli",
-              item: canonicalUrl,
             },
           ],
         }}
@@ -125,6 +125,7 @@ export default async function KundliPage() {
       {/* Main Kundli Tool Container */}
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
         <KundliTool isHi={isHi} isTe={isTe} />
+        <RelatedKundliTools currentTool="kundli" isHi={isHi} isTe={isTe} className="mt-12" />
         <KundliEditorialContent isHi={isHi} isTe={isTe} />
         <KundliFaqSection isHi={isHi} isTe={isTe} />
       </main>

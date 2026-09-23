@@ -188,8 +188,8 @@ export default async function HinduCalendarPage({
         hub="tithi"
         crumbs={localizedCrumbs(
           t.homeName,
-          [t.nav.spiritualTools, PATHS.spiritualTools],
-          [isHi ? "हिन्दू कैलेंडर" : "Hindu Calendar", PATHS.calendar]
+          [isTe ? "ఆధ్యాత్మిక సాధనాలు" : isHi ? "आध्यात्मिक उपकरण" : t.nav.spiritualTools, PATHS.spiritualTools],
+          [isTe ? "హిందూ క్యాలెండర్" : isHi ? "हिन्दू कैलेंडर" : "Hindu Calendar", PATHS.calendar]
         )}
       />
 

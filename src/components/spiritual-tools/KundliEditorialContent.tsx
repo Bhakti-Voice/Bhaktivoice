@@ -10,6 +10,7 @@ import {
   Sun,
   Clock,
   Heart,
+  Scale,
 } from "lucide-react";
 import { PATHS } from "@/lib/seo/paths";
 
@@ -378,24 +379,24 @@ export function KundliEditorialContent({ isHi = false, isTe = false }: KundliEdi
             : "Deepen your astrological discovery with our comprehensive suite of free, authentic Vedic calculators:"}
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
           <Link
-            href={isTe ? `/te${PATHS.kundliMilan}` : isHi ? `/hi${PATHS.kundliMilan}` : PATHS.kundliMilan}
+            href={isTe ? `/te${PATHS.sadeSati}` : isHi ? `/hi${PATHS.sadeSati}` : PATHS.sadeSati}
             className="rounded-2xl border border-[#ecdac8] bg-white p-4 shadow-2xs hover:border-[#d9531e] hover:shadow-xs transition group"
           >
             <div className="flex items-center gap-2 text-[#c2410c] font-bold text-xs">
-              <Heart className="h-4 w-4" />
-              <span>{isTe ? "కుండలి మిలనం" : isHi ? "कुंडली मिलान" : "Kundli Milan"}</span>
+              <Scale className="h-4 w-4" />
+              <span>{isTe ? "శని సాడే సతి" : isHi ? "शनि साढ़े साती" : "Shani Sade Sati"}</span>
             </div>
             <h4 className="font-serif text-sm font-bold text-stone-900 mt-1.5 group-hover:text-[#d9531e] transition">
-              {isTe ? "36 గుణాల వివాహ పొంతన" : isHi ? "36 गुण विवाह मिलान" : "36 Guna Ashtakoot"}
+              {isTe ? "ఏలినాటి శని కాలిక్యులేటర్" : isHi ? "साढ़े साती कैलकुलेटर" : "Sade Sati Calculator"}
             </h4>
             <p className="text-[11px] text-stone-500 mt-1">
               {isTe
-                ? "వధూవరుల 36 గుణాల మిలనం, నాడీ దోషం మరియు భకూట్ పరిహార పరిశీలన."
+                ? "చంద్ర రాశి ఆధారంగా ఏలినాటి శని 3 దశలు, కంటక & అష్టమ శని విశ్లేషణ."
                 : isHi
-                ? "वर-वधू के 36 गुण, नाड़ी दोष एवं भकूट परिहार का सम्पूर्ण विश्लेषण।"
-                : "Check marriage compatibility, Nadi dosha, and Bhakoot parihara between bride and groom."}
+                ? "जन्म चंद्र राशि अनुसार साढ़े साती के तीनों चरण, ढैय्या एवं वैदिक उपाय।"
+                : "Analyze Rising, Peak, and Setting phases of Sade Sati and Dhaiya with Vedic remedies."}
             </p>
           </Link>
 
@@ -436,6 +437,26 @@ export function KundliEditorialContent({ isHi = false, isTe = false }: KundliEdi
                 : isHi
                 ? "अनंत, कुलिक, वासुकि आदि 12 काल सर्प योगों की पहचान एवं वैदिक उपाय।"
                 : "Identify Anant, Kulik, Vasuki, and Sheshnag formations with Vedic remedies and guidance."}
+            </p>
+          </Link>
+
+          <Link
+            href={isTe ? `/te${PATHS.kundliMilan}` : isHi ? `/hi${PATHS.kundliMilan}` : PATHS.kundliMilan}
+            className="rounded-2xl border border-[#ecdac8] bg-white p-4 shadow-2xs hover:border-[#d9531e] hover:shadow-xs transition group"
+          >
+            <div className="flex items-center gap-2 text-[#c2410c] font-bold text-xs">
+              <Heart className="h-4 w-4" />
+              <span>{isTe ? "కుండలి మిలనం" : isHi ? "कुंडली मिलान" : "Kundli Milan"}</span>
+            </div>
+            <h4 className="font-serif text-sm font-bold text-stone-900 mt-1.5 group-hover:text-[#d9531e] transition">
+              {isTe ? "36 గుణాల వివాహ పొంతన" : isHi ? "36 गुण विवाह मिलान" : "36 Guna Ashtakoot"}
+            </h4>
+            <p className="text-[11px] text-stone-500 mt-1">
+              {isTe
+                ? "వధూవరుల 36 గుణాల మిలనం, నాడీ దోషం మరియు భకూట్ పరిహార పరిశీలన."
+                : isHi
+                ? "वर-वधू के 36 गुण, नाड़ी दोष एवं भकूट परिहार का सम्पूर्ण विश्लेषण।"
+                : "Check marriage compatibility, Nadi dosha, and Bhakoot parihara between bride and groom."}
             </p>
           </Link>
 

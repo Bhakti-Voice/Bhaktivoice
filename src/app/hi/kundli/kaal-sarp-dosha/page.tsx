@@ -3,6 +3,7 @@ import { PageHero } from "@/components/layout/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { FaqList } from "@/components/seo/FaqList";
 import { KaalSarpTool } from "@/components/spiritual-tools/KaalSarpTool";
+import { RelatedKundliTools } from "@/components/spiritual-tools/RelatedKundliTools";
 import { getLocale, getMessages } from "@/lib/i18n/server";
 import { localizedCrumbs } from "@/lib/seo/crumbs";
 import { localizedMetadata } from "@/lib/seo/metadata";
@@ -41,6 +42,7 @@ export default async function HiKaalSarpDoshaPage() {
 
   const breadcrumbs = localizedCrumbs(
     t.homeName,
+    ["आध्यात्मिक उपकरण", PATHS.spiritualTools],
     ["कुंडली", PATHS.kundli],
     ["काल सर्प दोष कैलकुलेटर", PATHS.kaalSarpDosha]
   );
@@ -106,6 +108,10 @@ export default async function HiKaalSarpDoshaPage() {
 
       <div className="mt-8">
         <KaalSarpTool />
+      </div>
+
+      <div className="mt-12">
+        <RelatedKundliTools currentTool="kaal-sarp-dosha" isHi={true} />
       </div>
 
       {/* Educational Guide Section in Hindi */}

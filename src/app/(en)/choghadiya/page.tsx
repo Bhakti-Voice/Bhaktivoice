@@ -213,7 +213,8 @@ export default async function ChoghadiyaPage({
         }
         hub="spirituality"
         crumbs={localizedCrumbs(
-          t.homeName,
+          isTe ? "హోమ్" : isHi ? "होम" : t.homeName,
+          [isTe ? "ఆధ్యాత్మిక సాధనాలు" : isHi ? "आध्यात्मिक उपकरण" : t.nav.spiritualTools, PATHS.spiritualTools],
           [isTe ? "శుభ ముహూర్తాలు" : isHi ? "शुभ मुहूर्त" : "Muhurat", PATHS.muhurat],
           [isTe ? "నేటి చోఘడియా" : isHi ? "आज का चौघड़िया" : "Choghadiya", PATHS.choghadiya],
         )}

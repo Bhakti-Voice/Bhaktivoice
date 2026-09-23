@@ -1,6 +1,7 @@
 import {
   RASI_NAMES,
   RASI_NAMES_HI,
+  RASI_NAMES_TE,
 } from "./names";
 
 export type SadeSatiPhase = "rising" | "peak" | "setting";
@@ -10,11 +11,13 @@ export interface TransitPeriod {
   rashiIndex: number;
   rashiName: string;
   rashiNameHi: string;
+  rashiNameTe: string;
   startDate: string;
   endDate: string;
   type: "sade_sati_rising" | "sade_sati_peak" | "sade_sati_setting" | "dhaiya_kantaka" | "dhaiya_ashtama";
   label: string;
   labelHi: string;
+  labelTe: string;
   isCurrent: boolean;
 }
 
@@ -30,10 +33,12 @@ export interface SadeSatiReport {
   moonRashiIndex: number;
   moonRashiName: string;
   moonRashiNameHi: string;
+  moonRashiNameTe: string;
   asOfDate: string;
   currentSaturnRashiIndex: number;
   currentSaturnRashiName: string;
   currentSaturnRashiNameHi: string;
+  currentSaturnRashiNameTe: string;
   
   // Status
   isInSadeSati: boolean;
@@ -42,13 +47,16 @@ export interface SadeSatiReport {
   currentDhaiyaType: DhaiyaType | null;
   statusSummary: string;
   statusSummaryHi: string;
+  statusSummaryTe: string;
 
   // Sign temperament with Saturn
   temperament: "favorable" | "moderate" | "challenging";
   temperamentTitle: string;
   temperamentTitleHi: string;
+  temperamentTitleTe: string;
   temperamentExplanation: string;
   temperamentExplanationHi: string;
+  temperamentExplanationTe: string;
 
   // Cycles & Timelines
   allSadeSatiCycles: SadeSatiCycle[];
@@ -60,8 +68,10 @@ export interface SadeSatiReport {
   remedies: {
     title: string;
     titleHi: string;
+    titleTe: string;
     description: string;
     descriptionHi: string;
+    descriptionTe: string;
     mantra?: string;
   }[];
 }
@@ -222,25 +232,31 @@ export function calculateSadeSatiReport(moonRashiIndex: number, asOfDateInput?: 
   // Summary labels
   let statusSummary = "Currently FREE from Shani Sade Sati and Dhaiya.";
   let statusSummaryHi = "वर्तमान में शनि की साढ़े साती अथवा ढैय्या का कोई प्रभाव नहीं है।";
+  let statusSummaryTe = "ప్రస్తుతానికి మీకు ఏలినాటి శని లేదా ధైయా ప్రభావం లేదు (ముక్తి).";
 
   if (isInSadeSati) {
     if (currentSadeSatiPhase === "rising") {
       statusSummary = "Undergoing Shani Sade Sati — 1st Phase (Rising / Aardh Charan).";
       statusSummaryHi = "शनि की साढ़े साती का प्रथम चरण (उदय / आद्य चरण) चल रहा है।";
+      statusSummaryTe = "శని సాడే సతి (ఏలినాటి శని) ప్రథమ దశ (ఆద్య చరణం / ఉదయం — 12వ ఇల్లు) నడుస్తోంది.";
     } else if (currentSadeSatiPhase === "peak") {
       statusSummary = "Undergoing Shani Sade Sati — 2nd Phase (Peak / Madhya Charan in Janma Rashi).";
       statusSummaryHi = "शनि की साढ़े साती का द्वितीय चरण (मध्य / शिखर चरण — जन्म राशि) चल रहा है।";
+      statusSummaryTe = "శని సాడే సతి (ఏలినాటి శని) ద్వితీయ దశ (మధ్య / శిఖర చరణం — జన్మ రాశి) నడుస్తోంది.";
     } else {
       statusSummary = "Undergoing Shani Sade Sati — 3rd Phase (Setting / Antya Charan).";
       statusSummaryHi = "शनि की साढ़े साती का तृतीय चरण (अस्त / अंत्य चरण) चल रहा है।";
+      statusSummaryTe = "శని సాడే సతి (ఏలినాటి శని) తృతీయ దశ (అంత్య చరణం / అస్తమయం — 2వ ఇల్లు) నడుస్తోంది.";
     }
   } else if (isInDhaiya) {
     if (currentDhaiyaType === "kantaka") {
       statusSummary = "Undergoing Shani Kantaka Dhaiya (Small Panoti — 4th House Transit).";
       statusSummaryHi = "शनि की चतुर्थ ढैय्या (कंटक शनि — ४था भाव) चल रही है।";
+      statusSummaryTe = "శని కంటక ధైయా (కంటక శని — 4వ ఇల్లు) నడుస్తోంది.";
     } else {
       statusSummary = "Undergoing Shani Ashtama Dhaiya (Small Panoti — 8th House Transit).";
       statusSummaryHi = "शनि की अष्टम ढैय्या (अष्टम शनि — ८वाँ भाव) चल रही है।";
+      statusSummaryTe = "శని అష్టమ ధైయా (అష్టమ శని — 8వ ఇల్లు) నడుస్తోంది.";
     }
   }
 
@@ -248,10 +264,13 @@ export function calculateSadeSatiReport(moonRashiIndex: number, asOfDateInput?: 
   let temperament: "favorable" | "moderate" | "challenging" = "moderate";
   let temperamentTitle = "Moderate & Transformational Impact";
   let temperamentTitleHi = "मध्यम एवं परिवर्तनकारी प्रभाव";
+  let temperamentTitleTe = "మధ్యస్థ & పరివర్తన ప్రభావం (సాధన & క్రమశిక్షణ)";
   let temperamentExplanation =
     "Saturn acts as a strict cosmic teacher. The period brings tests of patience, career restructuring, and spiritual maturity.";
   let temperamentExplanationHi =
     "शनिदेव कर्मफलदाता के रूप में धैर्य, परिश्रम और अनुशासन की परीक्षा लेते हैं। आत्म-चिंतन एवं कठिन परिश्रम से दीर्घकालिक स्थायित्व प्राप्त होता है।";
+  let temperamentExplanationTe =
+    "శని భగవానుడు కర్మఫలదాతగా సహనం, పరిశ్రమ మరియు క్రమశిక్షణను పరీక్షిస్తాడు. ఆత్మపరిశీలన మరియు నిరంతర శ్రమ ద్వారా దీర్ఘకాలిక విజయం మరియు స్థిరత్వం లభిస్తుంది.";
 
   // Saturn's own or exalted/friendly signs
   if ([1, 6, 9, 10].includes(moonRashiIndex)) {
@@ -259,19 +278,25 @@ export function calculateSadeSatiReport(moonRashiIndex: number, asOfDateInput?: 
     temperament = "favorable";
     temperamentTitle = "Favorable & Constructive Growth (Mitra / Swakshetra)";
     temperamentTitleHi = "शुभ एवं सकारात्मक उन्नति (मित्र व स्वराशि प्रभाव)";
+    temperamentTitleTe = "శుభ & సానుకూల అభివృద్ధి (మిత్ర & స్వక్షేత్ర ప్రభావం)";
     temperamentExplanation =
       "Because Saturn is the sign lord or a close friend to your Moon lord (Venus/Saturn), Sade Sati acts constructively, elevating your maturity, social standing, and material foundations.";
     temperamentExplanationHi =
       "क्योंकि शनिदेव आपकी राशि के स्वामी अथवा परम मित्र (शुक्र/शनि) हैं, अतः साढ़े साती अधिक कष्टकारी न होकर प्रगति, प्रतिष्ठा एवं स्थायी संपत्ति निर्माण में सहायक होती है।";
+    temperamentExplanationTe =
+      "శనిదేవుడు మీ రాశి అధిపతికి లేదా మిత్ర గ్రహానికి (శుక్రుడు/శని) చెందినవాడైనందున, ఏలినాటి శని కష్టాలను తగ్గించి ఉన్నత హోదా, సామాజిక గౌరవం మరియు స్థిర ఆస్తులను ప్రసాదిస్తుంది.";
   } else if ([3, 4, 7].includes(moonRashiIndex)) {
     // Cancer (Moon - enemy), Leo (Sun - natural adversary), Scorpio (Mars)
     temperament = "challenging";
     temperamentTitle = "Intense Testing & High Discipline Required (Shatru Kshetra)";
     temperamentTitleHi = "गहन परीक्षा एवं संयम की आवश्यकता (शत्रु क्षेत्र प्रभाव)";
+    temperamentTitleTe = "తీవ్రమైన పరీక్ష & క్రమశిక్షణ అవసరం (శత్రు క్షేత్ర ప్రభావం)";
     temperamentExplanation =
       "Saturn shares an adversarial relationship with your Moon sign lord. Heightened stress, mental turbulence, or unexpected delays require steadfast devotion, discipline, and classical remedies.";
     temperamentExplanationHi =
       "आपकी राशि स्वामी के साथ शनिदेव का स्वाभाविक शत्रुभाव होने से यह समय मानसिक उद्वेग, स्वास्थ्य एवं संबंधों में सजगता की मांग करता है। नियमित जप एवं सात्विक आचरण आवश्यक है।";
+    temperamentExplanationTe =
+      "మీ రాశి అధిపతితో శనిదేవునికి సహజ శత్రుభావం ఉన్నందున ఈ కాలంలో మానసిక ఆందోళన, ఆరోగ్యంపై శ్రద్ధ మరియు ఆటంకాలు ఎదురవుతాయి. నిత్య సాధన, పూజలు మరియు సాత్విక జీవనం అవసరం.";
   }
 
   // Extract all transit periods for this moon sign from the historical table
@@ -286,27 +311,33 @@ export function calculateSadeSatiReport(moonRashiIndex: number, asOfDateInput?: 
     let type: TransitPeriod["type"] | null = null;
     let label = "";
     let labelHi = "";
+    let labelTe = "";
 
     if (r === rashi12th) {
       type = "sade_sati_rising";
       label = "Sade Sati — 1st Phase (Rising / 12th House)";
       labelHi = "साढ़े साती — प्रथम चरण (द्वादश भाव)";
+      labelTe = "సాడే సతి — ప్రథమ దశ (ఉదయం / 12వ ఇల్లు)";
     } else if (r === rashi1st) {
       type = "sade_sati_peak";
       label = "Sade Sati — 2nd Phase (Peak / Janma Rashi)";
       labelHi = "साढ़े साती — द्वितीय चरण (जन्म राशि शिखर)";
+      labelTe = "సాడే సతి — ద్వితీయ దశ (శిఖరం / జన్మ రాశి)";
     } else if (r === rashi2nd) {
       type = "sade_sati_setting";
       label = "Sade Sati — 3rd Phase (Setting / 2nd House)";
       labelHi = "साढ़े साती — तृतीय चरण (द्वितीय भाव)";
+      labelTe = "సాడే సతి — తృతీయ దశ (అస్తమయం / 2వ ఇల్లు)";
     } else if (r === rashi4th) {
       type = "dhaiya_kantaka";
       label = "Shani Dhaiya — Kantaka (4th House)";
       labelHi = "शनि ढैय्या — कंटक (चतुर्थ भाव)";
+      labelTe = "శని ధైయా — కంటక శని (4వ ఇల్లు)";
     } else if (r === rashi8th) {
       type = "dhaiya_ashtama";
       label = "Shani Dhaiya — Ashtama (8th House)";
       labelHi = "शनि ढैय्या — अष्टम (अष्टम भाव)";
+      labelTe = "శని ధైయా — అష్టమ శని (8వ ఇల్లు)";
     }
 
     if (type) {
@@ -315,11 +346,13 @@ export function calculateSadeSatiReport(moonRashiIndex: number, asOfDateInput?: 
         rashiIndex: r,
         rashiName: RASI_NAMES[r],
         rashiNameHi: RASI_NAMES_HI[r],
+        rashiNameTe: RASI_NAMES_TE[r],
         startDate: start,
         endDate: end,
         type,
         label,
         labelHi,
+        labelTe,
         isCurrent,
       });
     }
@@ -380,44 +413,59 @@ export function calculateSadeSatiReport(moonRashiIndex: number, asOfDateInput?: 
     {
       title: "Daily Shri Hanuman Chalisa Recitation",
       titleHi: "नित्य श्री हनुमान चालीसा का पाठ",
+      titleTe: "నిత్యం శ్రీ హనుమాన్ చాలీసా పారాయణం",
       description:
         "Lord Hanuman protects all devotees from the malevolent influences of Saturn. Reciting Hanuman Chalisa every morning and especially on Tuesdays & Saturdays provides immediate spiritual fortitude.",
       descriptionHi:
         "पौराणिक मान्यता के अनुसार संकटमोचन हनुमान जी की शरण में जाने वाले भक्त को शनिदेव कभी अनिष्ट फल नहीं देते। मंगलवार एवं शनिवार को सुंदरकांड अथवा हनुमान चालीसा का पाठ विशेष कल्याणकारी है।",
+      descriptionTe:
+        "పురాణాల ప్రకారం సంకటమోచన హనుమంతుని ఆశ్రయించే భక్తులకు శనిదేవుడు ఎన్నడూ కీడు చేయడు. మంగళవారం, శనివారాలలో హనుమాన్ చాలీసా లేదా సుందరకాండ పారాయణం చేయడం వల్ల తక్షణ మనోధైర్యం, శాంతి లభిస్తాయి.",
       mantra: "मनोजवं मारुततुल्यवेगं जितेन्द्रियं बुद्धिमतां वरिष्ठम्। वातात्मजं वानरयूथमुख्यं श्रीरामदूतं शरणं प्रपद्ये॥",
     },
     {
       title: "Shani Beej Mantra (108 Chants)",
       titleHi: "शनि बीज मन्त्र जप (१०८ बार)",
+      titleTe: "శని బీజ మంత్ర జపం (108 సార్లు)",
       description:
         "Chant the authentic Shani Beej Mantra using a Rudraksha rosary on Saturday evenings facing the West direction.",
       descriptionHi:
         "शनिवार की संध्या के समय पश्चिम दिशा की ओर मुख करके रुद्राक्ष की माला से १०८ बार शनि बीज मंत्र का जप करें।",
+      descriptionTe:
+        "శనివారం సాయంత్రం పశ్చిమ ముఖంగా కూర్చుని రుద్రాక్ష మాలతో 108 సార్లు ప్రామాణిక శని బీజ మంత్రాన్ని భక్తితో జపించండి.",
       mantra: "ॐ प्रां प्रीं प्रौं सः शनैश्चराय नमः॥ (अथवा: ॐ शं शनैश्चराय नमः)",
     },
     {
       title: "Sarson Tel Deepak under Peepal Tree",
       titleHi: "पीपल वृक्ष के नीचे सरसों के तेल का दीपक",
+      titleTe: "రావి చెట్టు కింద నువ్వుల నూనె / ఆవనూనె దీపారాధన",
       description:
         "Light a mustard oil earthen lamp under a Peepal tree after sunset on Saturdays and circumambulate (Parikrama) seven times.",
       descriptionHi:
         "प्रत्येक शनिवार सूर्यास्त के उपरांत पीपल के वृक्ष के नीचे सरसों के तेल का चौमुखा दीपक प्रज्वलित करें तथा सात परिक्रमा करें।",
+      descriptionTe:
+        "ప్రతి శనివారం సూర్యాస్తమయం తర్వాత రావి చెట్టు (పిప్పల వృక్షం) వద్ద నూనెతో మట్టి ప్రమిద వెలిగించి, 7 ప్రదక్షిణలు చేయండి.",
     },
     {
       title: "Saturday Daan (Charity of Saturnian Articles)",
       titleHi: "शनिवार का दान (काली वस्तुएं एवं तिल)",
+      titleTe: "శనివారం దానం (నల్ల నువ్వులు, మినుములు, వస్త్రాలు)",
       description:
         "Donate black sesame seeds, black urad dal, mustard oil, iron utensils, or black blankets to the needy or laborers on Saturday afternoons.",
       descriptionHi:
         "शनिवार के दिन काले तिल, काली उड़द, सरसों का तेल, लोहे का तवा/पात्र अथवा जरूरतमंद श्रमिकों को भोजन व काले वस्त्रों का दान करें।",
+      descriptionTe:
+        "శనివారం మధ్యాహ్నం పేదలకు, కార్మికులకు నల్ల నువ్వులు, మినుములు, నూనె, ఇనుప పాత్రలు లేదా నల్లని దుప్పట్లను దానం చేయండి.",
     },
     {
       title: "Respect to Laborers, Elders, and Subordinates",
       titleHi: "श्रमिकों, वृद्धों व अधीनस्थों का सम्मान",
+      titleTe: "శ్రామికులు, వృద్ధులు మరియు సేవకులను గౌరవించడం",
       description:
         "Saturn is the cosmic ruler of karma, justice, and the working class. Treating domestic helpers, janitors, and laborers with fairness and generosity pleases Saturn the most.",
       descriptionHi:
         "शनिदेव न्याय के अधिष्ठाता हैं तथा समाज के निर्बल व श्रमजीवी वर्ग का प्रतिनिधित्व करते हैं। किसी भी असहाय, कर्मचारी अथवा वृद्ध का अपमान न करें।",
+      descriptionTe:
+        "శని భగవానుడు న్యాయాధికారి, కర్మఫలదాత మరియు శ్రామిక వర్గానికి ప్రతినిధి. పనివారిని, సేవకులను, వృద్ధులను ఆదరించి న్యాయంగా ప్రవర్తించడం వల్ల శనిదేవుడు విశేషంగా ప్రసన్నుడవుతాడు.",
     },
   ];
 
@@ -425,21 +473,26 @@ export function calculateSadeSatiReport(moonRashiIndex: number, asOfDateInput?: 
     moonRashiIndex,
     moonRashiName: RASI_NAMES[moonRashiIndex],
     moonRashiNameHi: RASI_NAMES_HI[moonRashiIndex],
+    moonRashiNameTe: RASI_NAMES_TE[moonRashiIndex],
     asOfDate: asOfStr,
     currentSaturnRashiIndex: currentSaturnRashi,
     currentSaturnRashiName: RASI_NAMES[currentSaturnRashi],
     currentSaturnRashiNameHi: RASI_NAMES_HI[currentSaturnRashi],
+    currentSaturnRashiNameTe: RASI_NAMES_TE[currentSaturnRashi],
     isInSadeSati,
     currentSadeSatiPhase,
     isInDhaiya,
     currentDhaiyaType,
     statusSummary,
     statusSummaryHi,
+    statusSummaryTe,
     temperament,
     temperamentTitle,
     temperamentTitleHi,
+    temperamentTitleTe,
     temperamentExplanation,
     temperamentExplanationHi,
+    temperamentExplanationTe,
     allSadeSatiCycles,
     allDhaiyaPeriods,
     currentPeriodDetails,

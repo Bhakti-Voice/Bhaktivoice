@@ -85,9 +85,10 @@ export default async function GocharPage() {
   const isTe = locale === "te";
 
   const breadcrumbs = localizedCrumbs(
-    t.homeName,
+    isTe ? "హోమ్" : isHi ? "होम" : t.homeName,
+    [isTe ? "ఆధ్యాత్మిక సాధనాలు" : isHi ? "आध्यात्मिक उपकरण" : t.nav.spiritualTools, PATHS.spiritualTools],
     [isTe ? "పంచాంగం" : isHi ? "पंचांग" : "Panchang", PATHS.panchang],
-    [isTe ? "గ్రహ గోచారం" : isHi ? "ग्रह गोचर" : "Planetary Transits (Gochar)", `${PATHS.panchang}/gochar`]
+    [isTe ? "గ్రహ గోచారం" : isHi ? "ग्रह गोचर" : "Planetary Transits", `${PATHS.panchang}/gochar`]
   );
 
   const faqs = isTe ? GOCHAR_FAQS_TE : isHi

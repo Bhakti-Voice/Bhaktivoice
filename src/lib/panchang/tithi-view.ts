@@ -405,12 +405,18 @@ export function tithiPageGraph(
       {
         "@type": "BreadcrumbList",
         "@id": `${url}#breadcrumb`,
-        itemListElement: crumbs.map((item, index) => ({
-          "@type": "ListItem",
-          position: index + 1,
-          name: item.name,
-          item: absoluteUrl(withLocale(item.href, locale)),
-        })),
+        itemListElement: crumbs.map((item, index) => {
+          const isLast = index === crumbs.length - 1;
+          const entry: { "@type": string; position: number; name: string; item?: string } = {
+            "@type": "ListItem",
+            position: index + 1,
+            name: item.name,
+          };
+          if (!isLast) {
+            entry.item = absoluteUrl(withLocale(item.href, locale));
+          }
+          return entry;
+        }),
       },
       {
         "@type": "FAQPage",

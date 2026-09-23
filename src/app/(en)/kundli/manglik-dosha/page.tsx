@@ -3,6 +3,7 @@ import { PageHero } from "@/components/layout/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { FaqList } from "@/components/seo/FaqList";
 import { ManglikTool } from "@/components/spiritual-tools/ManglikTool";
+import { RelatedKundliTools } from "@/components/spiritual-tools/RelatedKundliTools";
 import { getLocale, getMessages } from "@/lib/i18n/server";
 import { localizedCrumbs } from "@/lib/seo/crumbs";
 import { localizedMetadata } from "@/lib/seo/metadata";
@@ -77,7 +78,8 @@ export default async function ManglikDoshaPage() {
   const isTe = locale === "te";
 
   const breadcrumbs = localizedCrumbs(
-    t.homeName,
+    isTe ? "హోమ్" : isHi ? "होम" : t.homeName,
+    [isTe ? "ఆధ్యాత్మిక సాధనాలు" : isHi ? "आध्यात्मिक उपकरण" : t.nav.spiritualTools, PATHS.spiritualTools],
     [isTe ? "కుండలి" : isHi ? "कुंडली" : "Kundli", PATHS.kundli],
     [isTe ? "మాంగ్లిక్ దోష కాలిక్యులేటర్" : isHi ? "मांगलिक दोष कैलकुलेटर" : "Manglik Dosha Calculator", PATHS.manglikDosha]
   );
@@ -143,6 +145,10 @@ export default async function ManglikDoshaPage() {
 
       <div className="mt-8">
         <ManglikTool />
+      </div>
+
+      <div className="mt-12">
+        <RelatedKundliTools currentTool="manglik-dosha" isHi={isHi} isTe={isTe} />
       </div>
 
       {/* Educational Guide Section */}

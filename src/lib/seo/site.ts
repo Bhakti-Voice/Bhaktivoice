@@ -11,6 +11,9 @@ export const SITE = {
 } as const;
 
 export function absoluteUrl(path = "/") {
+  if (path === "/" || path === "") {
+    return `${SITE.url}/`;
+  }
   const normalized = path.startsWith("/") ? path : `/${path}`;
-  return `${SITE.url}${normalized === "/" ? "" : normalized}`;
+  return `${SITE.url}${normalized}`;
 }

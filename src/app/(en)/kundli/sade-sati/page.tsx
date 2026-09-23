@@ -3,6 +3,7 @@ import { PageHero } from "@/components/layout/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { FaqList } from "@/components/seo/FaqList";
 import { SadeSatiTool } from "@/components/spiritual-tools/SadeSatiTool";
+import { RelatedKundliTools } from "@/components/spiritual-tools/RelatedKundliTools";
 import { getLocale, getMessages } from "@/lib/i18n/server";
 import { localizedCrumbs } from "@/lib/seo/crumbs";
 import { localizedMetadata } from "@/lib/seo/metadata";
@@ -79,12 +80,41 @@ export default async function SadeSatiPage() {
   const isTe = locale === "te";
 
   const breadcrumbs = localizedCrumbs(
-    t.homeName,
+    isTe ? "హోమ్" : isHi ? "होम" : t.homeName,
+    [isTe ? "ఆధ్యాత్మిక సాధనాలు" : isHi ? "आध्यात्मिक उपकरण" : t.nav.spiritualTools, PATHS.spiritualTools],
     [isTe ? "కుండలి" : isHi ? "कुंडली" : "Kundli", PATHS.kundli],
     [isTe ? "ఏలినాటి శని కాలిక్యులేటర్" : isHi ? "शनि साढ़े साती कैलकुलेटर" : "Shani Sade Sati Calculator", `${PATHS.kundli}/sade-sati`]
   );
 
-  const faqs = isHi
+  const faqs = isTe
+    ? [
+        {
+          question: "శని సాడే సతి (ఏలినాటి శని) అంటే ఏమిటి?",
+          answer:
+            "గోచారంలో శని భగవానుడు ఒకరి జన్మ జాతకంలోని చంద్ర రాశికి 12వ ఇల్లు (వ్యయం), జన్మ రాశి (1వ ఇల్లు) మరియు 2వ ఇల్లు (ధనం) గుండా సంచరించే మొత్తం 7.5 సంవత్సరాల కాలాన్ని 'ఏలినాటి శని' (సాడే సతి) అంటారు. శని ఒక్కో రాశిలో సుమారు 2.5 సంవత్సరాలు ఉంటాడు.",
+        },
+        {
+          question: "ఏలినాటి శనిలోని మూడు దశలు (చరణాలు) ఏమిటి?",
+          answer:
+            "1. ప్రథమ దశ (ఆద్య చరణం / ఉదయం): శని చంద్రునికి 12వ ఇంట సంచరిస్తాడు (అనవసర ఖర్చులు, సుదూర ప్రయాణాలు, ఆధ్యాత్మిక ఆలోచనలు).\n2. ద్వితీయ దశ (మధ్య / శిఖర చరణం): శని జన్మ రాశిపైనే సంచరిస్తాడు (తీవ్రమైన కర్మ శుద్ధి, బాధ్యతలు, సహనం).\n3. తృతీయ దశ (అంత్య చరణం / అస్తమయం): శని 2వ ఇంట సంచరిస్తాడు (ఆర్థిక నిలకడ, ఉపశమనం మరియు స్థిరత్వం).",
+        },
+        {
+          question: "శని ధైయా (చిన్న పనోతి) అంటే ఏమిటి?",
+          answer:
+            "శని జన్మ రాశి నుండి 4వ ఇంట (కంటక శని) లేదా 8వ ఇంట (అష్టమ శని) సంచరించినప్పుడు వచ్చే 2.5 సంవత్సరాల కాలాన్ని 'శని ధైయా' అంటారు.",
+        },
+        {
+          question: "ఏలినాటి శని ఎల్లప్పుడూ చెడు ఫలితాలనే ఇస్తుందా?",
+          answer:
+            "ఖచ్చితంగా కాదు! శని భగవానుడు న్యాయాధికారి, కర్మఫలదాత. వృషభం, తుల (శుక్రుని రాశులు) మరియు మకరం, కుంభం (శని స్వక్షేత్రాలు) రాశులకు ఏలినాటి శని విశేషమైన పురోగతి, సమాజంలో ఉన్నత పదవులు మరియు స్థిర ఆస్తులను ప్రసాదిస్తుంది. సత్కర్మలు చేసేవారికి శని ఎల్లప్పుడూ శుభ ఫలితాలనే ఇస్తాడు.",
+        },
+        {
+          question: "ఏలినాటి శని కాలంలో ఏ పరిహారాలు అత్యంత ప్రభావవంతమైనవి?",
+          answer:
+            "నిత్యం శ్రీ హనుమాన్ చాలీసా పారాయణం చేయడం, శనివారం సాయంత్రం రావి చెట్టు వద్ద నూనె దీపం వెలిగించడం, 'ఓం శం శనైశ్చరాయ నమః' జపం చేయడం మరియు పేదలకు, శ్రామికులకు సహాయం చేయడం అత్యుత్తమ సాత్విక నివారణలు.",
+        },
+      ]
+    : isHi
     ? [
         {
           question: "शनि की साढ़े साती क्या होती है?",
@@ -140,13 +170,23 @@ export default async function SadeSatiPage() {
         },
       ];
 
-  const pageTitle = isHi
+  const pageTitle = isTe
+    ? "శని సాడే సతి & ధైయా కాలిక్యులేటర్"
+    : isHi
     ? "शनि साढ़े साती एवं ढैय्या कैलकुलेटर"
     : "Shani Sade Sati & Dhaiya Calculator";
 
-  const subtitle = isHi
+  const subtitle = isTe
+    ? "మీ జన్మ చంద్ర రాశి ప్రకారం ఏలినాటి శని దశలు, పూర్తి జీవితకాల కాలక్రమం & ప్రామాణిక వైదిక నివారణలు"
+    : isHi
     ? "अपनी जन्म चंद्र राशि से जानें साढ़े साती के चरण, संपूर्ण जीवन चक्र तिथियां एवं प्रामाणिक वैदिक उपाय"
     : "Astronomically precise Rising, Peak, and Setting phases, complete 1960–2065 timeline & Vedic remedies";
+
+  const faqListTitle = isTe
+    ? "ఏలినాటి శని ముఖ్య ప్రశ్నలు & సమాధానాలు"
+    : isHi
+    ? "साढ़े साती से जुड़े मुख्य प्रश्न व उत्तर"
+    : "Frequently Asked Questions";
 
   return (
     <div className="space-y-8 pb-16">
@@ -160,7 +200,11 @@ export default async function SadeSatiPage() {
         <SadeSatiTool />
 
         <div className="mt-12">
-          <FaqList faqs={faqs} title={isHi ? "साढ़े साती से जुड़े मुख्य प्रश्न व उत्तर" : "Frequently Asked Questions"} />
+          <RelatedKundliTools currentTool="sade-sati" isHi={isHi} isTe={isTe} />
+        </div>
+
+        <div className="mt-12">
+          <FaqList faqs={faqs} title={faqListTitle} />
         </div>
       </div>
 

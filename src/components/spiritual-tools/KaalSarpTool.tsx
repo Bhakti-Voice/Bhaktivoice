@@ -39,12 +39,12 @@ export function KaalSarpTool() {
 
   const report: KaalSarpReport = useMemo(() => {
     return analyzeKaalSarpFromBirth({
-      name: name.trim() || (isHi ? "जातक" : "Devotee"),
+      name: name.trim() || (isTe ? "జాతకుడు" : isHi ? "जातक" : "Devotee"),
       date,
       time,
       place,
     });
-  }, [name, date, time, place]);
+  }, [name, date, time, place, isTe, isHi]);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -65,10 +65,16 @@ export function KaalSarpTool() {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="border-b border-sand/60 pb-4">
             <h2 className="font-serif text-lg font-bold text-ink">
-              {isHi ? "जन्म विवरण दर्ज करें" : "Enter Birth Details"}
+              {isTe
+                ? "జన్మ వివరాలు నమోదు చేయండి"
+                : isHi
+                ? "जन्म विवरण दर्ज करें"
+                : "Enter Birth Details"}
             </h2>
             <p className="text-xs text-muted">
-              {isHi
+              {isTe
+                ? "కాల సర్ప యోగ గణన కొరకు రాహు-కేతువుల సూక్ష్మ అక్షం మరియు ఏడు ప్రధాన గ్రహాల భావ స్థితుల ఖచ్చితమైన విశ్లేషణ చేయబడుతుంది."
+                : isHi
                 ? "काल सर्प योग की गणना हेतु राहु-केतु के सूक्ष्म अक्ष व सातों शास्त्रीय ग्रहों की भाव स्थिति का विश्लेषण किया जाता है।"
                 : "Accurate date, time, and coordinates are required to evaluate the Rahu-Ketu nodal axis and planetary longitude hemming."}
             </p>
@@ -85,11 +91,15 @@ export function KaalSarpTool() {
             onTimeChange={setTime}
             onPlaceChange={setPlace}
             labels={{
-              name: isHi ? "जातक का नाम (वैकल्पिक)" : "Name (Optional)",
-              date: isHi ? "जन्म तिथि" : "Birth Date",
-              time: isHi ? "जन्म समय" : "Birth Time",
-              place: isHi ? "जन्म स्थान / शहर" : "Birth Place / City",
-              placeHint: isHi ? "शहर खोजें (उदा. दिल्ली, मुंबई, जयपुर...)" : "Search city (e.g. New Delhi, Mumbai, London...)",
+              name: isTe ? "పేరు (ఐచ్ఛికం)" : isHi ? "जातक का नाम (वैकल्पिक)" : "Name (Optional)",
+              date: isTe ? "పుట్టిన తేదీ" : isHi ? "जन्म तिथि" : "Birth Date",
+              time: isTe ? "పుట్టిన సమయం" : isHi ? "जन्म समय" : "Birth Time",
+              place: isTe ? "పుట్టిన స్థలం / నగరం" : isHi ? "जन्म स्थान / शहर" : "Birth Place / City",
+              placeHint: isTe
+                ? "నగరాన్ని వెతకండి (ఉదా. హైదరాబాద్, విజయవాడ, తిరుపతి...)"
+                : isHi
+                ? "शहर खोजें (उदा. दिल्ली, मुंबई, जयपुर...)"
+                : "Search city (e.g. New Delhi, Mumbai, London...)",
             }}
           />
 
@@ -99,7 +109,11 @@ export function KaalSarpTool() {
               className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-purple-700 to-indigo-800 px-6 py-3 text-sm font-bold text-white shadow-md transition-all hover:opacity-95 hover:shadow-lg active:scale-95"
             >
               <Compass className="h-4 w-4" />
-              {isHi ? "काल सर्प दोष की जांच करें" : "Analyze Kaal Sarp Dosha"}
+              {isTe
+                ? "కాల సర్ప దోషాన్ని విశ్లేషించండి"
+                : isHi
+                ? "काल सर्प दोष की जांच करें"
+                : "Analyze Kaal Sarp Dosha"}
             </button>
           </div>
         </form>
@@ -122,13 +136,13 @@ export function KaalSarpTool() {
                     ) : (
                       <ShieldAlert className="h-4 w-4" />
                     )}
-                    {isHi ? report.typeLabelHi : report.typeLabelEn}
+                    {isTe ? report.typeLabelTe : isHi ? report.typeLabelHi : report.typeLabelEn}
                   </span>
 
                   {report.hasKaalSarp && (
                     <span className="inline-flex items-center gap-1 rounded-full bg-sand/60 px-3 py-1 text-xs font-semibold text-ink">
                       <Sparkles className="h-3.5 w-3.5 text-saffron" />
-                      {isHi ? report.directionLabelHi : report.directionLabelEn}
+                      {isTe ? report.directionLabelTe : isHi ? report.directionLabelHi : report.directionLabelEn}
                     </span>
                   )}
                 </div>
@@ -136,39 +150,45 @@ export function KaalSarpTool() {
                 <h3 className="mt-3 font-serif text-2xl font-bold text-ink md:text-3xl">
                   {name ? `${name}: ` : ""}
                   {report.hasKaalSarp && report.yoga
-                    ? isHi
+                    ? isTe
+                      ? report.yoga.nameTe
+                      : isHi
                       ? report.yoga.nameHi
                       : report.yoga.nameEn
+                    : isTe
+                    ? "కాల సర్ప దోష రహిత జాతకం"
                     : isHi
                     ? "काल सर्प दोष रहित कुंडली"
                     : "No Kaal Sarp Yoga Present"}
                 </h3>
 
                 <p className="mt-2 text-sm leading-relaxed text-muted max-w-3xl">
-                  {isHi ? report.summaryHi : report.summaryEn}
+                  {isTe ? report.summaryTe : isHi ? report.summaryHi : report.summaryEn}
                 </p>
               </div>
 
               {/* Nodal Axis Quick Badge */}
               <div className="rounded-2xl border border-sand bg-sand/30 p-5 text-center min-w-[200px]">
                 <div className="text-xs font-semibold text-muted uppercase tracking-wider">
-                  {isHi ? "राहु-केतु अक्ष" : "Rahu-Ketu Axis"}
+                  {isTe ? "రాహు-కేతు అక్షం" : isHi ? "राहु-केतु अक्ष" : "Rahu-Ketu Axis"}
                 </div>
                 <div className="mt-2 font-serif text-lg font-bold text-ink">
-                  {isHi ? "राहु: " : "Rahu: "}
-                  {report.rahuPlacement.house} {isHi ? "भाव" : "H"} /{" "}
-                  {isHi ? "केतु: " : "Ketu: "}
-                  {report.ketuPlacement.house} {isHi ? "भाव" : "H"}
+                  {isTe ? "రాహు: " : isHi ? "राहु: " : "Rahu: "}
+                  {report.rahuPlacement.house} {isTe ? "వ ఇల్లు" : isHi ? "भाव" : "H"} /{" "}
+                  {isTe ? "కేతు: " : isHi ? "केतु: " : "Ketu: "}
+                  {report.ketuPlacement.house} {isTe ? "వ ఇల్లు" : isHi ? "भाव" : "H"}
                 </div>
                 <div className="mt-2 text-xs text-muted">
-                  {isHi
+                  {isTe
+                    ? `${report.planetsHemmedCount} / 7 గ్రహాలు అక్షం లోపల`
+                    : isHi
                     ? `${report.planetsHemmedCount} / 7 ग्रह अक्ष के भीतर`
                     : `${report.planetsHemmedCount} of 7 planets enclosed`}
                 </div>
                 {report.yoga && (
                   <div className="mt-2 rounded-xl bg-purple-500/10 px-2 py-1 text-[11px] font-bold text-purple-700 dark:text-purple-400">
-                    {isHi ? "उन्नति आयु: " : "Relief / Rise Age: "} {report.yoga.reliefAge}+{" "}
-                    {isHi ? "वर्ष" : "Yrs"}
+                    {isTe ? "ఉపశమన వయస్సు: " : isHi ? "उन्नति आयु: " : "Relief / Rise Age: "} {report.yoga.reliefAge}+{" "}
+                    {isTe ? "సంవత్సరాలు" : isHi ? "वर्ष" : "Yrs"}
                   </div>
                 )}
               </div>
@@ -178,24 +198,24 @@ export function KaalSarpTool() {
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-sand/60 pt-6">
               <div className="rounded-2xl border border-sand/80 bg-sand/30 p-4">
                 <div className="text-xs font-bold uppercase tracking-wider text-muted">
-                  {isHi ? "राहु स्थिति (सर्प का मुख)" : "Rahu Position (Serpent's Head)"}
+                  {isTe ? "రాహు స్థితి (సర్ప ముఖం)" : isHi ? "राहु स्थिति (सर्प का मुख)" : "Rahu Position (Serpent's Head)"}
                 </div>
                 <div className="mt-1 font-serif text-base font-bold text-ink">
                   {report.rahuPlacement.house}
-                  {isHi ? "वां भाव" : "th House"} —{" "}
-                  {isHi ? report.rahuPlacement.rashiNameHi : report.rahuPlacement.rashiName} (
+                  {isTe ? "వ భావం" : isHi ? "वां भाव" : "th House"} —{" "}
+                  {isTe ? report.rahuPlacement.rashiNameTe : isHi ? report.rahuPlacement.rashiNameHi : report.rahuPlacement.rashiName} (
                   {report.rahuPlacement.degree})
                 </div>
               </div>
 
               <div className="rounded-2xl border border-sand/80 bg-sand/30 p-4">
                 <div className="text-xs font-bold uppercase tracking-wider text-muted">
-                  {isHi ? "केतु स्थिति (सर्प की पूंछ)" : "Ketu Position (Serpent's Tail)"}
+                  {isTe ? "కేతు స్థితి (సర్ప తోక)" : isHi ? "केतु स्थिति (सर्प की पूंछ)" : "Ketu Position (Serpent's Tail)"}
                 </div>
                 <div className="mt-1 font-serif text-base font-bold text-ink">
                   {report.ketuPlacement.house}
-                  {isHi ? "वां भाव" : "th House"} —{" "}
-                  {isHi ? report.ketuPlacement.rashiNameHi : report.ketuPlacement.rashiName} (
+                  {isTe ? "వ భావం" : isHi ? "वां भाव" : "th House"} —{" "}
+                  {isTe ? report.ketuPlacement.rashiNameTe : isHi ? report.ketuPlacement.rashiNameHi : report.ketuPlacement.rashiName} (
                   {report.ketuPlacement.degree})
                 </div>
               </div>
@@ -207,11 +227,13 @@ export function KaalSarpTool() {
             <div className="flex items-center gap-2 mb-4">
               <Layers className="h-5 w-5 text-saffron" />
               <h3 className="font-serif text-xl font-bold text-ink">
-                {isHi ? "ग्रह अक्षीय स्थिति विवरण" : "Planetary Nodal Axis Distribution"}
+                {isTe ? "గ్రహాల అక్ష స్థితి విశ్లేషణ" : isHi ? "ग्रह अक्षीय स्थिति विवरण" : "Planetary Nodal Axis Distribution"}
               </h3>
             </div>
             <p className="text-xs text-muted mb-6">
-              {isHi
+              {isTe
+                ? "సూర్యుడు, చంద్రుడు, కుజుడు, బుధుడు, గురు, శుక్ర మరియు శని అనే ఏడు గ్రహాలూ రాహు-కేతువుల ఒకే వైపు బంధించబడినప్పుడు మాత్రమే సంపూర్ణ కాల సర్ప యోగం ఏర్పడుతుంది."
+                : isHi
                 ? "काल सर्प योग का निर्माण तभी होता है जब सूर्य, चंद्र, मंगल, बुध, गुरु, शुक्र व शनि सातों ग्रह राहु-केतु के एक ही ओर बंधे हों।"
                 : "A classical Kaal Sarp Yoga requires all 7 celestial grahas to be hemmed on one hemisphere of the Rahu-Ketu nodal axis."}
             </p>
@@ -220,20 +242,20 @@ export function KaalSarpTool() {
               <table className="w-full text-left text-xs">
                 <thead>
                   <tr className="border-b border-sand text-muted">
-                    <th className="pb-3 font-semibold">{isHi ? "ग्रह" : "Planet"}</th>
-                    <th className="pb-3 font-semibold">{isHi ? "भाव" : "House"}</th>
-                    <th className="pb-3 font-semibold">{isHi ? "अंश (Degree)" : "Degree"}</th>
-                    <th className="pb-3 font-semibold">{isHi ? "अक्षीय स्थिति" : "Nodal Side"}</th>
+                    <th className="pb-3 font-semibold">{isTe ? "గ్రహం" : isHi ? "ग्रह" : "Planet"}</th>
+                    <th className="pb-3 font-semibold">{isTe ? "భావం (ఇల్లు)" : isHi ? "भाव" : "House"}</th>
+                    <th className="pb-3 font-semibold">{isTe ? "అంశ (Degree)" : isHi ? "अंश (Degree)" : "Degree"}</th>
+                    <th className="pb-3 font-semibold">{isTe ? "అక్ష స్థితి" : isHi ? "अक्षीय स्थिति" : "Nodal Side"}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-sand/40">
                   {report.planetChecks.map((p) => (
                     <tr key={p.id} className="py-2.5">
                       <td className="py-2.5 font-bold text-ink">
-                        {isHi ? p.nameHi : p.nameEn}
+                        {isTe ? p.nameTe : isHi ? p.nameHi : p.nameEn}
                       </td>
                       <td className="py-2.5">
-                        {p.house} {isHi ? "भाव" : "House"}
+                        {p.house} {isTe ? "వ భావం" : isHi ? "भाव" : "House"}
                       </td>
                       <td className="py-2.5 text-muted">{p.degree}</td>
                       <td className="py-2.5">
@@ -245,9 +267,13 @@ export function KaalSarpTool() {
                           }`}
                         >
                           {p.side === "hemmed"
-                            ? isHi
+                            ? isTe
+                              ? "అక్షం లోపల (బంధితం)"
+                              : isHi
                               ? "अक्ष के भीतर (बद्ध)"
                               : "Hemmed in Axis"
+                            : isTe
+                            ? "అక్షం బయట (విముక్తి)"
                             : isHi
                             ? "अक्ष से बाहर (मुक्त)"
                             : "Escaped Outside"}
@@ -266,7 +292,9 @@ export function KaalSarpTool() {
               <div className="flex items-center gap-2">
                 <Sparkles className="h-5 w-5 text-saffron" />
                 <h3 className="font-serif text-xl font-bold text-ink">
-                  {isHi
+                  {isTe
+                    ? `${report.yoga.nameTe}: జీవిత రంగాలపై ప్రభావం`
+                    : isHi
                     ? `${report.yoga.nameHi}: जीवन क्षेत्रों पर प्रभाव`
                     : `${report.yoga.nameEn}: Life Area Insights`}
                 </h3>
@@ -276,30 +304,30 @@ export function KaalSarpTool() {
                 <div className="rounded-2xl border border-sand/80 bg-sand/20 p-5">
                   <div className="flex items-center gap-2 text-ink font-bold font-serif text-base mb-2">
                     <TrendingUp className="h-4 w-4 text-emerald-600" />
-                    {isHi ? "कार्यक्षेत्र व आजीविका" : "Career & Professional Rise"}
+                    {isTe ? "ఉద్యోగం & వృత్తి ఎదుగుదల" : isHi ? "कार्यक्षेत्र व आजीविका" : "Career & Professional Rise"}
                   </div>
                   <p className="text-xs leading-relaxed text-muted">
-                    {isHi ? report.yoga.careerImpactHi : report.yoga.careerImpactEn}
+                    {isTe ? report.yoga.careerImpactTe : isHi ? report.yoga.careerImpactHi : report.yoga.careerImpactEn}
                   </p>
                 </div>
 
                 <div className="rounded-2xl border border-sand/80 bg-sand/20 p-5">
                   <div className="flex items-center gap-2 text-ink font-bold font-serif text-base mb-2">
                     <Award className="h-4 w-4 text-saffron" />
-                    {isHi ? "दांपत्य व परिवार" : "Marriage & Family Harmony"}
+                    {isTe ? "వివాహం & కుటుంబ సామరస్యం" : isHi ? "दांपत्य व परिवार" : "Marriage & Family Harmony"}
                   </div>
                   <p className="text-xs leading-relaxed text-muted">
-                    {isHi ? report.yoga.maritalImpactHi : report.yoga.maritalImpactEn}
+                    {isTe ? report.yoga.maritalImpactTe : isHi ? report.yoga.maritalImpactHi : report.yoga.maritalImpactEn}
                   </p>
                 </div>
 
                 <div className="rounded-2xl border border-sand/80 bg-sand/20 p-5">
                   <div className="flex items-center gap-2 text-ink font-bold font-serif text-base mb-2">
                     <Shield className="h-4 w-4 text-indigo-600" />
-                    {isHi ? "स्वास्थ्य व मानसिक शांति" : "Health & Mental Vitality"}
+                    {isTe ? "ఆరోగ్యం & మానసిక ప్రశాంతత" : isHi ? "स्वास्थ्य व मानसिक शांति" : "Health & Mental Vitality"}
                   </div>
                   <p className="text-xs leading-relaxed text-muted">
-                    {isHi ? report.yoga.healthImpactHi : report.yoga.healthImpactEn}
+                    {isTe ? report.yoga.healthImpactTe : isHi ? report.yoga.healthImpactHi : report.yoga.healthImpactEn}
                   </p>
                 </div>
               </div>
@@ -307,10 +335,10 @@ export function KaalSarpTool() {
               {/* Silver Lining Card */}
               <div className="rounded-2xl border border-amber-200 bg-amber-50/50 p-5 dark:border-amber-900/50 dark:bg-amber-950/20">
                 <div className="font-serif text-base font-bold text-amber-900 dark:text-amber-300">
-                  {isHi ? "सकारात्मक पक्ष व ऐतिहासिक प्रमाण" : "The Silver Lining: Greatness & High Achievement"}
+                  {isTe ? "సానుకూల దృక్పథం & అద్భుత విజయాలు" : isHi ? "सकारात्मक पक्ष व ऐतिहासिक प्रमाण" : "The Silver Lining: Greatness & High Achievement"}
                 </div>
                 <p className="mt-2 text-xs leading-relaxed text-amber-800 dark:text-amber-200">
-                  {isHi ? report.yoga.silverLiningHi : report.yoga.silverLiningEn}
+                  {isTe ? report.yoga.silverLiningTe : isHi ? report.yoga.silverLiningHi : report.yoga.silverLiningEn}
                 </p>
               </div>
             </div>
@@ -321,11 +349,13 @@ export function KaalSarpTool() {
             <div className="flex items-center gap-2 mb-4">
               <Award className="h-5 w-5 text-saffron" />
               <h3 className="font-serif text-xl font-bold text-ink">
-                {isHi ? "प्रामाणिक काल सर्प शांति एवं सात्विक उपाय" : "Authentic Kaal Sarp Shanti & Shastric Remedies"}
+                {isTe ? "ప్రామాణిక కాల సర్ప శాంతి & శాస్త్రోక్త నివారణలు" : isHi ? "प्रामाणिक काल सर्प शांति एवं सात्विक उपाय" : "Authentic Kaal Sarp Shanti & Shastric Remedies"}
               </h3>
             </div>
             <p className="text-xs text-muted mb-6">
-              {isHi
+              {isTe
+                ? "కాల సర్ప యోగానికి భయపడాల్సిన పనిలేదు. ఇది తీవ్రమైన కర్మ శుద్ధిని సూచిస్తుంది. భగవాన్ పరమశివుని ఆరాధన, రాహు-కేతువుల సమన్వయ సాధనల ద్వారా ఈ యోగం ఉన్నత కీర్తి, విజయం మరియు ఆత్మిక శక్తిని ప్రసాదిస్తుంది."
+                : isHi
                 ? "काल सर्प योग से भयभीत होने की आवश्यकता नहीं है। भगवान शिव की आराधना व सात्विक नियमों के पालन से यह योग असीम प्रतिष्ठा व समृद्धि का कारक बन जाता है।"
                 : "Kaal Sarp Yoga is not a curse but an intense karmic catalyst. Classical Jyotish texts prescribe empowering Shiva sadhanas and Rahu-Ketu harmony rituals."}
             </p>
@@ -338,10 +368,10 @@ export function KaalSarpTool() {
                 >
                   <div>
                     <h4 className="font-serif text-base font-bold text-ink">
-                      {isHi ? remedy.titleHi : remedy.titleEn}
+                      {isTe ? remedy.titleTe : isHi ? remedy.titleHi : remedy.titleEn}
                     </h4>
                     <p className="mt-2 text-xs leading-relaxed text-muted">
-                      {isHi ? remedy.descriptionHi : remedy.descriptionEn}
+                      {isTe ? remedy.descriptionTe : isHi ? remedy.descriptionHi : remedy.descriptionEn}
                     </p>
                   </div>
 

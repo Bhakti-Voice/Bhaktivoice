@@ -168,6 +168,7 @@ export default async function VratUpavasHubPage() {
 
   const crumbs = localizedCrumbs(
     isTe ? "హోమ్" : isHi ? "होम" : "Home",
+    [isTe ? "ఆధ్యాత్మిక సాధనాలు" : isHi ? "आध्यात्मिक उपकरण" : "Spiritual Tools", PATHS.spiritualTools],
     [isTe ? "వ్రతాలు & ఉపవాసాలు" : isHi ? "व्रत एवं उपवास" : "Vrat & Upavas", PATHS.vratUpavas]
   );
 
