@@ -11,6 +11,7 @@ import {
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { PATHS } from "@/lib/seo/paths";
 
 interface KundliHeroProps {
@@ -78,30 +79,16 @@ export function KundliHero({ isHi = false, isTe = false }: KundliHeroProps) {
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb Navigation */}
-        <nav
-          aria-label="Breadcrumb"
-          className="flex items-center gap-1.5 text-xs sm:text-sm text-stone-500 mb-4"
-        >
-          <LocaleLink
-            href="/"
-            className="flex items-center gap-1 hover:text-[#d9531e] transition-colors"
-          >
-            <Home className="h-3.5 w-3.5" />
-            <span>{isTe ? "హోమ్" : isHi ? "होम" : "Home"}</span>
-          </LocaleLink>
-          <ChevronRight className="h-3.5 w-3.5 text-stone-400" />
-          <LocaleLink
-            href={PATHS.spiritualTools}
-            className="hover:text-[#d9531e] transition-colors"
-          >
-            {isTe ? "ఆధ్యాత్మిక సాధనాలు" : isHi ? "आध्यात्मिक उपकरण" : "Spiritual Tools"}
-          </LocaleLink>
-          <ChevronRight className="h-3.5 w-3.5 text-stone-400" />
-          <span className="font-medium text-[#3b1812]" aria-current="page">
-            {isTe ? "ఉచిత కుండలి" : isHi ? "मुफ्त कुंडली" : "Free Kundli"}
-          </span>
-        </nav>
+        {/* Breadcrumb Navigation with JSON-LD Schema */}
+        <div className="mb-4">
+          <Breadcrumbs
+            items={[
+              { name: isTe ? "హోమ్" : isHi ? "होम" : "Home", href: "/" },
+              { name: isTe ? "ఆధ్యాత్మిక సాధనాలు" : isHi ? "आध्यात्मिक उपकरण" : "Spiritual Tools", href: PATHS.spiritualTools },
+              { name: isTe ? "ఉచిత కుండలి" : isHi ? "मुफ्त कुंडली" : "Free Kundli", href: PATHS.kundli },
+            ]}
+          />
+        </div>
 
         {/* Hero Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">

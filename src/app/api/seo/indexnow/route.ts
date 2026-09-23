@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { submitToIndexNow } from "@/lib/seo/indexnow";
 import { SITE } from "@/lib/seo/site";
+import { PATHS } from "@/lib/seo/paths";
 
 export const dynamic = "force-dynamic";
 
@@ -12,14 +13,14 @@ export async function POST(request: Request) {
       : [
           SITE.url,
           `${SITE.url}/panchang/today`,
-          `${SITE.url}/aaj-ki-tithi`,
-          `${SITE.url}/bhagavad-gita`,
-          `${SITE.url}/spiritual-tools`,
-          `${SITE.url}/suvichar-card-maker`,
-          `${SITE.url}/kundli`,
-          `${SITE.url}/chalisa`,
-          `${SITE.url}/mantras-for-naam-jaap`,
-          `${SITE.url}/hindu-calendar`,
+          `${SITE.url}${PATHS.tithi}`,
+          `${SITE.url}${PATHS.gita}`,
+          `${SITE.url}${PATHS.spiritualTools}`,
+          `${SITE.url}${PATHS.suvicharMaker}`,
+          `${SITE.url}${PATHS.kundli}`,
+          `${SITE.url}${PATHS.chalisa}`,
+          `${SITE.url}${PATHS.mantras}`,
+          `${SITE.url}${PATHS.calendar}`,
         ];
 
     const result = await submitToIndexNow(urls);

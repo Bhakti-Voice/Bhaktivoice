@@ -29,8 +29,8 @@ const TOOL_COLUMNS: ToolColumn[] = [
     categoryTe: "జ్యోతిష్యం & కుండలి",
     items: [
       { href: "/kundli", labelEn: "Free Janam Kundli", labelHi: "मुफ्त जन्म कुंडली", labelTe: "ఉచిత జన్మ కుండలి" },
-      { href: "/kundli-milan", labelEn: "Kundli Milan (36 Guna)", labelHi: "३६ गुण कुंडली मिलान", labelTe: "కుండలి మిలన్ (36 గుణాలు)" },
-      { href: "/baby-names", labelEn: "Baby Names by Nakshatra", labelHi: "नक्षत्र अनुसार नामकरण", labelTe: "నక్షత్ర నామకరణం" },
+      { href: "/kundli/milan", labelEn: "Kundli Milan (36 Guna)", labelHi: "३६ गुण कुंडली मिलान", labelTe: "కుండలి మిలన్ (36 గుణాలు)" },
+      { href: "/spiritual-tools/baby-names", labelEn: "Baby Names by Nakshatra", labelHi: "नक्षत्र अनुसार नामकरण", labelTe: "నక్షత్ర నామకరణం" },
       { href: "/panchang/chandrabalam", labelEn: "Chandrabalam Finder", labelHi: "दैनिक चंद्रबलम", labelTe: "చంద్రబలం" },
       { href: "/panchang/nakshatra", labelEn: "Nakshatra Calculator", labelHi: "नक्षत्र एवं राशि फल", labelTe: "నక్షత్ర & రాశి ఫలాలు" },
     ],
@@ -43,8 +43,8 @@ const TOOL_COLUMNS: ToolColumn[] = [
     items: [
       { href: "/naam-jaap", labelEn: "Digital Naam Jaap", labelHi: "डिजिटल नाम जप", labelTe: "డిజిటల్ నామ జపం" },
       { href: "/naam-jaap/mala", labelEn: "108 Jap Mala Counter", labelHi: "१०८ जप माला काउंटर", labelTe: "108 జప మాల కౌంటర్" },
-      { href: "/daily-sadhana/sankalp", labelEn: "Daily Sankalp Vidhi", labelHi: "दैनिक संकल्प विधि", labelTe: "దిన సంకల్ప విధి" },
-      { href: "/daily-sadhana/diary", labelEn: "Bhakti Sadhana Diary", labelHi: "नित्य साधना डायरी", labelTe: "భక్తి సాధన డైరీ" },
+      { href: "/sadhana/sankalp", labelEn: "Daily Sankalp Vidhi", labelHi: "दैनिक संकल्प विधि", labelTe: "దిన సంకల్ప విధి" },
+      { href: "/sadhana/diary", labelEn: "Bhakti Sadhana Diary", labelHi: "नित्य साधना डायरी", labelTe: "భక్తి సాధన డైరీ" },
     ],
   },
   // Column 3: Utilities & Media
@@ -53,9 +53,9 @@ const TOOL_COLUMNS: ToolColumn[] = [
     categoryHi: "उपयोगी टूल्स व मीडिया",
     categoryTe: "ఉపయోగకరమైన సాధనాలు & మీడియా",
     items: [
-      { href: "/printable-calendar", labelEn: "Printable Wall Calendar (PDF)", labelHi: "दीवार कैलेंडर प्रिंट / PDF", labelTe: "క్యాలెండర్ ప్రింట్ / PDF" },
-      { href: "/suvichar-card-maker", labelEn: "Suvichar Status Maker", labelHi: "सुविचार स्टेटस मेकर", labelTe: "సువిచార్ స్టేటస్ మేకర్" },
-      { href: "/sacred-yatra-guides/planner", labelEn: "Tirth Yatra Planner", labelHi: "तीर्थ यात्रा प्लानर", labelTe: "తీర్థ యాత్ర ప్లానర్" },
+      { href: "/calendar/printable", labelEn: "Printable Wall Calendar (PDF)", labelHi: "दीवार कैलेंडर प्रिंट / PDF", labelTe: "క్యాలెండర్ ప్రింట్ / PDF" },
+      { href: "/spiritual-tools/suvichar-maker", labelEn: "Suvichar Status Maker", labelHi: "सुविचार स्टेटस मेकर", labelTe: "సువిచార్ స్టేటస్ మేకర్" },
+      { href: "/yatra/planner", labelEn: "Tirth Yatra Planner", labelHi: "तीर्थ यात्रा प्लानर", labelTe: "తీర్థ యాత్ర ప్లానర్" },
       { href: "/panchang/panchang-utilities", labelEn: "Panchang Utilities", labelHi: "पंचांग टूल्स एवं गणना", labelTe: "పంచాంగ సాధనాలు" },
       { href: "/spiritual-tools", labelEn: "All Spiritual Tools (Hub)", labelHi: "सम्पूर्ण टूल्स हब", labelTe: "అన్ని సాధనాల హబ్" },
     ],

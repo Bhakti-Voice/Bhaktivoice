@@ -149,12 +149,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "karnavedha",
   ];
   for (const slug of shubhSlugs) {
-    add(`/shubh-dates/${slug}`, today, "daily", 0.95);
+    add(PATHS.shubhDates(slug), today, "daily", 0.95);
   }
 
-  // 7. Bhagavad Gita Individual Chapter pages (/bhagavad-gita/chapter-1 ... chapter-18)
+  // 7. Bhagavad Gita Individual Chapter pages (/gita/chapter-1 ... chapter-18)
   for (let i = 1; i <= 18; i++) {
-    add(`/bhagavad-gita/chapter-${i}`, today, "monthly", 0.9);
+    add(`${PATHS.gita}/chapter-${i}`, today, "monthly", 0.9);
   }
 
   // 8. Angel Numbers detail pages

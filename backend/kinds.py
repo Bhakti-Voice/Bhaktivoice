@@ -71,7 +71,7 @@ KINDS: dict[str, Kind] = {
         "katha",
         "Katha",
         "Katha series",
-        "/katha-stories",
+        "/katha",
         fields=SEO_FIELDS
         + (
             Field("subtitle", "Subtitle"),
@@ -91,7 +91,7 @@ KINDS: dict[str, Kind] = {
         "blog",
         "Blog post",
         "Blog posts",
-        "/bhakti-blog",
+        "/blog",
         fields=SEO_FIELDS
         + (
             Field("excerpt", "Excerpt", "textarea", rows=3),
@@ -104,7 +104,7 @@ KINDS: dict[str, Kind] = {
         "yatra",
         "Yatra / trip",
         "Yatra pages",
-        "/sacred-yatra-guides",
+        "/yatra",
         "TouristDestination",
         fields=SEO_FIELDS
         + (
@@ -120,7 +120,7 @@ KINDS: dict[str, Kind] = {
             Field("whyVisit", "Why visit", "textarea", rows=4),
             Field("significance", "Significance", "textarea", rows=4),
             Field("places", "Places", "places", "Name || Note || /optional-href"),
-            Field("temples", "Temples", "related", "temple | /hindu-temples/slug | Label"),
+            Field("temples", "Temples", "related", "temple | /temples/slug | Label"),
             Field("bestTime", "Best time", "textarea", rows=3),
             Field("howToReach", "How to reach", "textarea", rows=3),
             Field("itinerary", "Itinerary", "itinerary", "Day 1 || Plan"),
@@ -134,7 +134,7 @@ KINDS: dict[str, Kind] = {
         "temple",
         "Temple",
         "Temples",
-        "/hindu-temples",
+        "/temples",
         "TouristAttraction",
         fields=SEO_FIELDS
         + (
@@ -154,7 +154,7 @@ KINDS: dict[str, Kind] = {
         "festival",
         "Festival",
         "Festivals",
-        "/hindu-festivals",
+        "/festivals",
         fields=SEO_FIELDS
         + (
             Field("monthHint", "Month hint"),
@@ -176,7 +176,7 @@ KINDS: dict[str, Kind] = {
         "mantra",
         "Mantra",
         "Mantras",
-        "/mantras-for-naam-jaap",
+        "/mantras",
         fields=SEO_FIELDS
         + (
             Field("mantra", "Mantra text", "textarea", rows=2),
@@ -192,7 +192,7 @@ KINDS: dict[str, Kind] = {
         "product",
         "Store product",
         "Products",
-        "/bhakti-store",
+        "/store",
         "Product",
         fields=SEO_FIELDS
         + (
@@ -213,7 +213,7 @@ KINDS: dict[str, Kind] = {
         "store_category",
         "Store category",
         "Store categories",
-        "/bhakti-store/category",
+        "/store/category",
         fields=(
             Field("name", "Name"),
             Field("description", "Description", "textarea", rows=3),
@@ -223,7 +223,7 @@ KINDS: dict[str, Kind] = {
         "community_group",
         "Community group",
         "Community groups",
-        "/devotee-community",
+        "/community",
         fields=(
             Field("name", "Name"),
             Field("text", "Description", "textarea", rows=3),
@@ -233,7 +233,7 @@ KINDS: dict[str, Kind] = {
         "sankalp_offer",
         "Sankalp offer",
         "Sankalp offers",
-        "/daily-sadhana/sankalp",
+        "/sadhana/sankalp",
         fields=(
             Field("title", "Title"),
             Field("text", "Description", "textarea", rows=3),
@@ -256,7 +256,7 @@ KINDS: dict[str, Kind] = {
         "bhajan",
         "Bhajan",
         "Bhajans",
-        "/bhajan-and-kirtan",
+        "/bhajans",
         fields=SEO_FIELDS
         + (Field("sections", "Sections", "sections", "## Heading then body"),),
     ),
@@ -264,7 +264,7 @@ KINDS: dict[str, Kind] = {
         "aarti",
         "Aarti",
         "Aartis",
-        "/aarti-chants",
+        "/aarti",
         fields=SEO_FIELDS
         + (Field("sections", "Sections", "sections", "## Heading then body"),),
     ),
@@ -1069,8 +1069,8 @@ def public_page(
         extras["category"] = data.get("categorySlug") or data.get("category") or ""
         page["breadcrumbs"] = [
             {"name": home_name, "href": "/"},
-            {"name": "భండార్" if locale == "te" else "भंडार" if locale == "hi" else "Store", "href": "/bhakti-store"},
-            {"name": extras["name"], "href": f"/bhakti-store/{slug}"},
+            {"name": "భండార్" if locale == "te" else "भंडार" if locale == "hi" else "Store", "href": "/store"},
+            {"name": extras["name"], "href": f"/store/{slug}"},
         ]
     page.update(extras)
     return page

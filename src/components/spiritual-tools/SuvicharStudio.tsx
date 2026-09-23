@@ -339,8 +339,8 @@ export function SuvicharStudio() {
 
   // Generate Smart Shareable Web URL that automatically renders photo preview in WhatsApp
   const getShareableSmartUrl = useCallback(() => {
-    if (typeof window === "undefined") return "https://www.bhaktivoice.com/suvichar-card-maker";
-    const baseUrl = `${window.location.origin}${isHi ? "/hi" : ""}/suvichar-card-maker`;
+    if (typeof window === "undefined") return "https://www.bhaktivoice.com/spiritual-tools/suvichar-maker";
+    const baseUrl = `${window.location.origin}${isHi ? "/hi" : ""}/spiritual-tools/suvichar-maker`;
     const params = new URLSearchParams();
     params.set("q", selectedQuote.id);
     params.set("t", selectedTheme.id);

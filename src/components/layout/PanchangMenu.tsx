@@ -50,10 +50,10 @@ const PANCHANG_COLUMNS: { titleEn?: string; titleHi?: string; items: PanchangMen
   // Column 4
   {
     items: [
-      { slug: "choghadiya", href: "/choghadiya", labelEn: "Choghadiya", labelHi: "चौघड़िया (दिन-रात)", labelTe: "చోఘడియా (పగలు-రాత్రి)" },
-      { slug: "panchak", href: "/panchak", labelEn: "Panchak Calendar", labelHi: "पंचक विचार 2026", labelTe: "పంచక విచారం 2026" },
-      { slug: "bhadra", href: "/bhadra", labelEn: "Bhadra Timings", labelHi: "भद्रा काल विचार", labelTe: "భద్రా కాల విచారం" },
-      { slug: "hora", href: "/hora", labelEn: "Planetary Hora", labelHi: "ग्रह होरा चक्र", labelTe: "గ్రహ హోరా చక్రం" },
+      { slug: "choghadiya", href: "/muhurat/choghadiya", labelEn: "Choghadiya", labelHi: "चौघड़िया (दिन-रात)", labelTe: "చోఘడియా (పగలు-రాత్రి)" },
+      { slug: "panchak", href: "/muhurat/panchak", labelEn: "Panchak Calendar", labelHi: "पंचक विचार 2026", labelTe: "పంచక విచారం 2026" },
+      { slug: "bhadra", href: "/muhurat/bhadra", labelEn: "Bhadra Timings", labelHi: "भद्रा काल विचार", labelTe: "భద్రా కాల విచారం" },
+      { slug: "hora", href: "/muhurat/hora", labelEn: "Planetary Hora", labelHi: "ग्रह होरा चक्र", labelTe: "గ్రహ హోరా చక్రం" },
       { slug: "vinchudo", href: "/panchang/vinchudo", labelEn: "Vinchudo", labelHi: "विंछुड़ो विचार", labelTe: "వింఛుడో విచారం" },
       { slug: "nakshatra", href: "/panchang/nakshatra", labelEn: "Nakshatra", labelHi: "नक्षत्र फल", labelTe: "నక్షత్ర ఫలం" },
     ],

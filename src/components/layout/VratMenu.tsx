@@ -19,31 +19,31 @@ const VRAT_COLUMNS: { items: VratMenuItem[] }[] = [
   // Column 1
   {
     items: [
-      { href: "/vrat-upavas#ekadashi-vrat", labelEn: "Ekadashi Vrat & Parana", labelHi: "एकादशी व्रत एवं पारण", labelTe: "ఏకాదశి వ్రతం & పారణ" },
-      { href: "/vrat-upavas#pradosh-vrat", labelEn: "Pradosh Vrat (Shiva)", labelHi: "प्रदोष व्रत (त्रयोदशी)", labelTe: "ప్రదోష వ్రతం (శివారాధన)" },
-      { href: "/vrat-upavas#sankashti-chaturthi", labelEn: "Sankashti Chaturthi", labelHi: "संकष्टी चतुर्थी (गणेश)", labelTe: "సంకష్ట చతుర్థి (గణపతి)" },
-      { href: "/vrat-upavas#masik-shivratri", labelEn: "Masik Shivratri", labelHi: "मासिक शिवरात्रि व्रत", labelTe: "మాస శివరాత్రి వ్రతం" },
-      { href: "/vrat-upavas#purnima-vrat", labelEn: "Purnima & Satyanarayan", labelHi: "पूर्णिमा व्रत व कथा", labelTe: "పౌర్ణమి & సత్యనారాయణ వ్రతం" },
+      { href: "/vrat#ekadashi-vrat", labelEn: "Ekadashi Vrat & Parana", labelHi: "एकादशी व्रत एवं पारण", labelTe: "ఏకాదశి వ్రతం & పారణ" },
+      { href: "/vrat#pradosh-vrat", labelEn: "Pradosh Vrat (Shiva)", labelHi: "प्रदोष व्रत (त्रयोदशी)", labelTe: "ప్రదోష వ్రతం (శివారాధన)" },
+      { href: "/vrat#sankashti-chaturthi", labelEn: "Sankashti Chaturthi", labelHi: "संकष्टी चतुर्थी (गणेश)", labelTe: "సంకష్ట చతుర్థి (గణపతి)" },
+      { href: "/vrat#masik-shivratri", labelEn: "Masik Shivratri", labelHi: "मासिक शिवरात्रि व्रत", labelTe: "మాస శివరాత్రి వ్రతం" },
+      { href: "/vrat#purnima-vrat", labelEn: "Purnima & Satyanarayan", labelHi: "पूर्णिमा व्रत व कथा", labelTe: "పౌర్ణమి & సత్యనారాయణ వ్రతం" },
     ],
   },
   // Column 2
   {
     items: [
-      { href: "/vrat-upavas#amavasya-tarpan", labelEn: "Amavasya & Pitru Tarpan", labelHi: "अमावस्या एवं पितृ तर्पण", labelTe: "అమావాస్య & పితృ తర్పణం" },
-      { href: "/vrat-upavas#navratri-vrat", labelEn: "Navratri 9 Days Vrat", labelHi: "नवरात्रि ९ दिवसीय व्रत", labelTe: "శరన్నవరాత్రి 9 రోజుల వ్రతం" },
-      { href: "/vrat-upavas#rohini-vrat", labelEn: "Rohini Vrat & Jain", labelHi: "रोहिणी व्रत एवं पच्चक्खाण", labelTe: "రోహిణి వ్రతం & పచ్చక్ఖాణ్" },
-      { href: "/vrat-upavas#sawan-somwar", labelEn: "Sawan Somwar Vrat", labelHi: "सावन सोमवार व्रत", labelTe: "శ్రావణ సోమవార వ్రతం" },
-      { href: "/vrat-upavas#skanda-sashti", labelEn: "Skanda Sashti Vrat", labelHi: "स्कंद षष्ठी (कार्तिकेय)", labelTe: "స్కంద షష్ఠి (సుబ్రహ్మణ్య)" },
+      { href: "/vrat#amavasya-tarpan", labelEn: "Amavasya & Pitru Tarpan", labelHi: "अमावस्या एवं पितृ तर्पण", labelTe: "అమావాస్య & పితృ తర్పణం" },
+      { href: "/vrat#navratri-vrat", labelEn: "Navratri 9 Days Vrat", labelHi: "नवरात्रि ९ दिवसीय व्रत", labelTe: "శరన్నవరాత్రి 9 రోజుల వ్రతం" },
+      { href: "/vrat#rohini-vrat", labelEn: "Rohini Vrat & Jain", labelHi: "रोहिणी व्रत एवं पच्चक्खाण", labelTe: "రోహిణి వ్రతం & పచ్చక్ఖాణ్" },
+      { href: "/vrat#sawan-somwar", labelEn: "Sawan Somwar Vrat", labelHi: "सावन सोमवार व्रत", labelTe: "శ్రావణ సోమవార వ్రతం" },
+      { href: "/vrat#skanda-sashti", labelEn: "Skanda Sashti Vrat", labelHi: "स्कंद षष्ठी (कार्तिकेय)", labelTe: "స్కంద షష్ఠి (సుబ్రహ్మణ్య)" },
     ],
   },
   // Column 3
   {
     items: [
-      { href: "/vrat-upavas#varalakshmi-vrat", labelEn: "Varalakshmi Vrat", labelHi: "वरलक्ष्मी व्रत", labelTe: "వరలక్ష్మీ వ్రతం" },
-      { href: "/vrat-upavas#karwa-chauth", labelEn: "Karwa Chauth Vrat", labelHi: "करवा चौथ व्रत", labelTe: "కర్వా చౌత్ వ్రతం" },
-      { href: "/vrat-upavas#ahar-niyam", labelEn: "Vrat Ahar Rules (Phalahar)", labelHi: "व्रत आहार नियम (फलाहार)", labelTe: "వ్రత ఆహార నియమాలు (ఫలాహారం)" },
-      { href: "/vrat-upavas#sankalp-vidhi", labelEn: "Vrat Sankalp Vidhi", labelHi: "व्रत संकल्प एवं उद्यापन", labelTe: "వ్రత సంకల్పం & ఉద్యాపన" },
-      { href: "/vrat-upavas#all-vrats", labelEn: "Full 2026 Vrat Calendar", labelHi: "सम्पूर्ण व्रत कैलेंडर 2026", labelTe: "సంపూర్ణ వ్రత క్యాలెండర్ 2026" },
+      { href: "/vrat#varalakshmi-vrat", labelEn: "Varalakshmi Vrat", labelHi: "वरलक्ष्मी व्रत", labelTe: "వరలక్ష్మీ వ్రతం" },
+      { href: "/vrat#karwa-chauth", labelEn: "Karwa Chauth Vrat", labelHi: "करवा चौथ व्रत", labelTe: "కర్వా చౌత్ వ్రతం" },
+      { href: "/vrat#ahar-niyam", labelEn: "Vrat Ahar Rules (Phalahar)", labelHi: "व्रत आहार नियम (फलाहार)", labelTe: "వ్రత ఆహార నియమాలు (ఫలాహారం)" },
+      { href: "/vrat#sankalp-vidhi", labelEn: "Vrat Sankalp Vidhi", labelHi: "व्रत संकल्प एवं उद्यापन", labelTe: "వ్రత సంకల్పం & ఉద్యాపన" },
+      { href: "/vrat#all-vrats", labelEn: "Full 2026 Vrat Calendar", labelHi: "सम्पूर्ण व्रत कैलेंडर 2026", labelTe: "సంపూర్ణ వ్రత క్యాలెండర్ 2026" },
     ],
   },
 ];

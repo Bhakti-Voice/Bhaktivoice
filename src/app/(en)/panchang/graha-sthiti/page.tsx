@@ -89,7 +89,7 @@ export default async function GrahaSthitiPage() {
   const breadcrumbs = localizedCrumbs(
     isTe ? "హోమ్" : isHi ? "होम" : t.homeName,
     [isTe ? "ఆధ్యాత్మిక సాధనాలు" : isHi ? "आध्यात्मिक उपकरण" : t.nav.spiritualTools, PATHS.spiritualTools],
-    [isTe ? "పంచాంగం" : isHi ? "पंचांग" : "Panchang", PATHS.panchang],
+    [isTe ? "పంచాంగం" : isHi ? "पंचांग" : "Panchang", PATHS.panchangToday],
     [isTe ? "దైనందిన గ్రహ స్థితి" : isHi ? "दैनिक ग्रह स्थिति" : "Planetary Ephemeris", `${PATHS.panchang}/graha-sthiti`]
   );
 

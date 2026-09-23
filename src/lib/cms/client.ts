@@ -139,11 +139,85 @@ async function cmsGet<T>(
       console.error(`CMS ${response.status} ${url}`);
       return fallback;
     }
-    return expandNewlinesDeep((await response.json()) as T);
+    return normalizeLegacyUrlsDeep(expandNewlinesDeep((await response.json()) as T));
   } catch (error) {
     console.error(`CMS unavailable ${url}`, error instanceof Error ? error.message : error);
     return fallback;
   }
+}
+
+const LEGACY_URL_PREFIXES: [RegExp, string][] = [
+  [/^\/bhagavad-gita\b/, "/gita"],
+  [/^\/sacred-yatra-guides\b/, "/yatra"],
+  [/^\/hindu-temples\b/, "/temples"],
+  [/^\/hindu-festivals\b/, "/festivals"],
+  [/^\/panchang\/festivals\b/, "/festivals"],
+  [/^\/hindu-calendar\b/, "/calendar"],
+  [/^\/printable-calendar\b/, "/calendar/printable"],
+  [/^\/bhakti-blog\b/, "/blog"],
+  [/^\/bhakti-store\b/, "/store"],
+  [/^\/mantras-for-naam-jaap\b/, "/mantras"],
+  [/^\/aarti-chants\b/, "/aarti"],
+  [/^\/bhajan-and-kirtan\b/, "/bhajans"],
+  [/^\/katha-stories\b/, "/katha"],
+  [/^\/daily-sadhana\b/, "/sadhana"],
+  [/^\/devotee-community\b/, "/community"],
+  [/^\/vrat-upavas\b/, "/vrat"],
+  [/^\/kundli-milan\b/, "/kundli/milan"],
+  [/^\/choghadiya\b/, "/muhurat/choghadiya"],
+  [/^\/panchak\b/, "/muhurat/panchak"],
+  [/^\/bhadra\b/, "/muhurat/bhadra"],
+  [/^\/hora\b/, "/muhurat/hora"],
+  [/^\/gowri-panchangam\b/, "/muhurat/gowri"],
+  [/^\/shubh-dates\b/, "/muhurat/shubh-dates"],
+  [/^\/suvichar-card-maker\b/, "/spiritual-tools/suvichar-maker"],
+  [/^\/baby-names\b/, "/spiritual-tools/baby-names"],
+  [/^\/aaj-ki-tithi\b/, "/tithi-today"],
+  [/^\/daily-quotes\b/, "/quotes"],
+];
+
+export function normalizeLegacyUrl(value: string): string {
+  if (!value || typeof value !== "string") return value;
+  let prefix = "";
+  let path = value;
+  try {
+    if (value.startsWith("http://") || value.startsWith("https://")) {
+      const u = new URL(value);
+      prefix = u.origin;
+      path = u.pathname;
+    }
+  } catch {
+    // Keep as is
+  }
+  for (const [regex, replacement] of LEGACY_URL_PREFIXES) {
+    if (regex.test(path)) {
+      path = path.replace(regex, replacement);
+      return prefix ? `${prefix}${path}` : path;
+    }
+  }
+  return value;
+}
+
+export function normalizeLegacyUrlsDeep<T>(value: T): T {
+  if (typeof value === "string") {
+    if (value.startsWith("/") || value.includes("bhaktivoice.com")) {
+      return normalizeLegacyUrl(value) as T;
+    }
+    return value;
+  }
+  if (Array.isArray(value)) return value.map((item) => normalizeLegacyUrlsDeep(item)) as T;
+  if (value && typeof value === "object") {
+    const next: Record<string, unknown> = {};
+    for (const [key, nested] of Object.entries(value as Record<string, unknown>)) {
+      if ((key === "href" || key === "url") && typeof nested === "string") {
+        next[key] = normalizeLegacyUrl(nested);
+      } else {
+        next[key] = normalizeLegacyUrlsDeep(nested);
+      }
+    }
+    return next as T;
+  }
+  return value;
 }
 
 function cachedCmsGet<T>(path: string, fallback: T, revalidate: number) {

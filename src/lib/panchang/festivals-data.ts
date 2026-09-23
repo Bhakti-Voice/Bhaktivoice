@@ -45,13 +45,13 @@ export const FESTIVAL_DETAILS: Record<string, FestivalDetail> = {
         "अक्षमाला वनमाला मुण्डमाला धारी । त्रिपुरारी कंसारी कर माला धारी ॥",
         "श्वेताम्बर पीताम्बर बाघम्बर अंगे । सनकादिक गरुड़ादिक भूतादिक संगे ॥"
       ],
-      href: "/aarti-chants/shiva-aarti"
+      href: "/aarti/shiva-aarti"
     },
     relatedBhaktiContent: [
-      { title: "Maha Mrityunjaya Mantra Guide", href: "/mantras-for-naam-jaap/maha-mrityunjaya-mantra", type: "mantra" },
-      { title: "Complete Shiva Aarti & Audio", href: "/aarti-chants", type: "aarti" },
-      { title: "Kashi Vishwanath Darshan & History", href: "/hindu-temples", type: "temple" },
-      { title: "Lord Shiva Katha & Leelas", href: "/katha-stories", type: "katha" }
+      { title: "Maha Mrityunjaya Mantra Guide", href: "/mantras/maha-mrityunjaya-mantra", type: "mantra" },
+      { title: "Complete Shiva Aarti & Audio", href: "/aarti", type: "aarti" },
+      { title: "Kashi Vishwanath Darshan & History", href: "/temples", type: "temple" },
+      { title: "Lord Shiva Katha & Leelas", href: "/katha", type: "katha" }
     ],
     faqs: [
       { question: "What are the fasting rules for Maha Shivratri?", answer: "Devotees consume fruits, milk, curd, sabudana, and makhana (Phalahar). Salt is avoided or Sendha Namak (rock salt) is used. Grains, cereals, pulses, onion, and garlic are strictly prohibited." },
@@ -94,11 +94,11 @@ export const FESTIVAL_DETAILS: Record<string, FestivalDetail> = {
     aarti: {
       title: "Om Jai Jagdish Hare",
       lines: ["ॐ जय जगदीश हरे, स्वामी जय जगदीश हरे । भक्त जनों के संकट, दास जनों के संकट, क्षण में दूर करे ॥"],
-      href: "/aarti-chants"
+      href: "/aarti"
     },
     relatedBhaktiContent: [
-      { title: "Braj Ki Holi: Barsana & Vrindavan Guide", href: "/sacred-yatra-guides", type: "yatra" },
-      { title: "Hare Krishna Mahamantra Sadhana", href: "/mantras-for-naam-jaap", type: "mantra" }
+      { title: "Braj Ki Holi: Barsana & Vrindavan Guide", href: "/yatra", type: "yatra" },
+      { title: "Hare Krishna Mahamantra Sadhana", href: "/mantras", type: "mantra" }
     ],
     faqs: [
       { question: "What is Bhadra Mukha during Holika Dahan?", answer: "Holika Dahan must never be performed during Bhadra Mukha; it is performed during Bhadra Puchha or after Bhadra ends." }
@@ -140,11 +140,11 @@ export const FESTIVAL_DETAILS: Record<string, FestivalDetail> = {
     aarti: {
       title: "Jai Ambe Gauri",
       lines: ["जय अम्बे गौरी, मैया जय श्यामा गौरी । तुमको निसदिन ध्यावत, हरि ब्रह्मा शिवरी ॥"],
-      href: "/aarti-chants"
+      href: "/aarti"
     },
     relatedBhaktiContent: [
-      { title: "Navdurga Mantras & Meanings", href: "/mantras-for-naam-jaap", type: "mantra" },
-      { title: "Vaishno Devi Yatra Guide", href: "/sacred-yatra-guides", type: "yatra" }
+      { title: "Navdurga Mantras & Meanings", href: "/mantras", type: "mantra" },
+      { title: "Vaishno Devi Yatra Guide", href: "/yatra", type: "yatra" }
     ],
     faqs: [
       { question: "What direction should the Kalash face?", answer: "The Kalash is placed in the Ishan Kon (North-East direction) on a clean wooden Chowki." }
@@ -185,10 +185,10 @@ export const FESTIVAL_DETAILS: Record<string, FestivalDetail> = {
     aarti: {
       title: "Shri Ram Chandra Kripalu Bhajuman",
       lines: ["श्रीरामचन्द्र कृपालु भजु मन हरण भवभय दारुणम् । नवकञ्ज लोचन कञ्ज मुख कर कञ्ज पद कञ्जारुणम् ॥"],
-      href: "/aarti-chants"
+      href: "/aarti"
     },
     relatedBhaktiContent: [
-      { title: "Ayodhya Ram Mandir Darshan Guide", href: "/hindu-temples", type: "temple" },
+      { title: "Ayodhya Ram Mandir Darshan Guide", href: "/temples", type: "temple" },
       { title: "Shri Ram Naam Jaap Benefits", href: "/naam-jaap", type: "mantra" }
     ],
     faqs: [
@@ -229,11 +229,11 @@ export const FESTIVAL_DETAILS: Record<string, FestivalDetail> = {
     aarti: {
       title: "Om Jai Lakshmi Mata",
       lines: ["ॐ जय लक्ष्मी माता, मैया जय लक्ष्मी माता । तुमको निसदिन सेवत, हर विष्णु विधाता ॥"],
-      href: "/aarti-chants"
+      href: "/aarti"
     },
     relatedBhaktiContent: [
-      { title: "Lakshmi Mantra for Wealth & Peace", href: "/mantras-for-naam-jaap", type: "mantra" },
-      { title: "Badrinath Kapat Opening Guide", href: "/sacred-yatra-guides", type: "yatra" }
+      { title: "Lakshmi Mantra for Wealth & Peace", href: "/mantras", type: "mantra" },
+      { title: "Badrinath Kapat Opening Guide", href: "/yatra", type: "yatra" }
     ],
     faqs: [
       { question: "Is fasting mandatory on Akshaya Tritiya?", answer: "Fasting is voluntary; performing Daan (charity), Japa, and Vishnu Puja yields supreme merit." }
@@ -273,10 +273,10 @@ export const FESTIVAL_DETAILS: Record<string, FestivalDetail> = {
     aarti: {
       title: "Arti Kunjbihari Ki",
       lines: ["आरती कुंजबिहारी की, श्री गिरिधर कृष्ण मुरारी की ॥"],
-      href: "/aarti-chants"
+      href: "/aarti"
     },
     relatedBhaktiContent: [
-      { title: "Krishna Katha Stories", href: "/katha-stories", type: "katha" }
+      { title: "Krishna Katha Stories", href: "/katha", type: "katha" }
     ],
     faqs: [
       { question: "Why avoid Bhadra period for Rakhi?", answer: "According to astrology, Bhadra is considered inauspicious for auspicious ceremonies like Raksha Bandhan and Holika Dahan." }
@@ -318,10 +318,10 @@ export const FESTIVAL_DETAILS: Record<string, FestivalDetail> = {
     aarti: {
       title: "Aarti Kunj Bihari Ki",
       lines: ["आरती कुंजबिहारी की, श्री गिरिधर कृष्ण मुरारी की । गले में बैजंती माला, बजावे मुरली मधुर बाला ॥"],
-      href: "/aarti-chants"
+      href: "/aarti"
     },
     relatedBhaktiContent: [
-      { title: "Vrindavan & Mathura Temples", href: "/hindu-temples", type: "temple" },
+      { title: "Vrindavan & Mathura Temples", href: "/temples", type: "temple" },
       { title: "Naam Jaap & Japa Mala Counter", href: "/naam-jaap", type: "mantra" }
     ],
     faqs: [
@@ -363,11 +363,11 @@ export const FESTIVAL_DETAILS: Record<string, FestivalDetail> = {
     aarti: {
       title: "Jai Ganesh Jai Ganesh Deva",
       lines: ["जय गणेश जय गणेश जय गणेश देवा । माता जाकी पार्वती पिता महादेवा ॥"],
-      href: "/aarti-chants"
+      href: "/aarti"
     },
     relatedBhaktiContent: [
-      { title: "Ashtavinayak Yatra Guide", href: "/sacred-yatra-guides", type: "yatra" },
-      { title: "Ganesha Atharvashirsha", href: "/mantras-for-naam-jaap", type: "mantra" }
+      { title: "Ashtavinayak Yatra Guide", href: "/yatra", type: "yatra" },
+      { title: "Ganesha Atharvashirsha", href: "/mantras", type: "mantra" }
     ],
     faqs: [
       { question: "Why is sighting the moon avoided on Ganesh Chaturthi?", answer: "According to legend, the Moon laughed at Ganesha, receiving a curse that anyone who looks at the Moon on this day might face false allegations (Mithya Kalank)." }
@@ -409,10 +409,10 @@ export const FESTIVAL_DETAILS: Record<string, FestivalDetail> = {
     aarti: {
       title: "Om Jai Jagdish Hare & Karwa Mata Aarti",
       lines: ["जय करवा माता, मैया जय करवा माता । जो व्रत करे तुम्हारा, सब सुख पाता ॥"],
-      href: "/aarti-chants"
+      href: "/aarti"
     },
     relatedBhaktiContent: [
-      { title: "Shiva Parvati Katha", href: "/katha-stories", type: "katha" }
+      { title: "Shiva Parvati Katha", href: "/katha", type: "katha" }
     ],
     faqs: [
       { question: "What is Sargi?", answer: "Sargi is a traditional pre-dawn meal containing sweets, dry fruits, and fruits gifted by the mother-in-law before sunrise." }
@@ -453,10 +453,10 @@ export const FESTIVAL_DETAILS: Record<string, FestivalDetail> = {
     aarti: {
       title: "Om Jai Lakshmi Mata",
       lines: ["ॐ जय लक्ष्मी माता, मैया जय लक्ष्मी माता ॥"],
-      href: "/aarti-chants"
+      href: "/aarti"
     },
     relatedBhaktiContent: [
-      { title: "Dhanvantari Mantra for Good Health", href: "/mantras-for-naam-jaap", type: "mantra" }
+      { title: "Dhanvantari Mantra for Good Health", href: "/mantras", type: "mantra" }
     ],
     faqs: [
       { question: "Why buy coriander seeds on Dhanteras?", answer: "Coriander seeds (Khada Dhania) symbolize growth, wealth, and good fortune, planted after Diwali." }
@@ -502,12 +502,12 @@ export const FESTIVAL_DETAILS: Record<string, FestivalDetail> = {
         "उमा, रमा, ब्रह्माणी, तुम ही जग-माता । सूर्य-चन्द्रमा ध्यावत, नारद ऋषि गाता ॥",
         "जिस घर में तुम रहती, सब सद्गुण आता । सब सम्भव हो जाता, मन नहीं घबराता ॥"
       ],
-      href: "/aarti-chants"
+      href: "/aarti"
     },
     relatedBhaktiContent: [
-      { title: "Shri Suktam Mantra & Meaning", href: "/mantras-for-naam-jaap", type: "mantra" },
-      { title: "Lakshmi Aarti Audio & Lyrics", href: "/aarti-chants", type: "aarti" },
-      { title: "Tirupati Balaji Temple Guide", href: "/hindu-temples", type: "temple" }
+      { title: "Shri Suktam Mantra & Meaning", href: "/mantras", type: "mantra" },
+      { title: "Lakshmi Aarti Audio & Lyrics", href: "/aarti", type: "aarti" },
+      { title: "Tirupati Balaji Temple Guide", href: "/temples", type: "temple" }
     ],
     faqs: [
       { question: "Why is Sthir Lagna chosen for Lakshmi Puja?", answer: "Sthir Lagna (like Taurus / Vrishabha) represents permanence, ensuring that Goddess Lakshmi's divine grace and prosperity remain constantly anchored in the household." },
@@ -549,10 +549,10 @@ export const FESTIVAL_DETAILS: Record<string, FestivalDetail> = {
     aarti: {
       title: "Tulsi Mata Aarti",
       lines: ["जय जय तुलसी माता, मैया जय तुलसी माता । सब जग की सुख दाता, सबकी वर दाता ॥"],
-      href: "/aarti-chants"
+      href: "/aarti"
     },
     relatedBhaktiContent: [
-      { title: "Tulsi Gayatri Mantra", href: "/mantras-for-naam-jaap", type: "mantra" }
+      { title: "Tulsi Gayatri Mantra", href: "/mantras", type: "mantra" }
     ],
     faqs: [
       { question: "Can wedding rituals begin after Devutthana Ekadashi?", answer: "Yes, auspicious ceremonies like Vivah, Griha Pravesh, and Mundan resume with great vigor." }
@@ -592,11 +592,11 @@ export const FESTIVAL_DETAILS: Record<string, FestivalDetail> = {
     aarti: {
       title: "Surya Dev Aarti",
       lines: ["जय कश्यप नन्दन, ॐ जय अदिति नन्दन । त्रिभुवन तिमिर निकन्दन, भक्त हृदय चन्दन ॥"],
-      href: "/aarti-chants"
+      href: "/aarti"
     },
     relatedBhaktiContent: [
-      { title: "Surya Gayatri Mantra", href: "/mantras-for-naam-jaap", type: "mantra" },
-      { title: "Konark Sun Temple Guide", href: "/hindu-temples", type: "temple" }
+      { title: "Surya Gayatri Mantra", href: "/mantras", type: "mantra" },
+      { title: "Konark Sun Temple Guide", href: "/temples", type: "temple" }
     ],
     faqs: [
       { question: "What is Punya Kaal during Sankranti?", answer: "Punya Kaal is the sacred period of 6 to 8 hours surrounding the Sun's transit when charity and snana yield maximum spiritual benefit." }

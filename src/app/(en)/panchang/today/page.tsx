@@ -213,7 +213,6 @@ export default async function PanchangTodayPage({
         crumbs={localizedCrumbs(
           t.homeName,
           [isTe ? "ఆధ్యాత్మిక సాధనాలు" : isHi ? "आध्यात्मिक उपकरण" : t.nav.spiritualTools, PATHS.spiritualTools],
-          [isTe ? "పంచాంగం" : isHi ? "पंचांग" : "Panchang", PATHS.panchang],
           [isTe ? "నేటి పంచాంగం" : isHi ? "आज का पंचांग" : "Today's Panchang", PATHS.panchangToday]
         )}
         locale={locale}

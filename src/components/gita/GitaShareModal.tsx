@@ -16,11 +16,11 @@ export function GitaShareModal({ verse, isOpen, onClose }: GitaShareModalProps) 
 
   if (!isOpen || !verse) return null;
 
-  const formattedShareText = `॥ श्रीमद्भगवद्गीता • श्लोक ${verse.verseNumber} ॥\n\n${verse.sanskrit}\n\n${verse.transliteration}\n\nहिंदी भावार्थ:\n${verse.hindi}\n\nEnglish Meaning:\n${verse.english}\n\nRead more at BhaktiVoice: https://www.bhaktivoice.com/bhagavad-gita?chapter=${verse.chapter}&verse=${verse.verse}`;
+  const formattedShareText = `॥ श्रीमद्भगवद्गीता • श्लोक ${verse.verseNumber} ॥\n\n${verse.sanskrit}\n\n${verse.transliteration}\n\nहिंदी भावार्थ:\n${verse.hindi}\n\nEnglish Meaning:\n${verse.english}\n\nRead more at BhaktiVoice: https://www.bhaktivoice.com/gita?chapter=${verse.chapter}&verse=${verse.verse}`;
 
   const shareUrl = typeof window !== "undefined"
-    ? `${window.location.origin}/bhagavad-gita?chapter=${verse.chapter}&verse=${verse.verse}`
-    : `https://www.bhaktivoice.com/bhagavad-gita?chapter=${verse.chapter}&verse=${verse.verse}`;
+    ? `${window.location.origin}/gita?chapter=${verse.chapter}&verse=${verse.verse}`
+    : `https://www.bhaktivoice.com/gita?chapter=${verse.chapter}&verse=${verse.verse}`;
 
   const handleCopyText = () => {
     navigator.clipboard.writeText(formattedShareText);

@@ -84,7 +84,7 @@ export default async function TarabalamPage() {
   const breadcrumbs = localizedCrumbs(
     isTe ? "హోమ్" : isHi ? "होम" : t.homeName,
     [isTe ? "ఆధ్యాత్మిక సాధనాలు" : isHi ? "आध्यात्मिक उपकरण" : t.nav.spiritualTools, PATHS.spiritualTools],
-    [isTe ? "పంచాంగం" : isHi ? "पंचांग" : "Panchang", PATHS.panchang],
+    [isTe ? "పంచాంగం" : isHi ? "पंचांग" : "Panchang", PATHS.panchangToday],
     [isTe ? "తారాబలం & చంద్రబలం" : isHi ? "ताराबलम् व चंद्रबलम्" : "Tarabalam & Chandrabalam", `${PATHS.panchang}/tarabalam`]
   );
 

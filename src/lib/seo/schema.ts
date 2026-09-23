@@ -43,18 +43,12 @@ export function breadcrumbSchema(items: BreadcrumbItem[]) {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    itemListElement: items.map((item, index) => {
-      const isLast = index === items.length - 1;
-      const entry: { "@type": string; position: number; name: string; item?: string } = {
-        "@type": "ListItem",
-        position: index + 1,
-        name: item.name,
-      };
-      if (!isLast) {
-        entry.item = absoluteUrl(item.href);
-      }
-      return entry;
-    }),
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: absoluteUrl(item.href),
+    })),
   };
 }
 
@@ -120,14 +114,14 @@ export function gitaChapterSchema(input: {
     numberOfPages: input.versesCount,
     isPartOf: {
       "@type": "Book",
-      "@id": `${absoluteUrl("/bhagavad-gita")}#book`,
+      "@id": `${absoluteUrl("/gita")}#book`,
       name: "Bhagavad Gita",
       alternateName: "The Song of God",
       author: {
         "@type": "Person",
         name: "Maharshi Veda Vyasa",
       },
-      url: absoluteUrl("/bhagavad-gita"),
+      url: absoluteUrl("/gita"),
     },
     inLanguage: (input.locale ?? DEFAULT_LOCALE) === "hi" ? "hi-IN" : "en-IN",
     url: pageUrl,

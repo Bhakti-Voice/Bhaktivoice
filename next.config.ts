@@ -20,6 +20,45 @@ const nextConfig: NextConfig = {
   },
 
   async redirects() {
+    const URL_MIGRATIONS = [
+      { from: "/bhagavad-gita", to: "/gita" },
+      { from: "/sacred-yatra-guides", to: "/yatra" },
+      { from: "/hindu-temples", to: "/temples" },
+      { from: "/hindu-festivals", to: "/festivals" },
+      { from: "/panchang/festivals", to: "/festivals" },
+      { from: "/hindu-calendar", to: "/calendar" },
+      { from: "/printable-calendar", to: "/calendar/printable" },
+      { from: "/bhakti-blog", to: "/blog" },
+      { from: "/bhakti-store", to: "/store" },
+      { from: "/mantras-for-naam-jaap", to: "/mantras" },
+      { from: "/aarti-chants", to: "/aarti" },
+      { from: "/bhajan-and-kirtan", to: "/bhajans" },
+      { from: "/katha-stories", to: "/katha" },
+      { from: "/daily-sadhana", to: "/sadhana" },
+      { from: "/devotee-community", to: "/community" },
+      { from: "/vrat-upavas", to: "/vrat" },
+      { from: "/kundli-milan", to: "/kundli/milan" },
+      { from: "/choghadiya", to: "/muhurat/choghadiya" },
+      { from: "/panchak", to: "/muhurat/panchak" },
+      { from: "/bhadra", to: "/muhurat/bhadra" },
+      { from: "/hora", to: "/muhurat/hora" },
+      { from: "/gowri-panchangam", to: "/muhurat/gowri" },
+      { from: "/shubh-dates", to: "/muhurat/shubh-dates" },
+      { from: "/suvichar-card-maker", to: "/spiritual-tools/suvichar-maker" },
+      { from: "/baby-names", to: "/spiritual-tools/baby-names" },
+      { from: "/aaj-ki-tithi", to: "/tithi-today" },
+      { from: "/daily-quotes", to: "/quotes" },
+    ];
+
+    const migrationRedirects = URL_MIGRATIONS.flatMap(({ from, to }) => [
+      { source: `${from}/:path*`, destination: `${to}/:path*`, permanent: true },
+      { source: `${from}`, destination: `${to}`, permanent: true },
+      { source: `/hi${from}/:path*`, destination: `/hi${to}/:path*`, permanent: true },
+      { source: `/hi${from}`, destination: `/hi${to}`, permanent: true },
+      { source: `/te${from}/:path*`, destination: `/te${to}/:path*`, permanent: true },
+      { source: `/te${from}`, destination: `/te${to}`, permanent: true },
+    ]);
+
     return [
       {
         source: "/:path*",
@@ -31,6 +70,7 @@ const nextConfig: NextConfig = {
       { source: "/index.html", destination: "/", permanent: true },
       { source: "/hi/index", destination: "/hi", permanent: true },
       { source: "/hi/index.html", destination: "/hi", permanent: true },
+      ...migrationRedirects,
     ];
   },
   async headers() {

@@ -12,6 +12,7 @@ import {
   Home,
   ChevronRight,
 } from "lucide-react";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { PATHS } from "@/lib/seo/paths";
 
 interface PrintableCalendarHeroProps {
@@ -91,30 +92,16 @@ export function PrintableCalendarHero({
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb Navigation */}
-        <nav
-          aria-label="Breadcrumb"
-          className="flex items-center gap-1.5 text-xs sm:text-sm text-stone-500 mb-5"
-        >
-          <LocaleLink
-            href="/"
-            className="flex items-center gap-1 hover:text-[#d9531e] transition-colors"
-          >
-            <Home className="h-3.5 w-3.5" />
-            <span>{isTe ? "హోమ్" : isHi ? "होम" : "Home"}</span>
-          </LocaleLink>
-          <ChevronRight className="h-3.5 w-3.5 text-stone-400" />
-          <LocaleLink
-            href={PATHS.spiritualTools}
-            className="hover:text-[#d9531e] transition-colors"
-          >
-            {isTe ? "ఆధ్యాత్మిక సాధనాలు" : isHi ? "आध्यात्मिक उपकरण" : "Spiritual Tools"}
-          </LocaleLink>
-          <ChevronRight className="h-3.5 w-3.5 text-stone-400" />
-          <span className="font-medium text-[#3b1812]" aria-current="page">
-            {isTe ? "ప్రింట్ క్యాలెండర్" : isHi ? "प्रिंट कैलेंडर" : "Printable Calendar"}
-          </span>
-        </nav>
+        {/* Breadcrumb Navigation with JSON-LD Schema */}
+        <div className="mb-5">
+          <Breadcrumbs
+            items={[
+              { name: isTe ? "హోమ్" : isHi ? "होम" : "Home", href: "/" },
+              { name: isTe ? "ఆధ్యాత్మిక సాధనాలు" : isHi ? "आध्यात्मिक उपकरण" : "Spiritual Tools", href: PATHS.spiritualTools },
+              { name: isTe ? "ప్రింట్ క్యాలెండర్" : isHi ? "प्रिंट कैलेंडर" : "Printable Calendar", href: PATHS.printableCalendar },
+            ]}
+          />
+        </div>
 
         {/* Hero Main Flex Row */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
