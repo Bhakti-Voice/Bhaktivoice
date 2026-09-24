@@ -9,6 +9,7 @@ import { localizedItemListSchema } from "@/lib/seo/localized-schema";
 import { hubMetadata } from "@/lib/i18n/hub";
 import { getMessages } from "@/lib/i18n/server";
 import { PATHS } from "@/lib/seo/paths";
+import { SevaSupportBanner } from "@/components/dakshina/SevaSupportBanner";
 
 export const revalidate = 1800;
 
@@ -49,6 +50,7 @@ export default async function KathaIndexPage() {
             className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
           />
         </section>
+        <SevaSupportBanner className="mt-12" />
         <HubSeoBlock id="katha" />
       </div>
     </div>

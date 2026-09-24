@@ -15,6 +15,7 @@ import { Suspense } from "react";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { AdminPreviewBar } from "@/components/admin/AdminPreviewBar";
 import { getGaMeasurementId } from "@/lib/analytics/ga";
+import { DakshinaFloatingButton } from "@/components/dakshina/DakshinaFloatingButton";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -140,6 +141,7 @@ export function RootShell({ lang, children }: RootShellProps) {
             <Header />
             <main className="min-h-[70vh] min-w-0 overflow-x-clip">{children}</main>
             <MobileNav />
+            <DakshinaFloatingButton />
           </AuthProvider>
           <Footer />
         </LocaleRoot>

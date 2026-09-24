@@ -52,5 +52,6 @@ export const PATHS = {
   library: "/library",
   angelNumbers: "/library/angel-numbers",
   angelNumberDetail: (slug: string) => `/library/angel-numbers/${slug}`,
+  dakshina: "/dakshina",
 } as const;
 

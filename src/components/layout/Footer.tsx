@@ -49,6 +49,7 @@ export async function Footer() {
         { href: PATHS.yatra, label: t.nav.yatra },
         { href: PATHS.babyNames, label: isTe ? "నక్షత్ర నామకరణం" : isHi ? "वैदिक नामकरण" : "Vedic Baby Names (नामकरण)" },
         { href: PATHS.printableCalendar, label: isTe ? "ప్రింట్ క్యాలెండర్ (PDF)" : isHi ? "प्रिंट योग्य कैलेंडर (PDF)" : "Printable Wall Calendar (PDF)" },
+        { href: PATHS.dakshina, label: isTe ? "డిజిటల్ దక్షిణ (సేవ)" : isHi ? "डिजिटल दक्षिणा (सेवा सहयोग)" : "Digital Dakshina (Support Seva)" },
       ],
     },
     {

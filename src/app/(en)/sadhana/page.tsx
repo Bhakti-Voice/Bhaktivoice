@@ -16,6 +16,7 @@ import { HubSeoBlock } from "@/components/seo/HubSeoBlock";
 import { FaqList } from "@/components/seo/FaqList";
 import { pageCrumbs } from "@/lib/seo/crumbs";
 import { PATHS } from "@/lib/seo/paths";
+import { SevaSupportBanner } from "@/components/dakshina/SevaSupportBanner";
 
 export const revalidate = 1800;
 
@@ -117,6 +118,7 @@ export default async function SadhanaPage() {
           </div>
         </div>
       </section>
+      <SevaSupportBanner className="mt-12" />
       <HubSeoBlock id="sadhana" hideFaqs />
       <FaqList faqs={[...t.listingFaqs.sadhana]} title={t.common.faqTitle} />
       </div>
