@@ -22,17 +22,18 @@ const DEFAULT_AMOUNTS = [51, 101, 501, 1100, 2100, 11000] as const;
 
 type PresetAmount = (typeof DEFAULT_AMOUNTS)[number];
 
-const AMOUNT_LABELS: Record<PresetAmount, { en: string; hi: string }> = {
-  51: { en: "Shubh Bhent", hi: "शुभ भेंट" },
-  101: { en: "Seva Sankalp", hi: "सेवा संकल्प" },
-  501: { en: "Vishesh Sahyog", hi: "विशेष सहयोग" },
-  1100: { en: "Maha Seva", hi: "महा सेवा" },
-  2100: { en: "Kalyan Seva", hi: "कल्याण सेवा" },
-  11000: { en: "Sansthan Mitra", hi: "संस्थान मित्र" },
+const AMOUNT_LABELS: Record<PresetAmount, { en: string; hi: string; te: string }> = {
+  51: { en: "Shubh Bhent", hi: "शुभ भेंट", te: "శుభ కానుక" },
+  101: { en: "Seva Sankalp", hi: "सेवा संकल्प", te: "సేవా సంకల్పం" },
+  501: { en: "Vishesh Sahyog", hi: "विशेष सहयोग", te: "ప్రత్యేక సహకారం" },
+  1100: { en: "Maha Seva", hi: "महा सेवा", te: "మహా సేవ" },
+  2100: { en: "Kalyan Seva", hi: "कल्याण सेवा", te: "కళ్యాణ సేవ" },
+  11000: { en: "Sansthan Mitra", hi: "संस्थान मित्र", te: "సంస్థాన మిత్ర" },
 };
 
 export function DakshinaFloatingButton() {
   const locale = useLocale();
+  const isTe = locale === "te";
   const isHi = locale === "hi";
 
   const [isOpen, setIsOpen] = useState(false);
@@ -86,7 +87,6 @@ export function DakshinaFloatingButton() {
       setCopied(true);
       setTimeout(() => setCopied(false), 2200);
     } catch {
-      // Fallback
       setCopied(true);
       setTimeout(() => setCopied(false), 2200);
     }
@@ -161,6 +161,74 @@ export function DakshinaFloatingButton() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen]);
 
+  // Localized texts
+  const titleText = isTe
+    ? "డిజిటల్ దక్షిణ"
+    : isHi
+    ? "डिजिटल दक्षिणा"
+    : "Digital Dakshina";
+
+  const badgeText = isTe ? "సేవ" : isHi ? "सहयोग" : "Seva";
+
+  const subtitleText = isTe
+    ? "100% ప్రకటనలు లేని పవిత్ర వేదిక"
+    : isHi
+    ? "100% विज्ञापन-मुक्त पवित्र मंच"
+    : "100% Ad-Free Sacred Sanctuary";
+
+  const pitchHighlight = isTe
+    ? "భక్తి వాయిస్ 100% ప్రకటనలు లేని పవిత్ర వేదిక."
+    : isHi
+    ? "भक्ति वॉयस पूर्णतः विज्ञापन-मुक्त है।"
+    : "Bhakti Voice is a 100% ad-free sanctuary.";
+
+  const pitchBody = isTe
+    ? "ఈ సైట్ మీ దినచర్యలో ప్రశాంతత మరియు భక్తిని నింపినట్లయితే, మా సర్వర్ ఖర్చులు భరించడానికి మరియు ఈ సేవను నిరంతరం కొనసాగించడానికి ఒక చిన్న డిజిటల్ దక్షిణను (₹51, ₹101, లేదా ₹501) అందించండి."
+    : isHi
+    ? "यदि इस मंच से आपके दिन में शांति और भक्ति का संचार होता है, तो सर्वर खर्च और इस निरंतर सेवा को बनाए रखने हेतु एक छोटी सी डिजिटल दक्षिणा अवश्य अर्पित करें।"
+    : "If this site brings peace to your day, consider offering a small digital dakshina (₹51, ₹101, or ₹501) to help us cover server costs and keep this seva free for everyone.";
+
+  const selectAmtLabel = isTe
+    ? "సహాయం మొత్తం ఎంచుకోండి"
+    : isHi
+    ? "सहयोग राशि चुनें"
+    : "Select Contribution";
+
+  const otherAmtPlaceholder = isTe
+    ? "ఇతర మొత్తం (₹)..."
+    : isHi
+    ? "अन्य राशि दर्ज करें..."
+    : "Other amount (₹)...";
+
+  const scanPrompt = isTe
+    ? "స్కాన్ చేసి వెంటనే చెల్లించండి"
+    : isHi
+    ? "स्कैन करें और तुरंत भुगतान करें"
+    : "Scan with any UPI App to pay";
+
+  const upiIdLabel = isTe
+    ? "నేరుగా UPI ID (కాపీ చేయండి):"
+    : isHi
+    ? "सीधा UPI ID (कॉपी करें):"
+    : "Direct UPI ID (Click to Copy):";
+
+  const copyLabel = isTe ? "కాపీ" : isHi ? "कॉपी" : "Copy";
+  const copiedLabel = isTe ? "కాపీ అయింది!" : isHi ? "कॉपी हो गया!" : "Copied!";
+
+  const mobilePayCta = isTe
+    ? `UPI యాప్ ద్వారా ₹${activeAmount} చెల్లించండి`
+    : isHi
+    ? `UPI ऐप से ₹${activeAmount} का भुगतान करें`
+    : `Pay ₹${activeAmount} via UPI App (Mobile)`;
+
+  const trustNote = isTe
+    ? "100% సురక్షిత ప్రత్యక్ష సమర్పణ"
+    : isHi
+    ? "100% सुरक्षित सीधी भेंट"
+    : "Direct & 100% Transparent";
+
+  const sevaStoryLink = isTe ? "సేవా వివరాలు" : isHi ? "सेवा विवरण" : "Seva Story";
+
   return (
     <div
       ref={containerRef}
@@ -191,13 +259,13 @@ export function DakshinaFloatingButton() {
                 </span>
                 <div>
                   <h3 className="font-serif text-base font-semibold tracking-wide text-amber-100 flex items-center gap-1.5">
-                    {isHi ? "डिजिटल दक्षिणा" : "Digital Dakshina"}
+                    {titleText}
                     <span className="text-[10px] uppercase font-sans tracking-wider bg-amber-500/30 text-amber-200 px-1.5 py-0.5 rounded-full border border-amber-400/30">
-                      Seva
+                      {badgeText}
                     </span>
                   </h3>
                   <p className="text-[11px] text-amber-200/80">
-                    {isHi ? "100% विज्ञापन-मुक्त पवित्र मंच" : "100% Ad-Free Sacred Sanctuary"}
+                    {subtitleText}
                   </p>
                 </div>
               </div>
@@ -219,11 +287,9 @@ export function DakshinaFloatingButton() {
                 <Sparkles className="h-4 w-4 shrink-0 text-saffron mt-0.5" />
                 <p>
                   <strong className="text-maroon font-serif">
-                    {isHi ? "भक्ति वॉयस पूर्णतः विज्ञापन-मुक्त है।" : "Bhakti Voice is a 100% ad-free sanctuary."}
+                    {pitchHighlight}
                   </strong>{" "}
-                  {isHi
-                    ? "यदि इस मंच से आपके दिन में शांति और भक्ति का संचार होता है, तो सर्वर खर्च और इस निरंतर सेवा को बनाए रखने हेतु एक छोटी सी डिजिटल दक्षिणा अवश्य अर्पित करें।"
-                    : "If this site brings peace to your day, consider offering a small digital dakshina (₹51, ₹101, or ₹501) to help us cover server costs and keep this seva free for everyone."}
+                  {pitchBody}
                 </p>
               </div>
             </div>
@@ -232,7 +298,7 @@ export function DakshinaFloatingButton() {
             <div>
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-semibold text-ink/80 flex items-center gap-1">
-                  <span>{isHi ? "सहयोग राशि चुनें" : "Select Contribution"}</span>
+                  <span>{selectAmtLabel}</span>
                 </span>
                 <span className="text-[11px] font-medium text-maroon font-serif">
                   ₹{activeAmount}
@@ -242,6 +308,7 @@ export function DakshinaFloatingButton() {
                 {DEFAULT_AMOUNTS.map((amt) => {
                   const isSelected = selectedAmount === amt && !customAmount;
                   const label = AMOUNT_LABELS[amt];
+                  const labelDisplay = isTe ? label.te : isHi ? label.hi : label.en;
                   return (
                     <button
                       key={amt}
@@ -264,7 +331,7 @@ export function DakshinaFloatingButton() {
                           isSelected ? "text-amber-100" : "text-muted"
                         }`}
                       >
-                        {isHi ? label.hi : label.en}
+                        {labelDisplay}
                       </span>
                     </button>
                   );
@@ -280,7 +347,7 @@ export function DakshinaFloatingButton() {
                   <input
                     type="number"
                     min="1"
-                    placeholder={isHi ? "अन्य राशि दर्ज करें..." : "Other amount (₹)..."}
+                    placeholder={otherAmtPlaceholder}
                     value={customAmount}
                     onChange={(e) => {
                       const val = e.target.value.replace(/[^0-9]/g, "");
@@ -308,7 +375,7 @@ export function DakshinaFloatingButton() {
             {/* Dynamic UPI QR Code Display */}
             <div className="flex flex-col items-center justify-center rounded-xl border border-amber-200/90 bg-white p-3 shadow-inner">
               <div className="text-[11px] font-medium text-muted mb-1.5 flex items-center gap-1.5">
-                <span>{isHi ? "स्कैन करें और तुरंत भुगतान करें" : "Scan with any UPI App to pay"}</span>
+                <span>{scanPrompt}</span>
                 <span className="font-serif font-bold text-maroon">
                   ₹{activeAmount.toLocaleString("en-IN")}
                 </span>
@@ -350,7 +417,7 @@ export function DakshinaFloatingButton() {
             {/* UPI ID Copy Field */}
             <div className="rounded-xl border border-amber-200/80 bg-amber-50/50 p-2.5">
               <div className="text-[10px] font-medium text-muted uppercase tracking-wider mb-1">
-                {isHi ? "सीधा UPI ID (कॉपी करें):" : "Direct UPI ID (Click to Copy):"}
+                {upiIdLabel}
               </div>
               <div className="flex items-center justify-between gap-2">
                 <code className="text-xs font-semibold text-maroon font-mono tracking-wide bg-white px-2.5 py-1 rounded border border-amber-200 flex-1 truncate">
@@ -369,12 +436,12 @@ export function DakshinaFloatingButton() {
                   {copied ? (
                     <>
                       <Check className="h-3.5 w-3.5" />
-                      <span>{isHi ? "कॉपी हो गया!" : "Copied!"}</span>
+                      <span>{copiedLabel}</span>
                     </>
                   ) : (
                     <>
                       <Copy className="h-3.5 w-3.5" />
-                      <span>{isHi ? "कॉपी" : "Copy"}</span>
+                      <span>{copyLabel}</span>
                     </>
                   )}
                 </button>
@@ -387,25 +454,21 @@ export function DakshinaFloatingButton() {
               className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-600 via-saffron to-saffron-deep px-4 py-2.5 text-center text-xs font-semibold text-white shadow-md hover:shadow-lg hover:brightness-105 active:scale-[0.99] transition-all"
             >
               <Smartphone className="h-4 w-4" />
-              <span>
-                {isHi
-                  ? `UPI ऐप से ₹${activeAmount} का भुगतान करें`
-                  : `Pay ₹${activeAmount} via UPI App (Mobile)`}
-              </span>
+              <span>{mobilePayCta}</span>
             </a>
 
             {/* Bottom trust note & link */}
             <div className="flex items-center justify-between pt-1 text-[11px] text-muted border-t border-line">
               <span className="flex items-center gap-1">
                 <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
-                <span>{isHi ? "100% सुरक्षित सीधी भेंट" : "Direct & 100% Transparent"}</span>
+                <span>{trustNote}</span>
               </span>
               <LocaleLink
                 href={PATHS.dakshina}
                 onClick={handleClose}
                 className="text-maroon hover:text-saffron font-medium flex items-center gap-0.5 hover:underline"
               >
-                <span>{isHi ? "सेवा विवरण" : "Seva Story"}</span>
+                <span>{sevaStoryLink}</span>
                 <ExternalLink className="h-3 w-3" />
               </LocaleLink>
             </div>
@@ -445,13 +508,13 @@ export function DakshinaFloatingButton() {
         <span className="relative flex items-center gap-1.5 text-xs sm:text-sm font-semibold tracking-wide">
           <span className="text-base sm:text-lg leading-none">🙏</span>
           <span className="font-serif">
-            {isHi ? "डिजिटल दक्षिणा" : "Digital Dakshina"}
+            {titleText}
           </span>
         </span>
 
         {/* Mini Pill Badge */}
         <span className="relative hidden sm:inline-block rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-sans font-medium uppercase tracking-wider text-amber-100 backdrop-blur-xs">
-          {isHi ? "सहयोग" : "Seva"}
+          {badgeText}
         </span>
       </button>
     </div>

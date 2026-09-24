@@ -20,13 +20,13 @@ const DEFAULT_AMOUNTS = [51, 101, 501, 1100, 2100, 11000] as const;
 
 type PresetAmount = (typeof DEFAULT_AMOUNTS)[number];
 
-const AMOUNT_LABELS: Record<PresetAmount, { en: string; hi: string }> = {
-  51: { en: "Shubh Bhent", hi: "शुभ भेंट" },
-  101: { en: "Seva Sankalp", hi: "सेवा संकल्प" },
-  501: { en: "Vishesh Sahyog", hi: "विशेष सहयोग" },
-  1100: { en: "Maha Seva", hi: "महा सेवा" },
-  2100: { en: "Kalyan Seva", hi: "कल्याण सेवा" },
-  11000: { en: "Sansthan Mitra", hi: "संस्थान मित्र" },
+const AMOUNT_LABELS: Record<PresetAmount, { en: string; hi: string; te: string }> = {
+  51: { en: "Shubh Bhent", hi: "शुभ भेंट", te: "శుభ కానుక" },
+  101: { en: "Seva Sankalp", hi: "सेवा संकल्प", te: "సేవా సంకల్పం" },
+  501: { en: "Vishesh Sahyog", hi: "विशेष सहयोग", te: "ప్రత్యేక సహకారం" },
+  1100: { en: "Maha Seva", hi: "महा सेवा", te: "మహా సేవ" },
+  2100: { en: "Kalyan Seva", hi: "कल्याण सेवा", te: "కళ్యాణ సేవ" },
+  11000: { en: "Sansthan Mitra", hi: "संस्थान मित्र", te: "సంస్థాన మిత్ర" },
 };
 
 interface SevaSupportBannerProps {
@@ -41,6 +41,7 @@ export function SevaSupportBanner({
   className = "",
 }: SevaSupportBannerProps) {
   const locale = useLocale();
+  const isTe = locale === "te";
   const isHi = locale === "hi";
 
   const [selectedAmount, setSelectedAmount] = useState<number | null>(101);
@@ -90,6 +91,40 @@ export function SevaSupportBanner({
     }
   };
 
+  const badgeText = isTe
+    ? "100% ప్రకటనలు లేని సేవ"
+    : isHi
+    ? "100% विज्ञापन-मुक्त सेवा"
+    : "100% Ad-Free Sanctuary";
+
+  const defaultTitle = isTe
+    ? "సేవా సహకారం | డిజిటల్ దక్షిణ"
+    : isHi
+    ? "सेवा सहयोग | डिजिटल दक्षिणा"
+    : "Digital Dakshina — Support Our Seva";
+
+  const defaultSubtitle = isTe
+    ? "భక్తి వాయిస్ 100% ప్రకటనలు లేని ఆధ్యాత్మిక వేదిక. ఈ వేదిక మీ జీవితంలో శాంతి మరియు సాధనలో ఏకాగ్రతను అందించినట్లయితే, సర్వర్ మరియు నిత్య నిర్వహణను కొనసాగించడానికి ఒక చిన్న డిజిటల్ దక్షిణను అందించండి."
+    : isHi
+    ? "भक्ति वॉयस पूर्णतः विज्ञापन-मुक्त आध्यात्मिक मंच है। यदि इस मंच से आपके जीवन में शांति और साधना में एकाग्रता प्राप्त होती है, तो सर्वर और दैनिक संचालन को जारी रखने हेतु एक छोटी सी डिजिटल दक्षिणा अर्पित करें।"
+    : "Bhakti Voice is a 100% ad-free sanctuary. If this site brings peace to your day, consider offering a small digital dakshina (₹51, ₹101, or ₹501) to help us cover server costs and keep our daily sadhana resources free for all devotees.";
+
+  const zeroAdsLabel = isTe ? "సున్నా ప్రకటనలు, పూర్తి పవిత్రత" : isHi ? "शून्य विज्ञापन, पूर्ण पवित्रता" : "Zero Popups or Ads";
+  const highSpeedServerLabel = isTe ? "హై-స్పీడ్ క్లౌడ్ సర్వర్లు" : isHi ? "हाई-स्पीड सर्वर मेंटिनेंस" : "High-Speed Servers";
+
+  const chooseAmtLabel = isTe ? "దక్షిణ మొత్తం ఎంచుకోండి:" : isHi ? "दक्षिणा राशि चुनें:" : "Choose Contribution Amount:";
+  const otherAmtPlaceholder = isTe ? "ఇతర మొత్తం (₹)..." : isHi ? "अन्य राशि (₹)..." : "Other amount (₹)...";
+
+  const scanDirectLabel = isTe ? "UPI తో నేరుగా స్కాన్ చేయండి" : isHi ? "UPI से सीधे स्कैन करें" : "Scan Directly via any UPI";
+  const copyLabel = isTe ? "కాపీ" : isHi ? "कॉपी" : "Copy";
+  const copiedLabel = isTe ? "కాపీ అయింది!" : isHi ? "कॉपी हुआ!" : "Copied!";
+
+  const mobilePayCta = isTe
+    ? `UPI యాప్ ద్వారా ₹${activeAmount} సమర్పించండి`
+    : isHi
+    ? `UPI ऐप से ₹${activeAmount} अर्पित करें`
+    : `Pay ₹${activeAmount} via UPI App (Mobile)`;
+
   return (
     <section
       aria-label="Digital Dakshina Seva Banner"
@@ -103,47 +138,42 @@ export function SevaSupportBanner({
         {/* Top Sacred Badge */}
         <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-300 bg-amber-100/70 px-3.5 py-1 text-xs font-semibold text-maroon shadow-xs mb-4">
           <Sparkles className="h-3.5 w-3.5 text-saffron" />
-          <span>{isHi ? "100% विज्ञापन-मुक्त सेवा" : "100% Ad-Free Sanctuary"}</span>
+          <span>{badgeText}</span>
         </div>
 
         {/* Heading & Pitch */}
         <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
           <div className="lg:col-span-7 space-y-4">
             <h2 className="font-serif text-2xl sm:text-3xl font-bold tracking-tight text-ink">
-              {title ||
-                (isHi
-                  ? "सेवा सहयोग | डिजिटल दक्षिणा"
-                  : "Digital Dakshina — Support Our Seva")}
+              {title || defaultTitle}
             </h2>
 
             <p className="text-sm sm:text-base leading-relaxed text-muted">
-              {subtitle ||
-                (isHi
-                  ? "भक्ति वॉयस पूर्णतः विज्ञापन-मुक्त आध्यात्मिक मंच है। यदि इस मंच से आपके जीवन में शांति और साधना में एकाग्रता प्राप्त होती है, तो सर्वर और दैनिक संचालन को जारी रखने हेतु एक छोटी सी डिजिटल दक्षिणा अर्पित करें।"
-                  : "Bhakti Voice is a 100% ad-free sanctuary. If this site brings peace to your day, consider offering a small digital dakshina (₹51, ₹101, or ₹501) to help us cover server costs and keep our daily sadhana resources free for all devotees.")}
+              {subtitle || defaultSubtitle}
             </p>
 
             {/* Why Support Highlights */}
             <div className="grid grid-cols-2 gap-3 pt-2 text-xs text-ink/80">
               <div className="flex items-center gap-2 rounded-xl bg-white/80 border border-amber-200/60 p-2.5">
                 <ShieldCheck className="h-4 w-4 text-emerald-600 shrink-0" />
-                <span>{isHi ? "शून्य विज्ञापन, पूर्ण पवित्रता" : "Zero Popups or Ads"}</span>
+                <span>{zeroAdsLabel}</span>
               </div>
               <div className="flex items-center gap-2 rounded-xl bg-white/80 border border-amber-200/60 p-2.5">
                 <Server className="h-4 w-4 text-saffron shrink-0" />
-                <span>{isHi ? "हाई-स्पीड सर्वर मेंटिनेंस" : "High-Speed Servers"}</span>
+                <span>{highSpeedServerLabel}</span>
               </div>
             </div>
 
             {/* Preset Amount Selector */}
             <div className="pt-2">
               <label className="block text-xs font-semibold text-ink/90 mb-2">
-                {isHi ? "दक्षिणा राशि चुनें:" : "Choose Contribution Amount:"}
+                {chooseAmtLabel}
               </label>
               <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
                 {DEFAULT_AMOUNTS.map((amt) => {
                   const isSelected = selectedAmount === amt && !customAmount;
                   const label = AMOUNT_LABELS[amt];
+                  const labelDisplay = isTe ? label.te : isHi ? label.hi : label.en;
                   return (
                     <button
                       key={amt}
@@ -166,7 +196,7 @@ export function SevaSupportBanner({
                           isSelected ? "text-amber-100" : "text-muted"
                         }`}
                       >
-                        {isHi ? label.hi : label.en}
+                        {labelDisplay}
                       </span>
                     </button>
                   );
@@ -182,7 +212,7 @@ export function SevaSupportBanner({
                   <input
                     type="number"
                     min="1"
-                    placeholder={isHi ? "अन्य राशि (₹)..." : "Other amount (₹)..."}
+                    placeholder={otherAmtPlaceholder}
                     value={customAmount}
                     onChange={(e) => {
                       const val = e.target.value.replace(/[^0-9]/g, "");
@@ -213,7 +243,7 @@ export function SevaSupportBanner({
             <div className="rounded-2xl border-2 border-amber-300/80 bg-white p-5 shadow-lg text-center">
               <div className="flex items-center justify-center gap-1.5 text-xs font-semibold text-maroon mb-2">
                 <span>🙏</span>
-                <span>{isHi ? "UPI से सीधे स्कैन करें" : "Scan Directly via any UPI"}</span>
+                <span>{scanDirectLabel}</span>
                 <span className="font-serif font-bold text-saffron">
                   ₹{activeAmount.toLocaleString("en-IN")}
                 </span>
@@ -264,12 +294,12 @@ export function SevaSupportBanner({
                     {copied ? (
                       <>
                         <Check className="h-3 w-3" />
-                        <span>{isHi ? "कॉपी हुआ!" : "Copied!"}</span>
+                        <span>{copiedLabel}</span>
                       </>
                     ) : (
                       <>
                         <Copy className="h-3 w-3" />
-                        <span>{isHi ? "कॉपी" : "Copy"}</span>
+                        <span>{copyLabel}</span>
                       </>
                     )}
                   </button>
@@ -282,11 +312,7 @@ export function SevaSupportBanner({
                 className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-600 via-saffron to-saffron-deep px-4 py-2.5 text-center text-xs font-semibold text-white shadow-md hover:brightness-105 active:scale-[0.99] transition-all"
               >
                 <Smartphone className="h-4 w-4" />
-                <span>
-                  {isHi
-                    ? `UPI ऐप से ₹${activeAmount} अर्पित करें`
-                    : `Pay ₹${activeAmount} via UPI App (Mobile)`}
-                </span>
+                <span>{mobilePayCta}</span>
               </a>
 
               {/* Supported UPI Apps Pills */}

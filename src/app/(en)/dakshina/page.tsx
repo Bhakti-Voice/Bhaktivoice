@@ -22,7 +22,8 @@ export const metadata: Metadata = {
     "Ad-free Spiritual Site",
     "Bhakti Seva",
     "डिजिटल दक्षिणा",
-    "भक्ति वॉयस सेवा",
+    "డిజిటల్ దక్షిణ",
+    "భక్తి వాయిస్ సేవ",
   ],
   alternates: {
     canonical: "/dakshina",
@@ -105,42 +106,138 @@ const FAQ_HI: Faq[] = [
   },
 ];
 
+const FAQ_TE: Faq[] = [
+  {
+    question: "డిజిటల్ దక్షిణ అంటే ఏమిటి మరియు భక్తి వాయిస్‌కు మీ సహకారం ఎందుకు అవసరం?",
+    answer:
+      "భక్తి వాయిస్ 100% ప్రకటనలు లేని పవిత్ర ఆధ్యాత్మిక వేదిక. ఇక్కడ బెట్టింగ్ యాప్‌లు లేదా అంతరాయం కలిగించే పాపప్‌లు ఉండవు, తద్వారా మీ సాధన మరియు భక్తి నిశ్చలంగా సాగుతుంది. ఖచ్చితమైన వైదిక పంచాంగ గణనలు, జాతక కుండలి నిర్మాణం మరియు పవిత్ర ఆడియో కథలను అందించడానికి హై-స్పీడ్ క్లౌడ్ సర్వర్ల నిర్వహణ అవసరం. మీ చిన్న డిజిటల్ దక్షిణ ఈ సర్వర్ మరియు సాంకేతిక ఖర్చులను భరించడానికి నేరుగా తోడ్పడుతుంది.",
+  },
+  {
+    question: "దక్షిణ సమర్పించడానికి ఏ UPI యాప్‌లు ఉపయోగించవచ్చు?",
+    answer:
+      "భారతదేశంలోని అన్ని ప్రముఖ UPI యాప్‌లు పనిచేస్తాయి, ఇందులో Google Pay (GPay), PhonePe, Paytm, BHIM UPI, Amazon Pay, Cred మరియు అన్ని బ్యాంకింగ్ యాప్‌లు ఉన్నాయి. మీరు స్క్రీన్‌పై ఉన్న QR కోడ్‌ని స్కాన్ చేయవచ్చు లేదా నేరుగా UPI ID: **7060383962@ybl** కు పంపవచ్చు.",
+  },
+  {
+    question: "నేను నా ఇష్టానుసారం ఏదైనా మొత్తాన్ని ఎంచుకోవచ్చా?",
+    answer:
+      "అవును, ఖచ్చితంగా. మీ సౌలభ్యం కోసం ₹51 (శుభ కానుక), ₹101 (సేవా సంకల్పం), ₹501 (ప్రత్యేక సహకారం), ₹1,100 (మహా సేవ), ₹2,100 (కళ్యాణ సేవ) మరియు ₹11,000 (సంస్థాన మిత్ర) వంటి పవిత్ర సూచనలను అందించాము. మీరు 'ఇతర మొత్తం' పెట్టెలో మీ శ్రద్ధానుసారం ఏదైనా మొత్తాన్ని నమోదు చేయవచ్చు.",
+  },
+  {
+    question: "నేను మొబైల్ ఫోన్‌లో చూస్తున్నట్లయితే ఎలా చెల్లించాలి?",
+    answer:
+      "మొబైల్‌లో చూస్తున్నప్పుడు QR కోడ్ స్కాన్ చేయాల్సిన అవసరం లేదు. కేవలం **'UPI యాప్ ద్వారా చెల్లించండి'** బటన్‌పై నొక్కితే చాలు. ఇది నేరుగా మీ ఫోన్‌లోని PhonePe, Google Pay లేదా Paytm యాప్‌ని ఓపెన్ చేసి, మా UPI వివరాలు మరియు మీరు ఎంచుకున్న మొత్తాన్ని స్వయంచాలకంగా నింపుతుంది.",
+  },
+  {
+    question: "నా దక్షిణ నుండి ఏదైనా గేట్‌వే లేదా ప్లాట్‌ఫారమ్ కమీషన్ కట్ అవుతుందా?",
+    answer:
+      "లేదు. చెల్లింపు నేరుగా UPI ID (**7060383962@ybl**) కి చేరుతుంది కాబట్టి, మధ్యవర్తుల కమీషన్లు ఏవీ ఉండవు. మీ ప్రతి రూపాయి 100% సైట్ నిర్వహణ, వేగవంతమైన సర్వర్లు మరియు ప్రకటనలు లేని ఆధ్యాత్మిక సేవకే ఉపయోగించబడుతుంది.",
+  },
+  {
+    question: "భక్తి వాయిస్ సేవలు భక్తులందరికీ ఎల్లప్పుడూ ఉచితంగానే ఉంటాయా?",
+    answer:
+      "అవును. నిత్య పంచాంగం, కథలు, ఆరతులు, స్తోత్రాలు మరియు జప సాధనాలు ప్రతి భక్తుడికీ, విద్యార్థులకీ మరియు వృద్ధులకీ ఎప్పటికీ ఉచితంగా అందుబాటులో ఉండాలన్నదే మా ప్రథమ సంకల్పం. స్థోమత ఉన్న భక్తుల స్వచ్ఛంద సహకారం దీనిని అందరికీ ఉచితంగా ఉంచడానికి బలాన్నిస్తుంది.",
+  },
+  {
+    question: "నా చెల్లింపు పూర్తిగా సురక్షితమేనా?",
+    answer:
+      "అవును, 100% సురక్షితం. UPI లావాదేవీలు భారత జాతీయ చెల్లింపుల సంస్థ (NPCI) మరియు బ్యాంకుల భద్రతా ప్రమాణాల ప్రకారం మీ వ్యక్తిగత UPI PIN ద్వారా మాత్రమే ధృవీకరించబడతాయి. భక్తి వాయిస్ మీ బ్యాంక్ వివరాలను ఎన్నడూ సేకరించదు లేదా నిల్వ చేయదు.",
+  },
+];
+
 export default async function DakshinaPage() {
   const locale = await getLocale();
+  const isTe = locale === "te";
   const isHi = locale === "hi";
 
   const crumbs = pageCrumbs([
-    isHi ? "डिजिटल दक्षिणा" : "Digital Dakshina",
+    isTe ? "డిజిటల్ దక్షిణ" : isHi ? "डिजिटल दक्षिणा" : "Digital Dakshina",
     PATHS.dakshina,
   ]);
 
-  const faqs = isHi ? FAQ_HI : FAQ_EN;
-  const faqTitle = isHi
+  const faqs = isTe ? FAQ_TE : isHi ? FAQ_HI : FAQ_EN;
+  const faqTitle = isTe
+    ? "డిజిటల్ దక్షిణ — తరచుగా అడిగే ప్రశ్నలు (FAQ)"
+    : isHi
     ? "डिजिटल दक्षिणा — अक्सर पूछे जाने वाले प्रश्न (FAQ)"
     : "Frequently Asked Questions on Digital Dakshina";
+
+  const heroTitle = isTe
+    ? "సేవా సమర్పణ | డిజిటల్ దక్షిణ"
+    : isHi
+    ? "सेवा समर्पण | डिजिटल दक्षिणा"
+    : "सेवा समर्पण | Digital Dakshina";
+
+  const heroSubtitle = isTe
+    ? "100% ప్రకటనలు లేని పవిత్ర ఆధ్యాత్మిక వేదిక — నిస్వార్థ సేవ మరియు భక్తితో నిర్మించబడింది"
+    : isHi
+    ? "100% विज्ञापन-मुक्त पवित्र आध्यात्मिक मंच — सेवा और निष्ठा से निर्मित"
+    : "A 100% Ad-Free Devotional Sanctuary Built with Love & Seva";
+
+  const bannerTitle = isTe
+    ? "మీ డిజిటల్ దక్షిణను సమర్పించండి"
+    : isHi
+    ? "अपनी डिजिटल दक्षिणा अर्पित करें"
+    : "Offer Your Digital Dakshina";
+
+  const bannerSubtitle = isTe
+    ? "భక్తి వాయిస్ మీ జీవితంలో శాంతి, భక్తి మరియు దినచర్యలో సహాయపడినట్లయితే, సర్వర్ ఖర్చులు మరియు ఈ సేవను నిరంతరం కొనసాగించడానికి ఒక చిన్న దక్షిణను సమర్పించండి."
+    : isHi
+    ? "यदि भक्ति वॉयस ने आपके जीवन में शांति, भक्ति और दैनिक साधना में सहायता की है, तो सर्वर खर्च और इस सेवा को अविरल बनाए रखने हेतु एक छोटी सी दक्षिणा अवश्य अर्पित करें।"
+    : "If Bhakti Voice has brought peace, clarity, or devotion into your life, consider offering a small contribution to help us maintain servers, compute daily panchang, and keep this sanctuary ad-free.";
+
+  const whySupportTitle = isTe
+    ? "మీ సహకారం ఎందుకు ఎంతో ముఖ్యం?"
+    : isHi
+    ? "आपका सहयोग क्यों महत्वपूर्ण है?"
+    : "Why Your Support Matters";
+
+  const whySupportSubtitle = isTe
+    ? "మేము మొదటి రోజు నుంచే ఒక ప్రతిజ్ఞ చేశాము: ఎలాంటి ప్రకటనలు ఉండవు, ఎలాంటి ట్రాకర్లు ఉండవు మరియు భక్తిలో వ్యాపార ధోరణి ఉండదు."
+    : isHi
+    ? "हमने पहले दिन से एक संकल्प लिया: कोई विज्ञापन नहीं, कोई ट्रैकर नहीं और भक्ति का कोई व्यवसायीकरण नहीं।"
+    : "We made a solemn promise from day one: no ads, no trackers, and no commercialization of sacred devotion.";
+
+  const pillar1Title = isTe ? "100% ప్రకటనలు లేని అనుభవం" : isHi ? "100% विज्ञापन-मुक्त अनुभव" : "100% Ad-Free Experience";
+  const pillar1Desc = isTe
+    ? "ఎలాంటి చికాకు కలిగించే పాపప్‌లు లేదా బెట్టింగ్ బ్యానర్లు ఉండవు. మీరు జపం లేదా పవిత్ర కథలు చదివేటప్పుడు, మీ ఆధ్యాత్మిక ఏకాగ్రత పూర్తిగా స్వచ్ఛంగా ఉంటుంది."
+    : isHi
+    ? "कोई कष्टप्रद पॉपअप या सट्टेबाजी के बैनर नहीं। जब आप मंत्र जप या पवित्र कथा पढ़ते हैं, आपका ध्यान पूर्णतः ईश्वर में रहता है।"
+    : "No intrusive popups, casino ads, or disruptive banners. When you chant or read sacred kathas, your spiritual focus remains entirely pure.";
+
+  const pillar2Title = isTe ? "ఖచ్చితమైన క్లౌడ్ కంప్యూటింగ్" : isHi ? "सटीक क्लाउड कम्प्यूटिंग" : "Precision Cloud Compute";
+  const pillar2Desc = isTe
+    ? "గ్రహ స్థితులు, పంచాంగ గణనలు, హోరా మరియు జాతక చక్రాలు అత్యాధునిక క్లౌడ్ సర్వర్‌లపై నిరంతరం గణించబడుతూ ప్రతిరోజూ వేలాది మంది భక్తులకు సేవలందిస్తున్నాయి."
+    : isHi
+    ? "ग्रह स्थिति, पंचांग गणित, होरा और कुंडली गणना आधुनिक क्लाउड सर्वर्स पर निरंतर प्रोसेस होती है, जो प्रतिदिन हजारों भक्तों को सेवा देती है।"
+    : "Real-time planetary ephemeris, Panchang math, Hora, and Kundli engines run on modern cloud servers serving thousands of requests each day.";
+
+  const pillar3Title = isTe ? "అందరికీ ఎల్లప్పుడూ ఉచితం" : isHi ? "सबके लिए सदा निःशुल्क" : "Free Access for Everyone";
+  const pillar3Desc = isTe
+    ? "మీ స్వచ్ఛంద దక్షిణ కారణంగా విద్యార్థులు, పెద్దలు మరియు సాధకులు ఎవరైనా ఎలాంటి రుసుము లేకుండా ఆధ్యాత్మిక జ్ఞానాన్ని ఉచితంగా పొందగలుగుతారు."
+    : isHi
+    ? "आपकी स्वैच्छिक दक्षिणा यह सुनिश्चित करती है कि विद्यार्थी, वृद्ध और हर साधक बिना किसी शुल्क के वैदिक ज्ञान प्राप्त कर सके।"
+    : "Your voluntary dakshina pays it forward, ensuring students, elders, and seekers everywhere can freely access spiritual texts without paywalls.";
+
+  const shlokaDesc = isTe
+    ? "(సేవ మరియు యజ్ఞం అనంతరం శేషించిన ప్రసాదాన్ని స్వీకరించే సత్పురుషులు సమస్త పాపాల నుండి విముక్తులవుతారు. తమ స్వార్థం కోసమే సమకూర్చుకునేవారు పాపాన్నే భుజిస్తారు. — భగవద్గీత 3.13)"
+    : isHi
+    ? "(जो भक्त सेवा और यज्ञ के बाद बचा प्रसाद ग्रहण करते हैं, वे सब पापों से मुक्त हो जाते हैं। जो केवल अपने लिए साधन जुटाते हैं, वे पाप ही खाते हैं। — श्रीमद्भगवद्गीता ३.१३)"
+    : "(The spiritually noble who share and offer seva are freed from all bondages. Those who offer with devotion sustain the divine cycle of life. — Bhagavad Gita 3.13)";
 
   return (
     <div className="bg-ivory pb-20">
       {/* Hero Header */}
       <PageHero
-        title={isHi ? "सेवा समर्पण | डिजिटल दक्षिणा" : "सेवा समर्पण | Digital Dakshina"}
-        subtitle={
-          isHi
-            ? "100% विज्ञापन-मुक्त पवित्र आध्यात्मिक मंच — सेवा और निष्ठा से निर्मित"
-            : "A 100% Ad-Free Devotional Sanctuary Built with Love & Seva"
-        }
+        title={heroTitle}
+        subtitle={heroSubtitle}
         crumbs={crumbs}
       />
 
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 mt-10 space-y-12">
         {/* Core Seva Banner Widget */}
         <SevaSupportBanner
-          title={isHi ? "अपनी डिजिटल दक्षिणा अर्पित करें" : "Offer Your Digital Dakshina"}
-          subtitle={
-            isHi
-              ? "यदि भक्ति वॉयस ने आपके जीवन में शांति, भक्ति और दैनिक साधना में सहायता की है, तो सर्वर खर्च और इस सेवा को अविरल बनाए रखने हेतु एक छोटी सी दक्षिणा अवश्य अर्पित करें।"
-              : "If Bhakti Voice has brought peace, clarity, or devotion into your life, consider offering a small contribution to help us maintain servers, compute daily panchang, and keep this sanctuary ad-free."
-          }
+          title={bannerTitle}
+          subtitle={bannerSubtitle}
         />
 
         {/* Why Support Section */}
@@ -150,12 +247,10 @@ export default async function DakshinaPage() {
               id="why-support-heading"
               className="font-serif text-2xl sm:text-3xl font-bold text-ink"
             >
-              {isHi ? "आपका सहयोग क्यों महत्वपूर्ण है?" : "Why Your Support Matters"}
+              {whySupportTitle}
             </h2>
             <p className="mt-2 text-sm sm:text-base text-muted">
-              {isHi
-                ? "हमने पहले दिन से एक संकल्प लिया: कोई विज्ञापन नहीं, कोई ट्रैकर नहीं और भक्ति का कोई व्यवसायीकरण नहीं।"
-                : "We made a solemn promise from day one: no ads, no trackers, and no commercialization of sacred devotion."}
+              {whySupportSubtitle}
             </p>
           </div>
 
@@ -165,12 +260,10 @@ export default async function DakshinaPage() {
                 <ShieldCheck className="h-6 w-6 text-saffron" />
               </div>
               <h3 className="font-serif text-lg font-semibold text-ink">
-                {isHi ? "100% विज्ञापन-मुक्त अनुभव" : "100% Ad-Free Experience"}
+                {pillar1Title}
               </h3>
               <p className="mt-2 text-xs sm:text-sm text-muted leading-relaxed">
-                {isHi
-                  ? "कोई कष्टप्रद पॉपअप या सट्टेबाजी के बैनर नहीं। जब आप मंत्र जप या पवित्र कथा पढ़ते हैं, आपका ध्यान पूर्णतः ईश्वर में रहता है।"
-                  : "No intrusive popups, casino ads, or disruptive banners. When you chant or read sacred kathas, your spiritual focus remains entirely pure."}
+                {pillar1Desc}
               </p>
             </div>
 
@@ -179,12 +272,10 @@ export default async function DakshinaPage() {
                 <Server className="h-6 w-6 text-saffron" />
               </div>
               <h3 className="font-serif text-lg font-semibold text-ink">
-                {isHi ? "सटीक क्लाउड कम्प्यूटिंग" : "Precision Cloud Compute"}
+                {pillar2Title}
               </h3>
               <p className="mt-2 text-xs sm:text-sm text-muted leading-relaxed">
-                {isHi
-                  ? "ग्रह स्थिति, पंचांग गणित, होरा और कुंडली गणना आधुनिक क्लाउड सर्वर्स पर निरंतर प्रोसेस होती है, जो प्रतिदिन हजारों भक्तों को सेवा देती है।"
-                  : "Real-time planetary ephemeris, Panchang math, Hora, and Kundli engines run on modern cloud servers serving thousands of requests each day."}
+                {pillar2Desc}
               </p>
             </div>
 
@@ -193,12 +284,10 @@ export default async function DakshinaPage() {
                 <Users className="h-6 w-6 text-saffron" />
               </div>
               <h3 className="font-serif text-lg font-semibold text-ink">
-                {isHi ? "सबके लिए सदा निःशुल्क" : "Free Access for Everyone"}
+                {pillar3Title}
               </h3>
               <p className="mt-2 text-xs sm:text-sm text-muted leading-relaxed">
-                {isHi
-                  ? "आपकी स्वैच्छिक दक्षिणा यह सुनिश्चित करती है कि विद्यार्थी, वृद्ध और हर साधक बिना किसी शुल्क के वैदिक ज्ञान प्राप्त कर सके।"
-                  : "Your voluntary dakshina pays it forward, ensuring students, elders, and seekers everywhere can freely access spiritual texts without paywalls."}
+                {pillar3Desc}
               </p>
             </div>
           </div>
@@ -211,9 +300,7 @@ export default async function DakshinaPage() {
             “यज्ञशिष्टाशिनः सन्तो मुच्यन्ते सर्वकिल्बिषैः । भुञ्जते ते त्वघं पापा ये पचन्त्यात्मकारणात् ॥”
           </blockquote>
           <p className="mt-2 text-xs sm:text-sm text-muted max-w-xl mx-auto">
-            {isHi
-              ? "(जो भक्त सेवा और यज्ञ के बाद बचा प्रसाद ग्रहण करते हैं, वे सब पापों से मुक्त हो जाते हैं। जो केवल अपने लिए साधन जुटाते हैं, वे पाप ही खाते हैं। — श्रीमद्भगवद्गीता ३.१३)"
-              : "(The spiritually noble who share and offer seva are freed from all bondages. Those who offer with devotion sustain the divine cycle of life. — Bhagavad Gita 3.13)"}
+            {shlokaDesc}
           </p>
         </div>
 
