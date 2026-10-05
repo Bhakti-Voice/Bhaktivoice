@@ -208,6 +208,12 @@ export const messages = {
         description: "Hanuman Chalisa and other chalisa texts with meaning for daily path and devotion.",
         h1: "Chalisa",
       },
+      stotram: {
+        title: "Stotram & Suktam Library — Sacred Sanskrit Hymns with Meaning",
+        description:
+          "Explore powerful Vedic Stotrams and Suktams including Ram Raksha Stotra, Shiva Tandava Stotram, Aditya Hridaya, Kanakadhara, and Sri Suktam with full meaning, vidhi, and audio.",
+        h1: "Stotram & Suktam Library",
+      },
       more: {
         title: "More from Bhakti Voice",
         description:
@@ -617,6 +623,23 @@ export const messages = {
             "No. Sampradayas keep their own wording. Use these pages as a study companion. For a specific temple’s version, follow that mandir.",
         },
       ],
+      stotram: [
+        {
+          question: "What is the difference between a Stotram, a Mantra, and a Chalisa?",
+          answer:
+            "A Mantra is typically a potent seed syllable or short Vedic formula chanted repeatedly (Japa) to focus consciousness. A Chalisa is a 40-verse devotional poem in vernacular languages like Awadhi or Brajbhasha. A Stotram is an elaborate praise poem in classical Sanskrit that celebrates the divine attributes, cosmic leelas, and glory of the deity, often featuring rich poetic meters.",
+        },
+        {
+          question: "Can I recite these Stotras at home without formal initiation (Diksha)?",
+          answer:
+            "Yes! Stotras like Ram Raksha Stotra, Shiva Tandava Stotram, Aditya Hridaya Stotram, and Sankat Nashan Ganesha Stotram were given by compassionate Rishis for the benefit of all humanity and can be recited freely by householders with pure devotion, clean hands, and sincere hearts.",
+        },
+        {
+          question: "What are the benefits of reciting a Stotram daily?",
+          answer:
+            "Daily recitation purifies the aura, quietens turbulent thoughts, strengthens vocal vibration, cures irrational anxieties, and aligns the chanter with divine protection. Each Stotram features a specific 'Phalashruti' detailing its unique spiritual and material fruits.",
+        },
+      ],
       bhajan: [
         {
           question: "What is bhajan and kirtan, and why keep them on one listing?",
@@ -986,6 +1009,12 @@ export const messages = {
         title: "चालीसा — दैनिक पाठ के भक्ति स्तोत्र",
         description: "हनुमान चालीसा और अन्य चालीसा पाठ अर्थ सहित — दैनिक पथ और भक्ति के लिए।",
         h1: "चालीसा",
+      },
+      stotram: {
+        title: "स्तोत्र एवं सूक्त संग्रह — संस्कृत श्लोक, हिंदी अर्थ एवं पाठ विधि",
+        description:
+          "श्री राम रक्षा स्तोत्र, शिव तांडव स्तोत्र, आदित्य हृदय, कनकधारा, बजरंग बाण एवं श्री सूक्तम् का सम्पूर्ण संग्रह हिंदी अर्थ एवं पठन विधि सहित।",
+        h1: "स्तोत्र एवं सूक्त संग्रह",
       },
       more: {
         title: "भक्ति वॉइस से और",
@@ -1391,6 +1420,23 @@ export const messages = {
             "नहीं। सम्प्रदाय अपने शब्द रखते हैं। इन्हें अध्ययन का साथी मानें। किसी खास मंदिर के संस्करण के लिए उसी मंदिर का अनुसरण करें।",
         },
       ],
+      stotram: [
+        {
+          question: "स्तोत्र, मंत्र और चालीसा में क्या अंतर है?",
+          answer:
+            "मंत्र प्रायः संक्षिप्त और बीज-युक्त होते हैं जिनका बारंबार जप (माला द्वारा) किया जाता है। चालीसा चालीस चौपाइयों का अवधी या ब्रजभाषा का स्तुति-काव्य है। स्तोत्र संस्कृत के छंदबद्ध श्लोकों में देवी-देवताओं के दिव्य गुणों, लीलाओं और स्वरूप का गुणगान करने वाली महिमापूर्ण रचनाएं हैं।",
+        },
+        {
+          question: "क्या बिना गुरु दीक्षा के गृहस्थ इन स्तोत्रों का पाठ कर सकते हैं?",
+          answer:
+            "हां, बिल्कुल। राम रक्षा स्तोत्र, शिव तांडव स्तोत्र, आदित्य हृदय स्तोत्र और संकट नाशन गणेश स्तोत्र जैसे कल्याणकारी स्तोत्र ऋषियों द्वारा संपूर्ण मानव जाति के कल्याण के लिए प्रकट किए गए हैं। शुद्ध मन, पवित्रता और सच्ची श्रद्धा के साथ कोई भी इनका पाठ कर सकता है।",
+        },
+        {
+          question: "नित्य स्तोत्र पाठ करने से क्या लाभ होता है?",
+          answer:
+            "नित्य स्तोत्र पाठ से मन शांत और एकाग्र होता है, भय और नकारात्मक ऊर्जा का नाश होता है, और वाणी में तेजस्विता आती है। प्रत्येक स्तोत्र के अंत में दी गई 'फलश्रुति' उसके विशिष्ट आध्यात्मिक और भौतिक लाभों को विस्तार से स्पष्ट करती है।",
+        },
+      ],
       bhajan: [
         {
           question: "भजन और कीर्तन क्या हैं, और एक सूची में क्यों?",
@@ -1762,9 +1808,15 @@ export const messages = {
         h1: "మంగళ హారతులు",
       },
       chalisa: {
-        title: "చాలీసాలు & స్తోత్రాలు — నిత్య పారాయణకు భక్తి స్తోత్రాలు",
+        title: "చాలీసాలు — నిత్య పారాయణకు భక్తి చాలీసాలు",
         description: "హనుమాన్ చాలీసా, శివ చాలీసా మరియు ఇతర చాలీసాలు తెలుగు సాహిత్యంతో.",
-        h1: "చాలీసాలు & స్తోత్రాలు",
+        h1: "చాలీసాలు",
+      },
+      stotram: {
+        title: "స్తోత్రాలు & సూక్తాలు — సంస్కృత శ్లోకాలు, సమగ్ర తెలుగు భావార్థం",
+        description:
+          "రామ రక్షా స్తోత్రం, శివ తాండవ స్తోత్రం, ఆదిత్య హృదయం, కనకధారా మరియు శ్రీ సూక్తం తెలుగు తాత్పర్యంతో.",
+        h1: "దివ్య స్తోత్రాలు & సూక్తాలు",
       },
       library: {
         title: "ఆధ్యాత్మిక లైబ్రరీ — జ్ఞానం మరియు దివ్య మార్గదర్శకత్వం | BhaktiVoice",
@@ -2171,6 +2223,23 @@ export const messages = {
           question: "చాలీసా పారాయణ వల్ల కలిగే ఫలితాలు ఏమిటి?",
           answer:
             "భయం తొలగిపోతుంది, మనశ్శాంతి లభిస్తుంది, కార్యానుకూలత చేకూరుతుంది మరియు భగవంతుని కృప లభిస్తుంది.",
+        },
+      ],
+      stotram: [
+        {
+          question: "స్తోత్రానికి, మంత్రానికి మరియు చాలీసాకు గల తేడా ఏమిటి?",
+          answer:
+            "మంత్రం అనేది నిత్య నామ జపానికి ఉపయోగించే సూక్ష్మ బీజాక్షరాల సమాహారం. చాలీసా అనేది నలభై పద్యాలతో కూడిన భక్తి గీతం. స్తోత్రం అనేది భగవంతుని దివ్య రూపాలు, లీలలు మరియు మహత్యాలను కీర్తించే సంస్కృత శ్లోకాల సమాహారం.",
+        },
+        {
+          question: "దీక్ష లేకుండా ఇంట్లోనే స్తోత్రాలు పారాయణం చేయవచ్చా?",
+          answer:
+            "తప్పకుండా చేయవచ్చు. రామ రక్షా స్తోత్రం, శివ తాండవ స్తోత్రం, సంకట నాశన గణపతి స్తోత్రం వంటి పుణ్య స్తోత్రాలు సకల మానవాళి క్షేమం కోసం మహర్షులచే ప్రసాదించబడినవి. భక్తితో ఎవరైనా పారాయణం చేయవచ్చు.",
+        },
+        {
+          question: "నిత్యం స్తోత్ర పారాయణ చేయడం వల్ల కలిగే ప్రయోజనాలు ఏమిటి?",
+          answer:
+            "నిత్య స్తోత్ర పారాయణ వల్ల గ్రహ దోషాలు తొలగిపోతాయి, వాక్ శక్తి మరియు మానసిక ప్రశాంతత లభిస్తుంది. ప్రతి స్తోత్రం చివర ఉన్న 'ఫలశ్రుతి' దాని విశేష ఫలాలను వివరిస్తుంది.",
         },
       ],
       bhajan: [

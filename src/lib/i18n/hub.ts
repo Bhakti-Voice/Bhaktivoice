@@ -25,6 +25,7 @@ export const HUB_PATHS = {
   bhajan: PATHS.bhajan,
   aarti: PATHS.aarti,
   chalisa: PATHS.chalisa,
+  stotram: PATHS.stotram,
   more: PATHS.more,
   library: PATHS.library,
   angelNumbers: PATHS.angelNumbers,

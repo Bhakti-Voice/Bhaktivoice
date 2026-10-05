@@ -15,6 +15,7 @@ export type ContentKind =
   | "bhajan"
   | "aarti"
   | "chalisa"
+  | "stotram"
   | "angel_number";
 
 const PRODUCTION_ORIGIN = "https://www.bhaktivoice.com";

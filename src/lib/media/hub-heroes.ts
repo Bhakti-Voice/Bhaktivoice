@@ -64,6 +64,11 @@ export const HUB_HEROES = {
     imageAlt: "Hanuman in devotion",
     object: "object-[70%_20%]",
   },
+  stotram: {
+    image: "/images/kurukshetra-chariot.jpg",
+    imageAlt: "Sacred Stotrams and Suktams recitation",
+    object: "object-[65%_40%]",
+  },
   tithi: {
     image: "/images/varanasi-ghats.png",
     imageAlt: "Ghats of Varanasi at dusk",

@@ -27,6 +27,7 @@ export interface NavMessages {
     bhajan: string;
     aarti: string;
     chalisa: string;
+    stotram: string;
     spirituality: string;
     yatraPlanner: string;
     sankalp: string;
@@ -68,6 +69,7 @@ export const navMessages: Record<Locale, NavMessages> = {
       bhajan: "Bhajan",
       aarti: "Aarti",
       chalisa: "Chalisa",
+      stotram: "Stotram",
       spirituality: "Spiritual Knowledge",
       yatraPlanner: "Yatra Planner",
       sankalp: "Sankalp",
@@ -107,6 +109,7 @@ export const navMessages: Record<Locale, NavMessages> = {
       bhajan: "भजन",
       aarti: "आरती",
       chalisa: "चालीसा",
+      stotram: "स्तोत्र संग्रह",
       spirituality: "आध्यात्मिक ज्ञान",
       yatraPlanner: "यात्रा योजना",
       sankalp: "संकल्प",
@@ -145,7 +148,8 @@ export const navMessages: Record<Locale, NavMessages> = {
       mantras: "దివ్య మంత్రాలు",
       bhajan: "భజనలు & కీర్తనలు",
       aarti: "మంగళ హారతులు",
-      chalisa: "స్తోత్రాలు & చాలీసాలు",
+      chalisa: "చాలీసాలు",
+      stotram: "స్తోత్రాలు & సూక్తాలు",
       spirituality: "ఆధ్యాత్మిక జ్ఞానం",
       yatraPlanner: "యాత్రా ప్రణాళిక",
       sankalp: "సంకల్పం",

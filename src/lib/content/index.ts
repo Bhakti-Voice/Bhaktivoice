@@ -112,6 +112,20 @@ export async function getChalisa(slug: string) {
   return getContent<SpiritualityPage>("chalisa", slug);
 }
 
+export async function listStotrams() {
+  const cmsItems = await listContent<import("@/lib/stotram/types").StotramPage>("stotram");
+  if (cmsItems && cmsItems.length > 0) return cmsItems;
+  const { getAllStotrams } = await import("@/lib/stotram/data");
+  return getAllStotrams();
+}
+
+export async function getStotram(slug: string) {
+  const cmsItem = await getContent<import("@/lib/stotram/types").StotramPage>("stotram", slug);
+  if (cmsItem) return cmsItem;
+  const { getStotramBySlug } = await import("@/lib/stotram/data");
+  return getStotramBySlug(slug) || null;
+}
+
 export async function listAngelNumbers() {
   return listContent<AngelNumberPage>("angel_number");
 }
@@ -126,3 +140,4 @@ export async function getHubSeo(id: string) {
 export async function searchIndex(query: string) {
   return searchContent(query);
 }
+

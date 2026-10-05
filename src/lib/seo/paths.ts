@@ -17,6 +17,8 @@ export const PATHS = {
   bhajan: "/bhajans",
   aarti: "/aarti",
   chalisa: "/chalisa",
+  stotram: "/stotram",
+  stotramDetail: (slug: string) => `/stotram/${slug}`,
   tithi: "/tithi-today",
   quotes: "/quotes",
   more: "/more",

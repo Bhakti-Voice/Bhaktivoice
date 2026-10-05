@@ -72,6 +72,7 @@ const HUBS: { path: string; changeFrequency: MetadataRoute.Sitemap[0]["changeFre
   { path: PATHS.bhajan, changeFrequency: "weekly", priority: 0.7 },
   { path: PATHS.aarti, changeFrequency: "weekly", priority: 0.7 },
   { path: PATHS.chalisa, changeFrequency: "weekly", priority: 0.7 },
+  { path: PATHS.stotram, changeFrequency: "daily", priority: 0.95 },
   { path: PATHS.yatraPlanner, changeFrequency: "weekly", priority: 0.6 },
   { path: PATHS.sankalp, changeFrequency: "weekly", priority: 0.5 },
   { path: PATHS.diary, changeFrequency: "weekly", priority: 0.5 },
@@ -172,7 +173,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Non-blocking fallback if CMS is unavailable
   }
 
-  // 9. CMS Dynamic Entries
+  // 9. Stotram detail pages (/stotram/[slug])
+  try {
+    const { listStotrams } = await import("@/lib/content");
+    const stotrams = await listStotrams();
+    if (Array.isArray(stotrams)) {
+      for (const item of stotrams) {
+        if (item?.slug) {
+          add(`${PATHS.stotram}/${item.slug}`, item.updatedAt || today, "weekly", 0.95);
+        }
+      }
+    }
+  } catch {
+    // Non-blocking fallback
+  }
+
+  // 10. CMS Dynamic Entries
   const cms = await sitemapEntries();
   for (const item of cms) {
     add(item.url, item.lastModified, item.changeFrequency, item.priority);
