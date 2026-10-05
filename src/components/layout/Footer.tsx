@@ -62,6 +62,7 @@ export async function Footer() {
         { href: PATHS.mantras, label: t.nav.mantras },
         { href: PATHS.aarti, label: t.nav.aarti },
         { href: PATHS.chalisa, label: t.nav.chalisa },
+        { href: PATHS.stotram, label: t.nav.stotram },
         { href: PATHS.bhajan, label: t.nav.bhajan },
       ],
     },

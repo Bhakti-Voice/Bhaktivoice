@@ -13,6 +13,9 @@ export type RelatedLink = {
     | "spirituality"
     | "product"
     | "angel_number"
+    | "chalisa"
+    | "aarti"
+    | "stotram"
     | "page";
 };
 
