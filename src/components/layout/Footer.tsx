@@ -73,6 +73,12 @@ export async function Footer() {
         { href: PATHS.spirituality, label: t.nav.spirituality },
         { href: "/profile", label: t.nav.myJourney },
         { href: "/login", label: t.signIn },
+        {
+          href: "https://www.timenumbers.com",
+          label: isTe ? "TimeNumbers (ప్రపంచ గడియారం)" : isHi ? "टाइम नम्बर्स (TimeNumbers)" : "TimeNumbers (World Clock)",
+          isExternal: true,
+          title: "TimeNumbers - Live World Clock, Time Zone Converter & Meeting Planner",
+        },
       ],
     },
   ];
@@ -117,13 +123,32 @@ export async function Footer() {
             <ul className="mt-4 space-y-2.5">
               {column.links.map((link) => (
                 <li key={link.href}>
-                  <LocaleLink
-                    href={link.href}
-                    prefetch={false}
-                    className="text-sm text-white/70 hover:text-saffron"
-                  >
-                    {link.label}
-                  </LocaleLink>
+                  {"isExternal" in link && link.isExternal ? (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener"
+                      title={link.title}
+                      className="inline-flex items-center gap-1.5 text-sm text-white/70 hover:text-saffron transition-colors"
+                    >
+                      <span>{link.label}</span>
+                      <svg
+                        viewBox="0 0 24 24"
+                        className="h-3 w-3 stroke-current fill-none stroke-2 shrink-0"
+                        aria-hidden="true"
+                      >
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
+                      </svg>
+                    </a>
+                  ) : (
+                    <LocaleLink
+                      href={link.href}
+                      prefetch={false}
+                      className="text-sm text-white/70 hover:text-saffron transition-colors"
+                    >
+                      {link.label}
+                    </LocaleLink>
+                  )}
                 </li>
               ))}
             </ul>
@@ -136,6 +161,53 @@ export async function Footer() {
           button={t.subscribe}
           thanks={t.newsletterThanks}
         />
+      </div>
+
+      {/* Sister Products & Ecosystem Network (High Authority Dofollow Link for Domain Authority) */}
+      <div className="border-t border-white/10 px-4 py-4 lg:px-8 bg-black/10">
+        <div className="mx-auto flex max-w-7xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-xs">
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-1.5 font-bold uppercase tracking-wider text-white/90">
+              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-saffron" aria-hidden="true">
+                <path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.2L12 17.5l-6.3 3.7 2.3-7.2-6-4.6h7.6z" />
+              </svg>
+              <span>{isTe ? "మా ఇతర ఉత్పత్తులు:" : isHi ? "हमारे अन्य उत्पाद:" : "Our Other Products:"}</span>
+            </div>
+            <a
+              href="https://www.timenumbers.com"
+              target="_blank"
+              rel="noopener"
+              title={
+                isTe
+                  ? "TimeNumbers - ప్రపంచ గడియారం మరియు సమయ క్షేత్రాలు"
+                  : isHi
+                  ? "TimeNumbers - सटीक विश्व घड़ी, टाइमज़ोन कनवर्टर और मीटिंग प्लानर"
+                  : "TimeNumbers - Accurate World Clock, Time Zone Converter & Meeting Planner"
+              }
+              className="group inline-flex items-center gap-2.5 rounded-xl border border-white/15 bg-white/5 px-3.5 py-1.5 text-xs font-semibold text-white transition-all hover:border-saffron hover:bg-white/10 hover:text-saffron shadow-2xs"
+            >
+              <span className="h-2 w-2 rounded-full bg-saffron animate-pulse" />
+              <span className="font-bold tracking-wide">TimeNumbers</span>
+              <span className="hidden font-medium text-white/75 md:inline">
+                {isTe
+                  ? "— ప్రపంచ గడియారం & సమయ క్షేత్రాలు"
+                  : isHi
+                  ? "— लाइव विश्व घड़ी एवं समय क्षेत्र परिवर्तक"
+                  : "— Accurate World Clock & Time Zone Converter"}
+              </span>
+              <svg
+                viewBox="0 0 24 24"
+                className="h-3 w-3 stroke-current fill-none stroke-2 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                aria-hidden="true"
+              >
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
+              </svg>
+            </a>
+          </div>
+          <div className="text-[11px] text-white/50">
+            {isTe ? "డిజిటల్ ప్లాట్‌ఫారమ్ నెట్‌వర్క్" : isHi ? "डिजिटल नेटवर्क इकोसिस्टम" : "Digital Platform Ecosystem"}
+          </div>
+        </div>
       </div>
       <div className="border-t border-white/10 px-4 py-4 lg:px-8">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 text-xs text-white/55 sm:flex-row sm:items-center sm:justify-between">
